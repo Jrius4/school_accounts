@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Result extends Model
 {
-    protected $fillable = ['teacher_id','student_id','schclass_id','paper_id','term_id','exmset_id','term_id','mark','grade','comments','year'];
+    protected $fillable = ['user_id','student_id','subject_id','schclass_id','paper_id','term_id','exmset_id','mark','grade','comments','year'];
 
 
     public function user()

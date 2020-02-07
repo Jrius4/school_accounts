@@ -12,8 +12,11 @@
 */
 
 use App\Http\Resources\UserResource;
+use App\Notifications\MessageSendNotify;
 use App\User;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Notification;
 
 // Route::get('/home', function () {
 //     return redirect('/dashboard');
@@ -159,3 +162,14 @@ Route::post('/fetch-papers','ResultController@fetchPapers');
 Route::post('/store-student-marks','ResultController@storeStudentMarks');
 Route::get('/manage-marks','ResultController@getManageMarks');
 Route::post('/manage-marks','ResultController@fetchManageMarks');
+Route::get('/pdf/print-results','ResultController@printPdf');
+
+Route::get('/send',function(){
+
+    $when =Carbon::now()->addSeconds(10);
+    User::find(1)->notify((new MessageSendNotify)->delay($when));
+    // $users = User::find(1);
+    // Notification::send($users, new MessageSendNotify());
+
+});
+Route::get('/a-level-report','printReportController@getAlevelreport');

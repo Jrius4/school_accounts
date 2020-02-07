@@ -11,6 +11,7 @@ use App\Schclass;
 use App\Subject;
 use App\Term;
 use App\User;
+use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -135,8 +136,13 @@ class ResultController extends BackendController
     public function index()
     {
         $results = new Result();
+        $subjects = new Subject();
+        $students = new Student();
+        $result_list = Result::orderBy('student_id')->get()->groupBy(function($item){
+            return $item->student_id;
+        });
 
-        return view('manage-results.report-test', compact('results'));
+        return view('manage-results.report-test', compact('results','subjects','result_list','students'));
     }
 
     public function storeStudentMarks(Request $request)
@@ -158,6 +164,7 @@ class ResultController extends BackendController
         $term = '';
         $set = '';
         $grade = '';
+
         $grade_point = '';
         $paper_all_marks = [];
         $validator = Validator::make($request->all(),$rule);
@@ -165,6 +172,7 @@ class ResultController extends BackendController
             {
                 return response()->json(['errors'=>$validator->messages()]);
             }
+
         if($request['P1']!=null || $request['paper_mark']!=null){
             if($request['term']=='term-1'){ $term =1;}
             if($request['term']=='term-2'){ $term =2;}
@@ -177,17 +185,11 @@ class ResultController extends BackendController
             $marks = new Mark();
             $subject = new Subject();
             $student = new Student();
-            $result->user_id = $request['teacher_id'];
-            $result->student_id = $request['student'];
-            $result->schclass_id = $request['schclass'];
 
-            $marks->student_id = $request['student'];
-            $marks->subject_id = $request['subject'];
 
-            $result->subject_id = $request['subject'];
-            $result->exmset_id = $set;
-            $result->term_id = $term;
-            $result->subject_id = $request['subject'];
+
+
+
 
             if($request['paper_mark']!=null)
             {
@@ -217,13 +219,33 @@ class ResultController extends BackendController
                     if($request['paper_mark']>84.9 && $request['paper_mark']<=89.9){$grade='A';$grade_point=5;}
                     if($request['paper_mark']>89.9 && $request['paper_mark']<=100){$grade='A+';$grade_point=5.5;}
                 }
-                $result->grade = $grade;
-                $result->mark = $request['paper_mark'];
-                $marks->final_mark = $request['paper_mark'];
-                $marks->grade = $grade;
-                $marks->points = $grade_point;
-                $result->save();
-                $marks->save();
+
+
+
+
+
+                Result::create(array(
+                    'user_id'=>$request['teacher_id'],
+                    'student_id'=>$request['student'],
+                    'schclass_id'=>$request['schclass'],
+                    'subject_id'=>$request['subject'],
+                    'paper_id'=>null,
+                    'term_id'=>$term,
+                    'exmset_id'=>$set,
+                    'mark'=>$request['paper_mark'],
+                    'grade'=>$grade,
+                    'comments'=>null,
+                    'year'=>null
+                ));
+                // $marks->save();
+                Mark::create(array(
+                    'student_id'=>$request['student'],
+                    'subject_id'=>$request['subject'],
+                    'grade'=>$grade,
+                    'final_mark'=>$request['paper_mark'],
+                    'teacher_comment'=>null,
+                    'points'=>$grade_point
+                ));
 
                 return response()->json(['success'=>'Saved Successfully']);
             }
@@ -262,11 +284,21 @@ class ResultController extends BackendController
                         if($request[$sub['paper_abbrev']]>89.9 && $request[$sub['paper_abbrev']]<=100){$grade='A+';$grade_point=5.5;}
                     }
 
-                    $result->grade = $grade;
-                    $result->paper_id = $sub['id'];
-                    $result->mark = $request[$sub['paper_abbrev']];
+                    Result::create(array(
+                        'user_id'=>$request['teacher_id'],
+                        'student_id'=>$request['student'],
+                        'schclass_id'=>$request['schclass'],
+                        'subject_id'=>$request['subject'],
+                        'paper_id'=>$sub['id'],
+                        'term_id'=>$term,
+                        'exmset_id'=>$set,
+                        'mark'=>$request[$sub['paper_abbrev']],
+                        'grade'=>$grade,
+                        'comments'=>null,
+                        'year'=>null
+                    ));
 
-                    $result->save();
+
                     $paper_all_marks = array_merge($paper_all_marks,[$request[$sub['paper_abbrev']]]);
 
                 }
@@ -309,10 +341,17 @@ class ResultController extends BackendController
 
 
 
-                $marks->final_mark =  $paper_all_marks_final_mark;
-                $marks->grade = $grade;
-                $marks->points = $grade_point;
-                $marks->save();
+                Mark::create(array(
+                    'student_id'=>$request['student'],
+                    'subject_id'=>$request['subject'],
+                    'grade'=>$grade,
+                    'final_mark'=>$paper_all_marks_final_mark,
+                    'teacher_comment'=>null,
+                    'points'=>$grade_point
+                ));
+
+
+
 
 
                 return response()->json(['success'=>'Saved Successfully']);
@@ -442,6 +481,18 @@ class ResultController extends BackendController
      */
     public function destroy(Result $result)
     {
-        //
+        // 0751340462
+    }
+
+
+    public function printPdf(){
+
+       $results= Result::orderBy('student_id')->get();
+       $pdf = PDF::loadView('pdf.students',compact('results'));
+       $pdf->save(public_path('files/').'_filename.pdf');
+       return $pdf->download('results.pdf');
+
+
+
     }
 }
