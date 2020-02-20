@@ -17,7 +17,7 @@ class CreateExmsetsTable extends Migration
         Schema::create('exmsets', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('set_name')->unique();
-            $table->string('grade')->nullable();
+            $table->string('set_percentage')->nullable();
             $table->timestamps();
 
         });

@@ -19,8 +19,11 @@ class SubjectSeeder extends Seeder
         DB::table('subjects')->delete();
         DB::table('combinations')->delete();
         $array = range(1,Schclass::count());
-        $o_lvl = array_slice($array,0,-2);
-        $a_lvl = array_slice($array,0,-2);
+        // $o_lvl = array_slice($array,0,-2);
+        // $a_lvl = array_slice($array,0,-2);
+        $a_lvl=Schclass::where('level','Advanced Level')->pluck('id')->toArray();
+        $o_lvl=Schclass::where('level','Ordinary Level')->pluck('id')->toArray();
+
         $subjects = new Subject();
         Subject::create(['name'=>'Ordinary Biology','level'=>'Ordinary Level','subject_code'=>'O-Bio','subject_compulsory'=>true]);
 

@@ -44,7 +44,7 @@ $(function(){
             }
             if(action === 'term')
             {
-                result ='resultz';
+                result =null;
                 term_id=query
             }
             console.log('action:'+action+' query:'+query+' class_id:'+class_id+' subject_id:'+subject_id+' set_id:'+set_id+' term_id:'+term_id)

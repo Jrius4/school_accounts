@@ -18,6 +18,7 @@ class CreatePapersTable extends Migration
             $table->string('paper_name')->nullable();
             $table->unsignedBigInteger('subject_id');
             $table->string('paper_abbrev');
+            $table->string('paper_percentage')->nullable();
             $table->timestamps();
 
             $table->foreign('subject_id')->references('id')->on('subjects')

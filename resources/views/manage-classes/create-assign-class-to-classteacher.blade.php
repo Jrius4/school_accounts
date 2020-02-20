@@ -1,41 +1,39 @@
+@extends('layouts.main-dashboard')
+
+@section('dashboard')
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb elevation-2">
+        <li class="breadcrumb-item"><a href="{{url('/')}}">Home</a></li>
+        <li class="breadcrumb-item" aria-current="page"><a href="{{route('classes.index')}}">Manage Classes</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Create Assign Class To Class Teacher</li>
+    </ol>
+</nav>
 
 
+<section class="content">
 
-@extends('layouts.admin-dashboard')
+<div class="row">
+    <div class="col-12">
+        <div class="card elevation-2 animated flipInX">
+            <div class="card-header row">
+                <h3 class="card-title mr-auto">Create Assign Class To Class Teacher</h3>
+            </div>
+            <div class="card-body">
 
-@section('style')
-<style>
-    .bg-transparent{
-        background:transparent !important;
-        border:none
-    }
-    .center-items{
-        display: flex;
-        justify-items: center;
-        margin: 5vw 15vw;
-        background: #0e0d0d;
-        padding: 8pt;
-    }
-</style>
-@endsection
-@section('admin-content')
-		<!-- Static Table Start -->
-		<div class="data-table-area mg-b-15">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div id="info"></div>
-                    </div>
-                    <div class="row">
-                        <div class="center-items animated flipInX">
                             <form id="createClassForm" action="javascript:void(0)" method="post">
+                                <div class="container row d-flex justify-content-center">
                                 <div class="form-group col-sm-12">
                                     <label for="schclasses">Choose Class(es)</label>
 
 
-                                    <div class="row">
-                                        <select id="schclasses" name="schclasses" class="form-control action" class="col-sm-12" style="color:aliceblue!important">
+                                        <select id="schclasses" name="schclasses" class="form-control action form-control-lg">
+                                            <option value="">Select a class</option>
+                                            @foreach ($schclasses as $class)
+                                                <option value="{{$class->id}}">{{$class->name}}</option>
+                                            @endforeach
                                         </select>
-                                    </div>
+
 
                                 </div>
                                 <div class="form-group col-sm-12">
@@ -50,28 +48,39 @@
                                 <div class="form-group col-sm-12">
                                     <label for="teacher">Class Teacher</label>
                                     <div class="row">
-                                        <select id="teacher" name="teacher" class="col-sm-12 form-control" style="color:aliceblue!important">
+                                        <select id="teacher" name="teacher" class="col-sm-12 form-control">
+                                            <option value="">Select a Teacher</option>
+                                            @foreach ($teachers as $teacher)
+                                                <option value="{{$teacher->id}}">{{$teacher->name}}</option>
+                                            @endforeach
                                         </select>
                                         <input type="hidden" name="is_class_teacher" value="1">
                                     </div>
                                 </div>
 
                                 <div class="form-group col-sm-12">
-                                    <button type="submit" class="btn btn-info">Save</button>
+                                    <button type="submit" class="btn btn-info d-block col-sm-12">Save</button>
+                                </div>
                                 </div>
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- Static Table End -->
 
+
+            </section>
 @endsection
 @section('first-scripts')
-    <link rel="stylesheet" href="{{asset('schools/plugins/select2/css/select2.css')}}">
-    <script src="{{asset('schools/plugins/select2/js/select2.full.min.js')}}"></script>
-    <script type="text/javascript" src="{{asset('schools/plugins/multiselect/jquery.lwMultiSelect.js')}}"></script>
-   <link rel="stylesheet" href="{{asset('schools/plugins/multiselect/jquery.lwMultiSelect.css')}}" />
+ <!-- jQuery -->
+ <!-- jQuery -->
+ <script src="{{asset('adminlte/plugins/jquery/jquery.min.js')}}"></script>
+ <!-- jQuery UI 1.11.4 -->
+ <script src="{{asset('adminlte/plugins/jquery-ui/jquery-ui.min.js')}}"></script>
+<link rel="stylesheet" href="{{asset('schools/plugins/select2/css/select2.min.css')}}">
+<script src="{{asset('schools/plugins/select2/js/select2.full.min.js')}}"></script>
+<script type="text/javascript" src="{{asset('schools/plugins/multiselect/jquery.lwMultiSelect.js')}}"></script>
+<link rel="stylesheet" href="{{asset('schools/plugins/multiselect/jquery.lwMultiSelect.css')}}" />
 
 @endsection
 @section('scripts')
@@ -86,6 +95,8 @@
                             }
 
                     });
+            $("#schclasses").select2();
+
     $('#streams').lwMultiSelect();
     $('.action').change(function(){
         if($(this).val() !='')
@@ -123,116 +134,64 @@
 
     });
 
-
-    $("#teacher").select2({
-        placeholder: "Select a class teacher",
-        allowClear: true,
-        ajax: {
-            url: "{{url('/api/get-teachers')}}",
-            dataType: 'json',
-            delay:250,
-            data:function(params){
-                var query = {
-                    q:params.term,
-                    page:params.page
-                };
-                return query;
-            },
-            processResults: function (data, params) {
-                params.page = params.page||1;
-
-                return {
-                    results: data.data,
-                    pagination: {
-                        more: (params.page * 10) < data.total
-                    }
-                };
-            },
-            success:function(data)
-            {
-                console.log(data.data);
-            },
-            error:function(data)
-            {
-                console.log(data);
-            },
-            cache:true,
+    $("#teacher").select2();
 
 
-        },
-        minimumInputLength:1,
-        templateResult:formatRepoTeacher,
-        templateSelection:formatRepoTeacherSelection
-    });
+    // $("#teacher").select2({
+    //     placeholder: "Select a class teacher",
+    //     allowClear: true,
+    //     ajax: {
+    //         url: "{{url('/api/get-teachers')}}",
+    //         dataType: 'json',
+    //         delay:250,
+    //         data:function(params){
+    //             var query = {
+    //                 q:params.term,
+    //                 page:params.page
+    //             };
+    //             return query;
+    //         },
+    //         processResults: function (data, params) {
+    //             params.page = params.page||1;
 
-    function formatRepoTeacher(repo){
-        if(repo.loading){
-            return repo.text
-        }
-
-        var $container =$("<span>"+repo.name+"</span>");
-        return $container;
-    }
-    function formatRepoTeacherSelection(repo)
-    {
-        return repo.name;
-    }
-
-
-
-    $("#schclasses").select2({
-        placeholder: "Select a class",
-        allowClear: true,
-        ajax: {
-            url: "{{url('/api/get-classes')}}",
-            dataType: 'json',
-            delay:250,
-            data:function(params){
-                var query = {
-                    q:params.term,
-                    page:params.page
-                };
-                return query;
-            },
-            processResults: function (data, params) {
-                params.page = params.page||1;
-
-                return {
-                    results: data.data,
-                    pagination: {
-                        more: (params.page * 10) < data.total
-                    }
-                };
-            },
-            success:function(data)
-            {
-                console.log(data.data);
-            },
-            error:function(data)
-            {
-                console.log(data);
-            },
-            cache:true,
+    //             return {
+    //                 results: data.data,
+    //                 pagination: {
+    //                     more: (params.page * 10) < data.total
+    //                 }
+    //             };
+    //         },
+    //         success:function(data)
+    //         {
+    //             console.log(data.data);
+    //         },
+    //         error:function(data)
+    //         {
+    //             console.log(data);
+    //         },
+    //         cache:true,
 
 
-        },
-        minimumInputLength:1,
-        templateResult:formatRepo,
-        templateSelection:formatRepoSelection
-    });
+    //     },
+    //     minimumInputLength:1,
+    //     templateResult:formatRepoTeacher,
+    //     templateSelection:formatRepoTeacherSelection
+    // });
 
-    function formatRepo(repo){
-        if(repo.loading){
-            return repo.text
-        }
+    // function formatRepoTeacher(repo){
+    //     if(repo.loading){
+    //         return repo.text
+    //     }
 
-        var $container =$("<span>"+repo.name+"</span>");
-        return $container;
-    }
-    function formatRepoSelection(repo)
-    {
-        return repo.name;
-    }
+    //     var $container =$("<span>"+repo.name+"</span>");
+    //     return $container;
+    // }
+    // function formatRepoTeacherSelection(repo)
+    // {
+    //     return repo.name;
+    // }
+
+
 
         $('#createClassForm').on('submit',(function(e){
             e.preventDefault();

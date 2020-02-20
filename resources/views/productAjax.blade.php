@@ -76,7 +76,7 @@
 
     <div class="modal-dialog">
 
-        <div class="modal-content">
+        <div class="modal-content bg-dark text-light">
 
             <div class="modal-header">
 

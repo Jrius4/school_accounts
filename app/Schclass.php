@@ -7,16 +7,18 @@ use Illuminate\Database\Eloquent\Model;
 
 class Schclass extends Model
 {
-    protected $fillable = ['name','slug','level'];
+    protected $fillable = ['name','slug','level','user_id'];
 
     public function setSlugAttribute($value)
     {
         if (! empty($value)) $this->attributes['slug'] = str_slug($this->name);
     }
+
     public function classStreames()
     {
         return $this->belongsToMany(Schstream::class);
     }
+
     public function results()
     {
         return $this->hasMany(Result::class);
@@ -28,7 +30,7 @@ class Schclass extends Model
     }
     public function user()
     {
-        return $this->hasOne(User::class);
+        return $this->belongsTo(User::class);
     }
     public function users()
     {

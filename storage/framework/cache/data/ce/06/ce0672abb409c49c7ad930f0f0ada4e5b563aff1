@@ -1,0 +1,1 @@
+1582148586a:1:{i:0;a:7:{s:2:"id";i:7;s:4:"name";s:9:"secretary";s:12:"display_name";s:9:"Secretary";s:11:"description";N;s:10:"created_at";s:19:"2020-02-19 04:59:34";s:10:"updated_at";s:19:"2020-02-19 04:59:34";s:5:"pivot";a:3:{s:7:"user_id";i:6;s:7:"role_id";i:7;s:9:"user_type";s:8:"App\User";}}}

@@ -33,13 +33,6 @@ class TeacherSubjectSeederTable extends Seeder
         $user->whereName('Magezi Peter')->first()->subjects()->detach([$subject1->id,$subject2->id,$subject3->id]);
         $user->whereName('Magezi Peter')->first()->subjects()->attach([$subject1->id,$subject2->id,$subject3->id]);
 
-        // $user->whereName('Magezi Peter')->first()->subjects()->detach($teacher);
-        // $user->whereName('Magezi Peter')->first()->subjects()->attach($teacher);
 
-        // $user->whereName('Magezi Peter')->first()->subjects()->detach($teacher);
-        // $user->whereName('Magezi Peter')->first()->subjects()->attach($teacher);
-
-        // $user->whereName('Magezi Peter')->first()->subjects()->detach($teacher);
-        // $user->whereName('Magezi Peter')->first()->subjects()->attach($teacher);
     }
 }

@@ -42,6 +42,12 @@ class StaffRolesSeeder extends Seeder
         User::find(9)->schClasses()->detach(Schclass::find([1,3,5]));
         User::find(9)->schClasses()->attach(Schclass::find([1,3,5]));
 
+        User::find(5)->schClasses()->detach(Schclass::get());
+        User::find(5)->schClasses()->attach(Schclass::get());
+
+        User::find(5)->subjects()->detach(Subject::get());
+        User::find(5)->subjects()->attach(Subject::get());
+
 
 
         User::find(9)->subjects()->detach(Subject::find([1,4,7,9,16]));

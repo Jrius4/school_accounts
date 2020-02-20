@@ -1,124 +1,74 @@
 
-            <div class="row">
-                <div class="col-lg-3">
-                <a href="{{route('students.index')}}">
-                    <div class="income-dashone-total shadow-reset nt-mg-b-30">
-                        <div class="income-title">
-                            <div class="main-income-head">
-                                <h2>Students</h2>
-                                <div class="main-income-phara">
-                                    <p>View</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="income-dashone-pro">
-                            <div class="income-rate-total">
-                                <div class="price-adminpro-rate">
-                                    <h3><span class="counter">
-                                       {{App\Models\Student::count()}}
-                                        </span></h3>
-                                </div>
-                                <div class="price-graph">
-                                    <span id="sparkline1"></span>
-                                </div>
-                            </div>
-                            <div class="income-range">
-                                <p>Registered Students</p>
-                            </div>
-                            <div class="clear"></div>
-                        </div>
-                    </div>
-                    </a>
-                </div>
-                <div class="col-lg-3">
-                    <a href="{{route('subjects.index')}}">
-                    <div class="income-dashone-total shadow-reset nt-mg-b-30">
-                        <div class="income-title">
-                            <div class="main-income-head">
-                                <h2>Subjects</h2>
-                                <div class="main-income-phara order-cl">
-                                    <p>View</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="income-dashone-pro">
-                            <div class="income-rate-total">
-                                <div class="price-adminpro-rate">
-                                    <h3><span class="counter">
-                                        {{App\Subject::count()}}
-                                        </span></h3>
-                                </div>
-                                <div class="price-graph">
-                                    <span id="sparkline6"></span>
-                                </div>
-                            </div>
-                            <div class="income-range order-cl">
-                                <p>Both O & A-Level Subjects</p>
-                            </div>
-                            <div class="clear"></div>
-                        </div>
-                    </div>
-                        </a>
-                </div>
-                <div class="col-lg-3">
-                    <a href="{{route('teachers.index')}}">
-                    <div class="income-dashone-total shadow-reset nt-mg-b-30">
-                        <div class="income-title">
-                            <div class="main-income-head">
-                                <h2>Teachers</h2>
-                                <div class="main-income-phara low-value-cl">
-                                    <p>View</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="income-dashone-pro">
-                            <div class="income-rate-total">
-                                <div class="price-adminpro-rate">
-                                    <h3><span class="counter">
-                                        {{App\Role::whereName('teacher')->first()->users()->count()}}
-                                        </span></h3>
-                                </div>
-                                <div class="price-graph">
-                                    <span id="sparkline5"></span>
-                                </div>
-                            </div>
-                            <div class="income-range low-value-cl">
-                                <p>Total teachers</p></span>
-                            </div>
-                            <div class="clear"></div>
-                        </div>
-                    </div>
-                    </a>
-                </div>
-                <div class="col-lg-3">
-                    <a href="{{route('classes.index')}}">
-                    <div class="income-dashone-total shadow-reset nt-mg-b-30">
-                        <div class="income-title">
-                            <div class="main-income-head">
-                                <h2>Classes</h2>
-                                <div class="main-income-phara visitor-cl">
-                                    <p>View</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="income-dashone-pro">
-                            <div class="income-rate-total">
-                                <div class="price-adminpro-rate">
-                                    <h3><span class="counter">
-                                        {{App\Schclass::count()}}
-                                        </span></h3>
-                                </div>
-                                <div class="price-graph">
-                                    <span id="sparkline2"></span>
-                                </div>
-                            </div>
-                            <div class="income-range visitor-cl">
-                                <p>Total Created</p>
-                            </div>
-                            <div class="clear"></div>
-                        </div>
-                    </div>
-                    </a>
-                </div>
+     <!-- Small boxes (Stat box) -->
+     <div class="row">
+        <div class="col-lg-3 col-6">
+          <!-- small box -->
+          <div class="small-box  bg-info animated flipInY">
+            <div class="inner">
+              <h3>{{App\User::count()}}</h3>
+
+              <p>Administrators</p>
             </div>
+            <div class="icon">
+              <i class="ion ion-person-stalker"></i>
+            </div>
+            <a href="{{route('users.index')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-6">
+          <!-- small box -->
+          <div class="small-box  bg-success animated flipInY">
+            <div class="inner">
+              <h3>{{App\Role::whereName('teacher')->first()->users()->count()}}<sup style="font-size: 20px"></sup></h3>
+
+              <p>Teachers</p>
+            </div>
+            <div class="icon">
+              <i class="ion ion-ios-people"></i>
+            </div>
+            <a href="{{route('teachers.index')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-6">
+          <!-- small box -->
+          <div class="small-box  bg-warning animated flipInY">
+            <div class="inner">
+              <h3>{{App\Models\Student::count()}}</h3>
+
+              <p>Students</p>
+            </div>
+            <div class="icon">
+              <i class="ion ion-android-contacts"></i>
+            </div>
+            <a href="{{route('students.index')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-6">
+          <!-- small box -->
+          <div class="small-box  bg-danger animated flipInY">
+            <div class="inner">
+              <h3>{{App\Subject::count()}}</h3>
+
+              <p>Subjects</p>
+            </div>
+            <div class="icon">
+              <i class="ion ion-android-list"></i>
+            </div>
+            <a href="{{route('subjects.index')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <!-- ./col -->
+      </div>
+      <!-- /.row -->
+@section('script')
+ <!-- jQuery -->
+ <script src="{{asset('adminlte/plugins/jquery/jquery.min.js')}}"></script>
+ <!-- jQuery UI 1.11.4 -->
+ <script src="{{asset('adminlte/plugins/jquery-ui/jquery-ui.min.js')}}"></script>
+@endsection
+
+
 

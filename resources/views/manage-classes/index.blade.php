@@ -1,49 +1,37 @@
+@extends('layouts.main-dashboard')
+
+@section('dashboard')
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb elevation-2">
+        <li class="breadcrumb-item"><a href="{{url('/')}}">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Manage Classes</li>
+    </ol>
+</nav>
 
 
+<section class="content">
 
-@extends('layouts.admin-dashboard')
-@section('style')
-<style>
-    .bg-transparent{
-        background:transparent !important;
-        border:none
-    }
-    .center-items{
-        display: flex;
-        justify-items: center;
-    }
-</style>
-@endsection
-@section('admin-content')
-		<!-- Static Table Start -->
-		<div class="data-table-area mg-b-15">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="sparkline13-list shadow-reset">
-                                <div class="sparkline13-hd">
-                                    <div class="main-sparkline13-hd">
-                                        <span></span>
-                                        <h1>View <span class="table-project-n">Manage classes</span> Info</h1>
-                                        <div class="sparkline13-outline-icon">
-                                            <span class="sparkline13-collapse-link"><i class="fa fa-chevron-up"></i></span>
-                                            <span class="sparkline13-collapse-close"><i class="fa fa-times"></i></span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="sparkline13-graph">
-                                    <div class="datatable-dashv1-list custom-datatable-overright">
-                                        <table id="table" data-toggle="table" data-pagination="true" data-search="true" data-key-events="true" data-resizable="true" data-cookie="true" data-cookie-id-table="saveId" data-click-to-select="true" data-toolbar="#toolbar">
-                                            <thead>
-                                                <tr>
-                                                    <th>Name</th>
-                                                    <th>Level</th>
-                                                    <th>Class Teacher</th>
-                                                    <th>view</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                            @if ($classes->count()==0)
+<div class="row">
+    <div class="col-12">
+        <div class="card elevation-2 animated bounce">
+            <div class="card-header row">
+                <h3 class="card-title mr-auto">Manage Classes</h3>
+                <a href="{{route('classes.create')}}" class="btn btn-sm btn-outline-primary">Create New Class</a>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    @include('partials.message')
+                </div>
+                <table id="RoleTable" class="table table-bordered table-striped">
+                    <thead>
+                        <th>Name</th>
+                        <th>Level</th>
+                        <th>Class Teacher</th>
+                        <th>Action</th>
+                    </thead>
+                    <tbody>
+                        @if ($classes->count()==0)
                                                     <div class="alert alert-danger">No info</div>
                                             @else
                                                 @foreach ($classes as $class)
@@ -55,15 +43,9 @@
                                                             {{$class->level}}
                                                         </td>
                                                         <td>
-                                                            @if ($class->users()->where('is_class_teacher',true)->first()!=null)
-                                                            {{-- <p>{{$class->users()->where('is_class_teacher',true)->first()->name}}</p> --}}
-                                                                @if ($class->user !=null)
+                                                            @if ($class->user !==null)
+                                                            {{$class->user->name}}
 
-                                                                {{$class->user->name}}
-                                                                @else
-                                                                <p>No Class Teacher Assigned</p>
-
-                                                                @endif
                                                             @else
 
                                                             <p>Not Yet Assigned</p>
@@ -72,56 +54,73 @@
                                                         </td>
 
                                                         <td>
-                                                        <a href="{{route('classes.show',$class->id)}}">
-                                                            <i class="fa fab fa-eye"></i>
-                                                        </a>
+                                                        {!! Form::open(['method' => 'DELETE', 'route' => ['classes.destroy', $class->id]]) !!}
+                                                        <a href="{{route('classes.show',$class->id)}}"><i class="fa fa-eye"></i></a>|
+                                                            <a href="{{route('classes.edit',$class->id)}}">
+                                                                <i class="fa fab fa-edit"></i>
+                                                            </a> |
+
+                                                                <button onclick="return confirm('Are you sure?');" type="submit" class="btn btn-xs btn-danger">
+                                                                    <i class="fa fa-times"></i>
+                                                                </button>
+
+                                                        {!! Form::close() !!}
                                                         </td>
                                                     </tr>
                                                 @endforeach
                                             @endif
 
 
-
-
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                    </tbody>
+                    <tfoot>
+                        <th>Name</th>
+                        <th>Level</th>
+                        <th>Class Teacher</th>
+                        <th>view</th>
+                    </tfoot>
+                </table>
             </div>
-            <!-- Static Table End -->
+        </div>
+    </div>
+</div>
+
+
+</section>
+
+
 
 @endsection
+
+@section('style')
+ <!-- DataTables -->
+ <link rel="stylesheet" href="src="{{asset('adminlte/plugins/datatables-bs4/css/dataTables.bootstrap4.css')}}">
+
+<style>
+    .breadcrumb{
+
+        background: #fdffffc7;
+    }
+</style>
+@endsection
+@section('script')
+  <!-- jQuery -->
+ <script src="{{asset('adminlte/plugins/jquery/jquery.min.js')}}"></script>
+ <!-- jQuery UI 1.11.4 -->
+ <script src="{{asset('adminlte/plugins/jquery-ui/jquery-ui.min.js')}}"></script>
+@endsection
 @section('scripts')
-            	<!-- scrollUp JS
-         ============================================ -->
-	<script src="{{ asset('schools/js/jquery.scrollUp.min.js')}}"></script>
-	<!-- counterup JS
-		============================================ -->
-	<script src="{{ asset('schools/js/counterup/jquery.counterup.min.js')}}"></script>
-	<script src="{{ asset('schools/js/counterup/waypoints.min.js')}}"></script>
-	<!-- peity JS
-		============================================ -->
-	<script src="{{ asset('schools/js/peity/jquery.peity.min.js')}}"></script>
-	<script src="{{ asset('schools/js/peity/peity-active.js')}}"></script>
-	<!-- sparkline JS
-		============================================ -->
-	<script src="{{ asset('schools/js/sparkline/jquery.sparkline.min.js')}}"></script>
-	<script src="{{ asset('schools/js/sparkline/sparkline-active.js')}}"></script>
-	<!-- data table JS
-		============================================ -->
-	<script src="{{ asset('schools/js/data-table/bootstrap-table.js')}}"></script>
-	<script src="{{ asset('schools/js/data-table/tableExport.js')}}"></script>
-	<script src="{{ asset('schools/js/data-table/data-table-active.js')}}"></script>
-	<script src="{{ asset('schools/js/data-table/bootstrap-table-editable.js')}}"></script>
-	<script src="{{ asset('schools/js/data-table/bootstrap-editable.js')}}"></script>
-	<script src="{{ asset('schools/js/data-table/bootstrap-table-resizable.js')}}"></script>
-	<script src="{{ asset('schools/js/data-table/colResizable-1.5.source.js')}}"></script>
-	<script src="{{ asset('schools/js/data-table/bootstrap-table-export.js')}}"></script>
-	<!-- main JS
-         ============================================ -->
-	<script src="{{ asset('schools/js/main.js')}}"></script>
+<script src="{{asset('adminlte/plugins/datatables/jquery.dataTables.js')}}"></script>
+<script src="{{asset('adminlte//plugins/datatables-bs4/js/dataTables.bootstrap4.js')}}"></script>
+<script>
+    $(function () {
+      $('#RoleTable').DataTable({
+        "paging": true,
+        "lengthChange": true,
+        "searching": true,
+        "ordering": true,
+        "info": true,
+        "autoWidth": false,
+      });
+    });
+  </script>
 @endsection

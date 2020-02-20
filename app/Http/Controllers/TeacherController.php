@@ -87,7 +87,9 @@ class TeacherController extends Controller
 
     public function getAssignedSubjectsToTeacher()
     {
-        return view('manage-teachers.assign-subject-to-teacher');
+        $schclasses = Schclass::get();
+        $teachers = Role::whereName('teacher')->first()->users()->get();
+        return view('manage-teachers.assign-subject-to-teacher',compact('teachers','schclasses'));
     }
 
     public function storeAssignedSubjectsToTeacher(Request $request)
@@ -113,7 +115,9 @@ class TeacherController extends Controller
 
     public function getAssignedClassToTeacher()
     {
-        return view('manage-teachers.assign-class-to-teacher');
+        $schclasses = Schclass::get();
+        $teachers = Role::whereName('teacher')->first()->users()->get();
+        return view('manage-teachers.assign-class-to-teacher',compact('teachers','schclasses'));
     }
 
     public function storeAssignedClassToTeacher(Request $request)

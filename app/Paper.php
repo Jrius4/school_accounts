@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Paper extends Model
 {
-    protected $fillable = ['paper_name','subject_id','paper_abbrev'];
+    protected $fillable = ['paper_name','subject_id','paper_abbrev','paper_percentage'];
 
     public function subjects()
     {

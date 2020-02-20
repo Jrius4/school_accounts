@@ -12,6 +12,7 @@ use App\Subject;
 use App\Term;
 use App\User;
 use Barryvdh\DomPDF\Facade as PDF;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -21,24 +22,35 @@ class ResultController extends BackendController
     public function getBot($term,$set)
     {
         $values = array('term'=>request()->term,'set'=>request()->set);
-        return view('manage-results.create-results',compact('values'));
+        $schclasses = Auth::user()->schclasses()->get();
+
+
+        return view('manage-results.create-results',compact('values','schclasses'));
     }
 
     public function fetchPapers(Request $request)
     {
         if($request['action']!=null)
         {
-            $subject = new Subject();
+            // $subject = new Subject();
+            $subject = Auth::user()->subjects();
             $schclass = new Schclass();
             $student = new Student();
             $output = null;
             if($request['action']=='schclass'){
                 $result = $subject->where('level',$schclass->find($request['query'])->level)->orderBy('name')->get();
                 $output.='<option value="">Select Subject</option>';
-                foreach($result as $row)
+                if($result->count()>0)
                 {
-                    $output .= '<option value="'.$row['id'].'">'.$row['name'].'</option>';
+                    foreach($result as $row)
+                        {
+                            $output .= '<option value="'.$row['id'].'">'.$row['name'].'</option>';
+                        }
                 }
+                else{
+                    $output.='<option value="">Your have No Subject</option>';
+                }
+
             }
             if($request['action']=='subject'){
                 $result = $student->where('schclass_id',$schclass->find($request['class_id'])->id)->orderBy('name')->get();
@@ -67,12 +79,11 @@ class ResultController extends BackendController
 
                                     $output.=
                                     '
+                                    <div class="form-group col-md-8">
                                         <label>'.$row['paper_abbrev'].'</label>
-                                        <div class="">
-                                            <div class="chosen-select-single mg-b-20">
-                                                    <input  type="number" name="'.$row['paper_abbrev'].'" class="marks form-control" id="'.$row['paper_abbrev'].'"/>
-                                            </div>
-                                        </div>
+
+                                                    <input  type="number" name="'.$row['paper_abbrev'].'" class="marks form-control col-12 d-block" id="'.$row['paper_abbrev'].'"/>
+                                          </div>
                                     ';
 
                             }
@@ -81,14 +92,15 @@ class ResultController extends BackendController
                         else{
                             $output.=
                             '
+                            <div class="form-group col-md-8">
                             <label>No Paper Assigned Yet</label>
-                            '.'
-                            <label>Subject Marks</label>
-                            <div class="">
-                                <div class="chosen-select-single mg-b-20">
-                                        <input name="paper_mark" type="number" class="marks form-control" id="paper_mark"/>
-                                </div>
                             </div>
+                            '.'
+                            <div class="form-group col-md-8">
+                            <label>Subject Marks</label>
+
+                                        <input name="paper_mark" type="number" class="marks form-control col-12 d-block" id="paper_mark"/>
+                               </div>
                         ';
                         }
 
@@ -96,11 +108,11 @@ class ResultController extends BackendController
                    else{
                     $output.=
                     '
+                    <div class="form-group col-md-8">
                         <label>Subject Marks</label>
-                        <div class="">
-                            <div class="chosen-select-single mg-b-20">
-                                    <input name="paper_mark" type="number" class="marks form-control" id="paper_mark"/>
-                            </div>
+
+                                    <input name="paper_mark" type="number" class="marks form-control col-12 d-block" id="paper_mark"/>
+
                         </div>
                     ';
 
@@ -185,6 +197,7 @@ class ResultController extends BackendController
             $marks = new Mark();
             $subject = new Subject();
             $student = new Student();
+            $date = new Carbon();
 
 
 
@@ -224,19 +237,36 @@ class ResultController extends BackendController
 
 
 
-                Result::create(array(
-                    'user_id'=>$request['teacher_id'],
-                    'student_id'=>$request['student'],
-                    'schclass_id'=>$request['schclass'],
-                    'subject_id'=>$request['subject'],
-                    'paper_id'=>null,
-                    'term_id'=>$term,
-                    'exmset_id'=>$set,
-                    'mark'=>$request['paper_mark'],
-                    'grade'=>$grade,
-                    'comments'=>null,
-                    'year'=>null
-                ));
+
+                if($result->where('created_at','LIKE','%'.date('Y').'%')->where('term_id',$term)->where('exmset_id',$set)->where('student_id',request()->student)->where('subject_id',request()->subject)->count()>0)
+                {
+                    $result->where('created_at','LIKE','%'.date('Y').'%')->where('term_id',$term)->where('exmset_id',$set)->where('student_id',request()->student)->where('subject_id',request()->subject)->first()->update(
+                        array(
+                            'mark'=>request()->paper_mark,
+                            'calculate_mark'=>$request['paper_mark']*(Exmset::find($set)->set_percentage/100),
+                            'grade'=>$grade,
+                        )
+                    );
+                }
+                elseif($result->where('created_at','LIKE','%'.date('Y').'%')->where('term_id',$term)->where('exmset_id',$set)->where('student_id',request()->student)->where('subject_id',request()->subject)->count()==0)
+
+                {
+
+                    Result::create(array(
+                        'user_id'=>$request['teacher_id'],
+                        'student_id'=>$request['student'],
+                        'schclass_id'=>$request['schclass'],
+                        'subject_id'=>$request['subject'],
+                        'paper_id'=>null,
+                        'term_id'=>$term,
+                        'exmset_id'=>$set,
+                        'mark'=>$request['paper_mark'],
+                        'calculate_mark'=>$request['paper_mark']*(Exmset::find($set)->set_percentage/100),
+                        'grade'=>$grade,
+                        'comments'=>null,
+                        'year'=>null
+                    ));
+                }
                 // $marks->save();
                 Mark::create(array(
                     'student_id'=>$request['student'],
@@ -252,6 +282,8 @@ class ResultController extends BackendController
 
             if($request['P1']!=null)
             {
+                // return response()->json(['data'=>$request->all()]);
+
                 foreach($subject->with('papersIn')->find($request['subject'])->papersIn()->get() as $sub)
                 {
                     if($subject->find($request['subject'])->level == 'Advanced Level')
@@ -284,6 +316,27 @@ class ResultController extends BackendController
                         if($request[$sub['paper_abbrev']]>89.9 && $request[$sub['paper_abbrev']]<=100){$grade='A+';$grade_point=5.5;}
                     }
 
+
+
+                    if($result->where('created_at','LIKE','%'.date('Y').'%')->where('term_id',$term)->where('exmset_id',$set)->where('student_id',request()->student)->where('subject_id',request()->subject)->where('paper_id',$sub['id'])->count()>0)
+
+                    {
+
+
+                        $result->where('created_at','LIKE','%'.date('Y').'%')->where('term_id',$term)->where('exmset_id',$set)->where('student_id',request()->student)->where('subject_id',request()->subject)->where('paper_id',$sub['id'])->first()->update(
+                            array(
+                                'mark'=>$request[$sub['paper_abbrev']],
+                                'calculate_mark'=>$request[$sub['paper_abbrev']]*(Exmset::find($set)->set_percentage/100),
+                                'grade'=>$grade,
+                            )
+                        );
+
+
+                    }
+                    elseif($result->where('created_at','LIKE','%'.date('Y').'%')->where('term_id',$term)->where('exmset_id',$set)->where('student_id',request()->student)->where('subject_id',request()->subject)->where('paper_id',$sub['id'])->count()==0)
+
+                    {
+
                     Result::create(array(
                         'user_id'=>$request['teacher_id'],
                         'student_id'=>$request['student'],
@@ -293,10 +346,14 @@ class ResultController extends BackendController
                         'term_id'=>$term,
                         'exmset_id'=>$set,
                         'mark'=>$request[$sub['paper_abbrev']],
+                        'calculate_mark'=>$request[$sub['paper_abbrev']]*(Exmset::find($set)->set_percentage/100),
                         'grade'=>$grade,
                         'comments'=>null,
                         'year'=>null
                     ));
+
+
+                    }
 
 
                     $paper_all_marks = array_merge($paper_all_marks,[$request[$sub['paper_abbrev']]]);
@@ -378,24 +435,25 @@ class ResultController extends BackendController
       $sets = Exmset::orderBy('id','asc')->get();
       $results = Result::orderBy('student_id','asc')->get();
       $students = Student::orderBy('id','asc')->get();
-      $subjects = $users->with('subjects','schclasses')->where('id',$id)->first()->subjects()->get();
+      $subjects = Auth::user()->subjects()->get();
       $subjs = Subject::get();
-      $schclasses = $users->with('subjects','schclasses')->where('id',$id)->first()->schclasses()->get();
+      $schclasses = Auth::user()->schclasses()->get();
 
         return view('manage-results.manage-marks',compact('subjs','subjects','schclasses','sets','term','results','students'));
     }
     public function fetchManageMarks(Request $request)
     {
+
         if($request['action']!=null){
             $output='';
-            $subjects = new Subject();
+            $subjects = Auth::user()->subjects();
             $students = new Student();
             $result = new Result();
-            $users = new User();
+            $users = Auth::user();
             $id = Auth::user()->id;
             if($request['action']=='schclass')
             {
-                $results = $users->with('subjects')->where('id',$id)->first()->subjects()->where('level',Subject::find($request['query'])->level)->get();
+                $results = $subjects->where('level',Schclass::find($request['query'])->level)->get();
 
                 $output.='<option value="">Select Subject</option>';
                 foreach($results as $row)
@@ -405,17 +463,899 @@ class ResultController extends BackendController
             }
             if($request['action']=='term' && $request['class_id']!=null)
             {
-                $results =$result->where('schclass_id',$request['class_id'])->get();
+                $results =$result->where('schclass_id',$request['class_id'])->get()->groupBy('student_id');
 
-
-                foreach($results as $row)
+                if($results->count()>0)
                 {
-                    $output .= '<tr><td>'.$row['name'].'</td><td>'.$row['name'].'</td><td>'.$row['name'].'</td><td>'.$row['name'].'</td></tr>';
+                    $output.='
+                    <table id="RoleTable" class="table table-bordered">
+                    <thead>
+                        <th colspan="2">Subject</th>
+
+                        <th>Bot <br> out of '.Exmset::find(1)->set_percentage.'</th>
+                        <th>Mot<br> out of '.Exmset::find(2)->set_percentage.'</th>
+                        <th>Eot <br>out of '.Exmset::find(3)->set_percentage.'</th>
+                        <th>Total Marks<br> of'.'100'.'</th>
+                        <th>Final Mark</th>
+                        <th>Final Grade</th>
+                        <th>Teacher Comment</th>
+                    </thead>
+                    <tbody>
+                    ';
+                    foreach($results as $stud_id=>$resul)
+                        {
+                            global $paper_total1,$paper_total2,$paper_total3;
+                            $output.='<tr><td colspan="9">'.$students->find($stud_id)->name.'</td></tr>';
+                            foreach($resul->where('term_id',request()->term_id)->groupBy('subject_id') as $sub_id=>$res)
+                            {
+
+
+                                if($res->where('subject_id',request()->subject_id)->count()>0)
+                                {
+
+                                    // subject with three papers
+                                    if ($res->where('subject_id',request()->subject_id)->first()->subject->papersIn()->count()==3 && $res->first()->paper_id!=null)
+                                    {
+                                        $output.='
+                                        <tr>
+                                        <tr>
+                                        <td rowspan="3">'.$res->where('subject_id',request()->subject_id)->first()->subject->name.'</td>
+                                        <td>';
+                                        if($res->count()>0)
+                                        {
+                                            $output.= $res->first()->paper->paper_abbrev;
+                                        }
+                                        elseif($res->count()==0){
+                                            $output.="";
+                                        }
+                                        $output.='</td>
+                                        <td>';
+
+                                        if($res->where('exmset_id',1)->count()>0)
+                                        {
+                                            $bot_mark = round(($res->where('exmset_id',1)->first()->mark*Exmset::find(1)->set_percentage/100),2);
+                                            $output.= $bot_mark;
+                                        }
+                                        elseif($res->where('exmset_id',1)->count()==0){
+                                            $bot_mark = 0;
+                                            $output.="";
+                                        }
+
+                                        $output.='</td>
+                                        <td>';
+
+                                        if($res->where('exmset_id',2)->count()>0)
+                                        {
+                                            $mot_mark = round($res->where('exmset_id',2)->first()->mark*round((Exmset::find(2)->set_percentage/100),2),2);
+                                            $output.= $mot_mark;
+                                        }
+                                        elseif($res->where('exmset_id',2)->count()==0){
+                                            $mot_mark = 0;
+                                            $output.="";
+                                        }
+
+                                        $output.='</td>
+                                        <td>';
+
+                                        if($res->where('exmset_id',3)->count()>0)
+                                        {
+
+                                            $eot_mark = round(($res->where('exmset_id',3)->first()->mark*Exmset::find(3)->set_percentage/100),2);
+                                            $output.= $eot_mark;
+                                        }
+                                        elseif($res->where('exmset_id',3)->count()==0){
+                                            $eot_mark=0;
+                                            $output.="";
+                                        }
+
+                                        $output.='</td>
+                                        <td>';
+
+                                        if($res->count()>0)
+                                        {
+                                            $paper_1_total = round(array_sum(array($bot_mark,$mot_mark,$eot_mark)),2);
+                                            $output.= $paper_1_total;
+                                        }
+                                        elseif($res->count()==0){
+                                            $paper_1_total=0;
+                                            $output.="";
+                                        }
+
+                                        $output.='</td>
+                                        <td rowspan="3">';
+                                        if($res->count()>0)
+                                        {
+                                            $bot_mark1=($res->where('exmset_id',1)->where('paper_id',$res->first()->paper_id)->count()>0?
+                                            round(($res->where('exmset_id',1)->where('paper_id',$res->first()->paper_id)->first()->mark*Exmset::find(1)->set_percentage)/100,2)
+                                            :0);
+                                            $mot_mark1=($res->where('exmset_id',2)->where('paper_id',$res->first()->paper_id)->count()>0?
+                                            round(($res->where('exmset_id',2)->where('paper_id',$res->first()->paper_id)->first()->mark*Exmset::find(2)->set_percentage)/100,2)
+                                            :0);
+                                            $eot_mark1=($res->where('exmset_id',3)->where('paper_id',$res->first()->paper_id)->count()>0?
+                                            round(($res->where('exmset_id',3)->where('paper_id',$res->first()->paper_id)->first()->mark*Exmset::find(3)->set_percentage)/100,2)
+                                            :0);
+                                            $paper_total1 = round(array_sum(array($bot_mark1,$mot_mark1,$eot_mark1)),2);
+                                        }
+                                        if($res->count()==0)
+                                        {
+                                            $paper_total1 = 0;
+                                            $output.="";
+                                        }
+                                        if($res->count()>1)
+                                        {
+                                            $bot_mark2=($res->where('exmset_id',1)->where('paper_id',$res[1]->paper_id)->count()>0?
+                                            round(($res->where('exmset_id',1)->where('paper_id',$res[1]->paper_id)->first()->mark*Exmset::find(1)->set_percentage)/100,2)
+                                            :0);
+                                            $mot_mark2=($res->where('exmset_id',2)->where('paper_id',$res[1]->paper_id)->count()>0?
+                                            round(($res->where('exmset_id',2)->where('paper_id',$res[1]->paper_id)->first()->mark*Exmset::find(2)->set_percentage)/100,2)
+                                            :0);
+                                            $eot_mark2=($res->where('exmset_id',3)->where('paper_id',$res[1]->paper_id)->count()>0?
+                                            round(($res->where('exmset_id',3)->where('paper_id',$res[1]->paper_id)->first()->mark*Exmset::find(3)->set_percentage)/100,2)
+                                            :0);
+                                            $paper_total2 = round(array_sum(array($bot_mark2,$mot_mark2,$eot_mark2)),2);
+                                        }
+                                        if($res->count()<1)
+                                        {
+                                            $paper_total2 = 0;
+                                        }
+                                        if($res->count()>2)
+                                        {
+                                            $bot_mark3=($res->where('exmset_id',1)->where('paper_id',$res->last()->paper_id)->count()>0?
+                                            round(($res->where('exmset_id',1)->where('paper_id',$res->last()->paper_id)->first()->mark*Exmset::find(1)->set_percentage)/100,2)
+                                            :0);
+                                            $mot_mark3=($res->where('exmset_id',2)->where('paper_id',$res->last()->paper_id)->count()>0?
+                                            round(($res->where('exmset_id',2)->where('paper_id',$res->last()->paper_id)->first()->mark*Exmset::find(2)->set_percentage)/100,2)
+                                            :0);
+                                            $eot_mark3=($res->where('exmset_id',3)->where('paper_id',$res->last()->paper_id)->count()>0?
+                                            round(($res->where('exmset_id',3)->where('paper_id',$res->last()->paper_id)->first()->mark*Exmset::find(3)->set_percentage)/100,2)
+                                            :0);
+                                            $paper_total3 = round(array_sum(array($bot_mark3,$mot_mark3,$eot_mark3)),2);
+                                        }
+                                        if($res->count()<2)
+                                        {
+                                            $paper_total3 = 0;
+                                        }
+                                        $Subject_final_mark=round(array_sum(array($paper_total1,$paper_total2,$paper_total3))/3,2);
+                                        $output.=$Subject_final_mark;
+
+
+                                        $output.='</td>
+                                        <td rowspan="3">';
+                                        if($Subject_final_mark>90)
+                                        {
+                                            $Subject_final_grade = "A+";
+                                            $output.=$Subject_final_grade;
+                                        }
+                                        if($Subject_final_mark>=80 && $Subject_final_mark<90)
+                                        {
+                                            $Subject_final_grade = "A";
+                                            $output.=$Subject_final_grade;
+
+                                        }
+                                        if($Subject_final_mark>=75 && $Subject_final_mark<80)
+                                        {
+                                            $Subject_final_grade = "B+";
+                                            $output.=$Subject_final_grade;
+
+                                        }
+                                        if($Subject_final_mark>=70 && $Subject_final_mark<75)
+                                        {
+                                            $Subject_final_grade = "B";
+                                            $output.=$Subject_final_grade;
+
+                                        }
+                                        if($Subject_final_mark>=65 && $Subject_final_mark<70)
+                                        {
+                                            $Subject_final_grade = "C+";
+                                            $output.=$Subject_final_grade;
+
+                                        }
+                                        if($Subject_final_mark>=60 && $Subject_final_mark<65)
+                                        {
+                                            $Subject_final_grade = "C";
+                                            $output.=$Subject_final_grade;
+
+                                        }
+                                        if($Subject_final_mark>=55 && $Subject_final_mark<60)
+                                        {
+                                            $Subject_final_grade = "C";
+                                            $output.=$Subject_final_grade;
+
+                                        }
+                                        if($Subject_final_mark>=50 && $Subject_final_mark<55)
+                                        {
+                                            $Subject_final_grade = "C";
+                                            $output.=$Subject_final_grade;
+
+                                        }
+                                        if($Subject_final_mark<50)
+                                        {
+                                            $Subject_final_grade = "F";
+                                            $output.=$Subject_final_grade;
+
+                                        }
+                                        $output.='</td>
+                                        <td rowspan="3">
+                                        '.($Subject_final_grade !== null ?$this->teacherComment($Subject_final_grade):null).'
+                                        </td>
+
+                                        </tr>
+                                        <tr>
+                                            <td>';
+                                            if($res->count()>1)
+                                            {
+                                            $output.= $res[1]->paper->paper_abbrev;
+                                            }
+                                            elseif($res->count()<1)
+                                            {
+                                                $output.="";
+                                            }
+                                            $output.='</td>
+                                            <td>';
+                                                if($res->where('exmset_id',1)->count()>1)
+                                                {
+                                                    $bot_mark = round(($res->where('exmset_id',1)->nth(2,1)->first()->mark*Exmset::find(1)->set_percentage/100),2);
+                                                    $output.= $bot_mark;
+                                                }
+                                                elseif($res->where('exmset_id',1)->count()<1){
+                                                    $bot_mark = 0;
+                                                    $output.="";
+                                                }
+                                            $output.='</td>
+                                            <td>';
+                                            if($res->where('exmset_id',2)->count()>1)
+                                            {
+                                                $mot_mark = round(($res->where('exmset_id',2)->nth(2,1)->first()->mark*Exmset::find(2)->set_percentage/100),2);
+                                                $output.= $mot_mark;
+                                            }
+                                            elseif($res->where('exmset_id',2)->count()<1){
+                                                $mot_mark = 0;
+                                                $output.="";
+                                            }
+                                            $output.='</td>
+                                            <td>';
+                                            if($res->where('exmset_id',3)->count()>1)
+                                            {
+                                                $eot_mark = round(($res->where('exmset_id',3)->nth(2,1)->first()->mark*Exmset::find(3)->set_percentage/100),2);
+                                                $output.= $eot_mark;
+                                            }
+                                            elseif($res->where('exmset_id',3)->count()<1){
+                                                $eot_mark = 0;
+                                                $output.="";
+                                            }
+                                            $output.='</td>
+                                            <td>';
+                                            if($res->count()>1)
+                                            {
+                                                $paper_2_total = round(array_sum(array($bot_mark,$mot_mark,$eot_mark)),2);
+                                                $output.= $paper_2_total;
+                                            }
+                                            elseif($res->count()<1){
+                                                $paper_2_total=0;
+                                                $output.="";
+                                            }
+                                            $output.='</td>
+                                        </tr>
+                                        <tr>
+                                            <td>';
+                                            if($res->count()>2)
+                                            {
+                                                $output.=$res->last()->paper->paper_abbrev;
+
+                                            }
+                                            elseif($res->count()<2){
+                                                $output.="";
+                                            }
+                                            $output.='</td>
+                                            <td>';
+                                            if($res->where('exmset_id',1)->count()>2)
+                                            {
+                                                $bot_mark = round(($res->where('exmset_id',1)->last()->mark*Exmset::find(1)->set_percentage/100),2);
+                                                $output.= $bot_mark;
+                                            }
+                                            elseif($res->where('exmset_id',1)->count()<2){
+                                                $bot_mark = 0;
+                                                $output.="";
+                                            }
+                                            $output.='</td>
+                                            <td>';
+                                            if($res->where('exmset_id',2)->count()>2)
+                                            {
+                                                $mot_mark = round(($res->where('exmset_id',2)->last()->mark*Exmset::find(2)->set_percentage/100),2);
+                                                $output.= $mot_mark;
+                                            }
+                                            elseif($res->where('exmset_id',2)->count()<2){
+                                                $mot_mark = 0;
+                                                $output.="";
+                                            }
+                                            $output.='</td>
+                                            <td>';
+                                            if($res->where('exmset_id',3)->count()>2)
+                                            {
+                                                $eot_mark = round(($res->where('exmset_id',3)->last()->mark*Exmset::find(3)->set_percentage/100),2);
+                                                $output.= $eot_mark;
+                                            }
+                                            elseif($res->where('exmset_id',3)->count()<2){
+                                                $eot_mark = 0;
+                                                $output.="";
+                                            }
+                                            $output.='</td>
+                                            <td>';
+                                            if($res->count()>2)
+                                            {
+                                                $paper_3_total = round(array_sum(array($bot_mark,$mot_mark,$eot_mark)),2);
+                                                $output.= $paper_3_total;
+                                            }
+                                            elseif($res->count()<2){
+                                                $paper_3_total=0;
+                                                $output.="";
+                                            }
+                                            $output.='</td>
+                                        </tr>
+                                        </tr>';
+
+                                    }
+
+
+                                    // subject with two papers
+
+                                    elseif($res->where('subject_id',request()->subject_id)->first()->subject->papersIn()->count()==2 && $res->where('subject_id',request()->subject_id)->first()->paper_id!=null)
+                                    {
+                                        $output.='
+                                        <tr>
+                                        <tr>
+                                        <td rowspan="2">'.$res->where('subject_id',request()->subject_id)->first()->subject->name.'</td>
+                                        <td>';
+                                        if($res->count()>0)
+                                        {
+                                            $output.= $res->first()->paper->paper_abbrev;
+                                        }
+                                        elseif($res->count()==0){
+                                            $output.="";
+                                        }
+                                        $output.='</td>
+                                        <td>';
+
+                                        if($res->where('exmset_id',1)->count()>0)
+                                        {
+                                            $bot_mark = round(($res->where('exmset_id',1)->first()->mark*Exmset::find(1)->set_percentage/100),2);
+                                            $output.= $bot_mark;
+                                        }
+                                        elseif($res->where('exmset_id',1)->count()==0){
+                                            $bot_mark = 0;
+                                            $output.="";
+                                        }
+
+                                        $output.='</td>
+                                        <td>';
+
+                                        if($res->where('exmset_id',2)->count()>0)
+                                        {
+                                            $mot_mark = round($res->where('exmset_id',2)->first()->mark*round((Exmset::find(2)->set_percentage/100),2),2);
+                                            $output.= $mot_mark;
+                                        }
+                                        elseif($res->where('exmset_id',2)->count()==0){
+                                            $mot_mark = 0;
+                                            $output.="";
+                                        }
+
+                                        $output.='</td>
+                                        <td>';
+
+                                        if($res->where('exmset_id',3)->count()>0)
+                                        {
+
+                                            $eot_mark = round(($res->where('exmset_id',3)->first()->mark*Exmset::find(3)->set_percentage/100),2);
+                                            $output.= $eot_mark;
+                                        }
+                                        elseif($res->where('exmset_id',3)->count()==0){
+                                            $eot_mark=0;
+                                            $output.="";
+                                        }
+
+                                        $output.='</td>
+                                        <td>';
+
+                                        if($res->count()>0)
+                                        {
+                                            $paper_1_total = round(array_sum(array($bot_mark,$mot_mark,$eot_mark)),2);
+                                            $output.= $paper_1_total;
+                                        }
+                                        elseif($res->count()==0){
+                                            $paper_1_total=0;
+                                            $output.="";
+                                        }
+
+                                        $output.='</td>
+                                        <td rowspan="2">';
+                                        if($res->count()>0)
+                                        {
+                                            $bot_mark1=($res->where('exmset_id',1)->where('paper_id',$res->first()->paper_id)->count()>0?
+                                            round(($res->where('exmset_id',1)->where('paper_id',$res->first()->paper_id)->first()->mark*Exmset::find(1)->set_percentage)/100,2)
+                                            :0);
+                                            $mot_mark1=($res->where('exmset_id',2)->where('paper_id',$res->first()->paper_id)->count()>0?
+                                            round(($res->where('exmset_id',2)->where('paper_id',$res->first()->paper_id)->first()->mark*Exmset::find(2)->set_percentage)/100,2)
+                                            :0);
+                                            $eot_mark1=($res->where('exmset_id',3)->where('paper_id',$res->first()->paper_id)->count()>0?
+                                            round(($res->where('exmset_id',3)->where('paper_id',$res->first()->paper_id)->first()->mark*Exmset::find(3)->set_percentage)/100,2)
+                                            :0);
+                                            $paper_total1 = round(array_sum(array($bot_mark1,$mot_mark1,$eot_mark1)),2);
+                                        }
+                                        if($res->count()==0)
+                                        {
+                                            $paper_total1 = 0;
+                                            $output.="";
+                                        }
+
+                                        if($res->count()>1)
+                                        {
+                                            $bot_mark3=($res->where('exmset_id',1)->where('paper_id',$res->last()->paper_id)->count()>0?
+                                            round(($res->where('exmset_id',1)->where('paper_id',$res->last()->paper_id)->first()->mark*Exmset::find(1)->set_percentage)/100,2)
+                                            :0);
+                                            $mot_mark3=($res->where('exmset_id',2)->where('paper_id',$res->last()->paper_id)->count()>0?
+                                            round(($res->where('exmset_id',2)->where('paper_id',$res->last()->paper_id)->first()->mark*Exmset::find(2)->set_percentage)/100,2)
+                                            :0);
+                                            $eot_mark3=($res->where('exmset_id',3)->where('paper_id',$res->last()->paper_id)->count()>0?
+                                            round(($res->where('exmset_id',3)->where('paper_id',$res->last()->paper_id)->first()->mark*Exmset::find(3)->set_percentage)/100,2)
+                                            :0);
+                                            $paper_total3 = round(array_sum(array($bot_mark3,$mot_mark3,$eot_mark3)),2);
+                                        }
+                                        if($res->count()<2)
+                                        {
+                                            $paper_total3 = 0;
+                                        }
+                                        $Subject_final_mark=round(array_sum(array($paper_total1,$paper_total2,$paper_total3))/2,2);
+                                        $output.=$Subject_final_mark;
+
+
+                                        $output.='</td>
+                                        <td rowspan="2">';
+                                        if($Subject_final_mark>90)
+                                        {
+                                            $Subject_final_grade = "A+";
+                                            $output.=$Subject_final_grade;
+                                        }
+                                        if($Subject_final_mark>=80 && $Subject_final_mark<90)
+                                        {
+                                            $Subject_final_grade = "A";
+                                            $output.=$Subject_final_grade;
+
+                                        }
+                                        if($Subject_final_mark>=75 && $Subject_final_mark<80)
+                                        {
+                                            $Subject_final_grade = "B+";
+                                            $output.=$Subject_final_grade;
+
+                                        }
+                                        if($Subject_final_mark>=70 && $Subject_final_mark<75)
+                                        {
+                                            $Subject_final_grade = "B-";
+                                            $output.=$Subject_final_grade;
+
+                                        }
+                                        if($Subject_final_mark>=65 && $Subject_final_mark<70)
+                                        {
+                                            $Subject_final_grade = "C+";
+                                            $output.=$Subject_final_grade;
+
+                                        }
+                                        if($Subject_final_mark>=60 && $Subject_final_mark<65)
+                                        {
+                                            $Subject_final_grade = "C-";
+                                            $output.=$Subject_final_grade;
+
+                                        }
+                                        if($Subject_final_mark>=55 && $Subject_final_mark<60)
+                                        {
+                                            $Subject_final_grade = "D+";
+                                            $output.=$Subject_final_grade;
+
+                                        }
+                                        if($Subject_final_mark>=50 && $Subject_final_mark<55)
+                                        {
+                                            $Subject_final_grade = "D-";
+                                            $output.=$Subject_final_grade;
+
+                                        }
+                                        if($Subject_final_mark<50)
+                                        {
+                                            $Subject_final_grade = "F";
+                                            $output.=$Subject_final_grade;
+
+                                        }
+                                        $output.='</td>
+                                        <td rowspan="2">
+                                           '.($Subject_final_grade !== null ?$this->teacherComment($Subject_final_grade):null).'
+
+                                        </td>
+
+                                        </tr>
+
+                                        <tr>
+                                            <td>';
+                                            if($res->count()>1)
+                                            {
+                                                $output.=$res->last()->paper->paper_abbrev;
+
+                                            }
+                                            elseif($res->count()<1){
+                                                $output.="";
+                                            }
+                                            $output.='</td>
+                                            <td>';
+                                            if($res->where('exmset_id',1)->count()>1)
+                                            {
+                                                $bot_mark = round(($res->where('exmset_id',1)->last()->mark*Exmset::find(1)->set_percentage/100),2);
+                                                $output.= $bot_mark;
+                                            }
+                                            elseif($res->where('exmset_id',1)->count()<1){
+                                                $bot_mark = 0;
+                                                $output.="";
+                                            }
+                                            $output.='</td>
+                                            <td>';
+                                            if($res->where('exmset_id',2)->count()>1)
+                                            {
+                                                $mot_mark = round(($res->where('exmset_id',2)->last()->mark*Exmset::find(2)->set_percentage/100),2);
+                                                $output.= $mot_mark;
+                                            }
+                                            elseif($res->where('exmset_id',2)->count()<1){
+                                                $mot_mark = 0;
+                                                $output.="";
+                                            }
+                                            $output.='</td>
+                                            <td>';
+                                            if($res->where('exmset_id',3)->count()>1)
+                                            {
+                                                $eot_mark = round(($res->where('exmset_id',3)->last()->mark*Exmset::find(3)->set_percentage/100),2);
+                                                $output.= $eot_mark;
+                                            }
+                                            elseif($res->where('exmset_id',3)->count()<1){
+                                                $eot_mark = 0;
+                                                $output.="";
+                                            }
+                                            $output.='</td>
+                                            <td>';
+                                            if($res->count()>1)
+                                            {
+                                                $paper_3_total = round(array_sum(array($bot_mark,$mot_mark,$eot_mark)),2);
+                                                $output.= $paper_3_total;
+                                            }
+                                            elseif($res->count()<1){
+                                                $paper_3_total=0;
+                                                $output.="";
+                                            }
+                                            $output.='</td>
+                                        </tr>
+                                        </tr>';
+
+                                    }
+
+
+                                    elseif($res->where('subject_id',request()->subject_id)->first()->subject->papersIn()->count() == 0 && $res->where('subject_id',request()->subject_id)->first()->paper_id!=null)
+                                    {
+                                        $output.='<h3 class="display-1">Still querying [2]</h3>';
+                                    }
+
+                                    elseif($res->where('subject_id',request()->subject_id)->first()->subject->papersIn()->count()>0 && $res->where('subject_id',request()->subject_id)->first()->paper_id == null)
+                                    {
+
+                                        $output.='<tr><tr>
+                                        <td colspan="2">';
+                                        if($res->count()>0)
+                                        {
+                                            $output.=$res->first()->subject->name;
+                                        }
+                                        elseif($res->count()<0)
+                                        {
+                                            $output.="";
+                                        }
+
+                                        $output.='</td>
+                                        <td>';
+                                        if($res->where('exmset_id',1)->count()>0)
+                                        {
+                                            $bot_mark = round(($res->where('exmset_id',1)->first()->mark*Exmset::find(1)->set_percentage/100),2);
+                                           $output.=$bot_mark;
+
+                                        }
+
+                                        elseif($res->where('exmset_id',1)->count()==0)
+                                        {
+                                            $bot_mark = 0;
+                                            $output.="";
+
+                                        }
+                                        $output.='</td>
+                                        <td>';
+                                        if($res->where('exmset_id',2)->count()>0)
+                                        {
+                                            $mot_mark = round(($res->where('exmset_id',2)->first()->mark*Exmset::find(2)->set_percentage/100),2);
+                                           $output.=$mot_mark;
+
+                                        }
+
+                                        elseif($res->where('exmset_id',2)->count()==0)
+                                        {
+                                            $mot_mark = 0;
+                                            $output.="";
+
+                                        }
+                                        $output.='</td>
+                                        <td>';
+                                        if($res->where('exmset_id',3)->count()>0)
+                                        {
+                                            $eot_mark = round(($res->where('exmset_id',3)->first()->mark*Exmset::find(3)->set_percentage/100),2);
+                                           $output.=$eot_mark;
+
+                                        }
+
+                                        elseif($res->where('exmset_id',3)->count()==0)
+                                        {
+                                            $eot_mark = 0;
+                                            $output.="";
+
+                                        }
+                                        $output.='</td>
+                                        <td>';
+                                        if($res->count()>0){
+                                                $total_mark = round((array_sum(array($bot_mark,$mot_mark,$eot_mark))),2);
+                                                $output.=$total_mark;
+                                        }
+
+                                        $output.='</td>
+                                        <td>';
+                                        if($res->count()>0){
+                                                $total_mark = round((array_sum(array($bot_mark,$mot_mark,$eot_mark))),2);
+                                                $output.=$total_mark;
+                                        }
+
+                                        $output.='</td>
+                                        <td>';
+                                        if($res->count()>0){
+                                                $total_mark = round((array_sum(array($bot_mark,$mot_mark,$eot_mark))),2);
+                                                    if($total_mark>90)
+                                                    {
+                                                        $Subject_final_grade = "A+";
+                                                        $output.=$Subject_final_grade;
+                                                    }
+                                                    if($total_mark>=80 && $total_mark<90)
+                                                    {
+                                                        $Subject_final_grade = "A";
+                                                        $output.=$Subject_final_grade;
+
+                                                    }
+                                                    if($total_mark>=75 && $total_mark<80)
+                                                    {
+                                                        $Subject_final_grade = "B+";
+                                                        $output.=$Subject_final_grade;
+
+                                                    }
+                                                    if($total_mark>=70 && $total_mark<75)
+                                                    {
+                                                        $Subject_final_grade = "B-";
+                                                        $output.=$Subject_final_grade;
+
+                                                    }
+                                                    if($total_mark>=65 && $total_mark<70)
+                                                    {
+                                                        $Subject_final_grade = "C+";
+                                                        $output.=$Subject_final_grade;
+
+                                                    }
+                                                    if($total_mark>=60 && $total_mark<65)
+                                                    {
+                                                        $Subject_final_grade = "C-";
+                                                        $output.=$Subject_final_grade;
+
+                                                    }
+                                                    if($total_mark>=55 && $total_mark<60)
+                                                    {
+                                                        $Subject_final_grade = "D+";
+                                                        $output.=$Subject_final_grade;
+
+                                                    }
+                                                    if($total_mark>=50 && $total_mark<55)
+                                                    {
+                                                        $Subject_final_grade = "D-";
+                                                        $output.=$Subject_final_grade;
+
+                                                    }
+                                                    if($total_mark<50)
+                                                    {
+                                                        $Subject_final_grade = "F";
+                                                        $output.=$Subject_final_grade;
+
+                                                    }
+                                        }
+
+                                        $output.='</td>
+                                        <td>'.($Subject_final_grade !== null ?$this->teacherComment($Subject_final_grade):null).'</td>
+                                        ';
+
+                                    }
+
+
+                                    else
+                                    {
+                                        $output.='
+                                        <tr><tr>
+                                        <td colspan="2">'.$res->first()->subject->name.'</td>';
+                                        if($res->where('exmset_id',1)->count()>0)
+                                        {
+                                            $bot_mark = $res->where('exmset_id',1)->first()->mark*Exmset::find(1)->set_percentage/100;
+                                           $output.='<td>'.$bot_mark.'</td>';
+                                        }
+                                        elseif($res->where('exmset_id',1)->count()==0)
+                                        {
+                                            $bot_mark = 0;
+                                            $output.='<td>'.null.'</td>';
+                                        }
+                                        if($res->where('exmset_id',2)->count()>0)
+                                        {
+                                            $mot_mark = $res->where('exmset_id',2)->first()->mark*Exmset::find(2)->set_percentage/100;
+                                            $output.='<td>'.$mot_mark.'</td>';
+                                        }
+                                        elseif($res->where('exmset_id',2)->count()==0)
+                                        {
+                                            $mot_mark = 0;
+                                            $output.='<td>'.null.'</td>';
+                                        }
+                                        if($res->where('exmset_id',3)->count()>0)
+                                        {
+                                            $eot_mark = $res->where('exmset_id',3)->first()->mark*Exmset::find(3)->set_percentage/100;
+                                            $output.='<td>'.$eot_mark.'</td>';
+                                        }
+                                        elseif($res->where('exmset_id',3)->count()==0)
+                                        {
+                                            $eot_mark = 0;
+                                            $output.='<td>'.null.'</td>';
+                                        }
+                                        $final_total = round(array_sum(array($bot_mark,$mot_mark,$eot_mark)),2);
+
+                                        $output.='<td>'.round(array_sum($res->pluck('calculate_mark')->toArray()),2).'</td>';
+                                        $output.='<td>'.$final_total.'</td>';
+                                        $output.='<td>';
+                                        if($final_total>90)
+                                        {
+                                            $final_grade = "A+";
+                                            $output.='<span>'.$final_grade.'</span>';
+                                        }
+                                        elseif($final_total>90)
+                                        {
+                                            $final_grade = "A+";
+                                            $output.='<span>'.$final_grade.'</span>';
+                                        }
+                                        elseif($final_total>=80 && $final_total<90)
+                                        {
+                                            $final_grade = "A";
+                                            $output.='<span>'.$final_grade.'</span>';
+                                        }
+                                        elseif($final_total>=75 && $final_total<80)
+                                        {
+                                            $final_grade = "B+";
+                                            $output.='<span>'.$final_grade.'</span>';
+                                        }
+                                        elseif($final_total>=70 && $final_total<75)
+                                        {
+                                            $final_grade = "B-";
+                                            $output.='<span>'.$final_grade.'</span>';
+                                        }
+                                        elseif($final_total>=65 && $final_total<70)
+                                        {
+                                            $final_grade = "C+";
+                                            $output.='<span>'.$final_grade.'</span>';
+                                        }
+                                        elseif($final_total>=60 && $final_total<65)
+                                        {
+                                            $final_grade = "C-";
+                                            $output.='<span>'.$final_grade.'</span>';
+                                        }
+
+                                        elseif($final_total>=55 && $final_total<60)
+                                        {
+                                            $final_grade = "D+";
+                                            $output.='<span>'.$final_grade.'</span>';
+                                        }
+                                        elseif($final_total>=50 && $final_total<55)
+                                        {
+                                            $final_grade = "D-";
+                                            $output.='<span>'.$final_grade.'</span>';
+                                        }
+                                        elseif($final_total<50)
+                                        {
+                                            $final_grade = "F";
+                                            $output.='<span>'.$final_grade.'</span>';
+                                        }
+                                        $output.='</td><td>';
+                                        $output.=($final_grade !== null ?$this->teacherComment($final_grade):null);
+                                        $output.='</td>';
+
+                                        $output.='</tr></tr>';
+
+                                    }
+
+
+
+                                }
+                                elseif($res->where('subject_id',request()->subject_id)->count()==0)
+                                {
+                                    $output.'<tr><h3 class="display-1 text-danger">Subject has No results yet</h3></tr>';
+                                }
+
+
+                                // $output .= '<tr><td>'.$res->first()->student->name.'</td></tr>';
+                            }
+
+                        }
+                        $output.='</table>';
                 }
+                else
+                {
+                    $output.="<div class='alert alert-warning col-12 my-auto mx-auto'>No class information</div>";
+                }
+
+
             }
             return $output;
         }
         return response()->json(['action'=>$request['action'],'query'=>$request['query']]);
+    }
+
+    public function commentSubject(Request $request)
+    {
+        $output="";
+
+        if(request()->subject !==null && request()->teacher !==null && request()->student !==null)
+        {
+            $output.='
+
+
+                <div class="modal fade" id="modal-default">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <h4 class="modal-title">Add Comment</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div>
+                            <form action="{{route("paper-comments.store")}}">
+
+                                <div class="modal-body">
+                                    <div class="form-group d-block col-12">
+
+                                    </div>
+                                    <div class="form-group d-block col-12">
+
+                                    </div>
+                                    <div class="form-group d-block col-12">
+
+                                    </div>
+                                </div>
+                                <div class="modal-footer justify-content-between">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Save changes</button>
+                                </div>
+
+                            </form>
+
+                        </div>
+                    <!-- /.modal-content -->
+                    </div>
+                <!-- /.modal-dialog -->
+                </div>
+
+
+
+            ';
+
+            return $output;
+        }
+
+
+
+
     }
 
     /**
@@ -494,5 +1434,999 @@ class ResultController extends BackendController
 
 
 
+    }
+
+    public function teacherComment($subjectGrade)
+    {
+        if($subjectGrade == "A+")
+        {
+            $arr = array('Excellent work','Keep it Up',"keep aiming higher");
+            return $arr[rand(0,2)];
+
+        }
+        elseif($subjectGrade == "A")
+        {
+            $arr = array('Aim higher','You have greater Pontential',"Great hardwork, aim higher",'Goodwork');
+            return $arr[rand(0,3)];
+        }
+        elseif($subjectGrade == "B+")
+        {
+            $arr = array('You could do better','You have greater Pontential',"Average","Good");
+            return $arr[rand(0,3)];
+        }
+        elseif($subjectGrade == "B-")
+        {
+            $arr = array('You could do better','You have greater Pontential',"Fair work","Do Better");
+            return $arr[rand(0,3)];
+        }
+        elseif($subjectGrade == "C+")
+        {
+            $arr = array('You could do better','Give your studies ample time',"Fair work","Utilize your teacher Well");
+            return $arr[rand(0,3)];
+        }
+        elseif($subjectGrade == "C-")
+        {
+            $arr = array('You could do better','Give your studies ample time',"Fair work","Utilize your teacher Well");
+            return $arr[rand(0,3)];
+        }
+        elseif($subjectGrade == "D+" ||$subjectGrade == "D-" )
+        {
+            $arr = array('You are better than this','revise you books',"fair try","Utilize your teacher Well");
+            return $arr[rand(0,3)];
+        }
+
+        elseif($subjectGrade =="F")
+        {
+            $arr = array('Pull up your socks','Utilize your teacher Well','Read your books','Need of hardwork');
+            return $arr[rand(0,3)];
+        }
+
+    }
+
+    public function ResultSearch(Request $request)
+    {
+        // return response()->json(['data'=>$request->all()]);
+        // if($request->search != null)
+        // {
+        //     $output = "";
+        //     $students = Student::latest()->where('name','like','%'.$request->search.'%')->get();
+        //     $output.='<div class="bg-info col-10 text-light p-2 my-2 elevation-2">
+        //     <table class="table">
+        //     <thead>
+        //     <tr><th>Name</th><th>Roll Number</th></tr>
+        //     </thead>
+        //     <tbody>';
+        //     if($students->count()>0)
+        //     {
+        //         foreach($students as $row)
+        //         {
+        //             $output.='<tr>
+        //             <td>'.$row->name.'</td>
+        //             <td>'.$row->roll_number.'</td>
+        //             </tr>';
+        //         }
+        //     }
+        //     if($students->count()==0)
+        //     {
+        //         $output.='<tr><td colspan="2">No data</td></tr>';
+        //     }
+
+        //     $output.='</tbody>
+        //     <tfooter>
+        //     <tr><th>Name</th><th>Roll Number</th></tr>
+        //     </tfooter>
+        //     </table>
+
+
+        //     </div>';
+        //     return $output;
+        // }
+
+        return $this->allResultTable(null,null,null);
+
+
+    }
+
+    public function allResultTable($search_class,$search_term,$search_student)
+    {
+        // if($search_class==null&& $search_term==null && $search_student==null)
+        // {
+
+        // }
+        if($search_class==null || $search_term==null  || $search_student==null)
+        {
+            $results = new Result();
+            $students = new Student();
+            $output="";
+
+            if($results->get()->count()>0)
+            {
+                $output.='
+                    <table id="RoleTable" class="table table-bordered">
+                    <thead>
+                        <th colspan="2">Subject</th>
+
+                        <th>Bot <br> out of '.Exmset::find(1)->set_percentage.'</th>
+                        <th>Mot<br> out of '.Exmset::find(2)->set_percentage.'</th>
+                        <th>Eot <br>out of '.Exmset::find(3)->set_percentage.'</th>
+                        <th>Total Marks<br> of'.'100'.'</th>
+                        <th>Final Mark</th>
+                        <th>Final Grade</th>
+                        <th>Teacher Comment</th>
+                    </thead>
+                    <tbody>
+                    ';
+                if($results->where('student_id','like','%'.($search_student==null?'':$search_student).'%')->where('schclass_id','like','%'.($search_class==null?'':$search_class).'%')->where('term_id','like','%'.($search_term==null?'':$search_term).'%')->count()>0)
+                {
+                    foreach($results->where('schclass_id','like','%'.($search_class==null?'':$search_class).'%')->where('term_id','like','%'.($search_term==null?'':$search_term).'%')->get()->groupBy('term_id') as $ter_id=>$ter_res)
+                    {
+                        $output.='<tr><td colspan="9">'.$ter_res->where('term_id',$ter_id)->first()->term->name.'</td></tr>';
+
+                        // if($ter_res->where('schclass_id','like','%'.($search_class==null?'':$search_class).'%')->count()>0)
+                        // {
+
+                            foreach($ter_res->groupBy('schclass_id') as $class_id=>$class_res)
+                            {
+                                $output.='<tr><td colspan="9">'.$ter_res->where('schclass_id',$class_id)->first()->schclass->name.'</td></tr>';
+
+                                foreach($class_res->groupBy('student_id') as $stud=>$resul)
+                                {
+
+
+
+                                    $output.='<tr><td colspan="9">'.$students->find($stud)->name.'</td></tr>';
+                                    foreach($resul->groupBy('subject_id') as $sub_id=>$res)
+                                    {
+
+                                                    // subject with three papers
+                                                    if ($res->where('subject_id',$sub_id)->first()->subject->papersIn()->count()==3 && $res->first()->paper_id!=null)
+                                                    {
+                                                        $output.='
+                                                        <tr>
+                                                        <tr>
+                                                        <td rowspan="3">'.$res->where('subject_id',$sub_id)->first()->subject->name.'</td>
+                                                        <td>';
+                                                        if($res->count()>0)
+                                                        {
+                                                            $output.= $res->first()->paper->paper_abbrev;
+                                                        }
+                                                        elseif($res->count()==0){
+                                                            $output.="";
+                                                        }
+                                                        $output.='</td>
+                                                        <td>';
+
+                                                        if($res->where('exmset_id',1)->count()>0)
+                                                        {
+                                                            $bot_mark = round(($res->where('exmset_id',1)->first()->mark*Exmset::find(1)->set_percentage/100),2);
+                                                            $output.= $bot_mark;
+                                                        }
+                                                        elseif($res->where('exmset_id',1)->count()==0){
+                                                            $bot_mark = 0;
+                                                            $output.="";
+                                                        }
+
+                                                        $output.='</td>
+                                                        <td>';
+
+                                                        if($res->where('exmset_id',2)->count()>0)
+                                                        {
+                                                            $mot_mark = round($res->where('exmset_id',2)->first()->mark*round((Exmset::find(2)->set_percentage/100),2),2);
+                                                            $output.= $mot_mark;
+                                                        }
+                                                        elseif($res->where('exmset_id',2)->count()==0){
+                                                            $mot_mark = 0;
+                                                            $output.="";
+                                                        }
+
+                                                        $output.='</td>
+                                                        <td>';
+
+                                                        if($res->where('exmset_id',3)->count()>0)
+                                                        {
+
+                                                            $eot_mark = round(($res->where('exmset_id',3)->first()->mark*Exmset::find(3)->set_percentage/100),2);
+                                                            $output.= $eot_mark;
+                                                        }
+                                                        elseif($res->where('exmset_id',3)->count()==0){
+                                                            $eot_mark=0;
+                                                            $output.="";
+                                                        }
+
+                                                        $output.='</td>
+                                                        <td>';
+
+                                                        if($res->count()>0)
+                                                        {
+                                                            $paper_1_total = round(array_sum(array($bot_mark,$mot_mark,$eot_mark)),2);
+                                                            $output.= $paper_1_total;
+                                                        }
+                                                        elseif($res->count()==0){
+                                                            $paper_1_total=0;
+                                                            $output.="";
+                                                        }
+
+                                                        $output.='</td>
+                                                        <td rowspan="3">';
+                                                        if($res->count()>0)
+                                                        {
+                                                            $bot_mark1=($res->where('exmset_id',1)->where('paper_id',$res->first()->paper_id)->count()>0?
+                                                            round(($res->where('exmset_id',1)->where('paper_id',$res->first()->paper_id)->first()->mark*Exmset::find(1)->set_percentage)/100,2)
+                                                            :0);
+                                                            $mot_mark1=($res->where('exmset_id',2)->where('paper_id',$res->first()->paper_id)->count()>0?
+                                                            round(($res->where('exmset_id',2)->where('paper_id',$res->first()->paper_id)->first()->mark*Exmset::find(2)->set_percentage)/100,2)
+                                                            :0);
+                                                            $eot_mark1=($res->where('exmset_id',3)->where('paper_id',$res->first()->paper_id)->count()>0?
+                                                            round(($res->where('exmset_id',3)->where('paper_id',$res->first()->paper_id)->first()->mark*Exmset::find(3)->set_percentage)/100,2)
+                                                            :0);
+                                                            $paper_total1 = round(array_sum(array($bot_mark1,$mot_mark1,$eot_mark1)),2);
+                                                        }
+                                                        if($res->count()==0)
+                                                        {
+                                                            $paper_total1 = 0;
+                                                            $output.="";
+                                                        }
+                                                        if($res->count()>1)
+                                                        {
+                                                            $bot_mark2=($res->where('exmset_id',1)->where('paper_id',$res[1]->paper_id)->count()>0?
+                                                            round(($res->where('exmset_id',1)->where('paper_id',$res[1]->paper_id)->first()->mark*Exmset::find(1)->set_percentage)/100,2)
+                                                            :0);
+                                                            $mot_mark2=($res->where('exmset_id',2)->where('paper_id',$res[1]->paper_id)->count()>0?
+                                                            round(($res->where('exmset_id',2)->where('paper_id',$res[1]->paper_id)->first()->mark*Exmset::find(2)->set_percentage)/100,2)
+                                                            :0);
+                                                            $eot_mark2=($res->where('exmset_id',3)->where('paper_id',$res[1]->paper_id)->count()>0?
+                                                            round(($res->where('exmset_id',3)->where('paper_id',$res[1]->paper_id)->first()->mark*Exmset::find(3)->set_percentage)/100,2)
+                                                            :0);
+                                                            $paper_total2 = round(array_sum(array($bot_mark2,$mot_mark2,$eot_mark2)),2);
+                                                        }
+                                                        if($res->count()<1)
+                                                        {
+                                                            $paper_total2 = 0;
+                                                        }
+                                                        if($res->count()>2)
+                                                        {
+                                                            $bot_mark3=($res->where('exmset_id',1)->where('paper_id',$res->last()->paper_id)->count()>0?
+                                                            round(($res->where('exmset_id',1)->where('paper_id',$res->last()->paper_id)->first()->mark*Exmset::find(1)->set_percentage)/100,2)
+                                                            :0);
+                                                            $mot_mark3=($res->where('exmset_id',2)->where('paper_id',$res->last()->paper_id)->count()>0?
+                                                            round(($res->where('exmset_id',2)->where('paper_id',$res->last()->paper_id)->first()->mark*Exmset::find(2)->set_percentage)/100,2)
+                                                            :0);
+                                                            $eot_mark3=($res->where('exmset_id',3)->where('paper_id',$res->last()->paper_id)->count()>0?
+                                                            round(($res->where('exmset_id',3)->where('paper_id',$res->last()->paper_id)->first()->mark*Exmset::find(3)->set_percentage)/100,2)
+                                                            :0);
+                                                            $paper_total3 = round(array_sum(array($bot_mark3,$mot_mark3,$eot_mark3)),2);
+                                                        }
+                                                        if($res->count()<2)
+                                                        {
+                                                            $paper_total3 = 0;
+                                                        }
+                                                        $Subject_final_mark=round(array_sum(array($paper_total1,$paper_total2,$paper_total3))/3,2);
+                                                        $output.=$Subject_final_mark;
+
+
+                                                        $output.='</td>
+                                                        <td rowspan="3">';
+                                                        if($Subject_final_mark>90)
+                                                        {
+                                                            $Subject_final_grade = "A+";
+                                                            $output.=$Subject_final_grade;
+                                                        }
+                                                        if($Subject_final_mark>=80 && $Subject_final_mark<90)
+                                                        {
+                                                            $Subject_final_grade = "A";
+                                                            $output.=$Subject_final_grade;
+
+                                                        }
+                                                        if($Subject_final_mark>=75 && $Subject_final_mark<80)
+                                                        {
+                                                            $Subject_final_grade = "B+";
+                                                            $output.=$Subject_final_grade;
+
+                                                        }
+                                                        if($Subject_final_mark>=70 && $Subject_final_mark<75)
+                                                        {
+                                                            $Subject_final_grade = "B";
+                                                            $output.=$Subject_final_grade;
+
+                                                        }
+                                                        if($Subject_final_mark>=65 && $Subject_final_mark<70)
+                                                        {
+                                                            $Subject_final_grade = "C+";
+                                                            $output.=$Subject_final_grade;
+
+                                                        }
+                                                        if($Subject_final_mark>=60 && $Subject_final_mark<65)
+                                                        {
+                                                            $Subject_final_grade = "C";
+                                                            $output.=$Subject_final_grade;
+
+                                                        }
+                                                        if($Subject_final_mark>=55 && $Subject_final_mark<60)
+                                                        {
+                                                            $Subject_final_grade = "C";
+                                                            $output.=$Subject_final_grade;
+
+                                                        }
+                                                        if($Subject_final_mark>=50 && $Subject_final_mark<55)
+                                                        {
+                                                            $Subject_final_grade = "C";
+                                                            $output.=$Subject_final_grade;
+
+                                                        }
+                                                        if($Subject_final_mark<50)
+                                                        {
+                                                            $Subject_final_grade = "F";
+                                                            $output.=$Subject_final_grade;
+
+                                                        }
+                                                        $output.='</td>
+                                                        <td rowspan="3">
+                                                        '.($Subject_final_grade !== null ?$this->teacherComment($Subject_final_grade):null).'
+                                                        </td>
+
+                                                        </tr>
+                                                        <tr>
+                                                            <td>';
+                                                            if($res->count()>1)
+                                                            {
+                                                            $output.= $res[1]->paper->paper_abbrev;
+                                                            }
+                                                            elseif($res->count()<1)
+                                                            {
+                                                                $output.="";
+                                                            }
+                                                            $output.='</td>
+                                                            <td>';
+                                                                if($res->where('exmset_id',1)->count()>1)
+                                                                {
+                                                                    $bot_mark = round(($res->where('exmset_id',1)->nth(2,1)->first()->mark*Exmset::find(1)->set_percentage/100),2);
+                                                                    $output.= $bot_mark;
+                                                                }
+                                                                elseif($res->where('exmset_id',1)->count()<1){
+                                                                    $bot_mark = 0;
+                                                                    $output.="";
+                                                                }
+                                                            $output.='</td>
+                                                            <td>';
+                                                            if($res->where('exmset_id',2)->count()>1)
+                                                            {
+                                                                $mot_mark = round(($res->where('exmset_id',2)->nth(2,1)->first()->mark*Exmset::find(2)->set_percentage/100),2);
+                                                                $output.= $mot_mark;
+                                                            }
+                                                            elseif($res->where('exmset_id',2)->count()<1){
+                                                                $mot_mark = 0;
+                                                                $output.="";
+                                                            }
+                                                            $output.='</td>
+                                                            <td>';
+                                                            if($res->where('exmset_id',3)->count()>1)
+                                                            {
+                                                                $eot_mark = round(($res->where('exmset_id',3)->nth(2,1)->first()->mark*Exmset::find(3)->set_percentage/100),2);
+                                                                $output.= $eot_mark;
+                                                            }
+                                                            elseif($res->where('exmset_id',3)->count()<1){
+                                                                $eot_mark = 0;
+                                                                $output.="";
+                                                            }
+                                                            $output.='</td>
+                                                            <td>';
+                                                            if($res->count()>1)
+                                                            {
+                                                                $paper_2_total = round(array_sum(array($bot_mark,$mot_mark,$eot_mark)),2);
+                                                                $output.= $paper_2_total;
+                                                            }
+                                                            elseif($res->count()<1){
+                                                                $paper_2_total=0;
+                                                                $output.="";
+                                                            }
+                                                            $output.='</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>';
+                                                            if($res->count()>2)
+                                                            {
+                                                                $output.=$res->last()->paper->paper_abbrev;
+
+                                                            }
+                                                            elseif($res->count()<2){
+                                                                $output.="";
+                                                            }
+                                                            $output.='</td>
+                                                            <td>';
+                                                            if($res->where('exmset_id',1)->count()>2)
+                                                            {
+                                                                $bot_mark = round(($res->where('exmset_id',1)->last()->mark*Exmset::find(1)->set_percentage/100),2);
+                                                                $output.= $bot_mark;
+                                                            }
+                                                            elseif($res->where('exmset_id',1)->count()<2){
+                                                                $bot_mark = 0;
+                                                                $output.="";
+                                                            }
+                                                            $output.='</td>
+                                                            <td>';
+                                                            if($res->where('exmset_id',2)->count()>2)
+                                                            {
+                                                                $mot_mark = round(($res->where('exmset_id',2)->last()->mark*Exmset::find(2)->set_percentage/100),2);
+                                                                $output.= $mot_mark;
+                                                            }
+                                                            elseif($res->where('exmset_id',2)->count()<2){
+                                                                $mot_mark = 0;
+                                                                $output.="";
+                                                            }
+                                                            $output.='</td>
+                                                            <td>';
+                                                            if($res->where('exmset_id',3)->count()>2)
+                                                            {
+                                                                $eot_mark = round(($res->where('exmset_id',3)->last()->mark*Exmset::find(3)->set_percentage/100),2);
+                                                                $output.= $eot_mark;
+                                                            }
+                                                            elseif($res->where('exmset_id',3)->count()<2){
+                                                                $eot_mark = 0;
+                                                                $output.="";
+                                                            }
+                                                            $output.='</td>
+                                                            <td>';
+                                                            if($res->count()>2)
+                                                            {
+                                                                $paper_3_total = round(array_sum(array($bot_mark,$mot_mark,$eot_mark)),2);
+                                                                $output.= $paper_3_total;
+                                                            }
+                                                            elseif($res->count()<2){
+                                                                $paper_3_total=0;
+                                                                $output.="";
+                                                            }
+                                                            $output.='</td>
+                                                        </tr>
+                                                        </tr>';
+
+                                                    }
+
+
+
+                                                    // subject with two papers
+
+                                                    elseif($res->where('subject_id',$sub_id)->first()->subject->papersIn()->count()==2 && $res->where('subject_id',$sub_id)->first()->paper_id!=null)
+                                                    {
+                                                        $output.='
+                                                        <tr>
+                                                        <tr>
+                                                        <td rowspan="2">'.$res->where('subject_id',$sub_id)->first()->subject->name.'</td>
+                                                        <td>';
+                                                        if($res->count()>0)
+                                                        {
+                                                            $output.= $res->first()->paper->paper_abbrev;
+                                                        }
+                                                        elseif($res->count()==0){
+                                                            $output.="";
+                                                        }
+                                                        $output.='</td>
+                                                        <td>';
+
+                                                        if($res->where('exmset_id',1)->count()>0)
+                                                        {
+                                                            $bot_mark = round(($res->where('exmset_id',1)->first()->mark*Exmset::find(1)->set_percentage/100),2);
+                                                            $output.= $bot_mark;
+                                                        }
+                                                        elseif($res->where('exmset_id',1)->count()==0){
+                                                            $bot_mark = 0;
+                                                            $output.="";
+                                                        }
+
+                                                        $output.='</td>
+                                                        <td>';
+
+                                                        if($res->where('exmset_id',2)->count()>0)
+                                                        {
+                                                            $mot_mark = round($res->where('exmset_id',2)->first()->mark*round((Exmset::find(2)->set_percentage/100),2),2);
+                                                            $output.= $mot_mark;
+                                                        }
+                                                        elseif($res->where('exmset_id',2)->count()==0){
+                                                            $mot_mark = 0;
+                                                            $output.="";
+                                                        }
+
+                                                        $output.='</td>
+                                                        <td>';
+
+                                                        if($res->where('exmset_id',3)->count()>0)
+                                                        {
+
+                                                            $eot_mark = round(($res->where('exmset_id',3)->first()->mark*Exmset::find(3)->set_percentage/100),2);
+                                                            $output.= $eot_mark;
+                                                        }
+                                                        elseif($res->where('exmset_id',3)->count()==0){
+                                                            $eot_mark=0;
+                                                            $output.="";
+                                                        }
+
+                                                        $output.='</td>
+                                                        <td>';
+
+                                                        if($res->count()>0)
+                                                        {
+                                                            $paper_1_total = round(array_sum(array($bot_mark,$mot_mark,$eot_mark)),2);
+                                                            $output.= $paper_1_total;
+                                                        }
+                                                        elseif($res->count()==0){
+                                                            $paper_1_total=0;
+                                                            $output.="";
+                                                        }
+
+                                                        $output.='</td>
+                                                        <td rowspan="2">';
+                                                        if($res->count()>0)
+                                                        {
+                                                            $bot_mark1=($res->where('exmset_id',1)->where('paper_id',$res->first()->paper_id)->count()>0?
+                                                            round(($res->where('exmset_id',1)->where('paper_id',$res->first()->paper_id)->first()->mark*Exmset::find(1)->set_percentage)/100,2)
+                                                            :0);
+                                                            $mot_mark1=($res->where('exmset_id',2)->where('paper_id',$res->first()->paper_id)->count()>0?
+                                                            round(($res->where('exmset_id',2)->where('paper_id',$res->first()->paper_id)->first()->mark*Exmset::find(2)->set_percentage)/100,2)
+                                                            :0);
+                                                            $eot_mark1=($res->where('exmset_id',3)->where('paper_id',$res->first()->paper_id)->count()>0?
+                                                            round(($res->where('exmset_id',3)->where('paper_id',$res->first()->paper_id)->first()->mark*Exmset::find(3)->set_percentage)/100,2)
+                                                            :0);
+                                                            $paper_total1 = round(array_sum(array($bot_mark1,$mot_mark1,$eot_mark1)),2);
+                                                        }
+                                                        if($res->count()==0)
+                                                        {
+                                                            $paper_total1 = 0;
+                                                            $output.="";
+                                                        }
+
+                                                        if($res->count()>1)
+                                                        {
+                                                            $bot_mark3=($res->where('exmset_id',1)->where('paper_id',$res->last()->paper_id)->count()>0?
+                                                            round(($res->where('exmset_id',1)->where('paper_id',$res->last()->paper_id)->first()->mark*Exmset::find(1)->set_percentage)/100,2)
+                                                            :0);
+                                                            $mot_mark3=($res->where('exmset_id',2)->where('paper_id',$res->last()->paper_id)->count()>0?
+                                                            round(($res->where('exmset_id',2)->where('paper_id',$res->last()->paper_id)->first()->mark*Exmset::find(2)->set_percentage)/100,2)
+                                                            :0);
+                                                            $eot_mark3=($res->where('exmset_id',3)->where('paper_id',$res->last()->paper_id)->count()>0?
+                                                            round(($res->where('exmset_id',3)->where('paper_id',$res->last()->paper_id)->first()->mark*Exmset::find(3)->set_percentage)/100,2)
+                                                            :0);
+                                                            $paper_total3 = round(array_sum(array($bot_mark3,$mot_mark3,$eot_mark3)),2);
+                                                        }
+                                                        if($res->count()<2)
+                                                        {
+                                                            $paper_total3 = 0;
+                                                        }
+                                                        $Subject_final_mark=round(array_sum(array($paper_total1,$paper_total2,$paper_total3))/2,2);
+                                                        $output.=$Subject_final_mark;
+
+
+                                                        $output.='</td>
+                                                        <td rowspan="2">';
+                                                        if($Subject_final_mark>90)
+                                                        {
+                                                            $Subject_final_grade = "A+";
+                                                            $output.=$Subject_final_grade;
+                                                        }
+                                                        if($Subject_final_mark>=80 && $Subject_final_mark<90)
+                                                        {
+                                                            $Subject_final_grade = "A";
+                                                            $output.=$Subject_final_grade;
+
+                                                        }
+                                                        if($Subject_final_mark>=75 && $Subject_final_mark<80)
+                                                        {
+                                                            $Subject_final_grade = "B+";
+                                                            $output.=$Subject_final_grade;
+
+                                                        }
+                                                        if($Subject_final_mark>=70 && $Subject_final_mark<75)
+                                                        {
+                                                            $Subject_final_grade = "B-";
+                                                            $output.=$Subject_final_grade;
+
+                                                        }
+                                                        if($Subject_final_mark>=65 && $Subject_final_mark<70)
+                                                        {
+                                                            $Subject_final_grade = "C+";
+                                                            $output.=$Subject_final_grade;
+
+                                                        }
+                                                        if($Subject_final_mark>=60 && $Subject_final_mark<65)
+                                                        {
+                                                            $Subject_final_grade = "C-";
+                                                            $output.=$Subject_final_grade;
+
+                                                        }
+                                                        if($Subject_final_mark>=55 && $Subject_final_mark<60)
+                                                        {
+                                                            $Subject_final_grade = "D+";
+                                                            $output.=$Subject_final_grade;
+
+                                                        }
+                                                        if($Subject_final_mark>=50 && $Subject_final_mark<55)
+                                                        {
+                                                            $Subject_final_grade = "D-";
+                                                            $output.=$Subject_final_grade;
+
+                                                        }
+                                                        if($Subject_final_mark<50)
+                                                        {
+                                                            $Subject_final_grade = "F";
+                                                            $output.=$Subject_final_grade;
+
+                                                        }
+                                                        $output.='</td>
+                                                        <td rowspan="2">
+                                                        '.($Subject_final_grade !== null ?$this->teacherComment($Subject_final_grade):null).'
+
+                                                        </td>
+
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td>';
+                                                            if($res->count()>1)
+                                                            {
+                                                                $output.=$res->last()->paper->paper_abbrev;
+
+                                                            }
+                                                            elseif($res->count()<1){
+                                                                $output.="";
+                                                            }
+                                                            $output.='</td>
+                                                            <td>';
+                                                            if($res->where('exmset_id',1)->count()>1)
+                                                            {
+                                                                $bot_mark = round(($res->where('exmset_id',1)->last()->mark*Exmset::find(1)->set_percentage/100),2);
+                                                                $output.= $bot_mark;
+                                                            }
+                                                            elseif($res->where('exmset_id',1)->count()<1){
+                                                                $bot_mark = 0;
+                                                                $output.="";
+                                                            }
+                                                            $output.='</td>
+                                                            <td>';
+                                                            if($res->where('exmset_id',2)->count()>1)
+                                                            {
+                                                                $mot_mark = round(($res->where('exmset_id',2)->last()->mark*Exmset::find(2)->set_percentage/100),2);
+                                                                $output.= $mot_mark;
+                                                            }
+                                                            elseif($res->where('exmset_id',2)->count()<1){
+                                                                $mot_mark = 0;
+                                                                $output.="";
+                                                            }
+                                                            $output.='</td>
+                                                            <td>';
+                                                            if($res->where('exmset_id',3)->count()>1)
+                                                            {
+                                                                $eot_mark = round(($res->where('exmset_id',3)->last()->mark*Exmset::find(3)->set_percentage/100),2);
+                                                                $output.= $eot_mark;
+                                                            }
+                                                            elseif($res->where('exmset_id',3)->count()<1){
+                                                                $eot_mark = 0;
+                                                                $output.="";
+                                                            }
+                                                            $output.='</td>
+                                                            <td>';
+                                                            if($res->count()>1)
+                                                            {
+                                                                $paper_3_total = round(array_sum(array($bot_mark,$mot_mark,$eot_mark)),2);
+                                                                $output.= $paper_3_total;
+                                                            }
+                                                            elseif($res->count()<1){
+                                                                $paper_3_total=0;
+                                                                $output.="";
+                                                            }
+                                                            $output.='</td>
+                                                        </tr>
+                                                        </tr>';
+
+                                                    }
+
+
+
+
+                                                    elseif($res->where('subject_id',$sub_id)->first()->subject->papersIn()->count() == 0 && $res->where('subject_id',$sub_id)->first()->paper_id!=null)
+                                                    {
+                                                        $output.='<h3 class="display-1">'.$res->where('subject_id',$sub_id)->first()->subject->name.'</h3>';
+                                                    }
+
+                                                    elseif($res->where('subject_id',$sub_id)->first()->subject->papersIn()->count()>0 && $res->where('subject_id',$sub_id)->first()->paper_id == null)
+                                                    {
+
+                                                        $output.='<tr><tr>
+                                                        <td colspan="2">';
+                                                        if($res->count()>0)
+                                                        {
+                                                            $output.=$res->first()->subject->name;
+                                                        }
+                                                        elseif($res->count()<0)
+                                                        {
+                                                            $output.="";
+                                                        }
+
+                                                        $output.='</td>
+                                                        <td>';
+                                                        if($res->where('exmset_id',1)->count()>0)
+                                                        {
+                                                            $bot_mark = round(($res->where('exmset_id',1)->first()->mark*Exmset::find(1)->set_percentage/100),2);
+                                                        $output.=$bot_mark;
+
+                                                        }
+
+                                                        elseif($res->where('exmset_id',1)->count()==0)
+                                                        {
+                                                            $bot_mark = 0;
+                                                            $output.="";
+
+                                                        }
+                                                        $output.='</td>
+                                                        <td>';
+                                                        if($res->where('exmset_id',2)->count()>0)
+                                                        {
+                                                            $mot_mark = round(($res->where('exmset_id',2)->first()->mark*Exmset::find(2)->set_percentage/100),2);
+                                                        $output.=$mot_mark;
+
+                                                        }
+
+                                                        elseif($res->where('exmset_id',2)->count()==0)
+                                                        {
+                                                            $mot_mark = 0;
+                                                            $output.="";
+
+                                                        }
+                                                        $output.='</td>
+                                                        <td>';
+                                                        if($res->where('exmset_id',3)->count()>0)
+                                                        {
+                                                            $eot_mark = round(($res->where('exmset_id',3)->first()->mark*Exmset::find(3)->set_percentage/100),2);
+                                                        $output.=$eot_mark;
+
+                                                        }
+
+                                                        elseif($res->where('exmset_id',3)->count()==0)
+                                                        {
+                                                            $eot_mark = 0;
+                                                            $output.="";
+
+                                                        }
+                                                        $output.='</td>
+                                                        <td>';
+                                                        if($res->count()>0){
+                                                                $total_mark = round((array_sum(array($bot_mark,$mot_mark,$eot_mark))),2);
+                                                                $output.=$total_mark;
+                                                        }
+
+                                                        $output.='</td>
+                                                        <td>';
+                                                        if($res->count()>0){
+                                                                $total_mark = round((array_sum(array($bot_mark,$mot_mark,$eot_mark))),2);
+                                                                $output.=$total_mark;
+                                                        }
+
+                                                        $output.='</td>
+                                                        <td>';
+                                                        if($res->count()>0){
+                                                                $total_mark = round((array_sum(array($bot_mark,$mot_mark,$eot_mark))),2);
+                                                                    if($total_mark>90)
+                                                                    {
+                                                                        $Subject_final_grade = "A+";
+                                                                        $output.=$Subject_final_grade;
+                                                                    }
+                                                                    if($total_mark>=80 && $total_mark<90)
+                                                                    {
+                                                                        $Subject_final_grade = "A";
+                                                                        $output.=$Subject_final_grade;
+
+                                                                    }
+                                                                    if($total_mark>=75 && $total_mark<80)
+                                                                    {
+                                                                        $Subject_final_grade = "B+";
+                                                                        $output.=$Subject_final_grade;
+
+                                                                    }
+                                                                    if($total_mark>=70 && $total_mark<75)
+                                                                    {
+                                                                        $Subject_final_grade = "B-";
+                                                                        $output.=$Subject_final_grade;
+
+                                                                    }
+                                                                    if($total_mark>=65 && $total_mark<70)
+                                                                    {
+                                                                        $Subject_final_grade = "C+";
+                                                                        $output.=$Subject_final_grade;
+
+                                                                    }
+                                                                    if($total_mark>=60 && $total_mark<65)
+                                                                    {
+                                                                        $Subject_final_grade = "C-";
+                                                                        $output.=$Subject_final_grade;
+
+                                                                    }
+                                                                    if($total_mark>=55 && $total_mark<60)
+                                                                    {
+                                                                        $Subject_final_grade = "D+";
+                                                                        $output.=$Subject_final_grade;
+
+                                                                    }
+                                                                    if($total_mark>=50 && $total_mark<55)
+                                                                    {
+                                                                        $Subject_final_grade = "D-";
+                                                                        $output.=$Subject_final_grade;
+
+                                                                    }
+                                                                    if($total_mark<50)
+                                                                    {
+                                                                        $Subject_final_grade = "F";
+                                                                        $output.=$Subject_final_grade;
+
+                                                                    }
+                                                        }
+
+                                                        $output.='</td>
+                                                        <td>'.($Subject_final_grade !== null ?$this->teacherComment($Subject_final_grade):null).'</td>
+                                                        ';
+
+                                                    }
+
+
+                                                    else
+                                                    {
+                                                        $output.='
+                                                        <tr><tr>
+                                                        <td colspan="2">'.$res->first()->subject->name.'</td>';
+                                                        if($res->where('exmset_id',1)->count()>0)
+                                                        {
+                                                            $bot_mark = $res->where('exmset_id',1)->first()->mark*Exmset::find(1)->set_percentage/100;
+                                                        $output.='<td>'.$bot_mark.'</td>';
+                                                        }
+                                                        elseif($res->where('exmset_id',1)->count()==0)
+                                                        {
+                                                            $bot_mark = 0;
+                                                            $output.='<td>'.null.'</td>';
+                                                        }
+                                                        if($res->where('exmset_id',2)->count()>0)
+                                                        {
+                                                            $mot_mark = $res->where('exmset_id',2)->first()->mark*Exmset::find(2)->set_percentage/100;
+                                                            $output.='<td>'.$mot_mark.'</td>';
+                                                        }
+                                                        elseif($res->where('exmset_id',2)->count()==0)
+                                                        {
+                                                            $mot_mark = 0;
+                                                            $output.='<td>'.null.'</td>';
+                                                        }
+                                                        if($res->where('exmset_id',3)->count()>0)
+                                                        {
+                                                            $eot_mark = $res->where('exmset_id',3)->first()->mark*Exmset::find(3)->set_percentage/100;
+                                                            $output.='<td>'.$eot_mark.'</td>';
+                                                        }
+                                                        elseif($res->where('exmset_id',3)->count()==0)
+                                                        {
+                                                            $eot_mark = 0;
+                                                            $output.='<td>'.null.'</td>';
+                                                        }
+                                                        $final_total = round(array_sum(array($bot_mark,$mot_mark,$eot_mark)),2);
+
+                                                        $output.='<td>'.round(array_sum($res->pluck('calculate_mark')->toArray()),2).'</td>';
+                                                        $output.='<td>'.$final_total.'</td>';
+                                                        $output.='<td>';
+                                                        if($final_total>90)
+                                                        {
+                                                            $final_grade = "A+";
+                                                            $output.='<span>'.$final_grade.'</span>';
+                                                        }
+                                                        elseif($final_total>90)
+                                                        {
+                                                            $final_grade = "A+";
+                                                            $output.='<span>'.$final_grade.'</span>';
+                                                        }
+                                                        elseif($final_total>=80 && $final_total<90)
+                                                        {
+                                                            $final_grade = "A";
+                                                            $output.='<span>'.$final_grade.'</span>';
+                                                        }
+                                                        elseif($final_total>=75 && $final_total<80)
+                                                        {
+                                                            $final_grade = "B+";
+                                                            $output.='<span>'.$final_grade.'</span>';
+                                                        }
+                                                        elseif($final_total>=70 && $final_total<75)
+                                                        {
+                                                            $final_grade = "B-";
+                                                            $output.='<span>'.$final_grade.'</span>';
+                                                        }
+                                                        elseif($final_total>=65 && $final_total<70)
+                                                        {
+                                                            $final_grade = "C+";
+                                                            $output.='<span>'.$final_grade.'</span>';
+                                                        }
+                                                        elseif($final_total>=60 && $final_total<65)
+                                                        {
+                                                            $final_grade = "C-";
+                                                            $output.='<span>'.$final_grade.'</span>';
+                                                        }
+
+                                                        elseif($final_total>=55 && $final_total<60)
+                                                        {
+                                                            $final_grade = "D+";
+                                                            $output.='<span>'.$final_grade.'</span>';
+                                                        }
+                                                        elseif($final_total>=50 && $final_total<55)
+                                                        {
+                                                            $final_grade = "D-";
+                                                            $output.='<span>'.$final_grade.'</span>';
+                                                        }
+                                                        elseif($final_total<50)
+                                                        {
+                                                            $final_grade = "F";
+                                                            $output.='<span>'.$final_grade.'</span>';
+                                                        }
+                                                        $output.='</td><td>';
+                                                        $output.=($final_grade !== null ?$this->teacherComment($final_grade):null);
+                                                        $output.='</td>';
+
+                                                        $output.='</tr></tr>';
+
+                                                    }
+
+
+
+
+
+
+
+
+                                    }
+
+
+
+                                }
+
+                            }
+                        // }
+                        // elseif($ter_res->where('schclass_id','like','%'.($search_class==null?'':$search_class).'%')->count()==0)
+                        // {
+                        //     $output.='<tr>
+                        //         <td colspan="9">
+                        //             No information for this class
+                        //         </td>
+
+                        //     </tr>';
+                        // }
+
+
+
+                    }
+                }
+
+                elseif($results->where('term_id','like','%'.($search_term==null?'':$search_term).'%')->count() == 0)
+                {
+                    $output.='<tr>
+                                <td colspan="9">
+                                    No information for this term
+                                </td>
+
+                            </tr>';
+                }
+
+
+                $output.='
+                    </tbody>
+                    <tfooter>
+                        <th colspan="2">Subject</th>
+                        <th>Bot <br> out of '.Exmset::find(1)->set_percentage.'</th>
+                        <th>Mot<br> out of '.Exmset::find(2)->set_percentage.'</th>
+                        <th>Eot <br>out of '.Exmset::find(3)->set_percentage.'</th>
+                        <th>Total Marks<br> of'.'100'.'</th>
+                        <th>Final Mark</th>
+                        <th>Final Grade</th>
+                        <th>Teacher Comment</th>
+                    </tfooter>
+                    </table>
+                    ';
+            }
+            elseif($results->get()->count()==0)
+            {
+                $output.='<div class=""display-1>
+                            <p>Student not existing</p>
+                        </div>';
+            }
+
+            return $output;
+        }
     }
 }

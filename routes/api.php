@@ -72,43 +72,14 @@ Route::get('/get-o-level-subjects',function(){
     return $subject;
 });
 
-Route::post('/register-students',function(Request $request){
-
-    $filename1=null;
-    $filename2=null;
-    $filename3=null;
-
-    if($request->file('profile_pic') !=null)
-    {
-        $extension1 = Input::file('profile_pic')->getClientOriginalExtension();
-        $filename1 = str_slug($request['student_name'],'_').'_picture'. '.' . $extension1;
-        $request->file('profile_pic')->move(public_path(config('cms.image.directory')),$filename1);
-
-    }
-    if($request->file('medical_form') !=null)
-    {
-        $extension2 = Input::file('medical_form')->getClientOriginalExtension();
-        $filename2 = str_slug($request['student_name'],'_').'_medical'. '.' . $extension2;
-
-        $request->file('medical_form')->move(public_path(config('cms.file.directory')),$filename2);
-
-
-    }
-    if($request->file('admission_form') !=null)
-    {
-        $extension3 = Input::file('admission_form')->getClientOriginalExtension();
-        $filename3 = str_slug($request['student_name'],'_').'_admission'. '.' . $extension3;
-        $request->file('admission_form')->move(public_path(config('cms.file.directory')),$filename3);
-
-    }
-
-    return response()->json(['data'=>['requests'=>$request->all(),'admission'=>$filename3,'medical'=>$filename2,'pictures'=>$filename1]]);
-
-});
+Route::post('/register-students','StudentController@registerStudent');
 
 //teacher classes
 Route::get('/get-classes-teacher',function(){
     $schclasses = Schclass::where('name','LIKE','%'.request('q').'%')->paginate(10);
     return $schclasses;
+});
+Route::post('/search-results',function(Request $request){
+    return response()->json(['data'=>$request['query']]);
 });
 

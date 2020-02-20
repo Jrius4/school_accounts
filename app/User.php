@@ -46,6 +46,10 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Schclass::class);
     }
+    public function ppComment()
+    {
+        return $this->hasMany(PpTrComment::class);
+    }
 
     public function schClass()
     {
@@ -54,6 +58,10 @@ class User extends Authenticatable
     public function schStreams()
     {
         return $this->belongsToMany(Schstream::class);
+    }
+    public function hasClasses()
+    {
+        return $this->hasMany(Schclass::class);
     }
 
     public function setPasswordAttribute($value)

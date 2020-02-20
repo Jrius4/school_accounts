@@ -1,135 +1,91 @@
-@extends('layouts.dashboard')
-@section('style')
+@extends('layouts.main')
+@section('styles')
 <style>
-    .bg-transparent{
-        background:transparent !important;
-        border:none
+    .paragraphs p{
+        display: inline;
+        margin-inline-start: 0.5rem;
     }
-    .center-items{
-        display: flex;
-        justify-items: center;
-    }
-    .panel{
-        color:whitesmoke
-    }
-    .clear-fix{
-        clear: both;
+    .dropdown-item:hover{
+        background-color: #3c4650;
     }
 </style>
 @endsection
-@section('content')
-    @include('layouts.navbar')
 
-		<!-- Static Table Start -->
-		<div class="data-table-area mg-b-15">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="sparkline13-list shadow-reset">
-                                <div class="sparkline13-hd">
-                                    <div class="main-sparkline13-hd">
-                                        <h1>View <span class="table-project-n">
-                                                {{substr(Auth::guard('students')->user()->roll_number, 0,1)}} Level | Class: {{Auth::guard('students')->user()->schclass->name}} Student</span> Info</h1>
-                                        <div class="sparkline13-outline-icon">
-                                            <span class="sparkline13-collapse-link"><i class="fa fa-chevron-up"></i></span>
-                                            <span class="sparkline13-collapse-close"><i class="fa fa-times"></i></span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="sparkline13-graph">
-                                   <div class="row">
-                                        <div class="col-md-12 panel panel-default bg-transparent">
-                                            <h2 class="">
-                                               <img width="75" height="75"  src={{asset('images/'.Auth::guard('students')->user()->image)}}/> {{Auth::guard('students')->user()->name}} | {{Auth::guard('students')->user()->roll_number}}
-                                            </h2>
-                                            <p>
-                                                <table class="table table-striped table-hover text-left">
+@section('full-content')
 
-                                                    <thead>
-                                                        <th>Name</th>
-                                                        <th>Roll Number</th>
-                                                        <th>Level</th>
-                                                        @if (substr(Auth::guard('students')->user()->roll_number, 0,1)=='O' && Auth::guard('students')->user()->schclass_id > 2 )
-                                                        <th>Optional Subjects</th>
-                                                        @elseif(substr(Auth::guard('students')->user()->roll_number, 0,1)=='A')
-                                                        <th>Combination</th>
-                                                        @endif
+<div class="container-fluid">
 
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>{{Auth::guard('students')->user()->name}}</td>
-                                                            <td>{{Auth::guard('students')->user()->roll_number}}</td>
-                                                            <td>{{substr(Auth::guard('students')->user()->roll_number, 0,1)=='O'?'O level':'A level'}}</td>
-                                                            @if (substr(Auth::guard('students')->user()->roll_number, 0,1)=='O' && Auth::guard('students')->user()->schclass_id > 2 )
-                                                            <td>
-                                                                @if (Auth::guard('students')->user()->subjects->count() > 0)
 
-                                                                    @foreach (Auth::guard('students')->user()->subjects as $subject)
-                                                                    <p>{{$subject->name}}</p>
-                                                                    @endforeach
-                                                                @else
-                                                                    <p>Not Yet Assigned</p>
-                                                                @endif
-                                                            </td>
-                                                            @elseif(substr(Auth::guard('students')->user()->roll_number, 0,1)=='A')
-                                                            <td>{{Auth::guard('students')->user()->combination()->first()->combination_name."/".Auth::guard('students')->user()->combination()->first()->subsidiary}}</td>
-                                                            @endif
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </p>
-                                            <div class="row ">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark elevation-4 shadow-md">
+    <a class="navbar-brand" href="#">FRIENDS ACADEMY KATENDE</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav mx-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Results</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Fees Records</a>
+        </li>
 
-                                                <div class="">
-                                                    <h4 class="text-left">Admission Form</h4>
-                                                    <iframe class="col-md-6" style="min-height:450pt" src={{asset('documents/'.Auth::guard('students')->user()->admission_form)}} type="file"></iframe>
-                                                </div>
-                                                <div class="clear-fix"></div>
-                                                <div class="">
-                                                    <h4 class="text-left">Medical Form</h4>
-                                                    <iframe class="col-md-6" style="min-height:450pt" src={{asset('documents/'.Auth::guard('students')->user()->medical_form)}} type="file"></iframe>
-                                                </div>
-                                            </div>
-                                        </div>
-                                   </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+      </ul>
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                {{Auth::guard('students')->user()->name}}
+            </a>
+            <div class="dropdown-menu bg-dark text-light animated flipInX" aria-labelledby="navbarDropdownMenuLink">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <a class="dropdown-item" href="#">Something else here</a>
+                <a class="dropdown-item" href="{{ route('logout') }}"
+                    onclick="event.preventDefault();
+                                    document.getElementById('logout-form').submit();">
+                    {{ __('Logout') }}
+                </a>
+
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    @csrf
+                </form>
             </div>
-            <!-- Static Table End -->
+          </li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="row card elevation-2 shadow-sm bg-dark text-light mx-1 my-2 p-2">
+      <div class="ml-auto paragraphs">
+
+            @if (isset(Auth::guard('students')->user()->image))
+
+            <p>
+                <img width="50" height="50" class="img-circle" src="{{asset('images/'.Auth::guard('students')->user()->image)}}" alt="{{Auth::guard('students')->user()->name}}">
+            </p>
+
+            @endif
+
+          <p>{{Auth::guard('students')->user()->name}}</p>
+          <p>{{Auth::guard('students')->user()->roll_number}}</</p>
+          <p>{{Auth::guard('students')->user()->schclass->name}}</</p>
+      </div>
+
+  </div>
+
+</div>
+
+
 
 @endsection
-@section('scripts')
-            	<!-- scrollUp JS
-         ============================================ -->
-	<script src="{{ asset('schools/js/jquery.scrollUp.min.js')}}"></script>
-	<!-- counterup JS
-		============================================ -->
-	<script src="{{ asset('schools/js/counterup/jquery.counterup.min.js')}}"></script>
-	<script src="{{ asset('schools/js/counterup/waypoints.min.js')}}"></script>
-	<!-- peity JS
-		============================================ -->
-	<script src="{{ asset('schools/js/peity/jquery.peity.min.js')}}"></script>
-	<script src="{{ asset('schools/js/peity/peity-active.js')}}"></script>
-	<!-- sparkline JS
-		============================================ -->
-	<script src="{{ asset('schools/js/sparkline/jquery.sparkline.min.js')}}"></script>
-	<script src="{{ asset('schools/js/sparkline/sparkline-active.js')}}"></script>
-	<!-- data table JS
-		============================================ -->
-	<script src="{{ asset('schools/js/data-table/bootstrap-table.js')}}"></script>
-	<script src="{{ asset('schools/js/data-table/tableExport.js')}}"></script>
-	<script src="{{ asset('schools/js/data-table/data-table-active.js')}}"></script>
-	<script src="{{ asset('schools/js/data-table/bootstrap-table-editable.js')}}"></script>
-	<script src="{{ asset('schools/js/data-table/bootstrap-editable.js')}}"></script>
-	<script src="{{ asset('schools/js/data-table/bootstrap-table-resizable.js')}}"></script>
-	<script src="{{ asset('schools/js/data-table/colResizable-1.5.source.js')}}"></script>
-	<script src="{{ asset('schools/js/data-table/bootstrap-table-export.js')}}"></script>
-	<!-- main JS
-         ============================================ -->
-	<script src="{{ asset('schools/js/main.js')}}"></script>
+@section('script')
+  <!-- jQuery -->
+ <script src="{{asset('adminlte/plugins/jquery/jquery.min.js')}}"></script>
+ <!-- jQuery UI 1.11.4 -->
+ <script src="{{asset('adminlte/plugins/jquery-ui/jquery-ui.min.js')}}"></script>
 @endsection
+
 

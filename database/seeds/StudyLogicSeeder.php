@@ -46,24 +46,6 @@ class StudyLogicSeeder extends Seeder
 
 
 
-        // $results1 = array(
-        //     'teacher_id'=>8,
-        //     'student_regno'=>'A/2020/002',
-        //     'student_name'=>'Micheal Kato',
-        //     'subject_name'=>'Advanced Physics',
-        //     'marks'=>80,
-        //     'comments'=>'Fair work, improve on your weak areas'
-        // );
-        // Result::create($results1);
-        // $results1 = array(
-        //     'teacher_id'=>8,
-        //     'student_regno'=>'A/2020/001',
-        //     'student_name'=>'Kazibwe Julia',
-        //     'subject_name'=>'Advanced Physics',
-        //     'marks'=>95,
-        //     'comments'=>'Great work, keep it up'
-        // );
-        // Result::create($results1);
 
 
     }

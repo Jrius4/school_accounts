@@ -1,66 +1,55 @@
-@extends('layouts.admin-dashboard')
-@section('style')
-<style>
-    .bg-transparent{
-        background:transparent !important;
-        border:none
-    }
-    .center-items{
-        display: flex;
-        justify-items: center;
-    }
-</style>
-@endsection
-@section('admin-content')
-        <div class="row">
-            <div class="center-contents">
-                <a href="{{route('teachers.index')}}" class="btn btn-info">Back</a>
-                </div>
-        </div>
+@extends('layouts.main-dashboard')
 
-		<!-- Static Table Start -->
-		    <div class="row">
+@section('dashboard')
 
-                <div class="center-contents">
-                    {!! Form::model($teacher,['files' => true,'method'=>'POST','id'=>'insert_data']) !!}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb elevation-2">
+        <li class="breadcrumb-item"><a href="{{url('/')}}">Home</a></li>
+        <li class="breadcrumb-item" aria-current="page"><a href="{{route('teachers.index')}}">Manage Teacher</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Create New Teacher</li>
+    </ol>
+</nav>
+
+
+<section class="content">
+
+<div class="row">
+    <div class="col-12">
+        <div class="card elevation-2 animated flipInX">
+            <div class="card-header row">
+                <h3 class="card-title mr-auto">Create New Teacher</h3>
+            </div>
+            <div class="card-body">
+
+                {!! Form::model($teacher,['files' => true,'method'=>'POST','id'=>'insert_data']) !!}
+                <div class="row col-lg-12 d-flex justify-content-between"><div id="results"></div></div>
+                <div class="container row d-flex justify-content-center">
+
 
                             @include('manage-teachers.form')
 
-                    {!! Form::close() !!}
+
                 </div>
-
+                {!! Form::close() !!}
             </div>
-            <!-- Static Table End -->
+        </div>
+    </div>
+</div>
+
+
+</section>
+
 
 
 @endsection
-@section('scripts')
-            	<!-- scrollUp JS
-         ============================================ -->
-	<script src="{{ asset('schools/js/jquery.scrollUp.min.js')}}"></script>
-	<!-- counterup JS
-		============================================ -->
-	<script src="{{ asset('schools/js/counterup/jquery.counterup.min.js')}}"></script>
-	<script src="{{ asset('schools/js/counterup/waypoints.min.js')}}"></script>
-	<!-- peity JS
-		============================================ -->
-	<script src="{{ asset('schools/js/peity/jquery.peity.min.js')}}"></script>
-	<script src="{{ asset('schools/js/peity/peity-active.js')}}"></script>
-	<!-- sparkline JS
-		============================================ -->
-	<script src="{{ asset('schools/js/sparkline/jquery.sparkline.min.js')}}"></script>
-	<script src="{{ asset('schools/js/sparkline/sparkline-active.js')}}"></script>
-	<!-- data table JS
-		============================================ -->
-	<script src="{{ asset('schools/js/data-table/bootstrap-table.js')}}"></script>
-	<script src="{{ asset('schools/js/data-table/tableExport.js')}}"></script>
-	<script src="{{ asset('schools/js/data-table/data-table-active.js')}}"></script>
-	<script src="{{ asset('schools/js/data-table/bootstrap-table-editable.js')}}"></script>
-	<script src="{{ asset('schools/js/data-table/bootstrap-editable.js')}}"></script>
-	<script src="{{ asset('schools/js/data-table/bootstrap-table-resizable.js')}}"></script>
-	<script src="{{ asset('schools/js/data-table/colResizable-1.5.source.js')}}"></script>
-	<script src="{{ asset('schools/js/data-table/bootstrap-table-export.js')}}"></script>
-	<!-- main JS
-         ============================================ -->
-	<script src="{{ asset('schools/js/main.js')}}"></script>
+
+@section('style')
+
+<style>
+    .breadcrumb{
+
+        background: #fdffffc7;
+    }
+</style>
 @endsection
+

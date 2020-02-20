@@ -18,7 +18,11 @@ class CreateSchclassesTable extends Migration
             $table->string('name')->unique();
             $table->string('level')->default('Not Assigned');
             $table->string('slug')->unique();
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')
+                ->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

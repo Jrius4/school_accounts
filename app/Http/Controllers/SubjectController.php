@@ -33,21 +33,52 @@ class SubjectController extends BackendController
         return view('manage-subjects.create',compact('subject'));
     }
     public function getAssignPaper(){
-        return view('manage-subjects.assign-papers');
+        $subjects = Subject::get();
+        return view('manage-subjects.assign-papers',compact('subjects'));
     }
     public function storeAssignPaper(Request $request)
     {
         $rules = [
-            'paper_name'=>'required|unique:papers',
-            'subject_name'=>'required'
+            'paper_name'=>'nullable',
+            // 'paper_name'=>'required|unique:papers',
+            'subject_name'=>'required',
+            'paper_abbrev'=>'required',
+            'paper_percentage'=>'integer',
         ];
-        $validator = Validator::make($request->all(),$rules);
-        if($validator->fails()){
-            return response()->json(['errors'=>$validator->messages()]);
+        // dd($request->all());
+        $request->validate($rules);
+        // $validator = Validator::make($request->all(),$rules);
+        // if($validator->fails()){
+        //     return response()->json(['errors'=>$validator->messages()]);
+        // }
+
+        $papers = new Paper();
+
+        if($papers->where('subject_id',$request['subject_name'])->where('paper_abbrev',$request['paper_abbrev'])->count()>0)
+        {
+            $papers->where('subject_id',$request['subject_name'])->where('paper_abbrev',$request['paper_abbrev'])->first()->update(
+                array(
+                    'paper_name'=>$request['paper_name'],
+                    'paper_abbrev'=>$request['paper_abbrev'],
+                    'subject_id'=>$request['subject_name'],
+                    'paper_percentage'=>$request['paper_percentage'],
+                )
+            );
         }
-        Paper::create(['paper_name'=>$request['paper_name']]);
-        Paper::where('paper_name',$request['paper_name'])->first()->subjects()->detach(Subject::find(explode(',',$request['subject_name_hidden'])));
-        Paper::where('paper_name',$request['paper_name'])->first()->subjects()->attach(Subject::find(explode(',',$request['subject_name_hidden'])));
+        else{
+            Paper::create(array(
+            'paper_name'=>$request['paper_name'],
+            'paper_abbrev'=>$request['paper_abbrev'],
+            'subject_id'=>$request['subject_name'],
+            'paper_percentage'=>$request['paper_percentage'],
+        ));
+        }
+
+
+        return redirect()->route('subjects.index')->with(['message'=>'Paper created successfully']);
+        // Paper::create(['paper_name'=>$request['paper_name'],''=>$request]);
+        // Paper::where('paper_name',$request['paper_name'])->first()->subjects()->detach(Subject::find(explode(',',$request['subject_name_hidden'])));
+        // Paper::where('paper_name',$request['paper_name'])->first()->subjects()->attach(Subject::find(explode(',',$request['subject_name_hidden'])));
 
 
         return response()->json(['success'=>$request->all()]);
@@ -102,13 +133,9 @@ class SubjectController extends BackendController
            'subject_code'=>'required|unique:subjects',
            'subject_compulsory'=>'required',
        ];
-       $validator = Validator::make($request->all(),$rules);
-       if($validator->fails())
-       {
-           return response()->json(['errors'=>$validator->messages()]);
-       }
+    $request->validate($rules);
        $subject->create($request->all());
-       return response()->json('success');
+    return redirect()->route('subjects.index')->with(['message'=>'Subject created successfully']);
     }
 
     /**
@@ -130,7 +157,8 @@ class SubjectController extends BackendController
      */
     public function edit(Subject $subject)
     {
-        //
+        return view('manage-subjects.edit',compact('subject'));
+
     }
 
     /**
@@ -142,7 +170,15 @@ class SubjectController extends BackendController
      */
     public function update(Request $request, Subject $subject)
     {
-        //
+        $rules = [
+            'level'=>'required',
+            'name'=>'required',
+            'subject_code'=>'required',
+            'subject_compulsory'=>'required',
+        ];
+     $request->validate($rules);
+     $subject->update($request->all());
+     return redirect()->route('subjects.index')->with(['message'=>'Subject updated successfully']);
     }
 
     /**
@@ -153,6 +189,8 @@ class SubjectController extends BackendController
      */
     public function destroy(Subject $subject)
     {
-        //
+        $subject->delete();
+        return redirect()->route('subjects.index')->with(['message'=>'Subject deleted successfully']);
+
     }
 }

@@ -1,78 +1,82 @@
 
+@extends('layouts.main-dashboard')
+
+@section('dashboard')
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb elevation-2">
+        <li class="breadcrumb-item"><a href="{{url('/')}}">Home</a></li>
+        <li class="breadcrumb-item" aria-current="page"><a href="{{url('/manage-assign-subject-to-teacher')}}">Manage Assigned Subject</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Assign Subjects To Teacher</li>
+    </ol>
+</nav>
 
 
-@extends('layouts.admin-dashboard')
+<section class="content">
 
-@section('style')
-<style>
-    .bg-transparent{
-        background:transparent !important;
-        border:none
-    }
-    .center-items{
-        display: flex;
-        justify-items: center;
-        margin: 5vw 15vw;
-        background: #0e0d0d;
-        padding: 8pt;
-    }
-</style>
-@endsection
-@section('admin-content')
-		<!-- Static Table Start -->
-		<div class="data-table-area mg-b-15">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="center-items animated flipInX">
+<div class="row">
+    <div class="col-12">
+        <div class="card elevation-2 animated flipInX">
+            <div class="card-header row">
+                <h3 class="card-title mr-auto">Assign Subjects To Teacher</h3>
+            </div>
+            <div class="card-body">
                             <form id="createClassForm" action="javascript:void(0)" method="post">
-                                <div class="form-group col-sm-12">
-                                    <label for="schclasses">Choose Level</label>
-
-
-                                    <div class="row">
-                                        <select id="level" name="level" class="form-control action col-sm-12" style="color:aliceblue!important">
-                                            <option value="">Select Level ...</option>
-                                            <option value="Both">Both</option>
-                                            <option value="Advanced Level">Advanced Level</option>
-                                            <option value="Ordinary Level">Ordinary Level</option>
+                                <div class="container row d-flex justify-content-center">
+                                    <div class="form-group col-sm-12">
+                                        <label for="level">Choose Level</label>
+                                            <select id="level" name="level" class="form-control action d-block col-12">
+                                                <option value="">Select Level ...</option>
+                                                <option value="Both">Both</option>
+                                                <option value="Advanced Level">Advanced Level</option>
+                                                <option value="Ordinary Level">Ordinary Level</option>
+                                            </select>
+                                    </div>
+                                    <div class="form-group col-sm-12">
+                                        <label for='subjects'>Select Subject(s)</label>
+                                        <select name="subjects" id="subjects" multiple class="form-control d-block col-12">
                                         </select>
+                                        <input type="hidden" name="hidden_subjects" id="hidden_subjects" />
+                                    </div>
+                                    <div class="form-group col-sm-12">
+                                        <label for="teacher">Teacher</label>
+
+                                            <select id="teacher" name="teacher" class="form-control d-block col-12">
+                                                <option value="">Select teacher</option>
+                                                @foreach ($teachers as $teacher)
+                                                    <option value="{{$teacher->id}}">{{$teacher->name}}</option>
+                                                @endforeach
+                                            </select>
+
                                     </div>
 
-                                </div>
-                                <div class="form-group col-sm-12">
-                                    <label for='subjects'>Select Stream(s)</label>
 
-                                    <br />
-                                    <select name="subjects" id="subjects" multiple class="form-control col-sm-12">
-                                    </select>
-                                    <br />
-                                    <input type="hidden" name="hidden_subjects" id="hidden_subjects" />
-                                </div>
-                                <div class="form-group col-sm-12">
-                                    <label for="teacher">Teacher</label>
-                                    <div class="row">
-                                        <select id="teacher" name="teacher" class="col-sm-12 form-control" style="color:aliceblue!important">
-                                        </select>
+                                    <div class="form-group col-sm-12">
+                                        <button type="submit" class="btn btn-info d-block col-12">Save</button>
                                     </div>
-                                </div>
-
-
-                                <div class="form-group col-sm-12">
-                                    <button type="submit" class="btn btn-info">Save</button>
                                 </div>
                             </form>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
+        </div>
+
+
+        </section>
             <!-- Static Table End -->
 
 @endsection
 @section('first-scripts')
-    <link rel="stylesheet" href="{{asset('schools/plugins/select2/css/select2.css')}}">
-    <script src="{{asset('schools/plugins/select2/js/select2.full.min.js')}}"></script>
-    <script type="text/javascript" src="{{asset('schools/plugins/multiselect/jquery.lwMultiSelect.js')}}"></script>
-   <link rel="stylesheet" href="{{asset('schools/plugins/multiselect/jquery.lwMultiSelect.css')}}" />
+ <!-- jQuery -->
+ <script src="{{asset('adminlte/plugins/jquery/jquery.min.js')}}"></script>
+ <!-- jQuery UI 1.11.4 -->
+ <script src="{{asset('adminlte/plugins/jquery-ui/jquery-ui.min.js')}}"></script>
+<link rel="stylesheet" href="{{asset('schools/plugins/select2/css/select2.min.css')}}">
+<script src="{{asset('schools/plugins/select2/js/select2.full.min.js')}}"></script>
+<link rel="stylesheet" href="{{asset('schools/plugins/multiselect/jquery.lwMultiSelect.css')}}" />
+<script type="text/javascript" src="{{asset('schools/plugins/multiselect/jquery.lwMultiSelect.js')}}"></script>
+
 
 @endsection
 @section('scripts')
@@ -128,116 +132,118 @@
 
     });
 
-
-    $("#teacher").select2({
-        placeholder: "Select a class teacher",
-        allowClear: true,
-        ajax: {
-            url: "{{url('/api/get-teachers')}}",
-            dataType: 'json',
-            delay:250,
-            data:function(params){
-                var query = {
-                    q:params.term,
-                    page:params.page
-                };
-                return query;
-            },
-            processResults: function (data, params) {
-                params.page = params.page||1;
-
-                return {
-                    results: data.data,
-                    pagination: {
-                        more: (params.page * 10) < data.total
-                    }
-                };
-            },
-            success:function(data)
-            {
-                console.log(data.data);
-            },
-            error:function(data)
-            {
-                console.log(data);
-            },
-            cache:true,
+    $('#teacher').select2();
 
 
-        },
-        minimumInputLength:1,
-        templateResult:formatRepoTeacher,
-        templateSelection:formatRepoTeacherSelection
-    });
+    // $("#teacher").select2({
+    //     placeholder: "Select a class teacher",
+    //     allowClear: true,
+    //     ajax: {
+    //         url: "{{url('/api/get-teachers')}}",
+    //         dataType: 'json',
+    //         delay:250,
+    //         data:function(params){
+    //             var query = {
+    //                 q:params.term,
+    //                 page:params.page
+    //             };
+    //             return query;
+    //         },
+    //         processResults: function (data, params) {
+    //             params.page = params.page||1;
 
-    function formatRepoTeacher(repo){
-        if(repo.loading){
-            return repo.text
-        }
-
-        var $container =$("<span>"+repo.name+"</span>");
-        return $container;
-    }
-    function formatRepoTeacherSelection(repo)
-    {
-        return repo.name;
-    }
-
-
-
-    $("#schclasses").select2({
-        placeholder: "Select a class",
-        allowClear: true,
-        ajax: {
-            url: "{{url('/api/get-classes')}}",
-            dataType: 'json',
-            delay:250,
-            data:function(params){
-                var query = {
-                    q:params.term,
-                    page:params.page
-                };
-                return query;
-            },
-            processResults: function (data, params) {
-                params.page = params.page||1;
-
-                return {
-                    results: data.data,
-                    pagination: {
-                        more: (params.page * 10) < data.total
-                    }
-                };
-            },
-            success:function(data)
-            {
-                console.log(data.data);
-            },
-            error:function(data)
-            {
-                console.log(data);
-            },
-            cache:true,
+    //             return {
+    //                 results: data.data,
+    //                 pagination: {
+    //                     more: (params.page * 10) < data.total
+    //                 }
+    //             };
+    //         },
+    //         success:function(data)
+    //         {
+    //             console.log(data.data);
+    //         },
+    //         error:function(data)
+    //         {
+    //             console.log(data);
+    //         },
+    //         cache:true,
 
 
-        },
-        minimumInputLength:1,
-        templateResult:formatRepo,
-        templateSelection:formatRepoSelection
-    });
+    //     },
+    //     minimumInputLength:1,
+    //     templateResult:formatRepoTeacher,
+    //     templateSelection:formatRepoTeacherSelection
+    // });
 
-    function formatRepo(repo){
-        if(repo.loading){
-            return repo.text
-        }
+    // function formatRepoTeacher(repo){
+    //     if(repo.loading){
+    //         return repo.text
+    //     }
 
-        var $container =$("<span>"+repo.name+"</span>");
-        return $container;
-    }
-    function formatRepoSelection(repo)
-    {
-        return repo.name;
-    }
+    //     var $container =$("<span>"+repo.name+"</span>");
+    //     return $container;
+    // }
+    // function formatRepoTeacherSelection(repo)
+    // {
+    //     return repo.name;
+    // }
+
+
+
+    // $("#schclasses").select2({
+    //     placeholder: "Select a class",
+    //     allowClear: true,
+    //     ajax: {
+    //         url: "{{url('/api/get-classes')}}",
+    //         dataType: 'json',
+    //         delay:250,
+    //         data:function(params){
+    //             var query = {
+    //                 q:params.term,
+    //                 page:params.page
+    //             };
+    //             return query;
+    //         },
+    //         processResults: function (data, params) {
+    //             params.page = params.page||1;
+
+    //             return {
+    //                 results: data.data,
+    //                 pagination: {
+    //                     more: (params.page * 10) < data.total
+    //                 }
+    //             };
+    //         },
+    //         success:function(data)
+    //         {
+    //             console.log(data.data);
+    //         },
+    //         error:function(data)
+    //         {
+    //             console.log(data);
+    //         },
+    //         cache:true,
+
+
+    //     },
+    //     minimumInputLength:1,
+    //     templateResult:formatRepo,
+    //     templateSelection:formatRepoSelection
+    // });
+
+    // function formatRepo(repo){
+    //     if(repo.loading){
+    //         return repo.text
+    //     }
+
+    //     var $container =$("<span>"+repo.name+"</span>");
+    //     return $container;
+    // }
+    // function formatRepoSelection(repo)
+    // {
+    //     return repo.name;
+    // }
 
         $('#createClassForm').on('submit',(function(e){
             e.preventDefault();
@@ -264,7 +270,7 @@
                     }
                     if(data == 'done')
                     {
-                        window.location.href = "{{route('classes.index')}}";
+                        window.location.href = "{{url('/manage-assign-subject-to-teacher')}}";
                     }
 
                 // console.log(Object.keys(data))

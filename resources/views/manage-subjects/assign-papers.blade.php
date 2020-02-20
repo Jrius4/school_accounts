@@ -1,150 +1,101 @@
-@extends('layouts.admin-dashboard')
-@section('style')
-<style>
-    .bg-transparent{
-        background:transparent !important;
-        border:none
-    }
-    .center-items{
-        display: flex;
-        justify-items: center;
-    }
-</style>
-@endsection
-@section('admin-content')
+@extends('layouts.main-dashboard')
+
+@section('dashboard')
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb elevation-2">
+        <li class="breadcrumb-item"><a href="{{url('/')}}">Home</a></li>
+        <li class="breadcrumb-item" aria-current="page"><a href="{{route('subjects.index')}}">Manage Subjects</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Create Papers To Subjects</li>
+    </ol>
+</nav>
 
 
-		<!-- Static Table Start -->
-		    <div class="row">
-                <div id="results"></div>
+<section class="content">
+
+<div class="row">
+    <div class="col-12">
+        <div class="card elevation-2 animated flipInX">
+            <div class="card-header row">
+                <h3 class="card-title mr-auto">Create Papers To Subjects</h3>
+            </div>
+            <div class="card-body">
 
 
-                <div class="center-contents">
-                    <form id="insert_paper_data" action="javascript:void(0);" method="post">
+                    <form id="insert_paper_data" action="{{url('/assign_paper_subjects')}}" method="post">
                         @csrf
 
-
-
-        <div class="form admin-panel-content animated bounce">
-
-
-
-            <div class="container center-form">
-                <span id="feature"></span>
-            </div>
-            <div class="container row  center-form">
-                <div class="col-md-8 form-details">
-                    <div class="form-group py">
+                        <input type="hidden" name="_method" value="post">
+                        <div class="container row d-flex justify-content-center">
+                    <div class="form-group  col-md-8">
                         <label for="sub_comp">Subject Name</label>
-                        <select name="subject_name" id="subject_name" class="form-control col-sm-12" multiple="multiple"></select>
+                        <select name="subject_name" id="subject_name" class="form-control d-block col-12 @error('subject_name') is-invalid @enderror">
+                            <option value="">Select a subject</option>
+                            @foreach ($subjects as $subject)
+                                <option value="{{$subject->id}}">{{$subject->name}}</option>
+                            @endforeach
+                        </select>
                         <input type="hidden" name="subject_name_hidden" id="subject_name_hidden">
+                        @error('subject_name')
+                        <span class="invalid-feedback text-danger">
+                            <strong>{{$message}}</strong>
+                        </span>
+                        @enderror
                     </div>
 
 
-                    <div class="form-group py">
+                    <div class="form-group col-md-8">
                         <label for="paper_name">Paper Name</label>
-                        <input type="text" name="paper_name" id="paper_name" placeholder="Paper Name" class="form-control col-sm-12">
+                        <input type="text" name="paper_name" id="paper_name" placeholder="Paper Name" class="form-control d-block col-12 @error('paper_name') is-invalid @enderror" value="@if(old('paper_name')!==null){{old('paper_name')}}@endif">
+                        @error('paper_name')
+                        <span class="invalid-feedback text-danger">
+                            <strong>{{$message}}</strong>
+                        </span>
+                        @enderror
+                    </div>
+
+                    <div class="form-group col-md-8">
+                        <label for="paper_name">Paper Short Form</label>
+                        <input type="text" name="paper_abbrev" id="paper_abbrev" placeholder="Paper Abbrev" class="form-control d-block col-12 @error('paper_abbrev') is-invalid @enderror" value="@if(old('paper_abbrev')!==null){{old('paper_abbrev')}}@endif">
+                        @error('paper_abbrev')
+                        <span class="invalid-feedback text-danger">
+                            <strong>{{$message}}</strong>
+                        </span>
+                        @enderror
+                    </div>
+                    <div class="form-group col-md-8">
+                        <label for="paper_name">Paper Percentage</label>
+                        <input type="text" name="paper_percentage" id="paper_percentage" placeholder="Paper Percentage" class="form-control d-block col-12 @error('paper_percentage') is-invalid @enderror" value="@if(old('paper_percentage')!==null){{old('paper_percentage')}}@endif">
+                        <small class="text-muted right my-1"><p>Optional if necessary number less than 100</p></small>
+                        @error('paper_percentage')
+                        <span class="invalid-feedback text-danger">
+                            <strong>{{$message.'number'}}</strong>
+                        </span>
+                        @enderror
                     </div>
 
 
 
-                <div class="col-md-8 py">
-                    <button type="submit" class="btn btn-info">Submit</button>
+                <div class="form-group col-md-8">
+                    <button type="submit" class="btn btn-info col-12 d-block">Submit</button>
                 </div>
-            </div>
-            </div>
-    </div>
+                </div>
 
 
-<style>
-    .center-form{
-        display: flex;
-        justify-content: center;
-        width: 90%;
-        margin-left: 5vw;
-        margin-right: 5vw;
-
-    }
-
-.chk-class{
-display: flex;
-flex-wrap: wrap;
-padding: 5px;
-height: 250x;
-
-}
-.checklist{
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: row;
-    justify-content: start;
-}
-.chk .input-controls{
-    display: flex;
-    flex-wrap: wrap;
-    color:aliceblue;
-}
-.checked-styled{
-    display: inline;
-    height: 15px;
-    margin: 0.3vw;
-    padding: 0.4vw;
-}
-.class-div{
-    margin: 5px;
-    padding-left: 5px;
-}
-
-.big-label{
-padding-left: 10px;
-padding-top:2px;
-}
-.checked-styled-stream{
-padding-left: 25px;
-padding-top: 3px
-
-}
-
-</style>
 
 
 
 
                     </form>
                 </div>
-                @include('manage-subjects.script')
             </div>
-            <!-- Static Table End -->
+        </div>
+    </div>
 
 
+    </section>
+
+
+@include('manage-subjects.script')
 @endsection
-@section('scripts')
-            	<!-- scrollUp JS
-         ============================================ -->
-	<script src="{{ asset('schools/js/jquery.scrollUp.min.js')}}"></script>
-	<!-- counterup JS
-		============================================ -->
-	<script src="{{ asset('schools/js/counterup/jquery.counterup.min.js')}}"></script>
-	<script src="{{ asset('schools/js/counterup/waypoints.min.js')}}"></script>
-	<!-- peity JS
-		============================================ -->
-	<script src="{{ asset('schools/js/peity/jquery.peity.min.js')}}"></script>
-	<script src="{{ asset('schools/js/peity/peity-active.js')}}"></script>
-	<!-- sparkline JS
-		============================================ -->
-	<script src="{{ asset('schools/js/sparkline/jquery.sparkline.min.js')}}"></script>
-	<script src="{{ asset('schools/js/sparkline/sparkline-active.js')}}"></script>
-	<!-- data table JS
-		============================================ -->
-	<script src="{{ asset('schools/js/data-table/bootstrap-table.js')}}"></script>
-	<script src="{{ asset('schools/js/data-table/tableExport.js')}}"></script>
-	<script src="{{ asset('schools/js/data-table/data-table-active.js')}}"></script>
-	<script src="{{ asset('schools/js/data-table/bootstrap-table-editable.js')}}"></script>
-	<script src="{{ asset('schools/js/data-table/bootstrap-editable.js')}}"></script>
-	<script src="{{ asset('schools/js/data-table/bootstrap-table-resizable.js')}}"></script>
-	<script src="{{ asset('schools/js/data-table/colResizable-1.5.source.js')}}"></script>
-	<script src="{{ asset('schools/js/data-table/bootstrap-table-export.js')}}"></script>
-	<!-- main JS
-         ============================================ -->
-	<script src="{{ asset('schools/js/main.js')}}"></script>
-@endsection
+

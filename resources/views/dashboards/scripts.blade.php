@@ -1,5 +1,9 @@
 @section('first-scripts')
-    <link rel="stylesheet" href="{{asset('schools/plugins/select2/css/select2.css')}}">
+ <!-- jQuery -->
+ <script src="{{asset('adminlte/plugins/jquery/jquery.min.js')}}"></script>
+ <!-- jQuery UI 1.11.4 -->
+ <script src="{{asset('adminlte/plugins/jquery-ui/jquery-ui.min.js')}}"></script>
+    <link rel="stylesheet" href="{{asset('schools/plugins/select2/css/select2.min.css')}}">
     <script src="{{asset('schools/plugins/select2/js/select2.full.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('schools/plugins/multiselect/jquery.lwMultiSelect.js')}}"></script>
     <link rel="stylesheet" href="{{asset('schools/plugins/multiselect/jquery.lwMultiSelect.css')}}" />
@@ -12,6 +16,37 @@ $(document).ready(function(){
         headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
+    });
+
+
+    bsCustomFileInput.init();
+
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 15000
+    });
+
+    $('.swalDefaultSuccess').click(function() {
+      Toast.fire({
+        type: 'success',
+        title: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+      })
+    });
+
+    $('.toastrDefaultSuccess').click(function() {
+      toastr.success('Lorem ipsum dolor sit amet, consetetur sadipscing elitr.')
+    });
+    $('.toastsDefaultBottomRight').click(function() {
+      $(document).Toasts('create', {
+        class: 'bg-success',
+        title: 'Toast Title',
+        position: 'bottomRight',
+        autohide: true,
+        delay: 750,
+        body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+      })
     });
 
 
@@ -146,6 +181,7 @@ $(document).ready(function(){
                     data:{action:action, query:query},
                     success:function(data)
                     {
+                        console.log(data)
                         $('#'+result).html(data);
 
                         if(result == 'streams1')
@@ -241,6 +277,48 @@ $(document).ready(function(){
 
 
 
+    $('.action12').change(function(e)
+    {
+        e.preventDefault();
+        if($(this).val() !== '')
+        {
+            var action = $(this).attr("id");
+            var query = $(this).val();
+            var result = null;
+
+            console.log(`action:${action} ,query:${query}`)
+            if(action === 'schclasses12')
+            {
+                result='stream12';
+            }
+            if(action === 'schclasses34')
+            {
+                result='stream34';
+            }
+            if(action === 'schclasses56')
+            {
+                result='stream56';
+            }
+            $.ajax({
+                url:"{{url('/fetch-streams')}}",
+                method:"POST",
+                data:{action:action,query:query},
+                success:function(data){
+                    console.log(data);
+                    $(`#${result}`).html(data)
+                },
+                error:function(data){
+                    console.log(data);
+                }
+            });
+
+        }
+
+    });
+
+
+
+
 
     $('#insert_data1').on('submit',function(e){
         e.preventDefault();
@@ -311,6 +389,162 @@ $(document).ready(function(){
                 console.log(data);
             },
         })
+    });
+
+
+    $('#insertdata12').on('submit',function(e){
+        e.preventDefault();
+
+        var formData = new FormData(this);
+        $.ajax({
+            contentType:false,
+            processData:false,
+            cache:false,
+            data:formData,
+            type:"POST",
+            url:'{{url("/api/register-students")}}',
+            success:function(data){
+                console.log(data)
+                if(Object.keys(data)=='message')
+                {
+                    window.location.href = "{{url('/')}}";
+
+                    Object.values(data).map((item)=>{
+                        return toastr.success(`${item}`)
+                    });
+
+                }
+
+
+                if(Object.keys(data)=='errors')
+                {
+                    Object.values(data).map((item)=>
+                        {
+                            return toastr.error(
+                                `${(item.class!==undefined?item.class:'')}<br/>
+                                ${(item.student_name!==undefined?item.student_name:'')}<br/>
+                                ${(item.paid_fees!==undefined?item.paid_fees:'')}<br/>
+                                ${(item.stream!==undefined?item.stream:'')}<br/>
+                                ${(item.password!==undefined?item.password:'')}<br/>
+                                ${(item.passport_photo!==undefined?item.passport_photo:'')}<br/>
+                                ${(item.admission_form!==undefined?item.admission_form:'')}<br/>
+                                ${(item.medical_form!==undefined?item.medical_form:'')}`
+                            )
+                        }
+
+                    );
+                }
+            },
+            error:function(data){
+                console.log(data)
+            }
+        });
+
+    });
+
+
+
+    $('#insertdata34').on('submit',function(e){
+        e.preventDefault();
+        $('#hidden_optional_subjects').val($('#optional_subjects').val())
+        var formData = new FormData(this);
+        $.ajax({
+            contentType:false,
+            processData:false,
+            cache:false,
+            data:formData,
+            type:"POST",
+            url:'{{url("/api/register-students")}}',
+            success:function(data){
+                console.log(data)
+                if(Object.keys(data)=='message')
+                {
+                    window.location.href = "{{url('/')}}";
+
+                    Object.values(data).map((item)=>{
+                        return toastr.success(`${item}`)
+                    });
+
+                }
+
+
+                if(Object.keys(data)=='errors')
+                {
+                    Object.values(data).map((item)=>
+                        {
+                            return toastr.error(
+                                `${(item.class!==undefined?item.class:'')}<br/>
+                                ${(item.student_name!==undefined?item.student_name:'')}<br/>
+                                ${(item.paid_fees!==undefined?item.paid_fees:'')}<br/>
+                                ${(item.stream!==undefined?item.stream:'')}<br/>
+                                ${(item.password!==undefined?item.password:'')}<br/>
+                                ${(item.passport_photo!==undefined?item.passport_photo:'')}<br/>
+                                ${(item.admission_form!==undefined?item.admission_form:'')}<br/>
+                                ${(item.medical_form!==undefined?item.medical_form:'')}`
+                            )
+                        }
+
+                    );
+                }
+            },
+            error:function(data){
+                console.log(data)
+            }
+        });
+
+    });
+
+
+
+
+    $('#insertdata56').on('submit',function(e){
+        e.preventDefault();
+
+        var formData = new FormData(this);
+        $.ajax({
+            contentType:false,
+            processData:false,
+            cache:false,
+            data:formData,
+            type:"POST",
+            url:'{{url("/api/register-students")}}',
+            success:function(data){
+                console.log(data)
+                if(Object.keys(data)=='message')
+                {
+                    window.location.href = "{{url('/')}}";
+
+                    Object.values(data).map((item)=>{
+                        return toastr.success(`${item}`)
+                    });
+
+                }
+
+
+                if(Object.keys(data)=='errors')
+                {
+                    Object.values(data).map((item)=>
+                        {
+                            return toastr.error(
+                                `${(item.class!==undefined?item.class:'')}<br/>
+                                ${(item.student_name!==undefined?item.student_name:'')}<br/>
+                                ${(item.paid_fees!==undefined?item.paid_fees:'')}<br/>
+                                ${(item.stream!==undefined?item.stream:'')}<br/>
+                                ${(item.password!==undefined?item.password:'')}<br/>
+                                ${(item.passport_photo!==undefined?item.passport_photo:'')}<br/>
+                                ${(item.admission_form!==undefined?item.admission_form:'')}<br/>
+                                ${(item.medical_form!==undefined?item.medical_form:'')}`
+                            )
+                        }
+
+                    );
+                }
+            },
+            error:function(data){
+                console.log(data)
+            }
+        });
+
     });
 
 

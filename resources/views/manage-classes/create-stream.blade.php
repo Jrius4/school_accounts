@@ -1,7 +1,7 @@
 
 
 
-@extends('layouts.admin-dashboard')
+@extends('layouts.main-dashboard')
 
 @section('style')
 <style>
@@ -16,42 +16,75 @@
     }
 </style>
 @endsection
-@section('admin-content')
-		<!-- Static Table Start -->
-		<div class="data-table-area mg-b-15">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="center-items">
+@section('dashboard')
+
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb elevation-2">
+        <li class="breadcrumb-item"><a href="{{url('/')}}">Home</a></li>
+        <li class="breadcrumb-item" aria-current="page"><a href="{{url('/all-streams')}}">Manage Streams</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Create New Stream</li>
+    </ol>
+</nav>
+
+<section class="content">
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card elevation-2 animated flipInX">
+                <div class="card-header row">
+                    <h3 class="card-title mr-auto">Create New Stream</h3>
+                </div>
+                <div class="card-body">
+
                             <form id="createClassForm" action="javascript:void(0)" method="post">
-                                <div class="form-group">
+
+                            <div class="container row d-flex justify-content-center">
+                                <div class="col-md-12 mb-1">
+                                    <div id="results"></div>
+                                </div>
+
+                                <div class="form-group py-2 col-md-8">
                                     <label for="schclasses">Choose Class(es)</label>
 
 
                                     <div class="row">
-                                        <select id="schclasses" name="schclasses" class="form-control" class="col-sm-12" style="color:aliceblue!important" multiple="multiple">
+                                        <select id="schclasses" name="classes" class="form-control bg-transparent d-block" class="col-sm-12" style="color:aliceblue!important" multiple="multiple">
+                                            @foreach ($schclasses as $class)
+                                            <option value="{{$class->id}}">{{$class->name}}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                     <input type="hidden" name="schclasses_hidden" id="schclasses_hidden">
 
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group py-2 col-md-8">
                                     <label for='name'>Stream Name</label>
-                                    <input type="text" name="name" id="nameInput" placeholder="Class Name" class="form-control text-success bg-transparent col-sm-12"/>
-                                    <span><small class="text-muted">e.g Senior One</small></span>
+                                    <input type="text" name="name" id="nameInput" placeholder="Class Name" class="form-control bg-transparent d-block"/>
+                                    <span><small class="text-muted">e.g Stream Name</small></span>
                                 </div>
-                                <div class="form-group">
-                                    <button type="submit" class="btn btn-info">Create Class</button>
+                                <div class="form-group py-2 col-md-8">
+                                    <button type="submit" class="btn btn-info col-md-12 d-block">Create Class</button>
+                                </div>
+
                                 </div>
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- Static Table End -->
+
+
+            </section>
+
 
 @endsection
 @section('first-scripts')
-    <link rel="stylesheet" href="{{asset('schools/plugins/select2/css/select2.css')}}">
+ <!-- jQuery -->
+ <script src="{{asset('adminlte/plugins/jquery/jquery.min.js')}}"></script>
+ <!-- jQuery UI 1.11.4 -->
+ <script src="{{asset('adminlte/plugins/jquery-ui/jquery-ui.min.js')}}"></script>
+    <link rel="stylesheet" href="{{asset('schools/plugins/select2/css/select2.min.css')}}">
     <script src="{{asset('schools/plugins/select2/js/select2.full.min.js')}}"></script>
 
 @endsection
@@ -69,58 +102,62 @@
                     });
 
     $("#schclasses").select2({
-        placeholder: "Select a class",
-        allowClear: true,
-        ajax: {
-            url: "{{url('/api/get-classes')}}",
-            dataType: 'json',
-            delay:250,
-            data:function(params){
-                var query = {
-                    q:params.term,
-                    page:params.page
-                };
-                return query;
-            },
-            processResults: function (data, params) {
-                params.page = params.page||1;
+        placeholder:'Select a Class'
+    })
 
-                return {
-                    results: data.data,
-                    pagination: {
-                        more: (params.page * 10) < data.total
-                    }
-                };
-            },
-            success:function(data)
-            {
-                console.log(data.data);
-            },
-            error:function(data)
-            {
-                console.log(data);
-            },
-            cache:true,
+    // $("#schclasses").select2({
+    //     placeholder: "Select a class",
+    //     allowClear: true,
+    //     ajax: {
+    //         url: "{{url('/api/get-classes')}}",
+    //         dataType: 'json',
+    //         delay:250,
+    //         data:function(params){
+    //             var query = {
+    //                 q:params.term,
+    //                 page:params.page
+    //             };
+    //             return query;
+    //         },
+    //         processResults: function (data, params) {
+    //             params.page = params.page||1;
+
+    //             return {
+    //                 results: data.data,
+    //                 pagination: {
+    //                     more: (params.page * 10) < data.total
+    //                 }
+    //             };
+    //         },
+    //         success:function(data)
+    //         {
+    //             console.log(data.data);
+    //         },
+    //         error:function(data)
+    //         {
+    //             console.log(data);
+    //         },
+    //         cache:true,
 
 
-        },
-        minimumInputLength:1,
-        templateResult:formatRepo,
-        templateSelection:formatRepoSelection
-    });
+    //     },
+    //     minimumInputLength:1,
+    //     templateResult:formatRepo,
+    //     templateSelection:formatRepoSelection
+    // });
 
-    function formatRepo(repo){
-        if(repo.loading){
-            return repo.text
-        }
+    // function formatRepo(repo){
+    //     if(repo.loading){
+    //         return repo.text
+    //     }
 
-        var $container =$("<span>"+repo.name+"</span>");
-        return $container;
-    }
-    function formatRepoSelection(repo)
-    {
-        return repo.name;
-    }
+    //     var $container =$("<span>"+repo.name+"</span>");
+    //     return $container;
+    // }
+    // function formatRepoSelection(repo)
+    // {
+    //     return repo.name;
+    // }
 
         $('#createClassForm').on('submit',(function(e){
             e.preventDefault();
@@ -136,9 +173,24 @@
                 processData: false,
                 success:function(data){
 
-                   console.log(data)
+                //    console.log(data)
                 // window.location.href = "{{route('classes.index')}}";
                 // alert(`${data.message}`);
+                if(data !== null)
+                {
+                    if(data === 'success')
+                    {
+                        window.location.href = "{{route('classes.index')}}";
+
+                    }
+                    if(Object.keys(data)[0]==='errors'){
+                        var html = Object.values(data).map(function(item){
+                        return `<span class='mx-1'>${(item.name?item.name:'')+"</span><span class='mx-1'>"+(item.classes?item.classes:'')}</span>`;
+                            });
+                            // console.log(html)
+                            $('#results').html(`<div class="alert alert-danger col-sm-6">${html}</div>`);
+                    }
+                }
 
                 },
 

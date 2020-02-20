@@ -42,6 +42,12 @@
     </div>
 </li>
 <li class="nav-item">
-    <a href="#"  class="nav-link "><i class="fa big-icon fa-stop"></i> <span class="mini-dn">Next Term</span></a>
+    <a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="nav-link dropdown-toggle"><i class="fa big-icon fa-user-plus"></i> <span class="mini-dn">Manage Term</span> <span class="indicator-right-menu mini-dn"><i class="fa indicator-mn fa-angle-left"></i></span></a>
+    <div role="menu" class="dropdown-menu left-menu-dropdown animated flipInX">
+        <a href="{{route('sets.create')}}" class="dropdown-item">Set Percentages</a>
+    </div>
+</li>
+<li class="nav-item">
+    <a href="#" class="nav-link "><i class="fa big-icon fa-stop"></i> <span class="mini-dn">Next Term</span></a>
 </li>
 

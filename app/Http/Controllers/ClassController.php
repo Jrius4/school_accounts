@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Role;
 use App\Schclass;
 use App\Schstream;
 use App\User;
@@ -21,14 +22,63 @@ class ClassController extends Controller
         return view('manage-classes.index', compact('classes'));
     }
 
+
     public function createClass()
     {
         return view('manage-classes.create-class');
     }
 
+    public function getAllstreams()
+    {
+        $schstream=Schstream::get();
+        return view('manage-classes.get-all-streams',compact('schstream'));
+    }
+    public function deleteStream($id)
+    {
+        $schstream = Schstream::findOrFail($id);
+        foreach($schstream->schoolclasses()->get() as $res)
+        {
+            $res->classStreames()->detach($schstream);
+        }
+        $schstream->delete();
+        return redirect('all-streams')->with(['message'=>'deleted successfully']);
+    }
+
     public function createStream()
     {
-        return view('manage-classes.create-stream');
+        $schclasses = Schclass::get();
+        return view('manage-classes.create-stream',compact('schclasses'));
+    }
+    public function editStream($id)
+    {
+        $schclasses = Schclass::get();
+        $schstream = Schstream::findOrFail($id);
+        return view('manage-classes.edit-stream',compact('schclasses','schstream'));
+    }
+    public function updateStream(Request $request)
+    {
+        $validator = Validator::make($request->all(),[
+            'name' => 'required',
+            'classes' => 'required',
+            'stream_id' => 'required',
+        ]);
+        $schstream = Schstream::findOrFail($request['stream_id']);
+        foreach($schstream->schoolclasses()->get() as $res)
+        {
+            $res->classStreames()->detach($schstream);
+        }
+        if($validator->fails())
+        {
+            return response()->json(['errors'=>$validator->messages()]);
+        }
+        $schstream->name = $request['name'];
+        $schstream->slug = str_slug($request['name']);
+        if($schstream->save())
+        {
+            $schstream->schoolClasses()->attach(Schclass::find(explode(',',$request['schclasses_hidden'])));
+            return response()->json('success');
+        }
+
     }
 
     public function storeClass(Request $request)
@@ -47,13 +97,17 @@ class ClassController extends Controller
         Schclass::create($data);
 
         return response()->json(['message'=>$request->all()]);
+        // return response()->json('success');
 
     }
+
+
+
     public function storeStream(Request $request)
     {
         $validator = Validator::make($request->all(),[
-            'name' => 'required',
-            'schclasses' => 'required',
+            'name' => 'required|unique:schstreams',
+            'classes' => 'required',
         ]);
         if($validator->fails())
         {
@@ -62,12 +116,16 @@ class ClassController extends Controller
         Schstream::create(array('name'=>$request['name'],'slug'=>str_slug($request['name'])))->schoolClasses()->attach(Schclass::find(explode(',',$request['schclasses_hidden'])));
 
 
-        return response()->json(['message'=>Schstream::with('schoolClasses')->latest()->get()]);
+        // return response()->json(['message'=>Schstream::with('schoolClasses')->latest()->get()]);
+        return response()->json('success');
+
     }
 
     public function createAssignClassTeacherToClasses()
     {
-        return view('manage-classes.create-assign-class-to-classteacher');
+        $schclasses = Schclass::get();
+        $teachers = Role::whereName('teacher')->first()->users()->get();
+        return view('manage-classes.create-assign-class-to-classteacher',compact('schclasses','teachers'));
     }
 
     public function storeAssignClassTeacherToClasses(Request $request)
@@ -90,10 +148,11 @@ class ClassController extends Controller
             $teacher = $user->find($request['teacher'])->update(array('is_class_teacher'=>$request['is_class_teacher']));
             if($request['is_class_teacher']==true)
             {
-                if(Schclass::find($request['schclasses'])->user != null)
-                {
-                    Schclass::find($request['schclasses'])->user->update(array('schclass_id'=>null));
-                }
+                // if(Schclass::find($request['schclasses'])->user !== null)
+                // {
+                //     Schclass::find($request['schclasses'])->user->update(array('schclass_id'=>null));
+                // }
+                Schclass::findOrFail($request['schclasses'])->update(['user_id'=>$request['teacher']]);
                 $teacher = $user->find($request['teacher'])->update(array('schclass_id'=>$request['schclasses']));
             }
         }
@@ -110,53 +169,45 @@ class ClassController extends Controller
     public function fetchStreams(Request $request)
     {
         $classes = new Schclass();
-        if($request['action']!=null)
+        // return response()->json(['response'=>$request->all()]);
+
+        if($request['action']!==null)
         {
-            $output = '';
-            if($request['action']=='schclasses')
+            $output ='';
+            if($request["action"] == "schclasses12")
             {
-                $result = $classes->with('classStreames')->where('id',$request['query'])->first()->classStreames()->get();;
-
-
-                    foreach($result as $row)
-                    {
-                        $output .= '<option value="'.$row['id'].'">'.$row['name'].'</option>';
-                    }
+                $output.='<option value="">Select a stream</option>';
+                $result = $classes->where('id',$request['query'])->first()->classStreames()->get();
+                foreach($result as $row)
+                {
+                    $output.='<option value="'.$row['id'].'">'.$row['name'].'</option>';
+                }
             }
-            if($request['action']=='schclasses1')
+            if($request["action"] == "schclasses34")
             {
-                $result = $classes->with('classStreames')->where('id',$request['query'])->first()->classStreames()->get();;
-                $output .= '<option value='.null.'>'."select a stream".'</option>';
+                $output.='<option value="">Select a stream</option>';
+                $result = $classes->where('id',$request['query'])->first()->classStreames()->get();
+                foreach($result as $row)
+                {
+                    $output.='<option value="'.$row['id'].'">'.$row['name'].'</option>';
+                }
 
-                    foreach($result as $row)
-                    {
-                        $output .= '<option value="'.$row['id'].'">'.$row['name'].'</option>';
-                    }
             }
-
-            if($request['action']=='schclasses2')
+            if($request["action"] == "schclasses56")
             {
-                $result = $classes->with('classStreames')->where('id',$request['query'])->first()->classStreames()->get();;
-                $output .= '<option value='.null.'>'."select a stream".'</option>';
+                $output.='<option value="">Select a stream</option>';
+                $result = $classes->where('id',$request['query'])->first()->classStreames()->get();
+                foreach($result as $row)
+                {
+                    $output.='<option value="'.$row['id'].'">'.$row['name'].'</option>';
+                }
 
-                    foreach($result as $row)
-                    {
-                        $output .= '<option value="'.$row['id'].'">'.$row['name'].'</option>';
-                    }
-            }
-            if($request['action']=='schclasses3')
-            {
-                $result = $classes->with('classStreames')->where('id',$request['query'])->first()->classStreames()->get();;
-                $output .= '<option value='.null.'>'."select a stream".'</option>';
-                    foreach($result as $row)
-                    {
-                        $output .= '<option value="'.$row['id'].'">'.$row['name'].'</option>';
-                    }
             }
             return $output;
         }
-
-
+        else{
+            return response()->json(['errors'=>'please select a class']);
+        }
 
     }
 
@@ -165,9 +216,9 @@ class ClassController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Schclass $schclass)
     {
-        //
+        return view('manage-classes.create', compact('schclass'));
     }
 
     /**
@@ -178,7 +229,23 @@ class ClassController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $rules = array(
+            'name'=> 'required',
+            'level'=> 'required',
+        );
+        $request->validate($rules);
+        $schclass= new Schclass();
+        $schclass->name = $request['name'];
+        $schclass->slug = str_slug($request['name']);
+        $schclass->level = $request['level'];
+        if($schclass->save())
+        {
+            return redirect()->route('classes.index')->with(['message'=>'Class Created Successfully']);
+        }
+        else{
+            return redirect()->route('classes.create')->with(['message'=>'Class Failed']);
+
+        }
     }
 
     /**
@@ -200,7 +267,8 @@ class ClassController extends Controller
      */
     public function edit($id)
     {
-        //
+        $schclass=Schclass::findOrFail($id);
+        return view('manage-classes.edit',compact('schclass'));
     }
 
     /**
@@ -212,7 +280,23 @@ class ClassController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $schclass = Schclass::findOrFail($id);
+        $rules = array(
+            'name'=> 'required',
+            'level'=> 'required',
+        );
+        $request->validate($rules);
+        $schclass->name = $request['name'];
+        $schclass->slug = str_slug($request['name']);
+        $schclass->level = $request['level'];
+        if($schclass->save())
+        {
+            return redirect()->route('classes.index')->with(['message'=>'Class Updated Successfully']);
+        }
+        else{
+            return redirect()->route(['classes.edit',$schclass->id])->with(['message'=>'Class Failed']);
+
+        }
     }
 
     /**
@@ -223,6 +307,9 @@ class ClassController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $schclass = Schclass::findOrFail($id);
+        $schclass->delete();
+        return redirect()->route('classes.index')->with(['message'=>'Class deleted Successfully']);
+
     }
 }

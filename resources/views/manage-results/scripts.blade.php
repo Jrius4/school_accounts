@@ -77,59 +77,60 @@ $(function(){
     });
 
 
-    $("#schclass").select2({
-        placeholder: "Select second subject",
-        allowClear: true,
-        ajax: {
-            url: "{{url('/api/get-classes')}}",
-            dataType: 'json',
-            delay:250,
-            data:function(params){
-                var query = {
-                    q:params.term,
-                    page:params.page
-                };
-                return query;
-            },
-            processResults: function (data, params) {
-                params.page = params.page||1;
+    $("#schclass").select2();
+    // $("#schclass").select2({
+    //     placeholder: "Select second subject",
+    //     allowClear: true,
+    //     ajax: {
+    //         url: "{{url('/api/get-classes')}}",
+    //         dataType: 'json',
+    //         delay:250,
+    //         data:function(params){
+    //             var query = {
+    //                 q:params.term,
+    //                 page:params.page
+    //             };
+    //             return query;
+    //         },
+    //         processResults: function (data, params) {
+    //             params.page = params.page||1;
 
-                return {
-                    results: data.data,
-                    pagination: {
-                        more: (params.page * 10) < data.total
-                    }
-                };
-            },
-            success:function(data)
-            {
-                console.log(data.data);
-            },
-            error:function(data)
-            {
-                console.log(data);
-            },
-            cache:true,
+    //             return {
+    //                 results: data.data,
+    //                 pagination: {
+    //                     more: (params.page * 10) < data.total
+    //                 }
+    //             };
+    //         },
+    //         success:function(data)
+    //         {
+    //             console.log(data.data);
+    //         },
+    //         error:function(data)
+    //         {
+    //             console.log(data);
+    //         },
+    //         cache:true,
 
 
-        },
-        minimumInputLength:1,
-        templateResult:formatRepoSecond,
-        templateSelection:formatRepoSecondSelection
-    });
+    //     },
+    //     minimumInputLength:1,
+    //     templateResult:formatRepoSecond,
+    //     templateSelection:formatRepoSecondSelection
+    // });
 
-    function formatRepoSecond(repo){
-        if(repo.loading){
-            return repo.text
-        }
+    // function formatRepoSecond(repo){
+    //     if(repo.loading){
+    //         return repo.text
+    //     }
 
-        var $container =$("<span>"+repo.name+"</span>");
-        return $container;
-    }
-    function formatRepoSecondSelection(repo)
-    {
-        return repo.name;
-    }
+    //     var $container =$("<span>"+repo.name+"</span>");
+    //     return $container;
+    // }
+    // function formatRepoSecondSelection(repo)
+    // {
+    //     return repo.name;
+    // }
 
 
 

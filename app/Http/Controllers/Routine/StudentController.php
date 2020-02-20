@@ -17,7 +17,7 @@ class StudentController extends Controller
 
     public function index()
     {
-        $students = Student::orderBy('created_at','desc')->get();
+        $students = Student::orderBy('created_at','desc')->where('updated_at','LIKE','%'.'2020'.'%')->get();
         $level=null;
         return view('manage-students.index',compact('students','level'));
     }

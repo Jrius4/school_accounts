@@ -410,4 +410,4 @@
 			</div>
 		</div>
     @endsection
-@include('dashboards.scripts')
+{{-- @include('dashboards.scripts') --}}

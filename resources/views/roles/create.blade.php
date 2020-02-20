@@ -1,64 +1,63 @@
-@extends('layouts.admin-dashboard')
+@extends('layouts.main-dashboard')
+
+@section('dashboard')
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb elevation-2">
+        <li class="breadcrumb-item"><a href="{{url('/')}}">Home</a></li>
+        <li class="breadcrumb-item" aria-current="page"><a href="{{route('roles.index')}}">Manage Roles</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Create New Role</li>
+    </ol>
+</nav>
+
+
+<section class="content">
+
+<div class="row">
+    <div class="col-12">
+        <div class="card elevation-2 animated flipInX">
+            <div class="card-header row">
+                <h3 class="card-title mr-auto">Create New Role</h3>
+            </div>
+            <div class="card-body">
+
+                    {!! Form::model($role,['files' => false,'route' => 'roles.store','method'=>'POST']) !!}
+
+
+                            <div class="container row d-flex justify-content-center">
+                                @include('roles.form')
+                            </div>
+
+                    {!! Form::close() !!}
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</section>
+
+
+
+@endsection
+
+@section('first-scripts')
+ <!-- jQuery -->
+ <script src="{{asset('adminlte/plugins/jquery/jquery.min.js')}}"></script>
+ <!-- jQuery UI 1.11.4 -->
+ <script src="{{asset('adminlte/plugins/jquery-ui/jquery-ui.min.js')}}"></script>
+
+
+@endsection
+
 @section('style')
+
 <style>
-    .bg-transparent{
-        background:transparent !important;
-        border:none
-    }
-    .center-items{
-        display: flex;
-        justify-items: center;
+    .breadcrumb{
+
+        background: #fdffffc7;
     }
 </style>
 @endsection
-@section('admin-content')
-        <div class="row">
-            <div class="center-contents">
-                <a href="{{route('roles.index')}}" class="btn btn-info">Back</a>
-                </div>
-        </div>
-		<!-- Static Table Start -->
-		    <div class="row">
 
-                <div class="center-contents">
-                    {!! Form::model($role,['files' => false,'route' => 'roles.store','method'=>'POST']) !!}
-
-                            @include('roles.form')
-
-                    {!! Form::close() !!}
-                </div>
-
-            </div>
-            <!-- Static Table End -->
-
-@endsection
-@section('scripts')
-            	<!-- scrollUp JS
-         ============================================ -->
-	<script src="{{ asset('schools/js/jquery.scrollUp.min.js')}}"></script>
-	<!-- counterup JS
-		============================================ -->
-	<script src="{{ asset('schools/js/counterup/jquery.counterup.min.js')}}"></script>
-	<script src="{{ asset('schools/js/counterup/waypoints.min.js')}}"></script>
-	<!-- peity JS
-		============================================ -->
-	<script src="{{ asset('schools/js/peity/jquery.peity.min.js')}}"></script>
-	<script src="{{ asset('schools/js/peity/peity-active.js')}}"></script>
-	<!-- sparkline JS
-		============================================ -->
-	<script src="{{ asset('schools/js/sparkline/jquery.sparkline.min.js')}}"></script>
-	<script src="{{ asset('schools/js/sparkline/sparkline-active.js')}}"></script>
-	<!-- data table JS
-		============================================ -->
-	<script src="{{ asset('schools/js/data-table/bootstrap-table.js')}}"></script>
-	<script src="{{ asset('schools/js/data-table/tableExport.js')}}"></script>
-	<script src="{{ asset('schools/js/data-table/data-table-active.js')}}"></script>
-	<script src="{{ asset('schools/js/data-table/bootstrap-table-editable.js')}}"></script>
-	<script src="{{ asset('schools/js/data-table/bootstrap-editable.js')}}"></script>
-	<script src="{{ asset('schools/js/data-table/bootstrap-table-resizable.js')}}"></script>
-	<script src="{{ asset('schools/js/data-table/colResizable-1.5.source.js')}}"></script>
-	<script src="{{ asset('schools/js/data-table/bootstrap-table-export.js')}}"></script>
-	<!-- main JS
-         ============================================ -->
-	<script src="{{ asset('schools/js/main.js')}}"></script>
-@endsection

@@ -13,63 +13,65 @@ $('#feauture').html(html);
 $('#roles').lwMultiSelect();
 $('#subjects').lwMultiSelect();
 
-var rootNode = [
-        {
-            "id": "1",
-            "title": "Senior 6",
-            "value": 1,
-            "children": [
-                            {
-                                "id": "0-1",
-                                "title": "Physical",
-                                "value": "Physical",
-                            },
-                            {
-                                "id": "0-2",
-                                "title": "Chemical",
-                                "value": 12,
-                            },
-                            {
-                                "id": "0-3",
-                                "title": "Biological",
-                                "value": 13,
+// var rootNode = [
+//         {
+//             "id": "1",
+//             "title": "Senior 6",
+//             "value": 1,
+//             "children": [
+//                             {
+//                                 "id": "0-1",
+//                                 "title": "Physical",
+//                                 "value": "Physical",
+//                             },
+//                             {
+//                                 "id": "0-2",
+//                                 "title": "Chemical",
+//                                 "value": 12,
+//                             },
+//                             {
+//                                 "id": "0-3",
+//                                 "title": "Biological",
+//                                 "value": 13,
 
-                            }
-                        ]
-        },
-        {
-            "id": "2",
-            "title": "Senior 5",
-            value: 2,
-            "children": [
-                            {
-                                "id": "0-1",
-                                "title": "Physical",
-                                "value": 21,
-                            },
-                            {
-                                "id": "0-2",
-                                "title": "Chemical",
-                                "value": 22,
-                            },
-                            {
-                                "id": "0-3",
-                                "title": "Biological",
-                                "value": 23,
+//                             }
+//                         ]
+//         },
+//         {
+//             "id": "2",
+//             "title": "Senior 5",
+//             value: 2,
+//             "children": [
+//                             {
+//                                 "id": "0-1",
+//                                 "title": "Physical",
+//                                 "value": 21,
+//                             },
+//                             {
+//                                 "id": "0-2",
+//                                 "title": "Chemical",
+//                                 "value": 22,
+//                             },
+//                             {
+//                                 "id": "0-3",
+//                                 "title": "Biological",
+//                                 "value": 23,
 
-                            }
-                        ]
-        }
-    ];
-    console.log(rootNode)
+//                             }
+//                         ]
+//         }
+//     ];
+//     console.log(rootNode)
 
-      $('div.treeSelector').treeSelector(rootNode, [], function (e, values) {
-        console.info('onChange', e, values);
-      }, {
-        checkWithParent: true,
-        titleWithParent: true,
-        notViewClickParentTitle: true
-      });
+//       $('div.treeSelector').treeSelector(rootNode, [], function (e, values) {
+//         console.info('onChange', e, values);
+//       }, {
+//         checkWithParent: true,
+//         titleWithParent: true,
+//         notViewClickParentTitle: true
+//       });
+
+
 $.ajax({
     url:"{{url('/get-roles')}}",
     method:"GET",
@@ -145,7 +147,13 @@ $('#insert_data').on('submit',function(event){
 
         if(data!=null)
         {
-            console.log(data);
+            // console.log(data);
+
+            var html = Object.values(data).map(function(item){
+                    return `<span class='mx-1'>${(item.level?item.level:'')+"</span><span class='mx-1'>"+(item.name?item.name:'')+"</span><span class='mx-1'>"+(item.hidden_subject?'select atleast one subject':'')+"</span><span class='mx-1'>"+(item.hidden_role?'select atleast one role':'')+"</span><span class='mx-1'>"+(item.hidden_classes?'select atleast one class':'')+"</span><span class='mx-1'>"+(item.password?item.password:'')}</span>`;
+            });
+            // console.log(html)
+            $('#results').html(`<div class="alert alert-danger col-sm-6">${html}</div>`);
         }
     },
     error:function(data){

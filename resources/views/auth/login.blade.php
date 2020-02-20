@@ -1,242 +1,147 @@
-@extends('layouts.dashboard')
-@section('content')
+@extends('layouts.main')
+@section('styles')
+<style>
+body{
+    background-color: #516369;
+}
+.panel-vh{
+ min-height: 100%
+}
+.head-info{
+    color: antiquewhite;
+    background-color: #323638;
 
-		<!-- Breadcome start-->
-		<div class="breadcome-area mg-b-30 small-dn">
-			<div class="container-fluid">
-				<div class="row">
-					<div class="col-lg-12">
-						<div class="breadcome-list shadow-reset">
-							<div class="row">
-								<div class="col-lg-6">
-									<div class="breadcome-heading">
-										<h2>WELCOME TO FRIENDS ACADEMY KATENDE</h2>
-									</div>
-								</div>
-								<div class="col-lg-6">
-									<ul class="breadcome-menu">
-										<li>Home<span class="bread-slash">/</span>
-										</li>
-										<li>Login</li>
-									</ul>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- Breadcome End-->
-		<!--            Mobile view start-->
-		<!-- Breadcome start-->
-		<div class="breadcome-area mg-b-30 des-none">
-			<div class="container-fluid">
-				<div class="row">
-					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-						<div class="breadcome-list map-mg-t-40-gl shadow-reset">
-							<div class="row">
-								<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-									<div class="breadcome-heading">
-										<h2>FRIENDS ACADEMY KATENDE</h2>
-									</div>
-								</div>
-								<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-									<ul class="breadcome-menu">
-										<li><a href="#">Home</a> <span class="bread-slash">/</span>
-										</li>
-										<li><span class="bread-blod">Login</span>
-										</li>
-									</ul>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- Breadcome End-->
-		<!--            mobile view end-->
-		<!-- login Start-->
-		<div class="login-form-area mg-t-30 mg-b-1000">
-			<div class="form admin-panel-content animated bounce tab-pane fade in animated zoomInDown shadow-reset active">
-				<div class="row">
-					<div class="col-lg-2">
+}
+footer{
+    background-color: #242b2d;
+    color: antiquewhite;
 
-					</div>
+}
+footer a{
+    color: #61e490;
+}
+</style>
 
-					<div class="col-lg-4">
-						<div class="login-bg">
-							<div class="row">
-								<div class="col-lg-12">
-									<div class="logo">
-										<a href="#"><img src="{{asset('schools/img/logo/log.png')}}" alt="" />
-                                                </a>
-									</div>
-								</div>
-							</div>
+@endsection
+@section('full-content')
 
-							<div class="row">
-								<div class="col-lg-12">
-									<div class="login-title">
-										<h1>Student/Parent</h1>
-
-									    {{-- some code --}}
-									</div>
-								</div>
-							</div>
-							<form method="post" action="{{ route("login.student") }}" class="adminpro-form">
-                                    @csrf
-							<div class="row">
-								<div class="col-lg-4">
-									<div class="login-input-head">
-										<p>Roll No.</p>
-									</div>
-								</div>
-								<div class="col-lg-8">
-									<div class="login-input-area">
-										<input type="text" autocomplete="off" name="roll_number" required/>
-										<i class="fa fa-credit-card login-user" aria-hidden="true"></i>
-                                    </div>
-                                    <div>
-                                        <input type="hidden" name="password" value="student">
-                                    </div>
-									<div class="row">
-										<div class="col-lg-12">
-											<div class="forgot-password">
-												<a href="#"></a>
-											</div>
-										</div>
-									</div>
-										<div class="row">
-											<div class="col-lg-12">
-												<div class="login-keep-me">
-													<label class="checkbox">
-                                                            <input type="checkbox" name="remember" ><i></i>Remember Me
-                                                        </label>
-
-												</div>
-											</div>
-										</div>
-								</div>
-
-								<div class="col-lg-4">
-
-								</div>
-								<div class="col-lg-8">
-									<div class="login-button-pro">
-										<button type="submit" class="login-button login-button-lg">Login</button>
-									</div>
-								</div>
-							</div>
-							</form>
-						</div>
-
-					</div>
+    <div class="container-fluid" style="min-height:98vh">
+        <div class="card card-body elevation-4 shadow-sm head-info">
+            <h3>WELCOME TO FRIENDS ACADEMY KATENDE</h3>
+        </div>
+        <div class="container row d-flex justify-content-center mx-auto">
 
 
-						<div class="col-lg-4">
-							<div class="login-bg">
-								<div class="row">
-									<div class="col-lg-12">
-										<div class="logo">
-											<a href="#"><img src="{{asset('schools/img/logo/log.png')}}" alt="" />
-                                                </a>
-										</div>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-lg-12">
-										<div class="login-title">
-											<h1>Administration</h1>
-                                              {{-- some code --}}
-                                              {{-- <h3 style="color:white">{{ isset($url) ? ucwords($url) : ""}} {{ __('Login') }}</h3> --}}
-										</div>
-									</div>
+            <div class="col-md-5 card h-100 panel-vh bg-dark elevation-2 shadow-sm mx-1 animated bounce">
+                <div class="card-header d-flex justify-content-center">
+                    <img src="{{asset('schools/img/logo/log.png')}}" alt="">
+                </div>
+                <div class="form-group d-lg py-1"></div>
+                <div class="card-body">
+                    <h4 class="mb-2">Student/Parent</h4>
+                    <form method="post" action="{{ route("login.student") }}" class="my-auto adminpro-form">
+                        @csrf
+                        <div class="form-group">
+                            <label for="roll_number">Student Roll Number </label>
+
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text bg-dark text-light" id="basic-addon1"><i class="fa fa-credit-card login-user" aria-hidden="true"></i></span>
                                 </div>
-                                {{-- @isset($url)
-                                    <form class="adminpro-form" method="POST" action='{{ url("login/$url") }}' aria-label="{{ __('Login') }}">
-                                @else
-                                    <form class="adminpro-form" method="POST" action='{{ url("login") }}' aria-label="{{ __('Login') }}">
-                                @endisset --}}
-                                <form class="adminpro-form" method="POST" action='{{ url("/") }}' aria-label="{{ __('Login') }}">
+                                <input type="text" placeholder="Roll Number" autocomplete="off" name="roll_number" class="form-control bg-transparent text-light d-block col-md-12 @error('roll_number') is-invalid @enderror" aria-label="roll_number" aria-describedby="basic-addon1"/>
+                              </div>
+                            @error('roll_number')
+                                <span class="invalid-feedback text-danger" role="alert">
+                                    <strong>{{ "Dear Student,".$message }}</strong>
+                                </span>
+                            @enderror
+                            {{-- @if (isset($message))
+                            <span class="invalid-feedback text-danger" role="alert">
+                                <strong>{{ "Dear Student,".$message }}</strong>
+                            </span>
+                            @endif --}}
+                            <input type="hidden" name="password" value="student">
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Login" class="btn btn-info btn-block d-block col-md-12"/>
+                        </div>
+                        <div class="form-group d-lg py-4"></div>
 
-                                    @csrf
-								<div class="row">
-									<div class="col-lg-4">
-										<div class="login-input-head">
-											<p>{{_('Username')}}</p>
-										</div>
-									</div>
-									<div class="col-lg-8">
 
-                                            <div class="login-input-area col-12">
-                                                    <input id="username" type="text" class="@error('username') is-invalid @enderror" name="username" value="{{ old('username') }}" required autocomplete="username" autofocus/>
-                                                <i class="fa fa-user login-user" aria-hidden="true"></i>
-                                            </div>
+                    </form>
+                </div>
+            </div>
 
-                                        <div class="col-12">
-                                            @error('username')
-                                                <span class="invalid-feedback text-danger" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                            @enderror
-                                        </div>
+           <div class="col-md-5 card h-100 bg-dark elevation-2 shadow-sm mx-1 animated bounce">
+                <div class="card-header d-flex justify-content-center">
+                    <img src="{{asset('schools/img/logo/log.png')}}" alt="">
+                </div>
+                <div class="card-body">
+                    <h4 class="mb-2">Administration</h4>
+                    <form class="adminpro-form" method="POST" action='{{ url("/") }}' aria-label="{{ __('Login') }}">
+                        @csrf
+                        <div class="form-group">
+                            <label for="roll_number">Username</label>
 
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-lg-4">
-										<div class="login-input-head">
-											<p>Password</p>
-										</div>
-									</div>
-									<div class="col-lg-8">
-										<div class="login-input-area">
-											<input id="password" type="password" class="@error('password') is-invalid @enderror" name="password" required autocomplete="current-password"/>
-											<i class="fa fa-lock login-user"></i>
-                                        </div>
-                                        @error('password')
-                                            <span class="invalid-feedback  text-danger" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-										<div class="row">
-											<div class="col-lg-12">
-												<div class="forgot-password">
-													<a href="#">Forgot password?</a>
-												</div>
-											</div>
-										</div>
-										<div class="row">
-											<div class="col-lg-12">
-												<div class="login-keep-me">
-													<label class="checkbox">
-                                                            <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }} ><i></i>Keep me logged in
-                                                        </label>
+                            <input id="username" placeholder="username" type="text" class="form-control bg-transparent text-light d-block col-md-12 @error('username') is-invalid @enderror" name="username" value="{{ old('username') }}" required autocomplete="username" autofocus/>
 
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-lg-4">
+                            @error('username')
+                                <span class="invalid-feedback text-danger" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="roll_number">Password</label>
 
-									</div>
-									<div class="col-lg-8">
-										<div class="login-button-pro">
-											<button name="adminsubmit" class="login-button login-button-lg" type="submit">Log in</button>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</form>
-					<div class="col-lg-2">
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- login End-->
+                            <input id="password" placeholder="password" type="password" class="form-control bg-transparent text-light d-block col-md-12 @error('password') is-invalid @enderror" name="password" required autocomplete="current-password"/>
 
+                            @error('password')
+                                <span class="invalid-feedback  text-danger" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Login" required class="btn btn-info btn-block d-block col-md-12"/>
+                        </div>
+
+
+
+                    </form>
+                </div>
+           </div>
+
+        </div>
+
+<div class="row col-lg-12">
+
+    <div class="col-sm-6 mx-auto text-white">
+        <p>
+            Usernames:magezi,teacher,headteacher,academic<br>
+            Password: 123456
+        </p>
+        @foreach (App\Models\Student::get() as $stud)
+            <p style="display:inline;margin:0.8em">roll_number:{{$stud->roll_number.' Class: '. $stud->schclass->name}}</p>
+        @endforeach
+    </div>
+
+</div>
+
+
+    </div>
+<footer class="container-fluid">
+            <strong>Copyright &copy; {{date('Y')}} <a href="#">ntechnology</a>.</strong>
+            All rights reserved.
+            <div class="float-right d-none d-sm-inline-block">
+                <b>Version</b> 1.0.2
+            </div>
+</footer>
+
+@endsection
+@section('script')
+  <!-- jQuery -->
+ <script src="{{asset('adminlte/plugins/jquery/jquery.min.js')}}"></script>
+ <!-- jQuery UI 1.11.4 -->
+ <script src="{{asset('adminlte/plugins/jquery-ui/jquery-ui.min.js')}}"></script>
 @endsection

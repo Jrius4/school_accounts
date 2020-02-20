@@ -2,6 +2,7 @@
 
 use App\Models\Student;
 use App\Subject;
+use Carbon\Carbon;
 use Faker\Factory as Faker;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -17,6 +18,7 @@ class StudentInfoSeeder extends Seeder
     {
         $faker = Faker::create();
         DB::table('students')->delete();
+        $date =new Carbon();
 
         DB::table('students')->insert([
             //Alevel
@@ -29,9 +31,11 @@ class StudentInfoSeeder extends Seeder
                 'combination_id'=>"1",
                 'gender'=>"male",
                 'amount_paid'=>"600000",
-                'image'=>str_slug('Kazibwe Julia',"_")."_picture.jpg",
+                'image'=>str_slug('Kazibwe Julia',"_")."_picture.JPG",
                 'medical_form'=>str_slug('Kazibwe Julia',"_")."_medical.pdf",
                 'admission_form'=>str_slug('Kazibwe Julia',"_")."_admission.pdf",
+                'created_at'=>$date->now(),
+                'updated_at'=>$date->now(),
             ],
             [
                 'name'=>'Micheal Kato',
@@ -42,9 +46,11 @@ class StudentInfoSeeder extends Seeder
                 'combination_id'=>"2",
                 'gender'=>"male",
                 'amount_paid'=>"600000",
-                'image'=>str_slug('Micheal Kato',"_")."_picture.jpg",
+                'image'=>str_slug('Micheal Kato',"_")."_picture.JPG",
                 'medical_form'=>str_slug('Micheal Kato',"_")."_medical.pdf",
                 'admission_form'=>str_slug('Micheal Kato',"_")."_admission.pdf",
+                'created_at'=>$date->now(),
+                'updated_at'=>$date->now(),
             ],
             [
                 'name'=>'Nakiwala Anita',
@@ -55,9 +61,11 @@ class StudentInfoSeeder extends Seeder
                 'combination_id'=>"1",
                 'gender'=>"female",
                 'amount_paid'=>"600000",
-                'image'=>str_slug('Nakiwala Anita',"_")."_picture.jpg",
+                'image'=>str_slug('Nakiwala Anita',"_")."_picture.JPG",
                 'medical_form'=>str_slug('Nakiwala Anita',"_")."_medical.pdf",
                 'admission_form'=>str_slug('Nakiwala Anita',"_")."_admission.pdf",
+                'created_at'=>$date->now(),
+                'updated_at'=>$date->now(),
             ],
             [
                 'name'=>"Sheila Evenlyn",
@@ -68,9 +76,11 @@ class StudentInfoSeeder extends Seeder
                 'combination_id'=>"1",
                 'gender'=>"male",
                 'amount_paid'=>"600000",
-                'image'=>str_slug("Sheila Evenlyn","_")."_picture.jpg",
+                'image'=>str_slug("Sheila Evenlyn","_")."_picture.JPG",
                 'medical_form'=>str_slug("Sheila Evenlyn","_")."_medical.pdf",
                 'admission_form'=>str_slug("Sheila Evenlyn","_")."_admission.pdf",
+                'created_at'=>$date->now(),
+                'updated_at'=>$date->now(),
             ],
             [
                 'name'=>'Kiseka Marvin',
@@ -81,9 +91,11 @@ class StudentInfoSeeder extends Seeder
                 'combination_id'=>"2",
                 'gender'=>"male",
                 'amount_paid'=>"600000",
-                'image'=>str_slug('Kiseka Marvin',"_")."_picture.jpg",
+                'image'=>str_slug('Kiseka Marvin',"_")."_picture.JPG",
                 'medical_form'=>str_slug('Kiseka Marvin',"_")."_medical.pdf",
                 'admission_form'=>str_slug('Kiseka Marvin',"_")."_admission.pdf",
+                'created_at'=>$date->now(),
+                'updated_at'=>$date->now(),
             ],
             [
                 'name'=>'Kamya Moses',
@@ -94,9 +106,11 @@ class StudentInfoSeeder extends Seeder
                 'combination_id'=>"1",
                 'gender'=>"male",
                 'amount_paid'=>"600000",
-                'image'=>str_slug('Kamya Moses',"_")."_picture.jpg",
+                'image'=>str_slug('Kamya Moses',"_")."_picture.JPG",
                 'medical_form'=>str_slug('Kamya Moses',"_")."_medical.pdf",
                 'admission_form'=>str_slug('Kamya Moses',"_")."_admission.pdf",
+                'created_at'=>$date->now(),
+                'updated_at'=>$date->now(),
             ],
             [
                 'name'=>'Kaweke Henry',
@@ -107,9 +121,11 @@ class StudentInfoSeeder extends Seeder
                 'combination_id'=>"1",
                 'gender'=>"male",
                 'amount_paid'=>"600000",
-                'image'=>str_slug('Kaweke Henry',"_")."_picture.jpg",
+                'image'=>str_slug('Kaweke Henry',"_")."_picture.JPG",
                 'medical_form'=>str_slug('Kaweke Henry',"_")."_medical.pdf",
                 'admission_form'=>str_slug('Kaweke Henry',"_")."_admission.pdf",
+                'created_at'=>$date->now(),
+                'updated_at'=>$date->now(),
             ],
             //Olevel
             [
@@ -121,9 +137,11 @@ class StudentInfoSeeder extends Seeder
                 'combination_id'=>"1",
                 'gender'=>"male",
                 'amount_paid'=>"600000",
-                'image'=>str_slug('Johnson Kaggwa',"_")."_picture.jpg",
+                'image'=>str_slug('Johnson Kaggwa',"_")."_picture.JPG",
                 'medical_form'=>str_slug('Johnson Kaggwa',"_")."_medical.pdf",
                 'admission_form'=>str_slug('Johnson Kaggwa',"_")."_admission.pdf",
+                'created_at'=>$date->now(),
+                'updated_at'=>$date->now(),
             ],
             [
                 'name'=>'Junior Candidate',
@@ -134,9 +152,11 @@ class StudentInfoSeeder extends Seeder
                 'combination_id'=>null,
                 'gender'=>"male",
                 'amount_paid'=>"400000",
-                'image'=>str_slug('Junior Candidate',"_")."_picture.jpg",
+                'image'=>str_slug('Junior Candidate',"_")."_picture.JPG",
                 'medical_form'=>str_slug('Junior Candidate',"_")."_medical.pdf",
                 'admission_form'=>str_slug('Junior Candidate',"_")."_admission.pdf",
+                'created_at'=>$date->now(),
+                'updated_at'=>$date->now(),
             ],
             [
                 'name'=>"Ojok Isaac",
@@ -147,9 +167,11 @@ class StudentInfoSeeder extends Seeder
                 'combination_id'=>null,
                 'gender'=>"male",
                 'amount_paid'=>"250000",
-                'image'=>str_slug("Ojok Isaac","_")."_picture.jpg",
+                'image'=>str_slug("Ojok Isaac","_")."_picture.JPG",
                 'medical_form'=>str_slug("Ojok Isaac","_")."_medical.pdf",
                 'admission_form'=>str_slug("Ojok Isaac","_")."_admission.pdf",
+                'created_at'=>$date->now(),
+                'updated_at'=>$date->now(),
             ],
             [
                 'name'=>'Resty Moreen',
@@ -160,9 +182,11 @@ class StudentInfoSeeder extends Seeder
                 'combination_id'=>null,
                 'gender'=>"female",
                 'amount_paid'=>"250000",
-                'image'=>str_slug('Resty Moreen',"_")."_picture.jpg",
+                'image'=>str_slug('Resty Moreen',"_")."_picture.JPG",
                 'medical_form'=>str_slug('Resty Moreen',"_")."_medical.pdf",
                 'admission_form'=>str_slug('Resty Moreen',"_")."_admission.pdf",
+                'created_at'=>$date->now(),
+                'updated_at'=>$date->now(),
             ],
             [
                 'name'=>'Juuko Heneky',
@@ -173,9 +197,11 @@ class StudentInfoSeeder extends Seeder
                 'combination_id'=>null,
                 'gender'=>"male",
                 'amount_paid'=>"600000",
-                'image'=>str_slug('Juuko Heneky',"_")."_picture.jpg",
+                'image'=>str_slug('Juuko Heneky',"_")."_picture.JPG",
                 'medical_form'=>str_slug('Juuko Heneky',"_")."_medical.pdf",
                 'admission_form'=>str_slug('Juuko Heneky',"_")."_admission.pdf",
+                'created_at'=>$date->now(),
+                'updated_at'=>$date->now(),
             ],
         ]);
 

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Exmset extends Model
 {
-    protected $fillable = ['set_name','grade'];
+    protected $fillable = ['set_name','grade','set_percentage'];
 
 
     public function results()

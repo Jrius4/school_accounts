@@ -1,5 +1,9 @@
 @section('first-scripts')
-    <link rel="stylesheet" href="{{asset('schools/plugins/select2/css/select2.css')}}">
+        <!-- jQuery -->
+    <script src="{{asset('adminlte/plugins/jquery/jquery.min.js')}}"></script>
+    <!-- jQuery UI 1.11.4 -->
+    <script src="{{asset('adminlte/plugins/jquery-ui/jquery-ui.min.js')}}"></script>
+    <link rel="stylesheet" href="{{asset('schools/plugins/select2/css/select2.min.css')}}">
     <script src="{{asset('schools/plugins/select2/js/select2.full.min.js')}}"></script>
 
 @endsection
@@ -17,60 +21,12 @@ $(function(){
         }
 
     });
-
+    bsCustomFileInput.init();
     $("#roles").select2({
-        placeholder: "Select a staff",
-        allowClear: true,
-        ajax: {
-            url: "{{url('/api/get-roles')}}",
-            dataType: 'json',
-            delay:250,
-            data:function(params){
-                var query = {
-                    q:params.term,
-                    page:params.page
-                };
-                return query;
-            },
-            processResults: function (data, params) {
-                params.page = params.page||1;
-
-                return {
-                    results: data.data,
-                    pagination: {
-                        more: (params.page * 10) < data.total
-                    }
-                };
-            },
-            success:function(data)
-            {
-                console.log(data.data);
-            },
-            error:function(data)
-            {
-                console.log(data);
-            },
-            cache:true,
-
-
-        },
-        minimumInputLength:1,
-        templateResult:formatRepo,
-        templateSelection:formatRepoSelection
+        placeholder:"Select a Staff"
     });
 
-    function formatRepo(repo){
-        if(repo.loading){
-            return repo.text
-        }
 
-        var $container =$("<span>"+repo.display_name+"</span>");
-        return $container;
-    }
-    function formatRepoSelection(repo)
-    {
-        return repo.display_name;
-    }
     $('#createUserForm').on('submit',(function(e){
         e.preventDefault();
 

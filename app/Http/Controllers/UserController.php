@@ -29,7 +29,8 @@ class UserController extends BackendController
      */
     public function create(User $user)
     {
-        $roles = Role::pluck('display_name','id');
+        $roles = Role::get();
+        // $roles = Role::pluck('display_name','id');
         // dd($roles);
         return view('manage-users.create')->with(compact('user','roles'));
     }
@@ -91,6 +92,7 @@ class UserController extends BackendController
             'some_form'=>'max:1024',
             'image'=>'mimes:jpg,jpeg,bmp,png|max:1024',
         ];
+        // return response()->json($request->all());
         $validator = Validator::make($request->all(),$rules);
         if($validator->fails()){
             return response()->json(['errors'=>$validator->messages()]);

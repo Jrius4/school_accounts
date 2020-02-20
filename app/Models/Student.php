@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Combination;
 use App\Mark;
+use App\PpTrComment;
 use App\Result;
 use App\Schclass;
 use App\Schstream;
@@ -22,6 +23,10 @@ class Student extends Authenticatable
     public function marks()
     {
         return $this->hasMany(Mark::class);
+    }
+    public function ppComment()
+    {
+        return $this->hasMany(PpTrComment::class);
     }
     public function schclass()
     {

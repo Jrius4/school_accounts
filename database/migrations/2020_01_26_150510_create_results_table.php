@@ -24,6 +24,7 @@ class CreateResultsTable extends Migration
             $table->unsignedBigInteger('schclass_id')->nullable();
             $table->unsignedSmallInteger('mark')->nullable();
             $table->string('grade')->nullable();
+            $table->float('calculate_mark')->nullable();
             $table->text('comments')->nullable();
             $table->string('year')->nullable();
             $table->timestamps();

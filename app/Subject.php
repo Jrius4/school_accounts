@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Models\Student;
 use Illuminate\Database\Eloquent\Model;
 
 class Subject extends Model
@@ -11,6 +12,10 @@ class Subject extends Model
     public function paperSets()
     {
         return $this->hasMany(Setpp::class);
+    }
+    public function ppComment()
+    {
+        return $this->hasMany(PpTrComment::class);
     }
     public function marks()
     {
@@ -42,6 +47,10 @@ class Subject extends Model
     public function results()
     {
         return $this->hasMany(Result::class);
+    }
+    public function students()
+    {
+        return $this->belongsToMany(Student::class);
     }
 
 

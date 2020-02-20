@@ -53,6 +53,7 @@ class LoginController extends Controller
             'password' => 'required|min:6'
         ]);
 
+
         if (Auth::guard('admins')->attempt(['name' => $request->name, 'password' => $request->password], $request->get('remember'))) {
 
             return redirect()->intended('/admin');
@@ -72,9 +73,13 @@ class LoginController extends Controller
             'password' => 'required|min:6'
         ]);
 
+
         if (Auth::guard('students')->attempt(['roll_number' => $request->roll_number, 'password' => $request->password], $request->get('remember'))) {
 
             return redirect()->intended('/student');
+        }
+        else{
+            return redirect('/')->with(['message'=>'wrong roll number']);
         }
         return back()->withInput($request->only('name', 'remember'));
     }

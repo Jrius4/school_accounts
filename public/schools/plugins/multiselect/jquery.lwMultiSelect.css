@@ -54,7 +54,7 @@
 }
 
 .lwms-filterhead {
-  color: #ffffff;
+  color: #000000;
   font-size: 12px;
   font-weight: bold;
   height: 25px;
@@ -64,12 +64,12 @@
 }
 
 .lwms-filterhead a {
-  color: #ffffff;
+  color: #000000;
   text-decoration: none;
 }
 
 .lwms-filcount {
-  color: #d7faff;
+  color: #277dc3;
   font-size: 14px;
 }
 

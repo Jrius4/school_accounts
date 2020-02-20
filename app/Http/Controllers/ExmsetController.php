@@ -13,8 +13,8 @@ class ExmsetController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        //
+    {   $sets = Exmset::orderBy('id')->get();
+        return view('manage-sets.index',compact('sets'));
     }
 
     /**
@@ -22,9 +22,10 @@ class ExmsetController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Exmset $exmset)
     {
-        //
+        $sets = Exmset::orderBy('id')->get();
+        return view('manage-sets.form',compact('sets','exmset'));
     }
 
     /**
@@ -35,7 +36,15 @@ class ExmsetController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // dd($request->all());
+        $rules = [
+            'set_name'=>'required',
+            'set_percentage'=>'integer'
+        ];
+        $request->validate($rules);
+        $exmset = Exmset::findOrFail($request->set_name);
+        $exmset->update(['set_percentage'=>$request->set_percentage]);
+        return redirect()->route('sets.index')->with(['message'=>'successfully updated']);
     }
 
     /**
@@ -57,7 +66,7 @@ class ExmsetController extends Controller
      */
     public function edit(Exmset $exmset)
     {
-        //
+
     }
 
     /**
@@ -69,7 +78,7 @@ class ExmsetController extends Controller
      */
     public function update(Request $request, Exmset $exmset)
     {
-        //
+
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Combination;
+use App\Models\Student;
 use App\Subject;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -23,7 +24,9 @@ class CombinationController extends Controller
 
     public function getOlevelCombinations()
     {
-        return view('manage-combinations.create-o-level');
+        $students = Student::where('schclass_id','>=','3')->where('schclass_id','<=','4')->get();
+        $subjects = Subject::where('level','Ordinary Level')->where('subject_compulsory',0)->get();
+        return view('manage-combinations.create-o-level',compact('subjects','students'));
     }
 
     public function storeOlevelCombinations(Request $request)
@@ -59,7 +62,8 @@ class CombinationController extends Controller
 
     public function getAlevelCombinations()
     {
-        return view('manage-combinations.create-a-level');
+        $subjects = Subject::where('level','Advanced Level')->get();
+        return view('manage-combinations.create-a-level',compact('subjects'));
     }
 
 
