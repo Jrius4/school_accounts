@@ -197,3 +197,5 @@ Route::view('/dashy', 'layouts.main-dashboard');
 Route::resource('paper-comments', 'PpTrCommentController');
 Route::get('/get-comment-model/{student}/{teacher}/{subject}/comment','ResultController@commentSubject');
 Route::post('/result-search','ResultController@ResultSearch');
+Route::resource('/declares', 'DeclareResultsController');
+Route::post('/entry-status','DeclareResultsController@allowEntryStatus');

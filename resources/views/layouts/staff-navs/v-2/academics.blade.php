@@ -304,4 +304,7 @@
   </li>
 
   <li class="nav-header">Next Terms</li>
+  <li class="nav-item">
+    <a href="{{route('declares.index')}}" class="nav-link">Declare Results</a>
+  </li>
 

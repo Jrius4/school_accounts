@@ -12,10 +12,10 @@
 
 <section class="content">
 
-@include('manage-results.search')
+{{-- @include('manage-results.search') --}}
 
 
-
+{{--
 <div class="row">
     <div class="col-12">
         <div class="card elevation-2 animated bounce">
@@ -42,7 +42,7 @@
                     <tbody>
 
 
-                                {{-- @foreach ($results->where('subject_id',9)->groupBy('student_id') as $stud_id=>$resu) --}}
+                                {{-- @foreach ($results->where('subject_id',9)->groupBy('student_id') as $stud_id=>$resu) --
                                 @foreach ($results->groupBy('student_id') as $stud_id=>$resu)
 
                                     <tr><td colspan="9">{{' Name: '.$students->find($stud_id)->name.' Class: '.$students->find($stud_id)->schclass->name}}</td></tr>
@@ -412,42 +412,49 @@
         </div>
     </div>
 </div>
+--}}
+
 
 
 <div>
     <div class="row container d-flex justify-content-center">
         <div class="card elevation-1">
             <form action="javascript:void(0)" id="searchform">
-                <div class="mx-auto col-md-12">
+                <div class="mx-auto col-lg-12 py-2">
 
                         @csrf
-                        <div class="form-group col-12 d-block">
-                            <select id="schclass_search" name="schclass_search" class="action_search form-control" id="">
+
+                        {{-- <div class="form-group col-12 d-block">
+                            <select id="class_search" name="class_search" class="action_search form-control" id="">
                                 <option value="">select class</option>
                                 @foreach ($schclasses as $row)
                                     <option value="{{$row->id}}">{{$row->name}}</option>
                                 @endforeach
                             </select>
+                        </div> --}}
+
+                        <div class="form-group col-12 d-block">
+                            <select id="student_search" name="student_search" class="action_search form-control" id="">
+                                <option value="">select student</option>
+                                @foreach ($studentz as $row)
+                                        <option value="{{$row->id}}">{{$row->name.','.$row->schclass->name.','.$row->roll_number}}</option>
+                                @endforeach
+                            </select>
                         </div>
+                    {{--
                         <div class="form-group col-12 d-block">
                             <select id="term_search" name="term_search" class="action_search form-control" id="">
                                 <option value="">select term</option>
                                 @foreach ($terms as $row)
-                                        <option value="{{$row->id}}">{{$row->name}}</option>
-                                    @endforeach
+                                    <option value="{{$row->id}}">{{$row->name}}</option>
+                                @endforeach
                             </select>
                         </div>
+                        --}}
 
-                        <div class="form-group col-12 d-block">
-                            <select id="student_search" name="term_search" class="action_search form-control" id="">
-                                <option value="">select student</option>
-                                @foreach ($studentz as $row)
-                                        <option value="{{$row->id}}">{{$row->name}}</option>
-                                    @endforeach
-                            </select>
-                        </div>
 
-                    <div class="input-group my-3 form-group d-flex justify-content-center col-12">
+                    {{--
+                        <div class="input-group my-3 form-group d-flex justify-content-center col-12">
 
 
                         <input type="text" name='search_text' class="form-control col-10" id="search_text" placeholder="search"/>
@@ -456,14 +463,17 @@
                         <button class="input-group-prepend btn btn-outline-dark col-2" type="submit">
                                 <i class="fas fa-search"></i>
                         </button>
-                    </div>
+                    </div> --}}
                 </div>
             </form>
         </div>
 
     </div>
     <div id="searchResult">
-        <p>Working</p>
+        <div class="display-6 d-flex justify-content-center">
+            <p>Search Results By Student</p>
+        </div>
+
     </div>
 </div>
 
@@ -504,6 +514,7 @@
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
+    $('#student_search').select2();
 
     var actionInput =null;
     var class_id ='';
@@ -521,7 +532,35 @@
     $('.action_search').change(function(){
         var action = $(this).attr('id');
         var query = $(this).val()
-        console.log(`query:${query},action:${action}`)
+
+        // if(action === 'student_search')
+        // {
+            var search_student= $('#student_search').val()
+        // }
+        // if(action === 'search_class_search')
+        // {
+            var search_class = $('#class_search').val()
+        // }
+        // if(action === 'term_search')
+        // {
+            var search_term = $('#term_search').val()
+        // }
+        console.log(`query:${query},action:${action},class:${search_class},term:${search_term},student:${search_student}`)
+        $.ajax({
+                url:"{{url('/result-search')}}",
+                method:"post",
+                data:{search_class:search_class,search_term:search_term,search_student:search_student},
+                dataType:'text',
+                success:function(data){
+                    $('#searchResult').html(data);
+                    console.log(data);
+                },
+                error:function(data){
+                    console.log(data.responseText)
+
+
+                },
+            })
     });
     $('#search_text').keyup(function(){
         var txt = $(this).val();
@@ -633,7 +672,7 @@
                 },
                 error:function(data)
                 {
-                    console.log(data)
+                    console.log(data.responseText)
                 }
 
             });

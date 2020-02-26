@@ -179,7 +179,7 @@ class BuildResultSeeder extends Seeder
             [
                 'user_id'=>'3',
                 'student_id'=>'1',
-                'schclass_id'=>'5',
+                'schclass_id'=>'6',
                 'subject_id'=>'6',
                 'paper_id'=>null,
                 'exmset_id'=>'1',

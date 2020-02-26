@@ -5,7 +5,6 @@ use App\Schclass;
 use App\Schstream;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Faker\Factory as Faker;
 
 
 
@@ -18,7 +17,7 @@ class StudyLogicSeeder extends Seeder
      */
     public function run()
     {
-        $faker= Faker::create();
+
 
         DB::table('schclasses')->delete();
         DB::table('schstreams')->delete();

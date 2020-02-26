@@ -1485,44 +1485,9 @@ class ResultController extends BackendController
 
     public function ResultSearch(Request $request)
     {
-        // return response()->json(['data'=>$request->all()]);
-        // if($request->search != null)
-        // {
-        //     $output = "";
-        //     $students = Student::latest()->where('name','like','%'.$request->search.'%')->get();
-        //     $output.='<div class="bg-info col-10 text-light p-2 my-2 elevation-2">
-        //     <table class="table">
-        //     <thead>
-        //     <tr><th>Name</th><th>Roll Number</th></tr>
-        //     </thead>
-        //     <tbody>';
-        //     if($students->count()>0)
-        //     {
-        //         foreach($students as $row)
-        //         {
-        //             $output.='<tr>
-        //             <td>'.$row->name.'</td>
-        //             <td>'.$row->roll_number.'</td>
-        //             </tr>';
-        //         }
-        //     }
-        //     if($students->count()==0)
-        //     {
-        //         $output.='<tr><td colspan="2">No data</td></tr>';
-        //     }
-
-        //     $output.='</tbody>
-        //     <tfooter>
-        //     <tr><th>Name</th><th>Roll Number</th></tr>
-        //     </tfooter>
-        //     </table>
 
 
-        //     </div>';
-        //     return $output;
-        // }
-
-        return $this->allResultTable(null,null,null);
+        return $this->allResultTable(request()->search_class,request()->search_term,request()->search_student);
 
 
     }
@@ -1538,11 +1503,16 @@ class ResultController extends BackendController
             $results = new Result();
             $students = new Student();
             $output="";
+            global $bot_mark,$bot_mark1,$bot_mark2,$bot_mark3,
+                    $mot_mark,$mot_mark1,$mot_mark2,$mot_mark3,
+                    $eot_mark,$eot_mark1,$eot_mark2,$eot_mark3,
+                    $paper_1_total,$paper_total1,$paper_total2,$paper_total3;
 
             if($results->get()->count()>0)
             {
                 $output.='
-                    <table id="RoleTable" class="table table-bordered">
+                <div class="card-body table-responsive p-0 elevation-2 animated flipInX" style="height: 400px;">
+                    <table id="RoleTable" class="table table-bordered table-head-fixed text-nowrap">
                     <thead>
                         <th colspan="2">Subject</th>
 
@@ -1556,9 +1526,9 @@ class ResultController extends BackendController
                     </thead>
                     <tbody>
                     ';
-                if($results->where('student_id','like','%'.($search_student==null?'':$search_student).'%')->where('schclass_id','like','%'.($search_class==null?'':$search_class).'%')->where('term_id','like','%'.($search_term==null?'':$search_term).'%')->count()>0)
+                if($results->where('student_id',($search_student==null?'':$search_student))->where('schclass_id','like','%'.($search_class==null?'':$search_class).'%')->where('term_id','like','%'.($search_term==null?'':$search_term).'%')->count()>0)
                 {
-                    foreach($results->where('schclass_id','like','%'.($search_class==null?'':$search_class).'%')->where('term_id','like','%'.($search_term==null?'':$search_term).'%')->get()->groupBy('term_id') as $ter_id=>$ter_res)
+                    foreach($results->where('student_id',($search_student==null?'':$search_student))->where('schclass_id','like','%'.($search_class==null?'':$search_class).'%')->where('term_id','like','%'.($search_term==null?'':$search_term).'%')->get()->groupBy('term_id') as $ter_id=>$ter_res)
                     {
                         $output.='<tr><td colspan="9">'.$ter_res->where('term_id',$ter_id)->first()->term->name.'</td></tr>';
 
@@ -1984,13 +1954,13 @@ class ResultController extends BackendController
                                                             $eot_mark3=($res->where('exmset_id',3)->where('paper_id',$res->last()->paper_id)->count()>0?
                                                             round(($res->where('exmset_id',3)->where('paper_id',$res->last()->paper_id)->first()->mark*Exmset::find(3)->set_percentage)/100,2)
                                                             :0);
-                                                            $paper_total3 = round(array_sum(array($bot_mark3,$mot_mark3,$eot_mark3)),2);
+                                                            $paper_total2 = round(array_sum(array($bot_mark3,$mot_mark3,$eot_mark3)),2);
                                                         }
                                                         if($res->count()<2)
                                                         {
-                                                            $paper_total3 = 0;
+                                                            $paper_total2 = 0;
                                                         }
-                                                        $Subject_final_mark=round(array_sum(array($paper_total1,$paper_total2,$paper_total3))/2,2);
+                                                        $Subject_final_mark=round(array_sum(array($paper_total1,$paper_total2))/2,2);
                                                         $output.=$Subject_final_mark;
 
 
@@ -2397,7 +2367,7 @@ class ResultController extends BackendController
                 {
                     $output.='<tr>
                                 <td colspan="9">
-                                    No information for this term
+                                    No information for results of student
                                 </td>
 
                             </tr>';
@@ -2417,6 +2387,7 @@ class ResultController extends BackendController
                         <th>Teacher Comment</th>
                     </tfooter>
                     </table>
+                    </div>
                     ';
             }
             elseif($results->get()->count()==0)

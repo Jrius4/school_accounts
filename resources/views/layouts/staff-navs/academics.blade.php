@@ -48,6 +48,7 @@
     </div>
 </li>
 <li class="nav-item">
-    <a href="#" class="nav-link "><i class="fa big-icon fa-stop"></i> <span class="mini-dn">Next Term</span></a>
+    <a href="{{route('declares.index')}}" class="nav-link "><i class="fa big-icon fa-stop"></i> <span class="mini-dn">Declare Results</span></a>
 </li>
+
 

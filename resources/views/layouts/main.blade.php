@@ -83,6 +83,10 @@
 <!-- daterangepicker -->
 <script src="{{asset('adminlte/plugins/moment/moment.min.js')}}"></script>
 <script src="{{asset('adminlte/plugins/daterangepicker/daterangepicker.js')}}"></script>
+<!-- Bootstrap Switch -->
+
+<script src="{{asset('adminlte/plugins/bootstrap-switch/js/bootstrap-switch.min.js')}}"></script>
+
 <!-- Tempusdominus Bootstrap 4 -->
 <script src="{{asset('adminlte/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js')}}"></script>
 <!-- Summernote -->
