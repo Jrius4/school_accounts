@@ -3,7 +3,6 @@
 use App\Models\Student;
 use App\Subject;
 use Carbon\Carbon;
-use Faker\Factory as Faker;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
