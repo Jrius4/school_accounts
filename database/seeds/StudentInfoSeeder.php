@@ -16,7 +16,6 @@ class StudentInfoSeeder extends Seeder
      */
     public function run()
     {
-        $faker = Faker::create();
         DB::table('students')->delete();
         $date =new Carbon();
 
