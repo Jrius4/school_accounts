@@ -16,9 +16,9 @@
 
 
      <!-- Small boxes (Stat box) -->
-     <div class="row d-flex justify-content-center col-10">
+     <div class="row d-flex justify-content-center col-md-10">
 
-        <div class="card card-dark col-12 p-0">
+        <div class="card card-dark mx-auto col-12 p-0 animated bounce">
             <div class="card-header">
                 <h3 class="card-title">My Profile</h3>
             </div>
@@ -27,10 +27,26 @@
                 <p>
                     {{$user->name}}
                 </p>
-                <h2>Name</h2>
+                <h2>Username</h2>
                 <p>
                     {{$user->username}}
                 </p>
+                <h2>My Roles</h2>
+                <ul class="list-group">
+                    @if ($user->roles->count()>0)
+                        @foreach ($user->roles as $row)
+
+                            <li class="list-group-item">{{$row->display_name}}</li>
+
+                        @endforeach
+                    @else
+                       <p>No Role Assigned</p>
+                    @endif
+                </ul>
+                <p>
+                    {{$user->username}}
+                </p>
+
 
             </div>
 

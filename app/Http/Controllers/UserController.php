@@ -30,8 +30,7 @@ class UserController extends BackendController
     public function create(User $user)
     {
         $roles = Role::get();
-        // $roles = Role::pluck('display_name','id');
-        // dd($roles);
+
         return view('manage-users.create')->with(compact('user','roles'));
     }
 
@@ -41,62 +40,23 @@ class UserController extends BackendController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    // public function store(Request $request)
-    // {
-    //     $rules = [
-    //         'name'=>'required',
-    //         'username'=>'required|unique:users',
-    //         'email'=>'email|nullable',
-    //         'password'=>'required|confirmed',
-    //         'roles'=>'acceptable',
-    //         'file'=>'max:1024',
-    //         'image'=>'mimes:jpg,jpeg,bmp,png|max:1024',
-    //     ];
-
-
-    //     $this->validate($request,$rules);
-    //     // $array = $request->input('roles');
-    //     $array2=[];
-
-    //     $roles = Role::get();
-
-    //     // dd($array,$array2);
-
-    //     // dd($request->input('roles'));
-    //     $user = new User();
-    //     if($request->input('roles')!=null){
-    //         foreach($request->input('roles') as $item)
-    //     {
-    //         array_push($array2 ,$roles->where('display_name',$item)->first()->id);
-    //     }
-    //     // dd($request->input('roles'));
-
-    //         $user->create($request->all())->roles()->attach(array_slice($array2,0));
-    //         // dd($user->with('roles')->where('username',$request->input('username'))->first());
-    //     }
-    //     else{
-    //        $user->create($request->all());
-    //     }
-
-
-
-    //     return redirect(route('users.index'))->with('message','user created successfully');
-    // }
 
     public function store (Request $request){
+        // dd($request->all());
         $rules = [
             'name'=>'required',
             'username'=>'required|unique:users',
             'email'=>'email|nullable|unique:users',
             'password'=>'required|confirmed',
-            'some_form'=>'max:1024',
-            'image'=>'mimes:jpg,jpeg,bmp,png|max:1024',
+            'roles'=>'required',
+            'password'=>'required|confirmed',
+            'password'=>'required|confirmed',
+            'some_form'=>'required|file|mimes:pdf,doc,docx,png,jpg,jpeg|max:2048',
+            'image'=>'required|image|mimes:jpg,jpeg,bmp,png|max:1024',
         ];
-        // return response()->json($request->all());
-        $validator = Validator::make($request->all(),$rules);
-        if($validator->fails()){
-            return response()->json(['errors'=>$validator->messages()]);
-        }
+
+
+        $request->validate($rules);
         $data = $request->all();
         $user = new User();
         $user->name = $request['name'];
@@ -137,7 +97,8 @@ class UserController extends BackendController
 
         }
 
-        return response()->json(['message'=>"user created successfully"]);
+        return redirect()->route('users.index')->with('message','user created successfully');
+
 
     }
 
@@ -158,8 +119,9 @@ class UserController extends BackendController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $user)
+    public function edit($id)
     {
+        $user = User::findOrFail($id);
         $roles = Role::pluck('display_name','id');
         return view('manage-users.edit',compact('user','roles'));
     }

@@ -24,7 +24,7 @@
                     @include('partials.message')
                 </div>
                 <div class="card">
-                    <div class="card-body table-responsive p-0"  style="height: 350px;">
+                    <div class="card-body table-responsive p-0"  style="min-height: 350px;">
 
                         <table id="RoleTable" class="table table-reponsive table-bordered table-striped table-head-fixed text-nowrap">
                             <thead>

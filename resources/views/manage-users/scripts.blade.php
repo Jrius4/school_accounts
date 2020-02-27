@@ -26,38 +26,43 @@ $(function(){
         placeholder:"Select a Staff"
     });
 
-
-    $('#createUserForm').on('submit',(function(e){
-        e.preventDefault();
-
-        var roles= $('#roles').val();
-        $('#hidden_roles').val(roles);
-        var formData = new FormData(this);
+    $('#roles').change(function(){
+        var query = $(this).val()
+        $('#hidden_roles').val(query)
+    })
 
 
-        $.ajax({
-            type:"POST",
-            url:"{{route('users.store')}}",
-            data:formData,
-            cache:false,
-            contentType: false,
-            processData: false,
-            success:function(data){
+    // $('#createUserForm').on('submit',(function(e){
+    //     e.preventDefault();
+
+    //     var roles= $('#roles').val();
+    //     $('#hidden_roles').val(roles);
+    //     var formData = new FormData(this);
+
+
+        // $.ajax({
+        //     type:"POST",
+        //     url:"{{route('users.store')}}",
+        //     data:formData,
+        //     cache:false,
+        //     contentType: false,
+        //     processData: false,
+        //     success:function(data){
 
             //    console.log(data)
-            window.location.href = "{{route('users.index')}}";
+            // window.location.href = "{{route('users.index')}}";
             // alert(`${data.message}`);
 
-            },
+            // },
 
-            error: function(data){
+            // error: function(data){
 
-                console.log(data);
+            //     console.log(data);
 
-            }
+            // }
 
-        });
-    }));
+        // });
+    // }));
 
 
 });
