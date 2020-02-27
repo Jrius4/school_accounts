@@ -40,6 +40,7 @@ Route::post('/', 'Auth\LoginController@login');
 
 
     Route::get('/dashboard', 'HomeController@index')->name('home');
+    Route::get('/profile', 'HomeController@myProfile')->name('profile');
     Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
     Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
     Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
@@ -134,6 +135,7 @@ Route::post('/', 'Auth\LoginController@login');
     Route::post('save-image','AjaxImageController@save');
 
     # manage classes
+    Route::get('/view-classes','SchoolClassController@viewAllClasses');
     Route::get('/create-classes','ClassController@createClass');
     Route::post('/create-classes','ClassController@storeClass');
     Route::get('/create-streams','ClassController@createStream');

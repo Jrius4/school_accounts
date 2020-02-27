@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Backend\BackendController;
-use App\Model\SchoolClass;
+// use App\Model\SchoolClass;
+use App\Schclass;
 use Illuminate\Http\Request;
 
 class SchoolClassController extends BackendController
@@ -15,9 +16,16 @@ class SchoolClassController extends BackendController
      */
     public function index()
     {
-        $classes = SchoolClass::orderBy('name','desc')->with('classStreames')->get();
+        $classes = Schclass::orderBy('name','desc')->with('classStreames')->get();
 
         return view('manage-classes.index',compact('classes'));
+    }
+
+    public function viewAllClasses()
+    {
+        $classes = Schclass::orderBy('id','asc')->get();
+        return view('manage-classes.view-classes',compact('classes'));
+
     }
 
     /**

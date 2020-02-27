@@ -114,16 +114,50 @@ footer a{
 
         </div>
 
-<div class="row col-lg-12">
+<div class="col-lg-12">
 
-    <div class="col-sm-6 mx-auto text-white">
-        <p>
-            Usernames:magezi,teacher,headteacher,academic<br>
-            Password: 123456
-        </p>
-        @foreach (App\Models\Student::get() as $stud)
-            <p style="display:inline;margin:0.8em">roll_number:{{$stud->roll_number.' Class: '. $stud->schclass->name}}</p>
-        @endforeach
+    <div class="row container my-2 mx-auto text-white">
+        <div class="mr-auto col-sm-6">
+            <div class="">
+                <h4>Users</h4>
+                <h6>Password: 123456</h6>
+                @foreach (App\User::get() as $user)
+                <div class="row d-flex justify-content-center">
+                    <div class="mr-auto">
+                        <h5>Username</h5>
+                        <p>{{$user->username}}</p>
+                    </div>
+                    <div class="ml-auto">
+                        <h5>Roles:</h5>
+                        <ul class="list-group">
+                            @foreach ($user->roles as $role)
+                                <li class="list-group-item bg-dark">{{$role->display_name}}</li>
+                            @endforeach
+                        </ul>
+
+                    </div>
+                </div>
+                @endforeach
+            </div>
+        </div>
+
+
+
+        <div class="ml-auto col-sm-6">
+            <ul class="list-group ml-auto col-sm-6">
+                <h4>Students</h4>
+                <h5>Roll Number</h5>
+                @foreach (App\Models\Student::get() as $stud)
+                <li class="list-group-item bg-dark">
+                    {{$stud->roll_number.' Class: '. $stud->schclass->name}}
+                </li>
+                @endforeach
+            </ul>
+        </div>
+
+
+
+
     </div>
 
 </div>

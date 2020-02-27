@@ -122,7 +122,7 @@
                 &nbsp;{{Auth::user()->username}}</a>
 
             <div class="dropdown-menu dropdown-menu-md dropdown-menu-right animated flipInX bg-dark text-center">
-                <a href="#" class="dropdown-item text-left"><i class="fa fas fa-user-circle"></i>&nbsp;&nbsp;My Profile</a>
+                <a href="{{route('profile')}}" class="dropdown-item text-left"><i class="fa fas fa-user-circle"></i>&nbsp;&nbsp;My Profile</a>
                 <a class="dropdown-item text-left" href="{{ route('logout') }}"
                     onclick="event.preventDefault();
                                     document.getElementById('logout-form').submit();">

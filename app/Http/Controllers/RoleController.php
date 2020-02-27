@@ -14,7 +14,7 @@ class RoleController extends Controller
      */
     public function index()
     {
-        $roles =Role::get();
+        $roles =Role::orderBy('updated_at','asc')->get();
         return view('roles.index',compact('roles'));
     }
 
@@ -68,9 +68,10 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Role $role)
     {
-        //
+        return view('roles.edit',compact('role'));
+
     }
 
     /**
@@ -82,7 +83,10 @@ class RoleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $role = Role::findOrFail($id);
+        $role->update($request->all());
+        return redirect(route('roles.index'))->with('message','role updated successfully');
+
     }
 
     /**

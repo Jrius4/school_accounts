@@ -23,6 +23,7 @@ class CreateStudentsTable extends Migration
             $table->unsignedBigInteger('schstream_id')->nullable();
             $table->unsignedBigInteger('combination_id')->nullable();
             $table->string('gender')->nullable();
+            $table->string('school_presence_status')->nullable()->default('active');
             $table->string('amount_paid')->nullable();
             $table->string('image')->nullable();
             $table->string('medical_form')->nullable();

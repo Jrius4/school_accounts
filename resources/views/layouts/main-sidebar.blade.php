@@ -4,7 +4,7 @@
     <a href="{{url('/')}}" class="brand-link">
       {{-- <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
            style="opacity: .8"> --}}
-      <span class="brand-text font-weight-light">FRIENDS ACADEMY KATENDE</span>
+      <span class="brand-text font-weight-light">FRIENDS ACADEMY KITENDE</span>
     </a>
 
     <!-- Sidebar -->
@@ -45,7 +45,7 @@
             @endif
 
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{route('profile')}}" class="nav-link">
               <i class="nav-icon fas fa-toolbox"></i>
               <p>
                 My Account

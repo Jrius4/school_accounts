@@ -53,7 +53,7 @@
     <a href="#" class="nav-link">
       <i class="nav-icon fas fa-users"></i>
       <p>
-        Manage Marks
+       Marks
         <i class="fas fa-angle-left right"></i>
         <span class="badge badge-info right">{{App\Schclass::count()}}</span>
       </p>
@@ -79,7 +79,7 @@
     <a href="#" class="nav-link">
       <i class="nav-icon fas fa-chalkboard-teacher"></i>
       <p>
-        Manage Teachers
+       Teachers
         <i class="fas fa-angle-left right"></i>
         <span class="badge badge-info right">{{App\Role::whereName('teacher')->first()->count()}}</span>
       </p>
@@ -130,7 +130,7 @@
     <a href="#" class="nav-link">
       <i class="nav-icon fas fa-users"></i>
       <p>
-        Manage Subjects
+       Subjects
         <i class="fas fa-angle-left right"></i>
         <span class="badge badge-info right">{{App\Subject::count()}}</span>
       </p>
@@ -192,7 +192,7 @@
     <a href="#" class="nav-link">
       <i class="nav-icon fas fa-book"></i>
       <p>
-        Manage Combinations
+       Combinations
         <i class="fas fa-angle-left right"></i>
       </p>
     </a>
@@ -227,7 +227,7 @@
     <a href="#" class="nav-link">
       <i class="nav-icon fas fa-users"></i>
       <p>
-        Manage Students
+       Students
         <i class="fas fa-angle-left right"></i>
         <span class="badge badge-info right">{{App\Models\Student::count()}}</span>
 
@@ -264,7 +264,7 @@
     <a href="#" class="nav-link">
       <i class="nav-icon fas fa-users"></i>
       <p>
-        Manage Term
+       Term
         <i class="fas fa-angle-left right"></i>
       </p>
     </a>

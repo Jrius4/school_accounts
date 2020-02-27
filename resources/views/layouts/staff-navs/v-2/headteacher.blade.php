@@ -1,5 +1,5 @@
 <li class="nav-item">
-    <a href="#" class="nav-link">
+    <a href="{{url('/view-classes')}}" class="nav-link">
       <i class="nav-icon fas fa-chalkboard"></i>
       <p>
         Classes
@@ -10,7 +10,7 @@
     <a href="#" class="nav-link">
       <i class="nav-icon fas fa-users"></i>
       <p>
-        Manage Role/Titles
+        Role/Titles
         <i class="fas fa-angle-left right"></i>
         <span class="badge badge-info right">{{App\Role::count()}}</span>
       </p>
@@ -34,7 +34,7 @@
     <a href="#" class="nav-link">
       <i class="nav-icon fas fa-users"></i>
       <p>
-        Manage Staffs
+        Staffs
         <i class="fas fa-angle-left right"></i>
         <span class="badge badge-info right">{{App\User::count()}}</span>
       </p>
@@ -58,7 +58,7 @@
     <a href="#" class="nav-link">
       <i class="nav-icon fas fa-chalkboard-teacher"></i>
       <p>
-        Manage Teachers
+        Teachers
         <i class="fas fa-angle-left right"></i>
         <span class="badge badge-info right">{{App\User::whereName('teacher')->first()->count()}}</span>
       </p>
