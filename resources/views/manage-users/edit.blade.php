@@ -1,64 +1,56 @@
-@extends('layouts.admin-dashboard')
+@extends('layouts.main-dashboard')
+
+@section('dashboard')
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb elevation-2">
+        <li class="breadcrumb-item"><a href="{{url('/')}}">Home</a></li>
+        <li class="breadcrumb-item" aria-current="page"><a href="{{route('users.index')}}">Manage Staffs</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Edit New Staff</li>
+    </ol>
+</nav>
+
+
+<section class="content">
+
+<div class="row">
+    <div class="col-md-6 mx-auto">
+        <div class="card card-dark elevation-2 animated flipInX">
+            <div class="card-header row">
+                <h3 class="card-title mr-auto">Edit New User</h3>
+            </div>
+            <div class="card-body">
+
+                    {{-- <form action="javascript:void" id="editdata" method="POST">
+                        @csrf
+                        <input type="hidden" name="_method" value="PUT"> --}}
+
+                    {!! Form::model($user,['files' => true,'route' => ['users.update',$user->id],'method'=>'PUT','id'=>'createForm']) !!}
+                            <div class="container-fluid row d-flex justify-content-center mx-auto">
+                                @include('manage-users.form')
+                            </div>
+                    {!! Form::close() !!}
+                    {{-- </form> --}}
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</section>
+
+
+
+@endsection
+
 @section('style')
+
 <style>
-    .bg-transparent{
-        background:transparent !important;
-        border:none
-    }
-    .center-items{
-        display: flex;
-        justify-items: center;
+    .breadcrumb{
+
+        background: #fdffffc7;
     }
 </style>
 @endsection
-@section('admin-content')
-        <div class="row">
-            <div class="center-contents">
-                <a href="{{route('users.index')}}" class="btn btn-info">Back</a>
-                </div>
-        </div>
-		<!-- Static Table Start -->
-		    <div class="row">
 
-                <div class="center-contents">
-                    {!! Form::model($user,['files' => true,'route' => ['users.update',$user->id],'method'=>'PUT']) !!}
-
-                            @include('manage-users.form')
-
-                    {!! Form::close() !!}
-                </div>
-
-            </div>
-            <!-- Static Table End -->
-
-@endsection
-@section('scripts')
-            	<!-- scrollUp JS
-         ============================================ -->
-	<script src="{{ asset('schools/js/jquery.scrollUp.min.js')}}"></script>
-	<!-- counterup JS
-		============================================ -->
-	<script src="{{ asset('schools/js/counterup/jquery.counterup.min.js')}}"></script>
-	<script src="{{ asset('schools/js/counterup/waypoints.min.js')}}"></script>
-	<!-- peity JS
-		============================================ -->
-	<script src="{{ asset('schools/js/peity/jquery.peity.min.js')}}"></script>
-	<script src="{{ asset('schools/js/peity/peity-active.js')}}"></script>
-	<!-- sparkline JS
-		============================================ -->
-	<script src="{{ asset('schools/js/sparkline/jquery.sparkline.min.js')}}"></script>
-	<script src="{{ asset('schools/js/sparkline/sparkline-active.js')}}"></script>
-	<!-- data table JS
-		============================================ -->
-	<script src="{{ asset('schools/js/data-table/bootstrap-table.js')}}"></script>
-	<script src="{{ asset('schools/js/data-table/tableExport.js')}}"></script>
-	<script src="{{ asset('schools/js/data-table/data-table-active.js')}}"></script>
-	<script src="{{ asset('schools/js/data-table/bootstrap-table-editable.js')}}"></script>
-	<script src="{{ asset('schools/js/data-table/bootstrap-editable.js')}}"></script>
-	<script src="{{ asset('schools/js/data-table/bootstrap-table-resizable.js')}}"></script>
-	<script src="{{ asset('schools/js/data-table/colResizable-1.5.source.js')}}"></script>
-	<script src="{{ asset('schools/js/data-table/bootstrap-table-export.js')}}"></script>
-	<!-- main JS
-         ============================================ -->
-	<script src="{{ asset('schools/js/main.js')}}"></script>
-@endsection

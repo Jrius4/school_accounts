@@ -29,7 +29,14 @@ $(function(){
     $('#roles').change(function(){
         var query = $(this).val()
         $('#hidden_roles').val(query)
+
     })
+
+    // $('#editdata').submit(function(e){
+    //     e.preventDefault();
+    //     var formData = $('#editdata').serialize()
+    //     console.log(formData)
+    // });
 
 
     // $('#createUserForm').on('submit',(function(e){

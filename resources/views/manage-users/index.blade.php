@@ -43,12 +43,12 @@
                                                                 </td>
 
                                                                 <td>
-                                                                    @if (true)
+                                                                    @if ($user->roles->count()>0)
                                                                         @foreach ($user->roles as $role)
                                                                             <span class="bg-primary" style="color:white;padding:3px">{{$role->display_name}}</span>
                                                                         @endforeach
                                                                     @else
-                                                                        <span class="bg-warning">No info</span>
+                                                                        <span class="bg-warning">No role assigned</span>
                                                                     @endif
                                                                 </td>
                                                                 <td><a href="{{route('users.create')}}"><i class="fa fa-user-plus"></i></a></td>

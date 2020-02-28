@@ -4,9 +4,10 @@
                     <div class=" py-2 form-group col-12 {{ $errors->has('name') ? 'has-error' : '' }}">
                         <label for="name">name</label>
                         {{ Form::text('name',null,['class'=>'form-control bg-transparent  d-block col-12','placeholder'=>'Staff Full Number']) }}
-                        @if($errors->has('name'))
-                            <span class="text-danger">{{ $errors->first('name') }}</span>
-                        @endif
+
+                        @error('name')
+                            <span class="text-danger">{{$message}}</span>
+                        @enderror
                     </div>
                     <div class=" py-2 form-group col-12 {{ $errors->has('username') ? 'required' : '' }}">
                         <label for="username">username</label>
@@ -51,7 +52,7 @@
 
                         <select id="roles" class="form-control d-block roles col-12 @error('roles') is-invalid @enderror" name="roles" style="color:aliceblue!important" multiple="multiple">
                             @foreach ($roles as $role)
-                                <option value="{{$role->id}}" @if(in_array($role->id,explode(',',old('hidden_roles')))) selected @endif>{{$role->display_name}}</option>
+                                <option value="{{$role->id}}" @if(old('hidden_roles')) @if(in_array($role->id,explode(',',old('hidden_roles')))) selected @endif @endif @if($user->exists) @if(in_array($role->id,$user->roles()->pluck('id')->toArray())) selected @endif @endif>{{$role->display_name}}</option>
                             @endforeach
                         </select>
                         @if($errors->has('roles'))
@@ -72,10 +73,10 @@
                         @error('some_form')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
-                        {{-- @if (isset($user->some_form))
-                        <a href="{{ asset('documents/'.$user->some_form) }}" target="_blanck">Open file</a>
-                            <embed src="{{ asset('documents/'.$user->some_form) }}" style="min-height:450px;" class="col-md-6" />
-                        @endif --}}
+                        @if (isset($user->some_form))
+                        <a href="{{ asset('files/'.$user->some_form) }}" target="_blanck">Open file</a>
+                            <embed src="{{ asset('files/'.$user->some_form) }}" style="min-height:450px;" class="col-12" />
+                        @endif
                     </div>
                     <div class=" py-2  form-group col-12 {{ $errors->has('image') ? 'required' : '' }}">
                         <label for="image">Image</label>
@@ -84,26 +85,21 @@
                             {{ Form::file('image',['class'=>'form-control bg-transparent  d-block col-12 custom-file-input','id'=>'customFile','placeholder'=>'Browser Image']) }}
                             <label class="custom-file-label" for="customFile">Choose Profile Image</label>
                         </div>
-                        {{-- @if($errors->has('some_form'))
-                            <span class="text-danger">{{ $errors->first('file') }}</span>
-                        @endif --}}
+
                         @error('image')
                             <span class="text-danger">{{$message}}</span>
                         @enderror
-                        {{-- @if($errors->has('image'))
 
-                            <span class="text-danger">{{ $errors->first('image') }}</span>
-                        @endif
-                        @if (isset($user->file))
+                        @if (isset($user->image))
                         <div class="form-group col-12">
-                            <a href="{{ asset('images/'.$user->image) }}" target="_blanck">Open Picture</a>
-                            <embed src="{{ asset('images/'.$user->image) }}" style="max-height:25vh;max-width:25vw"/>
+                            <a href="{{ asset('files/'.$user->image) }}" target="_blanck">Open Picture</a>
+                            <embed src="{{ asset('files/'.$user->image) }}" style="max-height:75px;max-width:75px"/>
                         </div>
-                        @endif --}}
+                        @endif
                     </div>
 
                     <div class="form-group col-12">
-                      <button type="submit" class="btn btn-info d-block col-12"><i class="fa fa-plus"></i> Create Staff</button>
+                      <button type="submit" class="btn btn-info d-block col-12">@if($user->exists)<i class="fa fa-edit"></i> Update @else<i class="fa fa-plus"></i> Create @endif Staff</button>
                       <a href="{{route('users.index')}}" class="btn btn-md btn-default d-block col-12">cancel</a>
                     </div>
 
