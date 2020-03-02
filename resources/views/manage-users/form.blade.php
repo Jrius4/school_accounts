@@ -23,6 +23,8 @@
                         <span class="text-danger">{{$message}}</span>
 
                         @enderror
+                        <small class="text-info">Email input optional</small>
+
                     </div>
 
                     <div class=" py-2 form-group col-12 {{ $errors->has('password') ? 'required' : '' }}">
@@ -46,6 +48,8 @@
                         @error('password')
                         <span class="text-danger">{{$message}}</span>
                         @enderror
+                        <small class="text-info">Password match</small>
+
                     </div>
                     <div class=" py-2 form-group col-12 {{ $errors->has('join_as') ? 'required' : '' }}">
                         <label for="join_as">Join as</label>
@@ -53,6 +57,8 @@
                         @error('join_as')
                         <span class="text-danger">{{$message}}</span>
                         @enderror
+                        <small class="text-info">professional Level of new Staff</small>
+
                     </div>
 
                     <div class=" py-2 form-group col-12 {{ $errors->has('entry_date') ? 'required' : '' }}">
@@ -77,14 +83,19 @@
                         @error('former_school')
                         <span class="text-danger">{{$message}}</span>
                         @enderror
+                        <small class="text-info">Previous School</small>
+
                     </div>
 
                     <div class=" py-2 form-group col-12 {{ $errors->has('biography') ? 'required' : '' }}">
-                        <label for="biography">biography</label>
+                        <label for="biography">Biography</label>
                         {{ Form::textarea('biography',null,['class'=>'form-control bg-transparent  d-block col-12 biography','col'=>'2','row'=>'3','placeholder'=>'former school']) }}
+
                         @error('biography')
                         <span class="text-danger">{{$message}}</span>
                         @enderror
+                        <small class="text-info">Backgroud Information of new staff</small>
+
                     </div>
 
                     <div class=" py-2 form-group col-12 {{ $errors->has('roles') ? 'required' : '' }}">
@@ -98,6 +109,7 @@
                         @if($errors->has('roles'))
                             <span class="text-danger">{{ $errors->first('roles') }}</span>
                         @endif
+                        <small class="text-info">Can select more than one role!</small>
                         <input type="hidden" id="hidden_roles" name="hidden_roles">
                     </div>
 
@@ -105,11 +117,13 @@
 
 
                     <div class=" py-2 form-group col-12 {{ $errors->has('some_form') ? 'required' : '' }}">
-                        <label for="some_form">File</label>
+                        <label for="some_form">CV/Resume/Certicates</label>
                         <div class="custom-file">
                             {{ Form::file('some_form',['class'=>'form-control bg-transparent  d-block col-12 custom-file-input','id'=>'customFile','placeholder'=>'Browser File']) }}
                             <label class="custom-file-label" for="customFile">Choose Form</label>
                         </div>
+                        <small class="text-info">Documents Required!</small>
+
                         @error('some_form')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
@@ -119,13 +133,13 @@
                         @endif
                     </div>
                     <div class=" py-2  form-group col-12 {{ $errors->has('image') ? 'required' : '' }}">
-                        <label for="image">Image</label>
+                        <label for="image">Profile Picture</label>
 
                         <div class="custom-file">
                             {{ Form::file('image',['class'=>'form-control bg-transparent  d-block col-12 custom-file-input','id'=>'customFile','placeholder'=>'Browser Image']) }}
                             <label class="custom-file-label" for="customFile">Choose Profile Image</label>
                         </div>
-
+                        <small class="text-info">Profile Picture required Required!</small>
                         @error('image')
                             <span class="text-danger">{{$message}}</span>
                         @enderror
