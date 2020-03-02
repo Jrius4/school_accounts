@@ -45,8 +45,8 @@
                                                         <td>
 
                                                         {!! Form::open(['method' => 'DELETE', 'route' => ['teachers.destroy', $teacher->id]]) !!}
-                                                        <a href="{{route('teachers.show',$teacher->id)}}"><i class="fa fa-eye"></i></a>|
-                                                            <a href="{{ route('teachers.edit', $teacher->id) }}" class="btn btn-xs btn-default">
+                                                        <a href="{{route('users.show',$teacher->id)}}"><i class="fa fa-eye"></i></a>|
+                                                            <a href="{{ route('users.edit', $teacher->id) }}" class="btn btn-xs btn-default">
                                                                 <i class="fa fa-edit"></i>
                                                             </a> |
 

@@ -10,6 +10,9 @@
 
 @section('scripts')
 
+<script src="{{asset('adminlte/plugins/moment/moment.min.js')}}"></script>
+<script src="{{asset('adminlte/plugins/inputmask/min/jquery.inputmask.bundle.min.js')}}"></script>
+
 <script type="text/javascript">
 $(function(){
     $.ajaxSetup({
@@ -31,6 +34,9 @@ $(function(){
         $('#hidden_roles').val(query)
 
     })
+
+    //Datemask dd/mm/yyyy
+    $('#datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' })
 
     // $('#editdata').submit(function(e){
     //     e.preventDefault();

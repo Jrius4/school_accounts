@@ -1,6 +1,7 @@
 <?php
 
-
+use Carbon\Carbon;
+use Faker\Factory;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -14,6 +15,7 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
+        $faker = Factory::create();
 
         DB::table('users')->insert([
             [
@@ -23,7 +25,10 @@ class UsersTableSeeder extends Seeder
                 'email' => 'super_admin@test.com',
                 'email_verified_at' => now(),
                 'password' => bcrypt('123456'),
-                'remember_token' => null
+                'remember_token' => null,
+                'entry_date' => Carbon::now()->modify('-'.rand(3,6).' years'),
+                'image' => 'user_all.png',
+                'biography'=>$faker->paragraph(5,3)
 
             ],
             [
@@ -33,7 +38,10 @@ class UsersTableSeeder extends Seeder
                 'email' => 'admin@test.com',
                 'email_verified_at' => now(),
                 'password' => bcrypt('123456'),
-                'remember_token' => null
+                'remember_token' => null,
+                'entry_date' => Carbon::now()->modify('-'.rand(3,6).' years'),
+                'image' => 'user_all.png',
+                'biography'=>$faker->paragraph(5,3)
 
             ]
             ,
@@ -44,7 +52,10 @@ class UsersTableSeeder extends Seeder
                 'email' => 'headteacher@test.com',
                 'email_verified_at' => now(),
                 'password' => bcrypt('123456'),
-                'remember_token' => null
+                'remember_token' => null,
+                'entry_date' => Carbon::now()->modify('-'.rand(3,6).' years'),
+                'image' => 'user_all.png',
+                'biography'=>$faker->paragraph(5,3)
 
             ],
             [
@@ -54,7 +65,10 @@ class UsersTableSeeder extends Seeder
                 'email' => 'academic@test.com',
                 'email_verified_at' => now(),
                 'password' => bcrypt('123456'),
-                'remember_token' => null
+                'remember_token' => null,
+                'entry_date' => Carbon::now()->modify('-'.rand(3,6).' years'),
+                'image' => 'user_all.png',
+                'biography'=>$faker->paragraph(5,3)
 
             ],
             [
@@ -64,7 +78,10 @@ class UsersTableSeeder extends Seeder
                 'email' => 'teacher@test.com',
                 'email_verified_at' => now(),
                 'password' => bcrypt('123456'),
-                'remember_token' => null
+                'remember_token' => null,
+                'entry_date' => Carbon::now()->modify('-'.rand(3,6).' years'),
+                'image' => 'user_all.png',
+                'biography'=>$faker->paragraph(5,3)
 
             ],
             [
@@ -74,7 +91,10 @@ class UsersTableSeeder extends Seeder
                 'email' => 'secretary@test.com',
                 'email_verified_at' => now(),
                 'password' => bcrypt('123456'),
-                'remember_token' => null
+                'remember_token' => null,
+                'entry_date' => Carbon::now()->modify('-'.rand(3,6).' years'),
+                'image' => 'user_all.png',
+                'biography'=>$faker->paragraph(5,3)
 
             ],
 

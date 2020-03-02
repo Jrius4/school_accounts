@@ -11,7 +11,7 @@
                     </div>
                     <div class=" py-2 form-group col-12 {{ $errors->has('username') ? 'required' : '' }}">
                         <label for="username">username</label>
-                        {{ Form::text('username',null,['class'=>'form-control bg-transparent  d-block col-12','placeholder'=>'staff username']) }}
+                        {{ Form::text('username',null,['class'=>'form-control bg-transparent  d-block col-12',( $user->exists ?'readonly' :null),'placeholder'=>'staff username']) }}
                         @if($errors->has('username'))
                             <span class="text-danger">{{ $errors->first('username') }}</span>
                         @endif
@@ -24,6 +24,7 @@
 
                         @enderror
                     </div>
+
                     <div class=" py-2 form-group col-12 {{ $errors->has('password') ? 'required' : '' }}">
 
 
@@ -43,6 +44,45 @@
 
 
                         @error('password')
+                        <span class="text-danger">{{$message}}</span>
+                        @enderror
+                    </div>
+                    <div class=" py-2 form-group col-12 {{ $errors->has('join_as') ? 'required' : '' }}">
+                        <label for="join_as">Join as</label>
+                        {{ Form::text('join_as',null,['class'=>'form-control bg-transparent  d-block col-12','placeholder'=>'joining as']) }}
+                        @error('join_as')
+                        <span class="text-danger">{{$message}}</span>
+                        @enderror
+                    </div>
+
+                    <div class=" py-2 form-group col-12 {{ $errors->has('entry_date') ? 'required' : '' }}">
+                        <label for="entry_date">Entry Date</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                            </div>
+                                {{ Form::text('entry_date',null,['class'=>'form-control bg-transparent  d-block col-12 entry_date','placeholder'=>'entry date','data-mask','data-inputmask-inputformat'=>'dd/mm/yyyy','data-inputmask-alias'=>'datetime','id'=>'datemask']) }}
+                            </div>
+                            <!-- /.input group -->
+                          </div>
+                          <!-- /.form group -->
+                        @error('entry_date')
+                        <span class="text-danger">{{$message}}</span>
+                        @enderror
+                    </div>
+
+                    <div class=" py-2 form-group col-12 {{ $errors->has('former_school') ? 'required' : '' }}">
+                        <label for="former_school">former school</label>
+                        {{ Form::text('former_school',null,['class'=>'form-control bg-transparent  d-block col-12 former_school','placeholder'=>'former school']) }}
+                        @error('former_school')
+                        <span class="text-danger">{{$message}}</span>
+                        @enderror
+                    </div>
+
+                    <div class=" py-2 form-group col-12 {{ $errors->has('biography') ? 'required' : '' }}">
+                        <label for="biography">biography</label>
+                        {{ Form::textarea('biography',null,['class'=>'form-control bg-transparent  d-block col-12 biography','col'=>'2','row'=>'3','placeholder'=>'former school']) }}
+                        @error('biography')
                         <span class="text-danger">{{$message}}</span>
                         @enderror
                     </div>
@@ -98,10 +138,14 @@
                         @endif
                     </div>
 
+
+
                     <div class="form-group col-12">
                       <button type="submit" class="btn btn-info d-block col-12">@if($user->exists)<i class="fa fa-edit"></i> Update @else<i class="fa fa-plus"></i> Create @endif Staff</button>
                       <a href="{{route('users.index')}}" class="btn btn-md btn-default d-block col-12">cancel</a>
                     </div>
+
+
 
 
 

@@ -1,105 +1,164 @@
+@extends('layouts.main-dashboard')
 
-@extends('layouts.admin-dashboard')
-@section('style')
-<style>
-    .bg-transparent{
-        background:transparent !important;
-        border:none
-    }
-    .center-items{
-        display: flex;
-        justify-items: center;
-    }
-</style>
-@endsection
-@section('admin-content')
+@section('dashboard')
 
-		<!-- Static Table Start -->
-		<div class="data-table-area mg-b-15">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="sparkline13-list shadow-reset">
-                                <div class="sparkline13-hd">
-                                    <div class="main-sparkline13-hd">
-                                        <span></span>
-                                        <h1>View <span class="table-project-n">Manage {{$class->name}}</span> Info</h1>
-                                        <div class="sparkline13-outline-icon">
-                                            <span class="sparkline13-collapse-link"><i class="fa fa-chevron-up"></i></span>
-                                            <span class="sparkline13-collapse-close"><i class="fa fa-times"></i></span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="sparkline13-graph">
-                                    <div class="datatable-dashv1-list custom-datatable-overright">
-                                        <table id="table" data-toggle="table" data-pagination="true" data-search="true" data-key-events="true" data-resizable="true" data-cookie="true" data-cookie-id-table="saveId" data-click-to-select="true" data-toolbar="#toolbar">
-                                            <thead>
-                                                <tr>
-                                                    <th>Name</th>
-                                                    <th>view</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                            @if ($class->classStreames->count()==0)
-                                                    <div class="alert alert-danger">No info</div>
-                                            @else
-                                                @foreach ($class->classStreames as $class)
-                                                    <tr>
-                                                        <td>
-                                                        {{$class->name}}
-                                                        </td>
-
-                                                        <td>
-                                                        <a href="{{route('streams.show',$class->id)}}">
-                                                            <i class="fa fab fa-eye"></i>
-                                                        </a>
-                                                        </td>
-                                                    </tr>
-                                                @endforeach
-                                            @endif
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb elevation-2">
+        <li class="breadcrumb-item"><a href="{{url('/')}}">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">View Staff</li>
+    </ol>
+</nav>
 
 
+<section class="content">
+
+<section class="container-fluid">
 
 
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
+     <!-- Small boxes (Stat box) -->
+     <div class="row d-flex justify-content-center col-12">
+
+        <div class="card card-dark  col-md-10 mx-auto p-0 animated bounce">
+            <div class="card-header">
+                <h3 class="card-title">{{$user->name}} Profile</h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    @if ($user->image)
+                        <div class="col-md-12 mx-auto d-flex justify-content-center my-2">
+                            <img src="{{asset('files/'.$user->image)}}" width="75px" height="75px" class="img-fluid img-circle"  alt="{{$user->username}}">
+                        </div>
+                    @endif
+
+                    <div class="col-md-6">
+                        <h2>Name</h2>
+                        <p>
+                            {{$user->name}}
+                        </p>
+                        <h2>Username</h2>
+                        <p>
+                            {{$user->username}}
+                        </p>
+                        <h2>My Roles</h2>
+                        <ul class="list-group">
+                            @if ($user->roles->count()>0)
+                                @foreach ($user->roles as $row)
+
+                                    <li class="list-group-item">{{$row->display_name}}</li>
+
+                                @endforeach
+                            @else
+                            <p>No Role Assigned</p>
+                            @endif
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        @if($user->entry_date)
+                            <h2>Entry Date</h2>
+                            <p>
+                                {{ Carbon\Carbon::parse($user->entry_date,'UTC')->isoFormat('dddd D, MMMM, Y')}}
+                            </p>
+                        @endif
+
+                        @if($user->join_as)
+                            <h2>Join as</h2>
+                            <p>
+                                {{$user->join_as}}
+                            </p>
+                        @endif
+                    </div>
+                    <div class="col-md-12 my-2">
+                        @if($user->biography)
+                            <h2>Biography</h2>
+                            <p>
+                                {{$user->biography}}
+                            </p>
+                        @endif
+                    </div>
+                    <div class="col-md-12 my-2">
+                        @if ($user->some_form)
+                            <h2>Entry Documents</h2>
+                            <embed src="{{ asset('files/'.$user->some_form) }}" style="min-height:450px;" class="col-12" />
+                        @endif
+                    </div>
+
+                    <div class="col-md-12 my-2">
+                        <div class="row">
+
+
+                            <div class="col-md-6">
+                                @if ($user->subjects->count()>0)
+                                    <h3>Teaching</h3>
+                                    <ul class="list-group">
+                                        @foreach ($user->subjects->groupBy('level') as $level=>$subz)
+                                            <h4 class="list-group-item  active">{{$level}}</h4>
+                                            @foreach ($subz as $row)
+                                            <li class="list-group-item">{{$row->name}}</li>
+
+                                            @endforeach
+                                        @endforeach
+                                    </ul>
+                                @endif
+                            </div>
+                            <div class="col-md-6">
+                                @if ($user->subjects->count()>0)
+                                    <h3>Teacher In</h3>
+                                    <ul class="list-group">
+                                        @foreach ($user->schclasses->groupBy('level') as $level=>$clasz)
+                                            <h4 class="list-group-item  active">{{$level}}</h4>
+                                            @foreach ($clasz as $row)
+                                            <li class="list-group-item">{{$row->name}}</li>
+
+                                            @endforeach
+                                        @endforeach
+                                    </ul>
+                                @endif
                             </div>
                         </div>
                     </div>
+
                 </div>
+
+
+
+
+
+
             </div>
-            <!-- Static Table End -->
+
+        </div>
+
+      </div>
+      <!-- /.row -->
+@section('script')
+ <!-- jQuery -->
+ <script src="{{asset('adminlte/plugins/jquery/jquery.min.js')}}"></script>
+ <!-- jQuery UI 1.11.4 -->
+ <script src="{{asset('adminlte/plugins/jquery-ui/jquery-ui.min.js')}}"></script>
+@endsection
+
+
+
+
+
+
+
+</section>
+
+
 
 @endsection
-@section('scripts')
-            	<!-- scrollUp JS
-         ============================================ -->
-	<script src="{{ asset('schools/js/jquery.scrollUp.min.js')}}"></script>
-	<!-- counterup JS
-		============================================ -->
-	<script src="{{ asset('schools/js/counterup/jquery.counterup.min.js')}}"></script>
-	<script src="{{ asset('schools/js/counterup/waypoints.min.js')}}"></script>
-	<!-- peity JS
-		============================================ -->
-	<script src="{{ asset('schools/js/peity/jquery.peity.min.js')}}"></script>
-	<script src="{{ asset('schools/js/peity/peity-active.js')}}"></script>
-	<!-- sparkline JS
-		============================================ -->
-	<script src="{{ asset('schools/js/sparkline/jquery.sparkline.min.js')}}"></script>
-	<script src="{{ asset('schools/js/sparkline/sparkline-active.js')}}"></script>
-	<!-- data table JS
-		============================================ -->
-	<script src="{{ asset('schools/js/data-table/bootstrap-table.js')}}"></script>
-	<script src="{{ asset('schools/js/data-table/tableExport.js')}}"></script>
-	<script src="{{ asset('schools/js/data-table/data-table-active.js')}}"></script>
-	<script src="{{ asset('schools/js/data-table/bootstrap-table-editable.js')}}"></script>
-	<script src="{{ asset('schools/js/data-table/bootstrap-editable.js')}}"></script>
-	<script src="{{ asset('schools/js/data-table/bootstrap-table-resizable.js')}}"></script>
-	<script src="{{ asset('schools/js/data-table/colResizable-1.5.source.js')}}"></script>
-	<script src="{{ asset('schools/js/data-table/bootstrap-table-export.js')}}"></script>
-	<!-- main JS
-         ============================================ -->
-	<script src="{{ asset('schools/js/main.js')}}"></script>
+
+
+
+
+@section('style')
+
+<style>
+    .breadcrumb{
+
+        background: #fdffffc7;
+    }
+</style>
+
 @endsection

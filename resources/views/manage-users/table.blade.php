@@ -42,7 +42,6 @@
                                                 <tr>
                                                     <th>Name</th>
                                                     <th>Member Of Role</th>
-                                                    <th>Add Of Member</th>
                                                     <th>Actions</th>
                                                 </tr>
                                             </thead>
@@ -65,7 +64,7 @@
                                                                 <span class="bg-warning">No info</span>
                                                             @endif
                                                         </td>
-                                                        <td><a href="{{route('users.create')}}"><i class="fa fa-user-plus"></i></a></td>
+
                                                         <td>
 
                                                         {{-- <a href="{{route('users.edit',$user->id)}}"><i class="fa fa-edit"></i></a>|
