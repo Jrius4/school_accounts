@@ -14,7 +14,7 @@
 
 <div class="row">
     <div class="col-12">
-        <div class="card elevation-2 animated bounceIn">
+        <div class="card col-12 p-0 card-dark m-x elevation-2 animated bounceIn">
             <div class="card-header row">
                 <h3 class="card-title mr-auto">Manage Teachers</h3>
                 <a href="{{route('teachers.create')}}" class="btn btn-sm btn-outline-primary">Create New Teacher</a>
@@ -23,6 +23,8 @@
                 <div class="row">
                     @include('partials.message')
                 </div>
+                <div class="card">
+                    <div class="card-body table-responsive p-0"  style="min-height: 350px;">
                 <table id="TeacherTable" class="table table-bordered table-striped">
                     <thead>
                         <th>Name</th>
@@ -35,7 +37,7 @@
                                                     <div class="alert alert-danger">No info</div>
                                             @else
                                                 @foreach ($roles->whereName('teacher')->first()->users as $teacher)
-                                                    <tr>
+                                                    <tr title="{{$teacher->name}}">
                                                         <td>
                                                         {{$teacher->name}}
                                                         </td>
@@ -70,6 +72,8 @@
                         <th>Action</th>
                     </tfoot>
                 </table>
+            </div>
+        </div>
             </div>
         </div>
     </div>
