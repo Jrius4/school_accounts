@@ -30,33 +30,41 @@
                         </div>
                     @endif
 
-                    <div class="col-sm-8">
-                        <h4>Name</h4>
-                        <p>
-                            {{$user->name}}
-                        </p>
-                        <h4>Username</h4>
-                        <p>
-                            {{$user->username}}
-                        </p>
-                        @if($user->entry_date)
-                            <h4>Enrolled</h4>
+                    <div class="col-10 row d-flex justy-content-center">
+                        <div class="col-sm-6">
+                            <h4>Name</h4>
                             <p>
-                                {{ Carbon\Carbon::parse($user->entry_date,'UTC')->isoFormat('dddd D, MMMM, Y')}}
+                                {{$user->name}}
                             </p>
-                        @endif
-                        <h4>Serving as</h4>
-                        <ul class="list-group">
-                            @if ($user->roles->count()>0)
-                                @foreach ($user->roles as $row)
+                            <h4>Username</h4>
+                            <p>
+                                {{$user->username}}
+                            </p>
+                        </div>
+                        <div class="col-sm-6">
 
-                                    <li class="list-group-item">{{$row->display_name}}</li>
-
-                                @endforeach
-                            @else
-                            <p>No Role Assigned</p>
+                            @if($user->entry_date)
+                                <h4>Enrolled</h4>
+                                <p>
+                                 {{ Carbon\Carbon::parse($user->entry_date,'UTC')->isoFormat('dddd D, MMMM, Y')}}
+                                </p>
                             @endif
-                        </ul>
+                            <h4>Serving as</h4>
+                            <ul class="list-group">
+                                @if ($user->roles->count()>0)
+                                    @foreach ($user->roles as $row)
+
+                                        <li class="list-group-item">{{$row->display_name}}</li>
+
+                                    @endforeach
+                                @else
+                                <p>No Role Assigned</p>
+                                @endif
+                            </ul>
+
+                        </div>
+
+
                     </div>
                     <div class="col-md-6">
 
