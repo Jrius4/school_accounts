@@ -109,6 +109,8 @@
                     result = 'streams';
                 }
 
+                // console.log(`${action} ${query}`)
+
                 $.ajax({
                     url:"{{url('/fetch-streams')}}",
                     method:"POST",

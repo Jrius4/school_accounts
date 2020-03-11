@@ -4,7 +4,7 @@
         <a href="#" class="nav-link">
             <i class="nav-icon fas fa-chalkboard"></i>
             <p>
-            Classes
+            Levels/Classes
             <i class="right fas fa-angle-left"></i>
             <span class="badge badge-info right">{{App\Schclass::count()}}</span>
             </p>
@@ -53,7 +53,7 @@
     <a href="#" class="nav-link">
       <i class="nav-icon fas fa-users"></i>
       <p>
-       Marks
+       Classes
         <i class="fas fa-angle-left right"></i>
         <span class="badge badge-info right">{{App\Schclass::count()}}</span>
       </p>

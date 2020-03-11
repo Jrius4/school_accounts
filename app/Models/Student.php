@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Combination;
+use App\DeclareResults;
 use App\Mark;
 use App\PpTrComment;
 use App\Result;
@@ -24,10 +25,12 @@ class Student extends Authenticatable
     {
         return $this->hasMany(Mark::class);
     }
+
     public function ppComment()
     {
         return $this->hasMany(PpTrComment::class);
     }
+
     public function schclass()
     {
         return $this->belongsTo(Schclass::class);
@@ -51,6 +54,11 @@ class Student extends Authenticatable
     public function results()
     {
         return $this->hasMany(Result::class);
+    }
+
+    public function declares()
+    {
+        return $this->hasMany(DeclareResults::class);
     }
 
 

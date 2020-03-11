@@ -114,9 +114,9 @@
     </a>
 </li>
 <li class="nav-item">
-    <a href="{{url('/a-level-report')}}" class="nav-link">
+    <a href="{{url('/all-level-report')}}" class="nav-link">
         <i class="far fa-circle nav-icon"></i>
-        <p>View A level Results</p>
+        <p>View All level Results</p>
     </a>
 </li>
 

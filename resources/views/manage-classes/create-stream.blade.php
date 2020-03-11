@@ -180,7 +180,7 @@
                 {
                     if(data === 'success')
                     {
-                        window.location.href = "{{route('classes.index')}}";
+                        window.location.href = "{{url('/all-streams')}}";
 
                     }
                     if(Object.keys(data)[0]==='errors'){

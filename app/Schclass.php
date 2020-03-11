@@ -42,13 +42,14 @@ class Schclass extends Model
         return $this->hasMany(Student::class);
     }
 
-
-
-
     public function subjects(){
         return $this->belongsToMany(Subject::class);
     }
     public function subject(){
         return $this->belongsTo(Subject::class);
+    }
+    public function declares()
+    {
+        return $this->hasMany(DeclareResults::class);
     }
 }

@@ -36,11 +36,17 @@
 
             @if (Auth::user()->hasRole('head_teacher'))
                 @include('layouts.staff-navs.v-2.headteacher')
-            @elseif(Auth::user()->hasRole('academic'))
+            @endif
+            @if (Auth::user()->hasRole('accountant'))
+                @include('layouts.staff-navs.v-2.accountant')
+            @endif
+            @if(Auth::user()->hasRole('academic'))
                 @include('layouts.staff-navs.v-2.academics')
-            @elseif(Auth::user()->hasRole('secretary'))
+            @endif
+            @if(Auth::user()->hasRole('secretary'))
                 @include('layouts.staff-navs.v-2.secretary')
-            @elseif(Auth::user()->hasRole('teacher'))
+            @endif
+            @if(Auth::user()->hasRole('teacher'))
                 @include('layouts.staff-navs.v-2.teacher')
             @endif
 

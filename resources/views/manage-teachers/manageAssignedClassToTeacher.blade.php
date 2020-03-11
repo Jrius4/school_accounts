@@ -19,7 +19,7 @@
                 <h3 class="card-title mr-auto">Manage Assign Class To Teacher</h3>
                 <a href="{{url('/assign-class-to-teacher')}}" class="btn btn-sm btn-outline-primary">Assign Class To Teacher</a>
             </div>
-            <div class="card-body">
+            <div class="card-body table-responsive p-0">
                 <div class="row">
                     @include('partials.message')
                 </div>
@@ -27,7 +27,7 @@
                     <thead>
                         <th>Name</th>
                         <th>Classes</th>
-                        <th></th>
+                        {{-- <th></th> --}}
                     </thead>
                     <tbody>
                                             @if ($teachers->count()==0)
@@ -41,7 +41,7 @@
                                                         <td>
                                                             @if ($teacher->schClasses()->count()>0)
                                                                 @foreach ($teacher->schClasses()->get() as $item)
-                                                                    <span class="bg-primary" style="padding:3px">{{$item->name}}</span>
+                                                                    <span class="bg-primary my-1" style="padding:3px">{{$item->name}}</span>
                                                                 @endforeach
                                                             @else
 
@@ -50,7 +50,7 @@
                                                             @endif
                                                         </td>
 
-                                                        <td></td>
+                                                        {{-- <td></td> --}}
                                                     </tr>
                                                 @endforeach
                                             @endif

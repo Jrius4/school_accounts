@@ -139,6 +139,7 @@ class ClassController extends Controller
             'is_class_teacher'=>'nullable'
         ]);
 
+
         if($validator->fails())
         {
             return response()->json(['errors'=>$validator->messages()]);
@@ -169,11 +170,20 @@ class ClassController extends Controller
     public function fetchStreams(Request $request)
     {
         $classes = new Schclass();
-        // return response()->json(['response'=>$request->all()]);
+
 
         if($request['action']!==null)
         {
             $output ='';
+            if($request["action"] == "schclasses")
+            {
+                $output.='<option value="">Select a stream</option>';
+                $result = $classes->where('id',$request['query'])->first()->classStreames()->get();
+                foreach($result as $row)
+                {
+                    $output.='<option value="'.$row['id'].'">'.$row['name'].'</option>';
+                }
+            }
             if($request["action"] == "schclasses12")
             {
                 $output.='<option value="">Select a stream</option>';

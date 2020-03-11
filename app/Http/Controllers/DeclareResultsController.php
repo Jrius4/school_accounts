@@ -60,6 +60,11 @@ class DeclareResultsController extends BackendController
             'status'=>'required'
         );
         $request->validate($rules);
+
+        $class = new DeclareResults();
+        $class->create($request->all());
+
+        return redirect()->route('declares.index')->with(['message'=>'declare action']);
     }
 
     /**

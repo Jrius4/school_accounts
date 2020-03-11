@@ -21,7 +21,11 @@
             </div>
             <div class="card-body">
 
+
+
                             <form id="createClassForm" action="javascript:void(0)" method="post">
+
+                                <div class="row"><span id="info"></span></div>
                                 <div class="container row d-flex justify-content-center">
                                 <div class="form-group col-sm-12">
                                     <label for="schclasses">Choose Class</label>
@@ -40,7 +44,7 @@
                                     <label for='name'>Select Stream(s)</label>
 
                                     <br />
-                                    <select name="streams" id="streams" multiple class="form-control col-sm-12">
+                                    <select name="streams" id="streams" required multiple class="form-control col-sm-12 action">
                                     </select>
                                     <br />
                                     <input type="hidden" name="hidden_streams" id="hidden_streams" />
@@ -254,6 +258,12 @@
     //     return repo.name;
     // }
 
+    $('.action').change(function(){
+        var query = $(this).val()
+        console.log(query)
+
+    })
+
         $('#createClassForm').on('submit',(function(e){
             e.preventDefault();
             var classes= $('#schclasses').val();
@@ -261,6 +271,7 @@
             var streams= $('#streams').val();
             $('#hidden_streams').val(streams);
             var formData = new FormData(this);
+            console.log($('#createClassForm').serialize())
             $.ajax({
                 type:"POST",
                 url:"{{url('/assign-class-to-teacher')}}",
@@ -284,7 +295,7 @@
                     }
                     if(data == 'done')
                     {
-                        window.location.href = "{{route('classes.index')}}";
+                        window.location.href = "{{url('/manage-assign-class-to-teacher')}}";
                     }
 
                     $('#streams').html('');

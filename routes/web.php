@@ -81,7 +81,8 @@ Route::post('/', 'Auth\LoginController@login');
 
     Route::view('/home', 'home')->middleware('auth');
     Route::view('/admin', 'admin')->middleware('auth');
-    Route::view('/student', 'student');
+    Route::get('/student', 'StudentController@indexStudent');
+    Route::get('/student-results', 'StudentController@studentResults');
     Route::view('/reg', 'reg-std');
 
     Route::resource('/files', 'FileController');
@@ -185,7 +186,7 @@ Route::post('/', 'Auth\LoginController@login');
         // Notification::send($users, new MessageSendNotify());
 
     });
-    Route::get('/a-level-report','printReportController@getAlevelreport');
+    Route::get('/all-level-report','printReportController@getAlevelreport');
     Route::resources([
         'sets'=>'ExmsetController'
     ]);

@@ -56,7 +56,7 @@
                                                         <form action="{{url('/delete-stream',$stream->id)}}" method="post">
                                                             @csrf
                                                             <input type="hidden" name="_method" value="DELETE">
-                                                            <a href="/edit-stream/{{$stream->id}}/edit"><i class="fa fa-eye"></i></a>|
+                                                            {{-- <a href="/edit-stream/{{$stream->id}}/edit"><i class="fa fa-eye"></i></a>| --}}
                                                                 <a href="/edit-stream/{{$stream->id}}/edit">
                                                                     <i class="fa fab fa-edit"></i>
                                                                 </a> |

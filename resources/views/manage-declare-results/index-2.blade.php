@@ -146,11 +146,6 @@
                 @enderror
             </div>
 
-            <div class="form-group">
-                <label for="message">Reason</label>
-                <textarea name="message" id="message" class="form-control" placeholder="State the reason" cols="30" rows="10"></textarea>
-            </div>
-
             <input type="submit" value="submit" class="btn btn-block bg-gradient-secondary btn-md col-12 d-block mb-2 elevation-2"/>
 
 
@@ -164,9 +159,9 @@
         <div class="card elevation-2 animated bounce">
             <div class="card-header row">
                 <h3 class="card-title mr-auto">Declare Status Class</h3>
-                <a href="{{url('/manage-combinations-A-level')}}" class="btn btn-sm btn-outline-primary">Declare Result</a>
+                <a href="{{url('/declares-A-level')}}" class="btn btn-sm btn-outline-primary">Declare Result</a>
             </div>
-            <div class="card-body table-responsive p-0" style="min-height:350px">
+            <div class="card-body table-responsive p-0">
                 <div class="row">
                     @include('partials.message')
                 </div>
@@ -178,59 +173,39 @@
                         <th>Student</th>
                         <th>Class</th>
                         <th>Status</th>
-                        <th>reason</th>
+                        <th>message</th>
                         <th>Action</th>
                     </thead>
                     <tbody>
 
                         @if ($declares->count()==0)
-
-                        @else
-                        @foreach($declares as $row)
-                            <tr>
-                                <td>{{$row->year!=null?$row->year:''}}</td>
-                                <td>{{$row->term_id!=null?$row->term->name:''}}</td>
-                                <td>{{$row->exmset_id!=null?$row->exmset->set_name:''}}</td>
-                                <td>{{$row->student_id!=null?$row->student->name:''}}</td>
-                                <td>{{$row->schclass_id!=null?$row->schclass->name:''}}</td>
-                                <td>{{$row->status!=null?$row->status:''}}</td>
-                                <td><p>{{$row->message!=null?$row->message:''}}</p></td>
-                                <td></td>
-                            </tr>
-                        @endforeach
-
-                        @endif
-{{--
-                        @if ($combinations->count()==0)
                                 <div class="alert alert-danger">No info</div>
                         @else
-                            @foreach ($combinations as $comb)
+                            @foreach ($declares as $row)
                                 <tr>
                                     <td>
-                                    {{$comb->combination_name}}
+                                    {{$row->year?$row->year:''}}
                                     </td>
 
                                     <td>
-                                        {{$comb->first_subject}}
+                                        {{-- {{$row->term?$row->team->name:''}} --}}
                                     </td>
-                                    <td>{{$comb->second_subject}}</td>
-                                    <td>{{$comb->third_subject}}</td>
-                                    <td>{{$comb->subsidiary}}</td>
-                                    <td>{{$comb->level}}</td>
                                     <td>
-                                        {!! Form::open(['method' => 'DELETE', 'route' => ['manage-combinations.destroy', $comb->id]]) !!}
-                                        <a href="{{route('manage-combinations.edit',$comb->id)}}" class="btn btn-xs btn-info"><i class="fa fas fa-edit"></i></a>|<button onclick="return confirm('Are you sure?');" type="submit" class="btn btn-xs btn-danger">
+                                        {{-- {{$row->exmset_id?$row->set->set_name:''}} --}}
+                                    </td>
+
+                                    <td>
+                                        {!! Form::open(['method' => 'DELETE', 'route' => ['declares.destroy', $row->id]]) !!}
+                                        <a href="{{route('declares.edit',$row->id)}}" class="btn btn-xs btn-info"><i class="fa fas fa-edit"></i></a>|<button onclick="return confirm('Are you sure?');" type="submit" class="btn btn-xs btn-danger">
                                                     <i class="fa fa-times"></i>
                                                 </button>
-                                            {{-- @endif
+
                                         {!! Form::close() !!}
 
                                     </td>
                                 </tr>
                             @endforeach
                         @endif
-                         --}}
-
 
                     </tbody>
                     <tfoot>
@@ -242,6 +217,7 @@
                         <th>Status</th>
                         <th>message</th>
                         <th>Action</th>
+
                     </tfoot>
                 </table>
             </div>

@@ -16,4 +16,9 @@ class Term extends Model
     {
         return $this->hasMany(Result::class);
     }
+
+    public function declares()
+    {
+        return $this->hasMany(DeclareResults::class);
+    }
 }

@@ -24,25 +24,24 @@
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
       <ul class="navbar-nav mx-auto">
         <li class="nav-item active">
-          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+          <a class="nav-link" href="{{url('/student')}}">Home <span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Results</a>
+          <a class="nav-link" href="{{url('/student-results')}}">Results</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Fees Records</a>
+          <a class="nav-link" href="/student-fees">Fees Records</a>
         </li>
 
       </ul>
       <ul class="navbar-nav ml-auto">
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                {{Auth::guard('students')->user()->name}}
+                {{$student->name}}
             </a>
             <div class="dropdown-menu bg-dark text-light animated flipInX" aria-labelledby="navbarDropdownMenuLink">
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <a class="dropdown-item" href="#">Something else here</a>
+                {{-- <a class="dropdown-item" href="#">Action</a> --}}
+
                 <a class="dropdown-item" href="{{ route('logout') }}"
                     onclick="event.preventDefault();
                                     document.getElementById('logout-form').submit();">
@@ -61,20 +60,31 @@
   <div class="row card elevation-2 shadow-sm bg-dark text-light mx-1 my-2 p-2">
       <div class="ml-auto paragraphs">
 
-            @if (isset(Auth::guard('students')->user()->image))
+            @if (isset($student->image))
 
             <p>
-                <img width="50" height="50" class="img-circle" src="{{asset('images/'.Auth::guard('students')->user()->image)}}" alt="{{Auth::guard('students')->user()->name}}">
+                <img width="50" height="50" class="img-circle" src="{{asset('images/'.$student->image)}}" alt="{{$student->name}}">
             </p>
 
             @endif
 
-          <p>{{Auth::guard('students')->user()->name}}</p>
-          <p>{{Auth::guard('students')->user()->roll_number}}</</p>
-          <p>{{Auth::guard('students')->user()->schclass->name}}</</p>
+          <p>{{$student->name}}</p>
+          <p>{{$student->roll_number}}</</p>
+          <p>{{$student->schclass->name}}</</p>
       </div>
 
+
   </div>
+
+
+  <div class="row d-flex justify-content-center">
+
+
+
+    @yield('content')
+
+  </div>
+
 
 </div>
 

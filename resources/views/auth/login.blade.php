@@ -27,14 +27,14 @@ footer a{
 
     <div class="container-fluid" style="min-height:98vh">
         <div class="card card-body elevation-4 shadow-sm head-info">
-            <h3>WELCOME TO FRIENDS ACADEMY KATENDE</h3>
+            <h3 class="mr-auto"><img src={{asset("schools/logos/logo1.png")}} class="img-fluid col-xs-12"/>&nbsp; WELCOME TO FRIENDS ACADEMY KATENDE</h3>
         </div>
         <div class="container row d-flex justify-content-center mx-auto">
 
 
             <div class="col-md-5 card h-100 panel-vh bg-dark elevation-2 shadow-sm mx-1 animated bounce">
                 <div class="card-header d-flex justify-content-center">
-                    <img src="{{asset('schools/img/logo/log.png')}}" alt="">
+                    <img class="img-fluid" src="{{asset('schools/logos/logO2.png')}}" alt="">
                 </div>
                 <div class="form-group d-lg py-1"></div>
                 <div class="card-body">
@@ -74,7 +74,7 @@ footer a{
 
            <div class="col-md-5 card h-100 bg-dark elevation-2 shadow-sm mx-1 animated bounce">
                 <div class="card-header d-flex justify-content-center">
-                    <img src="{{asset('schools/img/logo/log.png')}}" alt="">
+                    <img class="img-fluid" src="{{asset('schools/logos/logO2.png')}}" alt="">
                 </div>
                 <div class="card-body">
                     <h4 class="mb-2">Administration</h4>
@@ -114,7 +114,7 @@ footer a{
 
         </div>
 
-<div class="col-lg-12">
+<div class="col-lg-12 d-none">
 
     <div class="row container my-2 mx-auto text-white">
         <div class="mr-auto col-sm-6">

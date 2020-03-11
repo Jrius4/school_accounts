@@ -51,6 +51,7 @@
     @yield('styles')
     @yield('style')
     @yield('first-scripts')
+    <link rel="shortcut icon" href="{{asset('schools/img/favicon.ico')}}" type="image/x-icon">
 </head>
 <body class="hold-transition sidebar-mini layout-fixed ">
 

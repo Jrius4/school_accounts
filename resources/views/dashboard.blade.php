@@ -16,11 +16,17 @@
 
     @if (Auth::user()->hasRole('head_teacher'))
         @include('dashboards.head-teacher')
-    @elseif (Auth::user()->hasRole('academic'))
+    @endif
+    @if (Auth::user()->hasRole('accountant'))
+        @include('dashboards.accountant')
+    @endif
+    @if (Auth::user()->hasRole('academic'))
         @include('dashboards.academics')
-    @elseif (Auth::user()->hasRole('secretary'))
+    @endif
+    @if (Auth::user()->hasRole('secretary'))
         @include('dashboards.secretary2')
-    @elseif (Auth::user()->hasRole('teacher'))
+    @endif
+    @if (Auth::user()->hasRole('teacher'))
         @include('dashboards.teacher')
     @endif
 

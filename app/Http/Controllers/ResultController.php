@@ -194,6 +194,7 @@ class ResultController extends BackendController
             if($request['set']=='e-o-t'){ $set =3;}
 
             $result = new Result();
+            $result->year = date('Y');
             $marks = new Mark();
             $subject = new Subject();
             $student = new Student();
@@ -264,7 +265,7 @@ class ResultController extends BackendController
                         'calculate_mark'=>$request['paper_mark']*(Exmset::find($set)->set_percentage/100),
                         'grade'=>$grade,
                         'comments'=>null,
-                        'year'=>null
+                        'year'=>date('Y')
                     ));
                 }
                 // $marks->save();
@@ -349,7 +350,7 @@ class ResultController extends BackendController
                         'calculate_mark'=>$request[$sub['paper_abbrev']]*(Exmset::find($set)->set_percentage/100),
                         'grade'=>$grade,
                         'comments'=>null,
-                        'year'=>null
+                        'year'=>date('Y')
                     ));
 
 
@@ -2400,4 +2401,7 @@ class ResultController extends BackendController
             return $output;
         }
     }
+
+
+
 }
