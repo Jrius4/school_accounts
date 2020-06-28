@@ -29,12 +29,18 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique()->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('wage_salary')->default('0');
+            $table->string('wage_paid')->default('0');
+            $table->string('wage_balance')->default('0');
+            $table->string('wage_loan')->default('0');
+            $table->string('wage_upfront')->default('0');
             $table->string('image')->nullable();
             $table->string('former_school')->nullable();
             $table->string('entry_date')->nullable();
             $table->string('join_as')->nullable();
             $table->string('some_form')->nullable();
             $table->text('biography')->nullable();
+            $table->text('api_token')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

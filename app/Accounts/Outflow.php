@@ -7,12 +7,17 @@ use App\ExpenseTag;
 
 class Outflow extends Model
 {
-    protected $fillable = ['destination_identifier','amount'];
+    protected $fillable = ['outflow_category_id','term_id','made_by','description','message','total'];
 
 
 
     public function expenseTags(){
       return  $this->belongsToMany(ExpenseTag::class);
+    }
+
+    public function outflowCategory()
+    {
+        return $this->belongsTo(OutflowCategory::class);
     }
 
     public function expenseTag(){

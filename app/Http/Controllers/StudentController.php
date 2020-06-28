@@ -17,9 +17,15 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Validator;
-
+use PDF;
 class StudentController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth:students',['except' => ['registerStudent']]);
+        // $this->middleware('auth',['except' => ['registerStudent']]);
+    }
 
     /**
      * Display a listing of the resource.
@@ -27,100 +33,107 @@ class StudentController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function registerStudent(Request $request)
-    {
-        // return response()->json(['response'=>$request->all()]);
-        $rules = array(
-            'student_name'=>'required',
-            'rollno'=>'required',
-            'class'=>'required',
-            'paid_fees'=>'required',
-            'stream'=>'required',
-            'gender'=>'required',
-            'password'=>'required|confirmed',
-            'passport_photo'=>'required|image',
-            'admission_form'=>'required|file',
-            'medical_form'=>'required|file',
-        );
+    // public function registerStudent(Request $request)
+    // {
+    //     // return response()->json(['response'=>$request->all()]);
+    //     $rules = array(
+    //         'student_name'=>'required',
+    //         'rollno'=>'required',
+    //         'class'=>'required',
+    //         'fees_to_be_paid'=>'required',
+    //         'paid_fees'=>'required',
+    //         'stream'=>'required',
+    //         'gender'=>'required',
+    //         'password'=>'required|confirmed',
+    //         'passport_photo'=>'required|image|max:1024',
+    //         'admission_form'=>'required|file|mimes:pdf,doc,docx,jpeg,png,jpg|max:1024',
+    //         'medical_form'=>'required|file|mimes:pdf,doc,docx,jpeg,png,jpg|max:1024'
+    //     );
 
-        $validator = Validator::make($request->all(),$rules);
-        if($validator->fails())
-        {
-            return response()->json(['errors'=>$validator->messages()]);
-        }
+    //     // $request->validate($rules);
 
-        $filename1=null;
-        $filename2=null;
-        $filename3=null;
+    //     $validator = Validator::make($request->all(),$rules);
+    //     if($validator->fails())
+    //     {
+    //         return response()->json(['errors'=>$validator->messages()]);
+    //     }
 
-        $student = new Student();
+    //     $filename1=null;
+    //     $filename2=null;
+    //     $filename3=null;
 
-        if($request->file('passport_photo') !=null)
-        {
-            $extension1 = Input::file('passport_photo')->getClientOriginalExtension();
-            $filename1 = str_slug($request['student_name'],'_').'_picture'. '.' . $extension1;
-            $request->file('passport_photo')->move(public_path(config('cms.image.directory')),$filename1);
-            $student->image = $filename1;
+    //     $student = new Student();
 
-        }
-        if($request->file('medical_form') !=null)
-        {
-            $extension2 = Input::file('medical_form')->getClientOriginalExtension();
-            $filename2 = str_slug($request['student_name'],'_').'_medical'. '.' . $extension2;
+    //     if($request->file('passport_photo') !=null)
+    //     {
+    //         $extension1 = Input::file('passport_photo')->getClientOriginalExtension();
+    //         $filename1 = str_slug($request['student_name'],'_').'_picture'. '.' . $extension1;
+    //         $request->file('passport_photo')->move(public_path(config('cms.image.directory')),$filename1);
+    //         $student->image = $filename1;
 
-            $request->file('medical_form')->move(public_path(config('cms.file.directory')),$filename2);
-            $student->medical_form = $filename2;
+    //     }
+    //     if($request->file('medical_form') !=null)
+    //     {
+    //         $extension2 = Input::file('medical_form')->getClientOriginalExtension();
+    //         $filename2 = str_slug($request['student_name'],'_').'_medical'. '.' . $extension2;
 
-
-
-        }
-        if($request->file('admission_form') !=null)
-        {
-            $extension3 = Input::file('admission_form')->getClientOriginalExtension();
-            $filename3 = str_slug($request['student_name'],'_').'_admission'. '.' . $extension3;
-            $request->file('admission_form')->move(public_path(config('cms.file.directory')),$filename3);
-            $student->admission_form = $filename3;
+    //         $request->file('medical_form')->move(public_path(config('cms.file.directory')),$filename2);
+    //         $student->medical_form = $filename2;
 
 
-        }
-        $student->name = request()->student_name;
-        $student->roll_number = request()->rollno;
-        $student->schclass_id = request()->class;
-        $student->schstream_id = request()->stream;
-        $student->gender = request()->gender;
-        $student->amount_paid = request()->paid_fees;
-        $student->password = bcrypt(request()->password);
-        if(request()->combination !== null)
-        {
-            $student->combination_id = request()->combination;
 
-        }
-
-        if($student->save())
-        {
-            if(request()->hidden_optional_subjects!==null)
-            {
-                $student->where('roll_number',request()->rollno)->first()->subjects()->attach(Subject::find(explode(",",request()->hidden_optional_subjects)));
-            }
+    //     }
+    //     if($request->file('admission_form') !=null)
+    //     {
+    //         $extension3 = Input::file('admission_form')->getClientOriginalExtension();
+    //         $filename3 = str_slug($request['student_name'],'_').'_admission'. '.' . $extension3;
+    //         $request->file('admission_form')->move(public_path(config('cms.file.directory')),$filename3);
+    //         $student->admission_form = $filename3;
 
 
-            return response()->json(['message'=>'student registration successfully']);
-        }
-        else
-        {
-            return response()->json(['errors'=>'student registration fails']);
+    //     }
+    //     $student->name = request()->student_name;
+    //     $student->roll_number = request()->rollno;
+    //     $student->schclass_id = request()->class;
+    //     $student->schstream_id = request()->stream;
+    //     $student->gender = request()->gender;
+    //     $student->fees_to_be_paid = request()->fees_to_be_paid;
+    //     $student->amount_paid = request()->paid_fees;
+    //     $student->password = bcrypt(request()->password);
+    //     if(request()->combination !== null)
+    //     {
+    //         $student->combination_id = request()->combination;
 
-        }
+    //     }
 
-        return response()->json(['data'=>['requests'=>$request->all(),'admission'=>$filename3,'medical'=>$filename2,'pictures'=>$filename1]]);
+    //     if($student->save())
+    //     {
+    //         if(request()->hidden_optional_subjects!==null)
+    //         {
+    //             $student->where('roll_number',request()->rollno)->first()->subjects()->attach(Subject::find(explode(",",request()->hidden_optional_subjects)));
+    //         }
 
-    }
+
+    //         return response()->json(['message'=>'student registration successfully']);
+    //     }
+    //     else
+    //     {
+    //         return response()->json(['errors'=>'student registration fails']);
+
+    //     }
+
+    //     return response()->json(['data'=>['requests'=>$request->all(),'admission'=>$filename3,'medical'=>$filename2,'pictures'=>$filename1]]);
+
+    // }
 
     public function indexStudent()
     {
+
         $student = Auth::guard('students')->user();
+        // dd($student);
         return view('student.index',compact('student'));
     }
+
     public function studentResults()
     {
         $class = new Schclass();
@@ -136,20 +149,39 @@ class StudentController extends Controller
 
         $student = Auth::guard('students')->user();
         $id = Auth::guard('students')->user()->id;
-        // $results = DB::table('results')->paginate(2)->groupBy('year');
         $results = Result::where('student_id',$id)->orderBy('created_at','asc')->paginate(3);
-        // $results = Result::where('student_id',$id)->orderBy('created_at','asc')->groupBy('term_id');
-        // $results = $results->toArray();
-        // $results = $this->paginate($results,20);
-        // return response()->json([$results]);
-        // $results = $student->results();
-        // return response()->json([$student,$results]);
-        return view('student.results',compact('student','results','class','term','subject','set'
-            ,'bot_mark','bot_mark1','bot_mark2','bot_mark3'
-            ,'mot_mark','mot_mark1','mot_mark2','mot_mark3'
-            ,'eot_mark','eot_mark1','eot_mark2','eot_mark3'
-            ,'paper_1_total','paper_total1','paper_total2','paper_total3','faker'
-    ));
+
+            return view('student.results',compact('student','results','class','term','subject','set'
+                ,'bot_mark','bot_mark1','bot_mark2','bot_mark3'
+                ,'mot_mark','mot_mark1','mot_mark2','mot_mark3'
+                ,'eot_mark','eot_mark1','eot_mark2','eot_mark3'
+                ,'paper_1_total','paper_total1','paper_total2','paper_total3','faker'
+        ));
+    }
+
+    public function studentCurrentResults()
+    {
+        $class = new Schclass();
+        $term = new Term();
+        $subject = new Subject();
+        $set = new Exmset();
+        $faker = Factory::create();
+
+        global $bot_mark,$bot_mark1,$bot_mark2,$bot_mark3,
+                    $mot_mark,$mot_mark1,$mot_mark2,$mot_mark3,
+                    $eot_mark,$eot_mark1,$eot_mark2,$eot_mark3,
+                    $paper_1_total,$paper_total1,$paper_total2,$paper_total3;
+
+        $student = Auth::guard('students')->user();
+        $id = Auth::guard('students')->user()->id;
+        $results = Result::where('student_id',$id)->orderBy('created_at','asc')->get();
+
+            return view('student.current-results',compact('student','results','class','term','subject','set'
+                ,'bot_mark','bot_mark1','bot_mark2','bot_mark3'
+                ,'mot_mark','mot_mark1','mot_mark2','mot_mark3'
+                ,'eot_mark','eot_mark1','eot_mark2','eot_mark3'
+                ,'paper_1_total','paper_total1','paper_total2','paper_total3','faker'
+        ));
     }
     public function index()
     {
@@ -1143,20 +1175,380 @@ class StudentController extends Controller
     }
 
 
-    function paginate($items, $perPage)
-{
-    if(is_array($items)){
-        $items = collect($items);
+    public function pdfExport($id){
+
+
+        $student = Student::findOrFail($id);
+
+        $class = new Schclass();
+        $term = new Term();
+        $subject = new Subject();
+        $set = new Exmset();
+        $faker = Factory::create();
+
+        global $bot_mark,$bot_mark1,$bot_mark2,$bot_mark3,
+                    $mot_mark,$mot_mark1,$mot_mark2,$mot_mark3,
+                    $eot_mark,$eot_mark1,$eot_mark2,$eot_mark3,
+                    $paper_1_total,$paper_total1,$paper_total2,$paper_total3;
+
+        $results = Result::where('student_id',$id)->orderBy('created_at','asc')->paginate(3);
+
+        $pdf = PDF::loadView('student.report',compact(
+            'student','results','class','term','subject','set'
+                ,'bot_mark','bot_mark1','bot_mark2','bot_mark3'
+                ,'mot_mark','mot_mark1','mot_mark2','mot_mark3'
+                ,'eot_mark','eot_mark1','eot_mark2','eot_mark3'
+                ,'paper_1_total','paper_total1','paper_total2','paper_total3','faker'
+
+        // ));
+        ))->setPaper('a4','portrait');
+        $fileName = str_slug($student->name.' '.$student->roll_number,'-');
+        // return $pdf->stream($fileName.'.pdf');
+
+        return view('student.report',compact(
+                'student','results','class','term','subject','set'
+                    ,'bot_mark','bot_mark1','bot_mark2','bot_mark3'
+                    ,'mot_mark','mot_mark1','mot_mark2','mot_mark3'
+                    ,'eot_mark','eot_mark1','eot_mark2','eot_mark3'
+                    ,'paper_1_total','paper_total1','paper_total2','paper_total3','faker'
+
+            ));
+    }
+
+    public function resultAll($search_year,$search_class,$search_term,$search_student)
+    {
+        $results = Result::get();
+        $students = new Student();
+        $term = new Term();
+        $output ="";
+        $subjects_array =array();
+        $paper_abbrev_1 =array();
+        $paper_abbrev_2 =array();
+        $set = new Exmset();
+        $res_array = array();
+        $term_array = array();
+        $subject3_array = array();
+        $subject2_array = array();
+        $subjects_array = array();
+        $paper2_array = array();
+        $paper2_array = array();
+        $paper_abbbre_array = array();
+
+        $paper1total_array =array();
+        $paper2total_array =array();
+        $paper3total_array =array();
+        $masterpaperAlltotal_array = array();
+        $masterteachercomment_array = array();
+        $mastergrade_array=array();
+        $masterpaper1total_array =array();
+        $masterpaper2total_array =array();
+        $masterpaper3total_array =array();
+        $student_array = array();
+        $single_array = array();
+        $masterpaper1_array = array();
+        $masterpaper2_array = array();
+        $masterpaper3_array = array();
+        $subject_final_total_array = array();
+        $paper1_array = array();
+        $paper2_array = array();
+        $paper3_array = array();
+        $set3_array = array();
+
+        global $bot,$mot,$eot,$bot1,$mot1,$eot1,$bot2,$mot2,$eot2,$bot3,$mot3,$eot3,
+                $total,$total1,$total2,$total3,$grade,$final_mark,$termname,
+                $subject,$subject1,$subject2,$subject3;
+        if($results->count()>0)
+        {
+            // if($results->where('student_id',($search_student==null?'':$search_student))->)
+            if($results->where('year',$search_year)->where('student_id',$search_student)->where('schclass_id',$search_class)->where('term_id',$search_term)->count()>0)
+            {
+                foreach($results->where('year',$search_year)->where('student_id',$search_student)->where('schclass_id',$search_class)->where('term_id',$search_term)->groupBy('term_id') as $term_id=>$row1)
+                {
+
+                    array_push($term_array,$term->find($term_id)->name);
+                    foreach($row1->groupBy('student_id') as $stud_id=>$row2)
+                    {
+
+                        array_push($student_array,$students->find($stud_id)->name);
+
+                        foreach($row2->groupBy('subject_id') as $sub_id=>$res)
+                        {
+                            if($res->where('subject_id',$sub_id)->first()->subject->papersIn()->count()==3 && $res->first()->paper_id!=null)
+                            {
+                                // array_push($subject3_array,$res->where('subject_id',$sub_id)->first()->subject->name);
+                                array_push($subjects_array,$res->where('subject_id',$sub_id)->first()->subject->name);
+                                //first paper
+                                if($res->count()>0) array_push($paper_abbrev_1,
+                                                    $res
+                                                    ->first()->paper->paper_abbrev);
+
+                                elseif($res->count()==0) array_push($paper_abbrev_1,"");
+
+                                if($res->where('exmset_id',1)->count()>0) array_push($paper1_array,
+                                                                round(($res->where('exmset_id',1)
+                                                                ->first()->mark*$set->find(1)
+                                                                ->set_percentage/100),2));
+
+                                if($res->where('exmset_id',1)->count()==0) array_push($paper1_array,0);
+
+                                if($res->where('exmset_id',2)->count()>0) array_push($paper1_array,
+                                                                round(($res->where('exmset_id',2)
+                                                                ->first()->mark*$set->find(2)
+                                                                ->set_percentage/100),2));
+
+                                if($res->where('exmset_id',2)->count()==0) array_push($paper1_array,0);
+
+                                if($res->where('exmset_id',3)->count()>0) array_push($paper1_array,
+                                                                round(($res->where('exmset_id',3)
+                                                                ->first()->mark*$set->find(3)
+                                                                ->set_percentage/100),2));
+
+                                if($res->where('exmset_id',3)->count()==0) array_push($paper1_array,0);
+                                if($res->count()>0) array_push($paper1total_array,round(array_sum($paper1_array),2));
+                                //end first paper
+                                //second paper
+
+                                if($res->count()>1) array_push($paper_abbrev_1,
+                                                    $res[1]->paper->paper_abbrev);
+                                if($res->count()<1)array_push($paper_abbrev_1,
+                                                     "");
+                                if($res->where('exmset_id',1)->count()>1) array_push($paper2_array,
+                                                round(($res->where('exmset_id',1)
+                                                ->nth(2,1)->first()->mark*$set->find(1)
+                                                ->set_percentage/100),2));
+
+                                if($res->where('exmset_id',1)->count()<1) array_push($paper2_array,0);
+
+                                if($res->where('exmset_id',2)->count()>1) array_push($paper2_array,
+                                                                round(($res->where('exmset_id',2)
+                                                                ->nth(2,1)->first()->mark*$set->find(2)
+                                                                ->set_percentage/100),2));
+
+                                if($res->where('exmset_id',2)->count()<1) array_push($paper2_array,0);
+
+                                if($res->where('exmset_id',3)->count()>1) array_push($paper2_array,
+                                                                round(($res->where('exmset_id',3)
+                                                                ->nth(2,1)->first()->mark*$set->find(3)
+                                                                ->set_percentage/100),2));
+
+                                if($res->where('exmset_id',3)->count()<1) array_push($paper2_array,0);
+                                if($res->count()>1) array_push($paper1total_array,round(array_sum($paper2_array),2));
+                                //end second paper
+
+
+                                //third paper
+
+                                if($res->count()>2) array_push($paper_abbrev_1,
+                                                    $res->last()->paper->paper_abbrev);
+                                if($res->count()<2)array_push($paper_abbrev_1,
+                                                     "");
+                                if($res->where('exmset_id',1)->count()>2) array_push($paper3_array,
+                                                round(($res->where('exmset_id',1)
+                                                ->last()->mark*$set->find(1)
+                                                ->set_percentage/100),2));
+
+                                if($res->where('exmset_id',1)->count()<2) array_push($paper3_array,0);
+
+                                if($res->where('exmset_id',2)->count()>2) array_push($paper3_array,
+                                                                round(($res->where('exmset_id',2)
+                                                                ->last()->mark*$set->find(2)
+                                                                ->set_percentage/100),2));
+
+                                if($res->where('exmset_id',2)->count()<2) array_push($paper3_array,0);
+
+                                if($res->where('exmset_id',3)->count()>2) array_push($paper3_array,
+                                                                round(($res->where('exmset_id',3)
+                                                                ->last()->mark*$set->find(3)
+                                                                ->set_percentage/100),2));
+
+                                if($res->where('exmset_id',3)->count()<2) array_push($paper3_array,0);
+                                if($res->count()>1) array_push($paper1total_array,round(array_sum($paper3_array),2));
+                                //end third paper
+
+                                // array_push($subject3_array,$subjects_array);
+                                array_push($paper_abbbre_array,$paper_abbrev_1);
+                                //paper one
+                                array_push($masterpaper1_array,$paper1_array);
+                                $final_mark= round(array_sum($paper1total_array)/3,2);
+                                $final_grade = $this->resultGrade($final_mark);
+                                $teacherComment =$this->teacherComment($final_grade);
+
+                                array_push($masterpaperAlltotal_array,$final_mark);
+                                array_push($mastergrade_array,$final_grade);
+                                array_push($masterteachercomment_array,$teacherComment);
+
+                                $final_mark = "";
+                                $final_grade = "";
+                                $teacherComment ="";
+                                //paper two
+                                array_push($masterpaper2_array,$paper2_array);
+                                // array_push($masterpaper2total_array,$paper1total_array);
+                                //paper two
+                                array_push($masterpaper3_array,$paper3_array);
+                                // array_push($masterpaper2total_array,$paper1total_array);
+                                // $subjects_array = array();
+                                $paper_abbrev_1 = array();
+                                $paper1_array = array();
+                                $paper1total_array = array();
+
+                                $paper2_array = array();
+                                $paper2total_array = array();
+
+                                $paper3_array = array();
+                                $subject_final_total_array =null;
+
+
+
+                            }
+
+                            elseif($res->where('subject_id',$sub_id)->first()->subject->papersIn()->count()==2 && $res->where('subject_id',$sub_id)->first()->paper_id!=null)
+                            {
+                                array_push($subjects_array,$res->where('subject_id',$sub_id)->first()->subject->name);
+                            }
+
+                            elseif($res->where('subject_id',$sub_id)->first()->subject->papersIn()->count() == 0 && $res->where('subject_id',$sub_id)->first()->paper_id!=null)
+                            {
+
+                            }
+
+                            elseif($res->where('subject_id',$sub_id)->first()->subject->papersIn()->count()>0 && $res->where('subject_id',$sub_id)->first()->paper_id == null)
+                            {
+
+                            }
+
+                        }
+
+                    }
+
+
+                }
+                return response()->json(compact('search_year','search_class','search_term','search_student','term_array','student_array','subjects_array',
+                'paper_abbbre_array','masterpaper1_array',
+                'masterpaper2_array','masterpaper3_array','masterpaperAlltotal_array','mastergrade_array','masterteachercomment_array'));
+            }
+            elseif($results->where('year',$search_year)->where('student_id',$search_student)->where('schclass_id',$search_class)->where('term_id',$search_term)->count()==0)
+            {
+                $output = 'no student results';
+                    return response()->json(compact('output'));
+            }
+
+
+
+        }
+        else{
+            return response()->json('no results information');
+        }
+
+
+
     }
 
 
-    return new LengthAwarePaginator(
-        $items->forPage(Paginator::resolveCurrentPage() , $perPage),
-        $items->count(), $perPage,
-        Paginator::resolveCurrentPage(),
-        ['path' => Paginator::resolveCurrentPath()]
-    );
-}
+    public function resultGrade($Subject_final_mark)
+    {
+        $output ="";
+        if($Subject_final_mark>90)
+        {
+            $Subject_final_grade = "A+";
+            $output.=$Subject_final_grade;
+        }
+        if($Subject_final_mark>=80 && $Subject_final_mark<90)
+        {
+            $Subject_final_grade = "A";
+            $output.=$Subject_final_grade;
+
+        }
+        if($Subject_final_mark>=75 && $Subject_final_mark<80)
+        {
+            $Subject_final_grade = "B+";
+            $output.=$Subject_final_grade;
+
+        }
+        if($Subject_final_mark>=70 && $Subject_final_mark<75)
+        {
+            $Subject_final_grade = "B-";
+            $output.=$Subject_final_grade;
+
+        }
+        if($Subject_final_mark>=65 && $Subject_final_mark<70)
+        {
+            $Subject_final_grade = "C+";
+            $output.=$Subject_final_grade;
+
+        }
+        if($Subject_final_mark>=60 && $Subject_final_mark<65)
+        {
+            $Subject_final_grade = "C-";
+            $output.=$Subject_final_grade;
+
+        }
+        if($Subject_final_mark>=55 && $Subject_final_mark<60)
+        {
+            $Subject_final_grade = "D+";
+            $output.=$Subject_final_grade;
+
+        }
+        if($Subject_final_mark>=50 && $Subject_final_mark<55)
+        {
+            $Subject_final_grade = "D-";
+            $output.=$Subject_final_grade;
+
+        }
+        if($Subject_final_mark<50)
+        {
+            $Subject_final_grade = "F";
+            $output.=$Subject_final_grade;
+
+        }
+        return $output;
+    }
+
+    public function teacherComment($subjectGrade)
+    {
+        if($subjectGrade == "A+")
+        {
+            $arr = array('Excellent work','Keep it Up',"keep aiming higher");
+            return $arr[rand(0,2)];
+
+        }
+        elseif($subjectGrade == "A")
+        {
+            $arr = array('Aim higher','You have greater Pontential',"Great hardwork, aim higher",'Goodwork');
+            return $arr[rand(0,3)];
+        }
+        elseif($subjectGrade == "B+")
+        {
+            $arr = array('You could do better','You have greater Pontential',"Average","Good");
+            return $arr[rand(0,3)];
+        }
+        elseif($subjectGrade == "B-")
+        {
+            $arr = array('You could do better','You have greater Pontential',"Fair work","Do Better");
+            return $arr[rand(0,3)];
+        }
+        elseif($subjectGrade == "C+")
+        {
+            $arr = array('You could do better','Give your studies ample time',"Fair work","Utilize your teacher Well");
+            return $arr[rand(0,3)];
+        }
+        elseif($subjectGrade == "C-")
+        {
+            $arr = array('You could do better','Give your studies ample time',"Fair work","Utilize your teacher Well");
+            return $arr[rand(0,3)];
+        }
+        elseif($subjectGrade == "D+" ||$subjectGrade == "D-" )
+        {
+            $arr = array('You are better than this','revise you books',"fair try","Utilize your teacher Well");
+            return $arr[rand(0,3)];
+        }
+
+        elseif($subjectGrade =="F")
+        {
+            $arr = array('Pull up your socks','Utilize your teacher Well','Read your books','Need of hardwork');
+            return $arr[rand(0,3)];
+        }
+
+    }
 
 
 

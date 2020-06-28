@@ -12,6 +12,17 @@
 @endsection
 
 @section('full-content')
+<div class="sessionOut d-none">
+    <form action="javascript:void(0)" id="insertdata12" method="POST">
+        @csrf
+        @auth
+            <input type="hidden" name="timer" value="{{config('session.lifetime')}}" class="sessTimer">
+        @endauth
+        @guest
+        <input type="hidden" name="timer" value="" class="sessTimer">
+        @endguest
+    </form>
+</div>
 
 <div class="container-fluid">
 
@@ -22,7 +33,7 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
-      <ul class="navbar-nav mx-auto">
+      {{-- <ul class="navbar-nav mx-auto">
         <li class="nav-item active">
           <a class="nav-link" href="{{url('/student')}}">Home <span class="sr-only">(current)</span></a>
         </li>
@@ -33,8 +44,20 @@
           <a class="nav-link" href="/student-fees">Fees Records</a>
         </li>
 
-      </ul>
+      </ul> --}}
       <ul class="navbar-nav ml-auto">
+        <li class="nav-item active">
+            <a class="nav-link" href="{{url('/student')}}">Home <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{url('/student-previous-results')}}">Past Results</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{url('/student-current-results')}}">This Term Results</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/student-fees">Fees Records</a>
+          </li>
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 {{$student->name}}
@@ -42,7 +65,7 @@
             <div class="dropdown-menu bg-dark text-light animated flipInX" aria-labelledby="navbarDropdownMenuLink">
                 {{-- <a class="dropdown-item" href="#">Action</a> --}}
 
-                <a class="dropdown-item" href="{{ route('logout') }}"
+                <a class="dropdown-item" href="{{route('logout')}}"
                     onclick="event.preventDefault();
                                     document.getElementById('logout-form').submit();">
                     {{ __('Logout') }}
@@ -50,6 +73,7 @@
 
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                     @csrf
+
                 </form>
             </div>
           </li>
@@ -79,7 +103,7 @@
 
   <div class="row d-flex justify-content-center">
 
-
+    <user-dashboard-component></user-dashboard-component>
 
     @yield('content')
 
@@ -96,6 +120,7 @@
  <script src="{{asset('adminlte/plugins/jquery/jquery.min.js')}}"></script>
  <!-- jQuery UI 1.11.4 -->
  <script src="{{asset('adminlte/plugins/jquery-ui/jquery-ui.min.js')}}"></script>
+
 @endsection
 
 

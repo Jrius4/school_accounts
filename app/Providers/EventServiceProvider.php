@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Events\AboutTheUser;
+use App\Listeners\AboutTheUser as ListenersAboutTheUser;
+use App\Listeners\AlertForNewMessage;
+use App\Listeners\SendMailForNewMessage;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -15,10 +19,17 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
+        AboutTheUser::class=>[
+            AlertForNewMessage::class,
+            ListenersAboutTheUser::class,
+            // SendMailForNewMessage::class,
+        ],
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
     ];
+
+
 
     /**
      * Register any events for your application.

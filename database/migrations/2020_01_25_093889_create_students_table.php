@@ -23,11 +23,14 @@ class CreateStudentsTable extends Migration
             $table->unsignedBigInteger('schstream_id')->nullable();
             $table->unsignedBigInteger('combination_id')->nullable();
             $table->string('gender')->nullable();
+            $table->string('fees_to_be_paid')->nullable();
             $table->string('school_presence_status')->nullable()->default('active');
             $table->string('amount_paid')->nullable();
             $table->string('image')->nullable();
+            $table->string('promotion')->nullable();
             $table->string('medical_form')->nullable();
             $table->string('admission_form')->nullable();
+            $table->text('api_token')->nullable();
             $table->rememberToken();
             $table->timestamps();
 

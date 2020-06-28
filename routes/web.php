@@ -11,6 +11,8 @@
 |
 */
 
+use App\Events\NewMessage;
+use App\ExpenseInput;
 use App\Http\Resources\UserResource;
 use App\Notifications\MessageSendNotify;
 use App\User;
@@ -23,17 +25,17 @@ use Illuminate\Support\Facades\Notification;
 // });
 // Authentication Routes...
 Route::get('/', 'Auth\LoginController@showLoginForm')->name('login');
-Route::post('/', 'Auth\LoginController@login');
+Route::post('/', 'Auth\LoginController@login')->name('login-admin');
+Route::get('logoutUser',"API\UserController@SessionUser")->name('logoutUser');
 
-
-
+Route::post('/register-students','SecretaryController@registerStudent')->name('student.join');
 // Route::group(['middleware' => ['auth']], function () {
-
+Route::post('/register-new-student','SecretaryController@registerStudent')->name('new-register.student');
 
     Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
     Route::resource('/accounts/inflows', 'Accounts\InflowController',['as'=>'accounts']);
     Route::resource('/accounts/outflows', 'Accounts\OutflowController',['as'=>'accounts']);
-    Route::resource('/accounts/school-accounts', 'Accounts\SchoolAccountController',['as'=>'accounts']);
+    // Route::resource('/accounts/school-accounts', 'Accounts\SchoolAccountController',['as'=>'accounts']);
     Route::resource('/students', 'Routine\StudentController');
     Route::get('/student/a-level','Routine\StudentController@indexAlevel');
     Route::get('/student/o-level','Routine\StudentController@indexOlevel');
@@ -78,12 +80,17 @@ Route::post('/', 'Auth\LoginController@login');
     Route::post('/login/student', 'Auth\LoginController@studentLogin')->name('login.student');
     Route::post('/register/admin', 'Auth\RegisterController@createAdmin');
     Route::post('/register/student', 'Auth\RegisterController@createStudent');
-
+// student life
+Route::get('students-1-2','SecretaryController@getStudents12')->name('students.1-2');
+Route::get('students-3-4','SecretaryController@getStudents34')->name('students.3-4');
+Route::get('students-5-6','SecretaryController@getStudents56')->name('students.5-6');
     Route::view('/home', 'home')->middleware('auth');
     Route::view('/admin', 'admin')->middleware('auth');
     Route::get('/student', 'StudentController@indexStudent');
-    Route::get('/student-results', 'StudentController@studentResults');
+    Route::get('/student-previous-results', 'StudentController@studentResults');
+    Route::get('/student-current-results', 'StudentController@studentCurrentResults');
     Route::view('/reg', 'reg-std');
+    Route::get('/report-pdf-export/{id}','StudentController@pdfExport');
 
     Route::resource('/files', 'FileController');
     Route::resource('/routine/classes', 'SchoolClassController');
@@ -106,7 +113,6 @@ Route::post('/', 'Auth\LoginController@login');
         'manage-combinations'=>'CombinationController',
         // Accounts
         'desposits'=>'DepositController',
-        'expenses'=>'Accounts\OutflowController',
         'cities'=>'CityController',
         'tests'=>'AjaxController',
         'foods'=>'FoodController',
@@ -202,3 +208,111 @@ Route::get('/get-comment-model/{student}/{teacher}/{subject}/comment','ResultCon
 Route::post('/result-search','ResultController@ResultSearch');
 Route::resource('/declares', 'DeclareResultsController');
 Route::post('/entry-status','DeclareResultsController@allowEntryStatus');
+
+Route::resources([
+    '/accounts/burser' =>'Accounts\BurserController'
+]);
+Route::get('results/{search_year}/{search_class}/{search_term}/{search_student}','StudentController@resultAll');
+
+
+//fianance
+Route::resource('/accounts/acc-category', 'AccCategoryController');
+Route::get('/accounts/school-accounts','Accounts\AccountantController@index')->name('school_accounts.index');
+Route::delete('/accounts/school-accounts-delete/{id}','Accounts\AccountantController@delete')->name('school_accounts.delete');
+Route::resources([
+    '/accounts/structures'=>'FeeStructureController',
+]);
+Route::get('/accounts/school-account','Accounts\AccountantController@getCreateAccountForm')->name('account.create');
+Route::post('/accounts/school-account','Accounts\AccountantController@storeAccountForm')->name('account.store');
+// Route::post('/accounts/school-account')->name();
+// Route::post('/accounts/school-account')->name(); //edit account types
+//asset payments
+Route::resource('assets-payments', 'AssetPaymentController');
+//student payments
+Route::get('/students-payments/all-payments','Accounts\BurserController@allStudentsPayment')->name('payments.all-payments');
+Route::get('/student-payments','Accounts\BurserController@studentPayments')->name('payments.students');
+Route::get('/student-payment','Accounts\BurserController@studentPaymentGet')->name('payments.student-payment');
+Route::post('/student-payment','Accounts\BurserController@studentPaymentPost')->name('payments.student-store');
+//expenses
+Route::resources([
+    '/expenses'=>'ExpenseController',
+    '/expenses/exp-categories'=>'Accounts\OutflowCategoryController',
+]);
+Route::get('/expenses-items/get-items','ExpenseController@fetchItems')->name('expenses.fetch-items');
+Route::post('/expenses-items/get-form','ExpenseController@getForm')->name('expenses.get-form');
+Route::post('/expenses-items/get-results','ExpenseController@getBorrow')->name('expenses.get-results');
+Route::post('/expenses-borrow/inputs','ExpenseController@getBorrowInput')->name('expenses-borrow.inputs');
+Route::post('/expenses-remove/item','ExpenseController@deleteItem')->name('remove-item');
+
+Route::get('/get-remaing','ExpenseController@remainChange')->name('remaining');
+
+
+//messaging
+
+Route::resource('messages', 'CreateMessageController');
+// Route::get('/spa/chat','AppController@get');
+// Route::get('/spa/cities','AppController@get');
+// Route::get('/spa/contact','AppController@get');
+// Route::get('/s','AppController@get');
+Route::get('/portal/{any}','AppController@get')->where('any','.*');
+
+Route::get('/listings', 'ListingController@getIndex');
+
+Route::get('/details/{id}', 'ListingController@getDetails');
+Route::get('/chat-room',function(){
+    return view('chat-room');
+});
+Route::get('/chat-index',function(){
+    return view('chat-index');
+});
+
+Route::middleware('auth')->get('web-events',function(){
+
+    return view('web-events');
+});
+
+Route::get('/chat-room','ChatController@index')->name('chat-room.all');
+Route::get('/test-vue','Tests\TestController@index');
+
+Route::get('/v2/chats',function(){
+    broadcast(new NewMessage('New Something'));
+    return view('chat.v2-chats');
+});
+Route::group(['prefix' => 'admin'], function () {
+
+});
+Route::group(['middleware'=>'auth','prefix'=>'follows'],function(){{
+    Route::post('/comment',"CommentController@storeComment")->name('comment');
+    Route::get('/users','Tests\TestController@users')->name('follows.users');
+    Route::get('/users/{user}','Tests\TestController@showUser')->name('follows.user.show');
+    Route::get('/comments/{comment}','Tests\TestController@showComment')->name('follows.comment.show');
+    Route::post('/users/{user}/follow','Tests\TestController@follow')->name('follows.follow');
+    Route::delete('/users/{user}/unfollow','Tests\TestController@unfollow')->name('follows.unfollow');
+    Route::get('/notifications','Tests\TestController@notifications')->name('follows.notifications');
+    Route::get('/all-notifications/{unread}/{already}','Tests\TestController@allNotifications');
+}});
+
+Route::middleware("auth")->get('/all-notifications','Tests\TestController@allNotifications');
+Route::group(['middleware'=>'auth'],function(){
+    Route::get('/messenger','MessengerController@index')->name('messenger.index');
+    Route::get('/messenger/{user_id}','MessengerController@getMessages')->name('messenger.fetch-messages');
+    Route::post('/messenger','MessengerController@sendMessage');
+
+    //salary
+    Route::get('/employee-salaries','Salary\SalaryController@employeeSalary')->name('employee-salary.index');
+
+});
+
+Route::get('/test-dashboard',function(){
+   return view('tests.dashboard');
+});
+Route::get('/test-dashboardv2',function(){
+    return view('tests.dashboardv2');
+ });
+ Route::middleware('auth','api')->get('/test-main-layout',function(){
+    return view('portals.layouts.main');
+ });
+
+ Route::get('print-test','PdfController@printTestTfile');
+ Route::get('print-invoice','PdfController@printInvoice');
+ Route::get('print-expense','PdfController@printExpense')->name('print.expense');

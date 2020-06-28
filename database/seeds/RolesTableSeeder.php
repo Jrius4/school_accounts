@@ -42,6 +42,11 @@ class RolesTableSeeder extends Seeder
         $accountant->display_name = "accountant";
         $accountant->save();
 
+        $burser = new Role();
+        $burser->name = "burser";
+        $burser->display_name = "burser";
+        $burser->save();
+
         $teacher = new Role();
         $teacher->name = "teacher";
         $teacher->display_name = "Teacher";
@@ -99,6 +104,16 @@ class RolesTableSeeder extends Seeder
 
         $user->whereName('Umar Boss')->first()->roles()->detach($headteacher);
         $user->whereName('Umar Boss')->first()->roles()->attach($headteacher);
+
+        $user->create(array(
+            'name'=>'Burser',
+            'username'=>'burser',
+            'slug'=>'burser',
+            'password'=>'123456',
+            'remember_token'=>Str::random(10)
+        ));
+        $user->whereName('Burser')->first()->roles()->detach($burser);
+        $user->whereName('Burser')->first()->roles()->attach($burser);
 
         $user90 = User::create([
                 'name'=>'accountant',

@@ -23,14 +23,14 @@
                 <div class="row">
                     @include('partials.message')
                 </div>
-                <table id="RoleTable" class="table table-bordered table-striped">
+                <table id="RoleTable" class="table table-bordered table-striped no-wrap">
                     <thead>
                         <th>Name</th>
                         <th>Roll Number</th>
                         <th>Class</th>
                         <th>Stream</th>
 
-                        <th>view</th>
+                        <th>Action</th>
                     </thead>
                     <tbody>
                         @if ($students->count()==0)
@@ -57,7 +57,7 @@
                                     <td>
                                     <a href="{{route('students.show',$student->id)}}">
                                         <i class="fa fab fa-eye"></i>
-                                    </a>
+                                    </a>|<a href="{{route('students.edit',$student->id)}}"><i class="fa fab fa-edit"></i></a>
                                     </td>
                                 </tr>
                             @endforeach

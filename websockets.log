@@ -1,0 +1,250 @@
+Starting the WebSocket server on port 6001...
+New connection opened for app key SHDJSAHD.
+Connection id 290736521.689266088 sending message {"event":"pusher:connection_established","data":"{\"socket_id\":\"290736521.689266088\",\"activity_timeout\":30}"}
+1234567: connection id 290736521.689266088 received message: {"event":"pusher:subscribe","data":{"channel":"home"}}.
+Connection id 290736521.689266088 sending message {"event":"pusher_internal:subscription_succeeded","channel":"home"}
+Connection id 290736521.689266088 closed.
+New connection opened for app key SHDJSAHD.
+Connection id 442469985.803828864 sending message {"event":"pusher:connection_established","data":"{\"socket_id\":\"442469985.803828864\",\"activity_timeout\":30}"}
+1234567: connection id 442469985.803828864 received message: {"event":"pusher:subscribe","data":{"channel":"home"}}.
+Connection id 442469985.803828864 sending message {"event":"pusher_internal:subscription_succeeded","channel":"home"}
+1234567: connection id 442469985.803828864 received message: {"event":"pusher:ping","data":{}}.
+Connection id 442469985.803828864 sending message {"event":"pusher:pong"}
+Connection id 442469985.803828864 closed.
+New connection opened for app key SHDJSAHD.
+Connection id 811007798.781067469 sending message {"event":"pusher:connection_established","data":"{\"socket_id\":\"811007798.781067469\",\"activity_timeout\":30}"}
+1234567: connection id 811007798.781067469 received message: {"event":"pusher:subscribe","data":{"channel":"home"}}.
+Connection id 811007798.781067469 sending message {"event":"pusher_internal:subscription_succeeded","channel":"home"}
+1234567: connection id 811007798.781067469 received message: {"event":"pusher:subscribe","data":{"auth":"SHDJSAHD:f6ac5849033dec402a11676497d9168f55ac996bb195146a1ecd75fbdb1dea30","channel":"private-new-notification.8"}}.
+Connection id 811007798.781067469 sending message {"event":"pusher_internal:subscription_succeeded","channel":"private-new-notification.8"}
+1234567: connection id 811007798.781067469 received message: {"event":"pusher:ping","data":{}}.
+Connection id 811007798.781067469 sending message {"event":"pusher:pong"}
+1234567: connection id 811007798.781067469 received message: {"event":"pusher:ping","data":{}}.
+Connection id 811007798.781067469 sending message {"event":"pusher:pong"}
+1234567: connection id 811007798.781067469 received message: {"event":"pusher:ping","data":{}}.
+Connection id 811007798.781067469 sending message {"event":"pusher:pong"}
+1234567: connection id 811007798.781067469 received message: {"event":"pusher:ping","data":{}}.
+Connection id 811007798.781067469 sending message {"event":"pusher:pong"}
+1234567: connection id 811007798.781067469 received message: {"event":"pusher:ping","data":{}}.
+Connection id 811007798.781067469 sending message {"event":"pusher:pong"}
+1234567: connection id 811007798.781067469 received message: {"event":"pusher:ping","data":{}}.
+Connection id 811007798.781067469 sending message {"event":"pusher:pong"}
+1234567: connection id 811007798.781067469 received message: {"event":"pusher:ping","data":{}}.
+Connection id 811007798.781067469 sending message {"event":"pusher:pong"}
+1234567: connection id 811007798.781067469 received message: {"event":"pusher:ping","data":{}}.
+Connection id 811007798.781067469 sending message {"event":"pusher:pong"}
+1234567: connection id 811007798.781067469 received message: {"event":"pusher:ping","data":{}}.
+Connection id 811007798.781067469 sending message {"event":"pusher:pong"}
+1234567: connection id 811007798.781067469 received message: {"event":"pusher:ping","data":{}}.
+Connection id 811007798.781067469 sending message {"event":"pusher:pong"}
+1234567: connection id 811007798.781067469 received message: {"event":"pusher:ping","data":{}}.
+Connection id 811007798.781067469 sending message {"event":"pusher:pong"}
+1234567: connection id 811007798.781067469 received message: {"event":"pusher:ping","data":{}}.
+Connection id 811007798.781067469 sending message {"event":"pusher:pong"}
+1234567: connection id 811007798.781067469 received message: {"event":"pusher:ping","data":{}}.
+Connection id 811007798.781067469 sending message {"event":"pusher:pong"}
+1234567: connection id 811007798.781067469 received message: {"event":"pusher:ping","data":{}}.
+Connection id 811007798.781067469 sending message {"event":"pusher:pong"}
+1234567: connection id 811007798.781067469 received message: {"event":"pusher:ping","data":{}}.
+Connection id 811007798.781067469 sending message {"event":"pusher:pong"}
+1234567: connection id 811007798.781067469 received message: {"event":"pusher:ping","data":{}}.
+Connection id 811007798.781067469 sending message {"event":"pusher:pong"}
+1234567: connection id 811007798.781067469 received message: {"event":"pusher:ping","data":{}}.
+Connection id 811007798.781067469 sending message {"event":"pusher:pong"}
+Connection id 811007798.781067469 closed.
+New connection opened for app key SHDJSAHD.
+Connection id 338586967.910772479 sending message {"event":"pusher:connection_established","data":"{\"socket_id\":\"338586967.910772479\",\"activity_timeout\":30}"}
+1234567: connection id 338586967.910772479 received message: {"event":"pusher:subscribe","data":{"channel":"home"}}.
+Connection id 338586967.910772479 sending message {"event":"pusher_internal:subscription_succeeded","channel":"home"}
+1234567: connection id 338586967.910772479 received message: {"event":"pusher:subscribe","data":{"auth":"SHDJSAHD:618ad69e20c8755a33edba00660e896326a1e621b23a3f6fb31c449a999529a7","channel":"private-new-notification.8"}}.
+Connection id 338586967.910772479 sending message {"event":"pusher_internal:subscription_succeeded","channel":"private-new-notification.8"}
+Connection id 338586967.910772479 closed.
+New connection opened for app key SHDJSAHD.
+Connection id 871321791.854943939 sending message {"event":"pusher:connection_established","data":"{\"socket_id\":\"871321791.854943939\",\"activity_timeout\":30}"}
+1234567: connection id 871321791.854943939 received message: {"event":"pusher:subscribe","data":{"channel":"home"}}.
+Connection id 871321791.854943939 sending message {"event":"pusher_internal:subscription_succeeded","channel":"home"}
+1234567: connection id 871321791.854943939 received message: {"event":"pusher:subscribe","data":{"auth":"SHDJSAHD:129f09d86980ca6f6ceba82bfccf0cc48ae98160735dfd48492d26f2d9f8a33a","channel":"private-new-notification.8"}}.
+Connection id 871321791.854943939 sending message {"event":"pusher_internal:subscription_succeeded","channel":"private-new-notification.8"}
+1234567: connection id 871321791.854943939 received message: {"event":"pusher:ping","data":{}}.
+Connection id 871321791.854943939 sending message {"event":"pusher:pong"}
+1234567: connection id 871321791.854943939 received message: {"event":"pusher:ping","data":{}}.
+Connection id 871321791.854943939 sending message {"event":"pusher:pong"}
+1234567: connection id 871321791.854943939 received message: {"event":"pusher:ping","data":{}}.
+Connection id 871321791.854943939 sending message {"event":"pusher:pong"}
+1234567: connection id 871321791.854943939 received message: {"event":"pusher:ping","data":{}}.
+Connection id 871321791.854943939 sending message {"event":"pusher:pong"}
+1234567: connection id 871321791.854943939 received message: {"event":"pusher:ping","data":{}}.
+Connection id 871321791.854943939 sending message {"event":"pusher:pong"}
+Connection id 871321791.854943939 closed.
+New connection opened for app key SHDJSAHD.
+Connection id 684926859.720371429 sending message {"event":"pusher:connection_established","data":"{\"socket_id\":\"684926859.720371429\",\"activity_timeout\":30}"}
+1234567: connection id 684926859.720371429 received message: {"event":"pusher:subscribe","data":{"channel":"home"}}.
+Connection id 684926859.720371429 sending message {"event":"pusher_internal:subscription_succeeded","channel":"home"}
+1234567: connection id 684926859.720371429 received message: {"event":"pusher:subscribe","data":{"auth":"SHDJSAHD:eda2e18fe4170d47b3e1687c6fe2d0d73df448dc51b2daf1ca66f136b52f7342","channel":"private-new-notification.8"}}.
+Connection id 684926859.720371429 sending message {"event":"pusher_internal:subscription_succeeded","channel":"private-new-notification.8"}
+Connection id 684926859.720371429 closed.
+New connection opened for app key SHDJSAHD.
+Connection id 48042038.685567652 sending message {"event":"pusher:connection_established","data":"{\"socket_id\":\"48042038.685567652\",\"activity_timeout\":30}"}
+Connection id 48042038.685567652 closed.
+New connection opened for app key SHDJSAHD.
+Connection id 663178201.704534348 sending message {"event":"pusher:connection_established","data":"{\"socket_id\":\"663178201.704534348\",\"activity_timeout\":30}"}
+1234567: connection id 663178201.704534348 received message: {"event":"pusher:subscribe","data":{"channel":"home"}}.
+Connection id 663178201.704534348 sending message {"event":"pusher_internal:subscription_succeeded","channel":"home"}
+Connection id 663178201.704534348 closed.
+New connection opened for app key SHDJSAHD.
+Connection id 854510853.79581620 sending message {"event":"pusher:connection_established","data":"{\"socket_id\":\"854510853.79581620\",\"activity_timeout\":30}"}
+1234567: connection id 854510853.79581620 received message: {"event":"pusher:subscribe","data":{"channel":"home"}}.
+Connection id 854510853.79581620 sending message {"event":"pusher_internal:subscription_succeeded","channel":"home"}
+1234567: connection id 854510853.79581620 received message: {"event":"pusher:subscribe","data":{"auth":"SHDJSAHD:30f60bed330fb9352f3286d16338cee7c81205359de622f84b4bd41e3e8a87a2","channel":"private-new-notification.8"}}.
+Connection id 854510853.79581620 sending message {"event":"pusher_internal:subscription_succeeded","channel":"private-new-notification.8"}
+Connection id 854510853.79581620 closed.
+New connection opened for app key SHDJSAHD.
+Connection id 225369029.197628579 sending message {"event":"pusher:connection_established","data":"{\"socket_id\":\"225369029.197628579\",\"activity_timeout\":30}"}
+1234567: connection id 225369029.197628579 received message: {"event":"pusher:subscribe","data":{"channel":"home"}}.
+Connection id 225369029.197628579 sending message {"event":"pusher_internal:subscription_succeeded","channel":"home"}
+1234567: connection id 225369029.197628579 received message: {"event":"pusher:subscribe","data":{"auth":"SHDJSAHD:17171ac615d6dd8ffc2030b8a4e2ca57d3523a9304f887c4a8788ca2c4060280","channel":"private-new-notification.8"}}.
+Connection id 225369029.197628579 sending message {"event":"pusher_internal:subscription_succeeded","channel":"private-new-notification.8"}
+1234567: connection id 225369029.197628579 received message: {"event":"pusher:ping","data":{}}.
+Connection id 225369029.197628579 sending message {"event":"pusher:pong"}
+1234567: connection id 225369029.197628579 received message: {"event":"pusher:ping","data":{}}.
+Connection id 225369029.197628579 sending message {"event":"pusher:pong"}
+1234567: connection id 225369029.197628579 received message: {"event":"pusher:ping","data":{}}.
+Connection id 225369029.197628579 sending message {"event":"pusher:pong"}
+1234567: connection id 225369029.197628579 received message: {"event":"pusher:ping","data":{}}.
+Connection id 225369029.197628579 sending message {"event":"pusher:pong"}
+1234567: connection id 225369029.197628579 received message: {"event":"pusher:ping","data":{}}.
+Connection id 225369029.197628579 sending message {"event":"pusher:pong"}
+1234567: connection id 225369029.197628579 received message: {"event":"pusher:ping","data":{}}.
+Connection id 225369029.197628579 sending message {"event":"pusher:pong"}
+1234567: connection id 225369029.197628579 received message: {"event":"pusher:ping","data":{}}.
+Connection id 225369029.197628579 sending message {"event":"pusher:pong"}
+1234567: connection id 225369029.197628579 received message: {"event":"pusher:ping","data":{}}.
+Connection id 225369029.197628579 sending message {"event":"pusher:pong"}
+1234567: connection id 225369029.197628579 received message: {"event":"pusher:ping","data":{}}.
+Connection id 225369029.197628579 sending message {"event":"pusher:pong"}
+1234567: connection id 225369029.197628579 received message: {"event":"pusher:ping","data":{}}.
+Connection id 225369029.197628579 sending message {"event":"pusher:pong"}
+1234567: connection id 225369029.197628579 received message: {"event":"pusher:ping","data":{}}.
+Connection id 225369029.197628579 sending message {"event":"pusher:pong"}
+1234567: connection id 225369029.197628579 received message: {"event":"pusher:ping","data":{}}.
+Connection id 225369029.197628579 sending message {"event":"pusher:pong"}
+1234567: connection id 225369029.197628579 received message: {"event":"pusher:ping","data":{}}.
+Connection id 225369029.197628579 sending message {"event":"pusher:pong"}
+1234567: connection id 225369029.197628579 received message: {"event":"pusher:ping","data":{}}.
+Connection id 225369029.197628579 sending message {"event":"pusher:pong"}
+1234567: connection id 225369029.197628579 received message: {"event":"pusher:ping","data":{}}.
+Connection id 225369029.197628579 sending message {"event":"pusher:pong"}
+1234567: connection id 225369029.197628579 received message: {"event":"pusher:ping","data":{}}.
+Connection id 225369029.197628579 sending message {"event":"pusher:pong"}
+Connection id 225369029.197628579 closed.
+New connection opened for app key SHDJSAHD.
+Connection id 884458297.63870994 sending message {"event":"pusher:connection_established","data":"{\"socket_id\":\"884458297.63870994\",\"activity_timeout\":30}"}
+1234567: connection id 884458297.63870994 received message: {"event":"pusher:subscribe","data":{"channel":"home"}}.
+Connection id 884458297.63870994 sending message {"event":"pusher_internal:subscription_succeeded","channel":"home"}
+1234567: connection id 884458297.63870994 received message: {"event":"pusher:subscribe","data":{"auth":"SHDJSAHD:626b7b37b72e9c8307ee92f0d589e6eafdd85137565f5513560fc0e0097179da","channel":"private-new-notification.8"}}.
+Connection id 884458297.63870994 sending message {"event":"pusher_internal:subscription_succeeded","channel":"private-new-notification.8"}
+1234567: connection id 884458297.63870994 received message: {"event":"pusher:ping","data":{}}.
+Connection id 884458297.63870994 sending message {"event":"pusher:pong"}
+1234567: connection id 884458297.63870994 received message: {"event":"pusher:ping","data":{}}.
+Connection id 884458297.63870994 sending message {"event":"pusher:pong"}
+1234567: connection id 884458297.63870994 received message: {"event":"pusher:ping","data":{}}.
+Connection id 884458297.63870994 sending message {"event":"pusher:pong"}
+1234567: connection id 884458297.63870994 received message: {"event":"pusher:ping","data":{}}.
+Connection id 884458297.63870994 sending message {"event":"pusher:pong"}
+1234567: connection id 884458297.63870994 received message: {"event":"pusher:ping","data":{}}.
+Connection id 884458297.63870994 sending message {"event":"pusher:pong"}
+1234567: connection id 884458297.63870994 received message: {"event":"pusher:ping","data":{}}.
+Connection id 884458297.63870994 sending message {"event":"pusher:pong"}
+1234567: connection id 884458297.63870994 received message: {"event":"pusher:ping","data":{}}.
+Connection id 884458297.63870994 sending message {"event":"pusher:pong"}
+1234567: connection id 884458297.63870994 received message: {"event":"pusher:ping","data":{}}.
+Connection id 884458297.63870994 sending message {"event":"pusher:pong"}
+1234567: connection id 884458297.63870994 received message: {"event":"pusher:ping","data":{}}.
+Connection id 884458297.63870994 sending message {"event":"pusher:pong"}
+1234567: connection id 884458297.63870994 received message: {"event":"pusher:ping","data":{}}.
+Connection id 884458297.63870994 sending message {"event":"pusher:pong"}
+Connection id 884458297.63870994 closed.
+New connection opened for app key SHDJSAHD.
+Connection id 822076834.663943033 sending message {"event":"pusher:connection_established","data":"{\"socket_id\":\"822076834.663943033\",\"activity_timeout\":30}"}
+1234567: connection id 822076834.663943033 received message: {"event":"pusher:subscribe","data":{"channel":"home"}}.
+Connection id 822076834.663943033 sending message {"event":"pusher_internal:subscription_succeeded","channel":"home"}
+1234567: connection id 822076834.663943033 received message: {"event":"pusher:subscribe","data":{"auth":"SHDJSAHD:42a3416766cd7e67f06ee39cec87f34534654d2528cc97ff9936286938d19f48","channel":"private-new-notification.8"}}.
+Connection id 822076834.663943033 sending message {"event":"pusher_internal:subscription_succeeded","channel":"private-new-notification.8"}
+1234567: connection id 822076834.663943033 received message: {"event":"pusher:ping","data":{}}.
+Connection id 822076834.663943033 sending message {"event":"pusher:pong"}
+1234567: connection id 822076834.663943033 received message: {"event":"pusher:ping","data":{}}.
+Connection id 822076834.663943033 sending message {"event":"pusher:pong"}
+1234567: connection id 822076834.663943033 received message: {"event":"pusher:ping","data":{}}.
+Connection id 822076834.663943033 sending message {"event":"pusher:pong"}
+1234567: connection id 822076834.663943033 received message: {"event":"pusher:ping","data":{}}.
+Connection id 822076834.663943033 sending message {"event":"pusher:pong"}
+Connection id 822076834.663943033 closed.
+New connection opened for app key SHDJSAHD.
+Connection id 362632566.398081213 sending message {"event":"pusher:connection_established","data":"{\"socket_id\":\"362632566.398081213\",\"activity_timeout\":30}"}
+1234567: connection id 362632566.398081213 received message: {"event":"pusher:subscribe","data":{"channel":"home"}}.
+Connection id 362632566.398081213 sending message {"event":"pusher_internal:subscription_succeeded","channel":"home"}
+1234567: connection id 362632566.398081213 received message: {"event":"pusher:subscribe","data":{"auth":"SHDJSAHD:80ca91e106e1ff6a4020adad947eae3c21c0c79f9556fc8c17fd559f42e1e3b5","channel":"private-new-notification.8"}}.
+Connection id 362632566.398081213 sending message {"event":"pusher_internal:subscription_succeeded","channel":"private-new-notification.8"}
+1234567: connection id 362632566.398081213 received message: {"event":"pusher:ping","data":{}}.
+Connection id 362632566.398081213 sending message {"event":"pusher:pong"}
+1234567: connection id 362632566.398081213 received message: {"event":"pusher:ping","data":{}}.
+Connection id 362632566.398081213 sending message {"event":"pusher:pong"}
+Connection id 362632566.398081213 closed.
+New connection opened for app key SHDJSAHD.
+Connection id 617934301.759947976 sending message {"event":"pusher:connection_established","data":"{\"socket_id\":\"617934301.759947976\",\"activity_timeout\":30}"}
+1234567: connection id 617934301.759947976 received message: {"event":"pusher:subscribe","data":{"channel":"home"}}.
+Connection id 617934301.759947976 sending message {"event":"pusher_internal:subscription_succeeded","channel":"home"}
+1234567: connection id 617934301.759947976 received message: {"event":"pusher:ping","data":{}}.
+Connection id 617934301.759947976 sending message {"event":"pusher:pong"}
+1234567: connection id 617934301.759947976 received message: {"event":"pusher:ping","data":{}}.
+Connection id 617934301.759947976 sending message {"event":"pusher:pong"}
+1234567: connection id 617934301.759947976 received message: {"event":"pusher:ping","data":{}}.
+Connection id 617934301.759947976 sending message {"event":"pusher:pong"}
+1234567: connection id 617934301.759947976 received message: {"event":"pusher:ping","data":{}}.
+Connection id 617934301.759947976 sending message {"event":"pusher:pong"}
+Connection id 617934301.759947976 closed.
+New connection opened for app key SHDJSAHD.
+Connection id 644980036.9421892 sending message {"event":"pusher:connection_established","data":"{\"socket_id\":\"644980036.9421892\",\"activity_timeout\":30}"}
+1234567: connection id 644980036.9421892 received message: {"event":"pusher:subscribe","data":{"channel":"home"}}.
+Connection id 644980036.9421892 sending message {"event":"pusher_internal:subscription_succeeded","channel":"home"}
+Connection id 644980036.9421892 closed.
+New connection opened for app key SHDJSAHD.
+Connection id 190797905.600115181 sending message {"event":"pusher:connection_established","data":"{\"socket_id\":\"190797905.600115181\",\"activity_timeout\":30}"}
+1234567: connection id 190797905.600115181 received message: {"event":"pusher:subscribe","data":{"channel":"home"}}.
+Connection id 190797905.600115181 sending message {"event":"pusher_internal:subscription_succeeded","channel":"home"}
+1234567: connection id 190797905.600115181 received message: {"event":"pusher:ping","data":{}}.
+Connection id 190797905.600115181 sending message {"event":"pusher:pong"}
+Connection id 190797905.600115181 closed.
+New connection opened for app key SHDJSAHD.
+Connection id 812138672.893136232 sending message {"event":"pusher:connection_established","data":"{\"socket_id\":\"812138672.893136232\",\"activity_timeout\":30}"}
+1234567: connection id 812138672.893136232 received message: {"event":"pusher:subscribe","data":{"channel":"home"}}.
+Connection id 812138672.893136232 sending message {"event":"pusher_internal:subscription_succeeded","channel":"home"}
+Connection id 812138672.893136232 closed.
+New connection opened for app key SHDJSAHD.
+Connection id 364520142.466874802 sending message {"event":"pusher:connection_established","data":"{\"socket_id\":\"364520142.466874802\",\"activity_timeout\":30}"}
+1234567: connection id 364520142.466874802 received message: {"event":"pusher:subscribe","data":{"channel":"home"}}.
+Connection id 364520142.466874802 sending message {"event":"pusher_internal:subscription_succeeded","channel":"home"}
+1234567: connection id 364520142.466874802 received message: {"event":"pusher:ping","data":{}}.
+Connection id 364520142.466874802 sending message {"event":"pusher:pong"}
+1234567: connection id 364520142.466874802 received message: {"event":"pusher:ping","data":{}}.
+Connection id 364520142.466874802 sending message {"event":"pusher:pong"}
+1234567: connection id 364520142.466874802 received message: {"event":"pusher:ping","data":{}}.
+Connection id 364520142.466874802 sending message {"event":"pusher:pong"}
+1234567: connection id 364520142.466874802 received message: {"event":"pusher:ping","data":{}}.
+Connection id 364520142.466874802 sending message {"event":"pusher:pong"}
+Connection id 364520142.466874802 closed.
+New connection opened for app key SHDJSAHD.
+Connection id 974140091.307228988 sending message {"event":"pusher:connection_established","data":"{\"socket_id\":\"974140091.307228988\",\"activity_timeout\":30}"}
+1234567: connection id 974140091.307228988 received message: {"event":"pusher:subscribe","data":{"channel":"home"}}.
+Connection id 974140091.307228988 sending message {"event":"pusher_internal:subscription_succeeded","channel":"home"}
+Connection id 974140091.307228988 closed.
+New connection opened for app key SHDJSAHD.
+Connection id 133530799.620188915 sending message {"event":"pusher:connection_established","data":"{\"socket_id\":\"133530799.620188915\",\"activity_timeout\":30}"}
+1234567: connection id 133530799.620188915 received message: {"event":"pusher:subscribe","data":{"channel":"home"}}.
+Connection id 133530799.620188915 sending message {"event":"pusher_internal:subscription_succeeded","channel":"home"}
+1234567: connection id 133530799.620188915 received message: {"event":"pusher:ping","data":{}}.
+Connection id 133530799.620188915 sending message {"event":"pusher:pong"}
+Connection id 133530799.620188915 closed.
+New connection opened for app key SHDJSAHD.
+Connection id 354929309.636043675 sending message {"event":"pusher:connection_established","data":"{\"socket_id\":\"354929309.636043675\",\"activity_timeout\":30}"}
+Connection id 354929309.636043675 closed.

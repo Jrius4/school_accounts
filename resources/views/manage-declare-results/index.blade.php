@@ -13,7 +13,8 @@
 <section class="content">
 
     <div class="row d-flex justify-content-center">
-        <div class="mx-auto my-2 w-75-h-25">
+        <div class="mx-auto my-2 w-45 h-45">
+            <div class="info-outcome"></div>
             {{-- <a href="javascript:void(0)" id="entry" class="btn btn-block bg-gradient-warning btn-md">Switch</a> --}}
             <div class="card card-secondary">
                 <div class="card-header">
@@ -25,7 +26,7 @@
                       <form action="javascript:void(0)" id="inputData">
                         @csrf
 
-                        <div class="form-group col-12">
+                        <div class="form-group d-block justify-content-center col-12">
                             <label for="resultEntry" class="col-12"><span id="entry">Allow</span> Results Entry</label>
                             <input type="checkbox" name="resultEntry" id="entryResult" @if($entryStatus) checked  @endif data-bootstrap-switch data-off-color="danger" data-on-color="success" class="entryaction form-control d-block col-12">
 
@@ -73,6 +74,7 @@
                     @foreach ($terms as $term)
                         <option value="{{$term->id}}" @if(old('term_id')==$term->id) selected @endif>{{$term->name}}</option>
                     @endforeach
+                    <option value="all">All Terms</option>
                 </select>
                 @error('term_id')
                     <span class="invalid-feedback text-danger">{{$message}}</span>
@@ -85,7 +87,9 @@
 
                     @foreach ($sets as $set)
                         <option value="{{$set->id}}" @if(old('exmset_id')==$set->id) selected @endif>{{$set->set_name}}</option>
+
                     @endforeach
+                    <option value="all">All sets</option>
                 </select>
                 @error('exmset_id')
                     <span class="invalid-feedback text-danger">{{$message}}</span>
@@ -95,7 +99,7 @@
             <div class="form-group">
                 <label for="">Search By ??</label>
                 {{-- <input type="text" name="student" value="{{ old('student') }}" class="form-control col-12 @error('student') is-invalid @enderror"> --}}
-                <select name="" id="" class="form-control col-12">
+                <select name="" id="" class="form-control col-12 action1">
                     <option value="">Choose ...</option>
 
                     <option value="student">Student</option>
@@ -104,7 +108,7 @@
 
             </div>
 
-            <div class="form-group">
+            <div class="form-group student_id">
                 <label for="student_id">Student</label>
                 {{-- <input type="text" name="student" value="{{ old('student') }}" class="form-control col-12 @error('student') is-invalid @enderror"> --}}
                 <select name="student_id" id="student_id" class="form-control col-12 @error('student_id') is-invalid @enderror">
@@ -118,7 +122,7 @@
                     <span class="invalid-feedback text-danger">{{$message}}</span>
                 @enderror
             </div>
-            <div class="form-group">
+            <div class="form-group schclass_id">
                 <label for="schclass_id">Class</label>
                 {{-- <input type="text" name="schclass" value="{{ old('schclass') }}" class="form-control col-12 @error('schclass') is-invalid @enderror"> --}}
                 <select name="schclass_id" id="schclass_id" class="form-control col-12 @error('schclass_id') is-invalid @enderror">
@@ -137,9 +141,9 @@
                 {{-- <input type="text" name="status" value="{{ old('status') }}" class="form-control col-12 @error('status') is-invalid @enderror"> --}}
                 <select name="status" id="status" class="form-control col-12 @error('status') is-invalid @enderror">
                     <option value="">select status</option>
-                    <option value="0">Hold Results</option>
-                    <option value="1">Undeclare Results</option>
-                    <option value="2">Declare Results</option>
+                    <option value="Hold Results">Hold Results</option>
+                    <option value="Undeclare Results">Undeclare Results</option>
+                    <option value="Declare Results">Declare Results</option>
                 </select>
                 @error('status')
                     <span class="invalid-feedback text-danger">{{$message}}</span>
@@ -164,9 +168,9 @@
         <div class="card elevation-2 animated bounce">
             <div class="card-header row">
                 <h3 class="card-title mr-auto">Declare Status Class</h3>
-                <a href="{{url('/manage-combinations-A-level')}}" class="btn btn-sm btn-outline-primary">Declare Result</a>
+                <a href="javascript:void()" class="btn btn-sm btn-outline-primary">Declare Result</a>
             </div>
-            <div class="card-body table-responsive p-0" style="min-height:350px">
+            <div class="card-body table-responsive p-2" style="min-height:350px">
                 <div class="row">
                     @include('partials.message')
                 </div>
@@ -185,14 +189,27 @@
 
                         @if ($declares->count()==0)
 
-                        @else
+                        @elseif($declares->count()>1)
                         @foreach($declares as $row)
                             <tr>
                                 <td>{{$row->year!=null?$row->year:''}}</td>
-                                <td>{{$row->term_id!=null?$row->term->name:''}}</td>
-                                <td>{{$row->exmset_id!=null?$row->exmset->set_name:''}}</td>
-                                <td>{{$row->student_id!=null?$row->student->name:''}}</td>
-                                <td>{{$row->schclass_id!=null?$row->schclass->name:''}}</td>
+                                {{-- <td>{{$row->term_id!=null?$terms->where('id',$row->term_id)->first()->name:''}}</td> --}}
+                                <td>
+                                    @if($row->term_id== 'all')
+                                        <span>All terms</span>
+                                    @elseif($row->term_id!=null && $row->term_id!= 'all')
+                                    <span>{{$sets->where('id',$row->term_id)->first()->set_name}}</span>
+                                    @endif
+                                </td>
+                                <td>
+                                    @if($row->exmset_id== 'all')
+                                        <span>All terms</span>
+                                    @elseif($row->exmset_id!=null && $row->exmset_id!= 'all')
+                                    <span>{{$sets->where('id',$row->exmset_id)->first()->set_name}}</span>
+                                    @endif
+                                </td>
+                                <td>{{$row->student_id!=null?$students->where('id',$row->student_id)->first()->name.'-'.$students->where('id',$row->student_id)->first()->schclass->name:''}}</td>
+                                <td>{{$row->schclass_id!=null?$classes->where('id',$row->schclass_id)->first()->name:''}}</td>
                                 <td>{{$row->status!=null?$row->status:''}}</td>
                                 <td><p>{{$row->message!=null?$row->message:''}}</p></td>
                                 <td></td>
@@ -286,6 +303,18 @@
         }
     });
 
+    $(".action1").change(function(){
+        if($(".action1").val()=="class"){
+            $('.student_id').addClass('d-none');
+            $('.schclass_id').removeClass('d-none');
+        }
+        if($(".action1").val()=="student"){
+            $('.schclass_id').addClass('d-none');
+            $('.student_id').removeClass('d-none');
+        }
+
+    });
+
       $('#RoleTable').DataTable({
         "paging": true,
         "lengthChange": true,
@@ -304,6 +333,14 @@
             data:formData,
             success:function(data){
                 if(data!==null){
+                    // var html = alert(data.status);
+                    var html = `<div class="alert alert-${data.status=="results entry disabled"?"danger":"success"} alert-dismissible fade show" role="alert">
+                                    ${data.status}
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>`;
+                    $('.info-outcome').html(html)
                     console.log(data)
 
                 }

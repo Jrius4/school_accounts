@@ -78,6 +78,16 @@
     'normal' => $rootDir . '/lib/fonts/DejaVuSerif',
   ),
   'nunito' => array(
-    'normal' => $fontDir . '/176125b1b6dc4704cbf0390040859779',
+    'normal' => $fontDir . '/nunito-normal_176125b1b6dc4704cbf0390040859779',
+  ),
+  'font awesome 5 brands' => array(
+    'normal' => $fontDir . '/font-awesome-5-brands-normal_d5214e2970c2f16feabeff559f0e00f2',
+  ),
+  'font awesome 5 free' => array(
+    'normal' => $fontDir . '/font-awesome-5-free-normal_5b7e43e97d1e71beb31bd11349ca9131',
+    '900' => $fontDir . '/font-awesome-5-free-900_18c4acc7317e35897e94658191103223',
+  ),
+  'material design icons' => array(
+    'normal' => $fontDir . '/material-design-icons-normal_dc4ae2310a7fd30ae4c8aca5b51ecd8c',
   ),
 ) ?>

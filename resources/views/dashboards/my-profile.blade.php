@@ -133,7 +133,7 @@
 
       </div>
       <!-- /.row -->
-@section('script')
+@section('others-scripts')
  <!-- jQuery -->
  <script src="{{asset('adminlte/plugins/jquery/jquery.min.js')}}"></script>
  <!-- jQuery UI 1.11.4 -->

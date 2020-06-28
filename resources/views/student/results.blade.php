@@ -58,6 +58,7 @@
             Student Results
         </div>
         <div class="card-body table-responsive p-0 col-12">
+
             <table class="table table-bordered table-head-fixed text-nowrap col-lg-12">
                 <thead class="text-center">
                     <th colspan="2">Subject</th>
@@ -942,6 +943,7 @@
                     <th>Teacher Comment</th>
                 </tfoot>
             </table>
+
         </div>
         <div class="card-footer row d-flex align-content-left bg-light">
 

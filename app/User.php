@@ -7,11 +7,11 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laratrust\Traits\LaratrustUserTrait;
+use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use LaratrustUserTrait;
-    use Notifiable;
+    use LaratrustUserTrait,HasApiTokens,Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -20,7 +20,8 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name', 'email', 'password','slug','image','username','staff_id','some_form','is_class_teacher',
-        'schclass_id','biography','join_as','entry_date','former_school'
+        'schclass_id','biography','join_as','entry_date','former_school','last_seen_at','api_token',
+        'wage_salary','wage_paid','wage_balance','wage_loan','wage_upfront'
     ];
 
     /**
@@ -29,8 +30,41 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token','api_token'
     ];
+
+    public function blogs(){
+        return $this->hasMany(Blog::class,'code','id');
+    }
+
+    public function followers()
+    {
+        return $this->belongsToMany(self::class, 'followers', 'follows_id', 'user_id')
+                    ->withTimestamps();
+    }
+
+    public function follows()
+    {
+        return $this->belongsToMany(self::class, 'followers', 'user_id', 'follows_id')
+                    ->withTimestamps();
+    }
+
+    public function follow($userId)
+    {
+        $this->follows()->attach($userId);
+        return $this;
+    }
+
+    public function unfollow($userId)
+    {
+        $this->follows()->detach($userId);
+        return $this;
+    }
+
+    public function isFollowing($userId)
+    {
+        return (boolean) $this->follows()->where('follows_id', $userId)->first(['follows_id']);
+    }
 
     /**
      * The attributes that should be cast to native types.
@@ -40,6 +74,20 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function user()
+    {
+        return $this->hasMany(Message::class);
+    }
+
+	public function messages()
+	{
+		return $this->hasMany(Chat::class);
+	}
+
+    public function comments(){
+        return $this->hasMany('App\Comment');
+    }
     public function staff(){
         return $this->belongsTo(Staff::class);
     }

@@ -10,28 +10,28 @@
 
 </div>
 <div class="form-group col-md-8">
-    <label>Subject One</label>
+    <label>Option One</label>
     <select name="first_o_subject" id="first_o_subject" class="d-block col-12 form-control">
-        <option value="">Select First Subject</option>
+        <option value="">Select First Option</option>
         @foreach ($subjects as $subject)
             <option value="{{$subject->id}}">{{$subject->name}}</option>
         @endforeach
     </select>
 </div>
 <div class="form-group col-md-8">
-    <label>Subject Two</label>
+    <label>Option Two</label>
 
     <select name="second_o_subject" id="second_o_subject"  class="d-block col-12 form-control">
-            <option value="">Select Second Subject</option>
+            <option value="">Select Second Option</option>
             @foreach ($subjects as $subject)
                 <option value="{{$subject->id}}">{{$subject->name}}</option>
             @endforeach
     </select>
 </div>
 <div class="form-group col-md-8">
-    <label>Subject Three</label>
+    <label>Option Three</label>
     <select name="third_o_subject" id="third_o_subject"  class="d-block col-12 form-control">
-                <option value="">Select Third Subject</option>
+                <option value="">Select Third Option</option>
                 @foreach ($subjects as $subject)
                     <option value="{{$subject->id}}">{{$subject->name}}</option>
                 @endforeach

@@ -10,6 +10,9 @@ use Illuminate\Support\Facades\DB;
 
 class CityController extends BackendController
 {
+    public function getCities(){
+
+    }
     public function index()
     {
         $cities = new City();

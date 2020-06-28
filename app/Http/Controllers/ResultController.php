@@ -19,6 +19,11 @@ use Illuminate\Support\Facades\Validator;
 
 class ResultController extends BackendController
 {
+    public function __construct()
+    {
+        // $this->middleware('auth',['excerpt'=>['vertResults','resultGrade']]);
+        // $this->middleware('check-permissions');
+    }
     public function getBot($term,$set)
     {
         $values = array('term'=>request()->term,'set'=>request()->set);
@@ -1531,21 +1536,23 @@ class ResultController extends BackendController
                 {
                     foreach($results->where('student_id',($search_student==null?'':$search_student))->where('schclass_id','like','%'.($search_class==null?'':$search_class).'%')->where('term_id','like','%'.($search_term==null?'':$search_term).'%')->get()->groupBy('term_id') as $ter_id=>$ter_res)
                     {
-                        $output.='<tr><td colspan="9">'.$ter_res->where('term_id',$ter_id)->first()->term->name.'</td></tr>';
+                        $output.='<tr class="bg-dark"><td colspan="2">'.$ter_res->where('term_id',$ter_id)->first()->term->name.'</td><td colspan="3">'.$ter_res->first()->schclass->name.'</td><td colspan="4">'.$ter_res->first()->student->name.'</td>
+                        .
+                        </tr>';
 
                         // if($ter_res->where('schclass_id','like','%'.($search_class==null?'':$search_class).'%')->count()>0)
                         // {
 
                             foreach($ter_res->groupBy('schclass_id') as $class_id=>$class_res)
                             {
-                                $output.='<tr><td colspan="9">'.$ter_res->where('schclass_id',$class_id)->first()->schclass->name.'</td></tr>';
+                                // $output.='<tr><td colspan="9">'.$ter_res->where('schclass_id',$class_id)->first()->schclass->name.'</td></tr>';
 
                                 foreach($class_res->groupBy('student_id') as $stud=>$resul)
                                 {
 
 
 
-                                    $output.='<tr><td colspan="9">'.$students->find($stud)->name.'</td></tr>';
+                                    // $output.='<tr><td colspan="9">'.$students->find($stud)->name.'</td></tr>';
                                     foreach($resul->groupBy('subject_id') as $sub_id=>$res)
                                     {
 
@@ -2403,5 +2410,133 @@ class ResultController extends BackendController
     }
 
 
+
+    public function vertResults($paper1,$paper2,$paper3){
+        return response()->json(compact('paper1','paper2','paper3'));
+    }
+
+    public function papers($one,$two,$three){
+        $papers = array();
+
+
+
+        if($one != null && $two != null && $three !=null)
+        {
+            $one= $this->resultGrade($one);
+            $two= $this->resultGrade($two);
+            $three= $this->resultGrade($three);
+            $papers = array($one[1],$two[1],$three[1]);
+            return response()->json($papers);
+            // $sum = array_sum($papers);
+            // $i=1;
+            // while($i<=4)
+            // {
+            //     if($sum <=7)
+            //     {
+            //         $grade = "A";
+            //         $points = 6;
+            //         return response()->json(compact('sum','grade','points'));
+            //     }
+            //     elseif(in_array(5,$papers))
+            //     {
+            //         $grade = "B";
+            //         $points = 5;
+            //         return response()->json(compact('sum','grade','points'));
+            //     }
+            //     $i++;
+
+            // }
+
+
+
+        }
+
+        // return response()->json(compact('one','two','three'));
+
+    }
+
+    public function resultGrade($mark)
+    {
+        $output_array = array();
+
+        if($mark>80)
+        {
+            $grade = "D1";
+            $aggre = 1;
+            array_push($output_array,$grade);
+            array_push($output_array,$aggre);
+            return $output_array;
+        }
+        if($mark>=75 && $mark<80)
+        {
+            $grade = "D2";
+            $aggre = 2;
+            array_push($output_array,$grade);
+            array_push($output_array,$aggre);
+            return $output_array;
+
+        }
+        if($mark>=70 && $mark<75)
+        {
+            $grade = "C3";
+            $aggre = 3;
+            array_push($output_array,$grade);
+            array_push($output_array,$aggre);
+            return $output_array;
+
+        }
+        if($mark>=65 && $mark<70)
+        {
+            $grade = "C4";
+            $aggre = 4;
+            array_push($output_array,$grade);
+            array_push($output_array,$aggre);
+            return $output_array;
+
+        }
+        if($mark>=60 && $mark<65)
+        {
+            $grade = "C5";
+            $aggre = 5;
+            array_push($output_array,$grade);
+            array_push($output_array,$aggre);
+            return $output_array;
+
+        }
+        if($mark>=55 && $mark<60)
+        {
+            $grade = "C6";
+            $aggre = 6;
+            array_push($output_array,$grade);
+            array_push($output_array,$aggre);
+            return $output_array;
+
+        }
+        if($mark>=45 && $mark<55)
+        {
+            $grade = "P7";
+            $aggre = 7;
+            array_push($output_array,$grade);
+            array_push($output_array,$aggre);
+            return $output_array;
+
+        }
+        if($mark>=35 && $mark<45)
+        {
+            $grade = "P8";
+            $aggre = 8;
+            array_push($output_array,$grade);
+            array_push($output_array,$aggre);
+            return $output_array;
+
+        }
+        if($mark<35){
+            $grade = "F9";
+            $aggre = 9;
+            array_push($output_array,$grade);
+            array_push($output_array,$aggre);
+            return $output_array;
+        }
+    }
 
 }

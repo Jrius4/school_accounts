@@ -14,6 +14,11 @@ class Schclass extends Model
         if (! empty($value)) $this->attributes['slug'] = str_slug($this->name);
     }
 
+    public function classFee()
+    {
+        return $this->hasOne(ClassFee::class);
+    }
+
     public function classStreames()
     {
         return $this->belongsToMany(Schstream::class);

@@ -12,6 +12,14 @@ class Term extends Model
     {
         return $this->hasMany(Exmset::class);
     }
+    public function studentFees()
+    {
+        return $this->hasMany(StudentFee::class);
+    }
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
+    }
     public function results()
     {
         return $this->hasMany(Result::class);

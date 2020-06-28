@@ -6,6 +6,7 @@ use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Auth\AuthenticationException;
 use Auth;
+use Illuminate\Session\TokenMismatchException;
 
 class Handler extends ExceptionHandler
 {
@@ -48,6 +49,9 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if ($exception instanceof TokenMismatchException && $request->getRequestUri() === '/logout') {
+            return redirect()->route('login');
+        }
         return parent::render($request, $exception);
     }
 
@@ -64,4 +68,6 @@ class Handler extends ExceptionHandler
             }
             return redirect()->guest(route('login'));
         }
+
+
 }

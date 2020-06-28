@@ -29,11 +29,11 @@
                                 <div class="container row d-flex justify-content-center">
                                     <div class="form-group col-md-8">
 
-                                        <label for='set_name'>Set percentage</label>
+                                        <label for='set_name'>Exam Set</label>
 
 
                                         <select id="set_name" name="set_name" class="form-control col-12 d-block @error('set_name') is-invalid @enderror">
-                                            <option value="">Select Term Set</option>
+                                            <option value="">Select Set</option>
                                             @foreach ($sets as $set)
 
                                             <option value="{{$set->id}}" @if(old('set_name')==$set->id) selected @elseif($exmset->exists()&&$exmset->id==$set->id) selected @endif>{{$set->set_name}}</option>

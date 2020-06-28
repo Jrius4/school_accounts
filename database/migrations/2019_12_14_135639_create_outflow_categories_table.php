@@ -16,13 +16,9 @@ class CreateOutflowCategoriesTable extends Migration
         Schema::create('outflow_categories', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->unsignedBigInteger('outflow_id')->nullable();
-            $table->string('amount');
+            $table->string('slug');
             $table->timestamps();
 
-
-
-            $table->foreign('outflow_id')->references('id')->on('outflows')->onDelete('restrict');
         });
     }
 

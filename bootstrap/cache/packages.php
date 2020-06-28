@@ -17,6 +17,17 @@
       0 => 'BeyondCode\\DumpServer\\DumpServerServiceProvider',
     ),
   ),
+  'beyondcode/laravel-websockets' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'BeyondCode\\LaravelWebSockets\\WebSocketsServiceProvider',
+    ),
+    'aliases' => 
+    array (
+      'WebSocketRouter' => 'BeyondCode\\LaravelWebSockets\\Facades\\WebSocketRouter',
+    ),
+  ),
   'fideloper/proxy' => 
   array (
     'providers' => 
@@ -40,6 +51,13 @@
     'aliases' => 
     array (
       'Image' => 'Intervention\\Image\\Facades\\Image',
+    ),
+  ),
+  'laravel/passport' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Laravel\\Passport\\PassportServiceProvider',
     ),
   ),
   'laravel/tinker' => 
@@ -95,6 +113,17 @@
     'aliases' => 
     array (
       'Laratrust' => 'Laratrust\\LaratrustFacade',
+    ),
+  ),
+  'spatie/laravel-server-side-rendering' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Spatie\\Ssr\\SsrServiceProvider',
+    ),
+    'aliases' => 
+    array (
+      'Ssr' => 'Spatie\\Ssr\\Facades\\Ssr',
     ),
   ),
   'yajra/laravel-datatables-oracle' => 

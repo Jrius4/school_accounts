@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Student;
+use App\User;
+use Carbon\Carbon;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -41,9 +44,15 @@ class LoginController extends Controller
         $this->middleware('guest:students')->except('logout');
     }
 
+    public function showLoginForm()
+    {
+        $loggedOut = true;
+        return view('auth.login',compact('loggedOut'));
+    }
     public function showAdminLoginForm()
     {
-        return view('auth.login', ['url' => 'admin']);
+        $loggedOut = true;
+        return view('auth.login', ['url' => 'admin','loggedOut'=>$loggedOut]);
     }
 
     public function adminLogin(Request $request)
@@ -63,7 +72,39 @@ class LoginController extends Controller
 
     public function showStudentLoginForm()
     {
-        return view('auth.login', ['url' => 'student']);
+        $loggedOut = true;
+        return view('auth.login', ['url' => 'student','loggedOut'=>$loggedOut]);
+    }
+
+    public function login(Request $request)
+    {
+        $this->validate($request, [
+            'username'   => 'required',
+            'password' => 'required|min:6'
+        ]);
+
+
+
+        if (Auth::guard()->attempt(['username' => $request->username, 'password' => $request->password], $request->get('remember'))) {
+
+            $id = Auth::user()->id;
+            $user = User::where('id',$id)->first();
+            $user->tokens->each(function($token,$key){
+                $token->delete();
+            });
+            $user->update(['api_token'=>null]);
+            $access_token = $user->createToken('Laravel Passport Create Access Token')->accessToken;
+            $user->update(['api_token'=>$access_token]);
+            $user = $user->name;
+
+            return redirect()->intended('/dashboard')->with(['success'=>'Logging successfully','user'=>$user,'access_token'=>$access_token]);
+
+        }
+
+        else{
+            return redirect('/')->with(['message'=>'username and credients']);
+        }
+        return back()->withInput($request->only('name', 'remember'));
     }
 
     public function studentLogin(Request $request)
@@ -76,7 +117,17 @@ class LoginController extends Controller
 
         if (Auth::guard('students')->attempt(['roll_number' => $request->roll_number, 'password' => $request->password], $request->get('remember'))) {
 
-            return redirect()->intended('/student');
+            $id = Auth::guard('students')->user()->id;
+            $user = Student::where('id',$id)->first();
+            $user->tokens->each(function($token,$key){
+                $token->delete();
+            });
+            $user->update(['api_token'=>null]);
+            $access_token = $user->createToken('Laravel Passport Create Access Token')->accessToken;
+            $user->update(['api_token'=>$access_token]);
+            $user = $user->name;
+
+            return redirect()->intended('/student')->with(['success'=>'Logging successfully','user'=>$user,'access_token'=>$access_token]);
         }
         else{
             return redirect('/')->with(['message'=>'wrong roll number']);
@@ -91,5 +142,27 @@ class LoginController extends Controller
     {
         return 'username';
     }
+
+    protected function authenticated(Request $request, $user)
+    {
+        $user->last_seen_at = Carbon::now()->format('Y-m-d H:i:s');
+        $user->save();
+    }
+
+    public function logout(Request $request)
+    {
+        $user = Auth::user();
+        $user->tokens->each(function($token,$key){
+            $token->delete();
+        });
+        $user->update(['api_token'=>null]);
+
+        $this->guard()->logout();
+
+        $request->session()->invalidate();
+
+        return $this->loggedOut($request) ?: redirect('/');
+    }
+
 
 }

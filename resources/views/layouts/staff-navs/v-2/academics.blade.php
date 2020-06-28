@@ -165,19 +165,8 @@
                 </li>
             </ul>
         </li>
-      <li class="nav-item">
-        <a href="{{url('/assign-subject-to-teacher')}}" class="nav-link">
-          <i class="far fa-circle nav-icon"></i>
-          <p>Assign Subject to Teacher</p>
-        </a>
-      </li>
 
-      <li class="nav-item">
-        <a href="{{url('/manage-assign-subject-to-teacher')}}" class="nav-link">
-          <i class="far fa-circle nav-icon"></i>
-          <p>Manage Assigned Subjects</p>
-        </a>
-      </li>
+
       <li class="nav-item">
         <a href="{{route('subjects.index')}}" class="nav-link">
           <i class="far fa-circle nav-icon"></i>
@@ -269,6 +258,12 @@
       </p>
     </a>
     <ul class="nav nav-treeview">
+        <li class="nav-item">
+            <a href="{{route('declares.index')}}" class="nav-link">
+            <i class="far fa-circle nav-icon"></i>
+            <p>Declare Results</p>
+            </a>
+        </li>
         <li class="nav-item">
             <a href="#" class="nav-link">
             <i class="far fa-circle nav-icon"></i>

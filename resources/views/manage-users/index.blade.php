@@ -76,8 +76,6 @@
                                                         @endforeach
                                                     @endif
 
-
-
                             </tbody>
                             <tfoot>
                                 <th>Name</th>
@@ -106,7 +104,6 @@
 
 <style>
     .breadcrumb{
-
         background: #fdffffc7;
     }
 </style>

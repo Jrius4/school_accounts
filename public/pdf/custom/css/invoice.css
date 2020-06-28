@@ -1,0 +1,89 @@
+@page{
+    size:216mm 279mm;
+    margin: 0.56cm;
+}
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #FAFAFA;
+    font: 10pt "Tahoma";
+}
+#page-wrapper{
+    width:100%;
+}
+.clear-fix{
+    clear: both;
+}
+.page-title{
+    text-align: center;
+    font-size: medium;
+    font-weight: 600;
+    line-height: 8px;
+    padding: 2px;
+    background-color: black;
+    color: white;
+}
+.row{
+    display: block;
+    margin-top: 2px;
+}
+.MainAddress{
+    display: flex;
+    float: left;
+    font-size: smaller;
+    line-height: 10px;
+    width: 5cm;
+
+}
+.MainLogo{
+    display: flex;
+    float: right;
+    line-height: 10px;
+    width: 5cm;
+}
+.MainLogo img{
+    width: 2cm;
+    float: right;
+}
+.InvoiceTitle{
+    display: flex;
+    float: left;
+    font-size: smaller;
+    line-height: 10px;
+    width: 5cm;
+
+}
+.InvoiceMeta{
+    display: flex;
+    float: right;
+    width: 6cm;
+    border: 1px black solid;
+}
+.table-meta{
+    width: 100%;
+    border-collapse: collapse;
+}
+.table-meta>td ,.table-meta>th{
+    padding: 5px;
+    border: none;
+    border-collapse: collapse;
+    /* border:none; */
+}
+.table-meta ,th{
+    background-color: rgb(195, 211, 212);
+    text-align: left;
+}
+.table-meta ,td{
+    background-color: rgb(255, 255, 255);
+    text-align: left;
+}
+.quotation{
+    display:block;
+    width: 100vw;
+    align-content: stretch;
+    border-collapse: collapse;
+}
+
+
+
+

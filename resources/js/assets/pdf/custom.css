@@ -1,0 +1,8 @@
+@media print {
+    @page {
+      size: landscape
+    }
+  }
+table{
+    background: radial-gradient(#357575,teal,teal);
+}

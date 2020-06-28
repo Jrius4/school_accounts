@@ -152,7 +152,35 @@
                         @endif
                     </div>
 
+                    <div class="form-group col-12 d-block">
+                        <label>Set Salary</label>
+                        {{ Form::number('wage_salary',null,['class'=>'form-control bg-transparent  d-block col-12','placeholder'=>'Enter Salary']) }}
 
+                    </div>
+
+                    <div class="form-group col-12 d-block">
+                        <label>Salary Paid</label>
+                        {{ Form::number('wage_paid',null,['class'=>'form-control bg-transparent  d-block col-12','placeholder'=>'Enter Payment']) }}
+
+                    </div>
+
+                    <div class="form-group col-12 d-block">
+                        <label>Salary Balance</label>
+                        {{ Form::number('wage_balance',null,['class'=>'form-control bg-transparent  d-block col-12','placeholder'=>'Salary Balance','disabled']) }}
+
+                    </div>
+
+                    <div class="form-group col-12 d-block">
+                        <label>Recieve Loan</label>
+                        {{ Form::number('wage_loan',null,['class'=>'form-control bg-transparent  d-block col-12','placeholder'=>'Enter Salary Loan']) }}
+
+                    </div>
+
+                    <div class="form-group col-12 d-block">
+                        <label>Recieve Upfront</label>
+                        {{ Form::number('wage_upfront',null,['class'=>'form-control bg-transparent  d-block col-12','placeholder'=>'Enter Salary Upfront']) }}
+
+                    </div>
 
                     <div class="form-group col-12">
                       <button type="submit" class="btn btn-info d-block col-12">@if($user->exists)<i class="fa fa-edit"></i> Update @else<i class="fa fa-plus"></i> Create @endif Staff</button>
@@ -163,6 +191,6 @@
 
 
 
-    @include('manage-users.scripts')
+    {{-- @include('manage-users.scripts') --}}
 
 

@@ -2,9 +2,11 @@
 
 <section style="min-height:100vh;">
 
-
+    <div id="something">
+        <p>Hello world</p>
+    </div>
         <!-- /.card -->
-        <div class="card card-dark card-tabs elevation-2 animated flipInX">
+        <div class="card card-dark card-tabs elevation-2 animated slideInDown">
             <div class="card-header p-0 pt-1">
                 <ul class="nav nav-tabs" id="custom-content-above-tab" role="tablist">
                     <li class="nav-item">
@@ -27,13 +29,19 @@
                 <div class="tab-pane fade show active" id="custom-content-above-senior-1-2" role="tabpanel" aria-labelledby="custom-content-above-senior-1-2-tab">
 
 
-                   <form action="javascript:void(0)" id="insertdata12" method="POST" enctype="multipart/form-data">
+                   {{-- <form action="javascript:void(0)" id="insertdata12" enctype="multipart/form-data"> --}}
+                   <form action="{{route('student.join')}}" method="POST" enctype="multipart/form-data">
                        @csrf
                        <div class="row d-flex justify-content-center">
                             <div class="col-md-10 elevation-2" style="min-height:200px;">
                                 <div class="form-group col-12 d-block py-2 my-1">
                                     <label for="student_name">Student Name</label>
                                     <input type="text" name="student_name" class="form-control">
+                                    @error('student_name')
+                                        <span class="invalid-feedback  text-danger" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
                                 <div class="form-group col-12 d-block py-2 my-1">
                                     <label for="rollno">Roll Number</label>
@@ -65,14 +73,20 @@
                                     </select>
                                 </div>
                                 <div class="form-group col-12 d-block py-2 my-1">
+                                    <label for="fees_to_be_paid">Fees To be Paid</label>
+                                    <input type="text" name="fees_to_be_paid" class="form-control"/>
+                                    <span class="text-muted">for example; 500000</span>
+                                </div>
+                                <div class="form-group col-12 d-block py-2 my-1">
                                     <label for="fees_paid">Fees Paid</label>
                                     <input type="text" name="paid_fees" class="form-control"/>
                                     <span class="text-muted">for example; 500000</span>
                                 </div>
+
                                 <div class="form-group col-12 d-block my-1 py-2">
                                     <label for="passport_photo">Profile Picture</label>
                                     <div class="custom-file">
-                                        <input type="file" name="passport_photo" id="passport_photo" class="form-control custom-file-input" placeholder="Browser Profile Picture">
+                                        <input type="file" name="passport_photo"  accept="image/jpg, image/jpeg, image/png" id="passport_photo" class="form-control custom-file-input" placeholder="Browser Profile Picture">
                                         <label class="custom-file-label" for="passport_photo">Browser Profile Image</label>
                                     </div>
                                 </div>
@@ -92,6 +106,7 @@
                                         <label class="custom-file-label" for="admission_form">Student Admission Form</label>
                                     </div>
                                 </div>
+
                                 <input type="hidden" name="password" class="form-control" value="student">
                                 <input type="hidden" name="password_confirmation" class="form-control" value="student">
 
@@ -152,6 +167,11 @@
                                      </select>
                                  </div>
                                  <div class="form-group col-12 d-block py-2 my-1">
+                                     <label for="fees_to_be_paid">Fees To be Paid</label>
+                                     <input type="text" name="paid_to_be_fees" class="form-control"/>
+                                     <span class="text-muted">for example; 500000</span>
+                                 </div>
+                                 <div class="form-group col-12 d-block py-2 my-1">
                                      <label for="fees_paid">Fees Paid</label>
                                      <input type="text" name="paid_fees" class="form-control"/>
                                      <span class="text-muted">for example; 500000</span>
@@ -159,7 +179,7 @@
                                  <div class="form-group col-12 d-block my-1 py-2">
                                      <label for="passport_photo">Profile Picture</label>
                                      <div class="custom-file">
-                                         <input type="file" name="passport_photo" id="passport_photo" class="form-control custom-file-input" placeholder="Browser Profile Picture">
+                                         <input type="file" name="passport_photo"  accept="image/jpg, image/jpeg, image/png" id="passport_photo" class="form-control custom-file-input" placeholder="Browser Profile Picture">
                                          <label class="custom-file-label" for="passport_photo">Browser Profile Image</label>
                                      </div>
                                  </div>
@@ -167,7 +187,7 @@
                                  <div class="form-group col-12 d-block my-1 py-2">
                                      <label for="medical_form">Student Medical Form</label>
                                      <div class="custom-file">
-                                         <input type="file" name="medical_form" id="medical_form" class="form-control custom-file-input" placeholder="Browser Medical Form">
+                                         <input type="file" name="medical_form" accept="pdf" id="medical_form" class="form-control custom-file-input" placeholder="Browser Medical Form">
                                          <label class="custom-file-label" for="profile_pic">Browser Student Medical Form</label>
                                      </div>
                                  </div>
@@ -237,6 +257,11 @@
                                      </select>
                                  </div>
                                  <div class="form-group col-12 d-block py-2 my-1">
+                                     <label for="fees_to_be_paid">Fees To be Paid</label>
+                                     <input type="text" name="paid_to_be_fees" class="form-control"/>
+                                     <span class="text-muted">for example; 500000</span>
+                                 </div>
+                                 <div class="form-group col-12 d-block py-2 my-1">
                                      <label for="fees_paid">Fees Paid</label>
                                      <input type="text" name="paid_fees" class="form-control"/>
                                      <span class="text-muted">for example; 500000</span>
@@ -244,7 +269,7 @@
                                  <div class="form-group col-12 d-block my-1 py-2">
                                      <label for="passport_photo">Profile Picture</label>
                                      <div class="custom-file">
-                                         <input type="file" name="passport_photo" id="passport_photo" class="form-control custom-file-input" placeholder="Browser Profile Picture">
+                                         <input type="file" name="passport_photo"  accept="image/jpg, image/jpeg, image/png" id="passport_photo" class="form-control custom-file-input" placeholder="Browser Profile Picture">
                                          <label class="custom-file-label" for="passport_photo">Browser Profile Image</label>
                                      </div>
                                  </div>
@@ -252,7 +277,7 @@
                                  <div class="form-group col-12 d-block my-1 py-2">
                                      <label for="medical_form">Student Medical Form</label>
                                      <div class="custom-file">
-                                         <input type="file" name="medical_form" id="medical_form" class="form-control custom-file-input" placeholder="Browser Medical Form">
+                                         <input type="file" name="medical_form" accept="pdf" id="medical_form" class="form-control custom-file-input" placeholder="Browser Medical Form">
                                          <label class="custom-file-label" for="profile_pic">Browser Student Medical Form</label>
                                      </div>
                                  </div>

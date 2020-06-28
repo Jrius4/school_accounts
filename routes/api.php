@@ -6,9 +6,11 @@ use App\Models\Student;
 use App\Role;
 use App\Schclass;
 use App\Subject;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,8 +24,9 @@ use Illuminate\Support\Facades\Input;
 */
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+    return User::with('roles')->find($request->user()->id);
 });
+Route::middleware('auth:api')->get('/search-student','Routine\StudentController@searchStudent');
 Route::post('/get-data','TeacherController@postRoles');
 Route::get('/students',function(){
     $student = new Student();
@@ -72,7 +75,7 @@ Route::get('/get-o-level-subjects',function(){
     return $subject;
 });
 
-Route::post('/register-students','StudentController@registerStudent');
+
 
 //teacher classes
 Route::get('/get-classes-teacher',function(){
@@ -81,5 +84,44 @@ Route::get('/get-classes-teacher',function(){
 });
 Route::post('/search-results',function(Request $request){
     return response()->json(['data'=>$request['query']]);
+});
+
+Route::get('/marks/{one}/{two}/{three}/grade','ResultController@papers');
+
+Route::resource('vue-cities', 'CityVueController');
+Route::get('get-user', function(){
+    $user = User::find(1);
+    $id = Auth::user();
+    return response()->json(compact('user','id'));
+});
+
+// Route::middleware('auth:api')->group(function(){
+//     Route::post('logout', 'API\UserController@logout');
+//     Route::resource('files', 'API\FileController');
+
+// });
+
+//expenses
+// Route::middleware('auth:api')->resource('make-expenses','API\MakeExpenseController');
+Route::middleware('auth:api')->get('make-expenses','API\MakeExpenseController@index');
+Route::middleware('auth:api')->post('make-expenses','API\MakeExpenseController@store');
+Route::middleware('auth:api')->put('make-expenses/{make_expense}','API\MakeExpenseController@update');
+Route::middleware('auth:api')->get('make-expenses/{make_expense}','API\MakeExpenseController@show');
+Route::middleware('auth:api')->delete('make-expenses/{make_expense}','API\MakeExpenseController@destroy');
+Route::middleware('auth:api')->get('get_accountz','API\MakeExpenseController@fetchAccounts');
+Route::middleware('auth:api')->post('store-expense','API\MakeExpenseController@storeExpense');
+
+Route::middleware('auth:api')->post('getloan','Accounts\AccountantController@getLoanInput');
+Route::middleware('auth:api')->get('getloanaccounts','API\MakeExpenseController@fetchLoanAccounts');
+
+Route::get('/comments',"CommentController@index");
+Route::middleware('auth:api')->group(function(){
+    Route::post('/comment',"CommentController@store");
+	Route::get('/v1/messages','ChatController@fetchAllMessages');
+    Route::post('/v1/messages','ChatController@sendMessage');
+    Route::get('/v1/getEmployees','Salary\SalaryController@getEmployees');
+    Route::post('/v1/saveSalaryEmployee','Salary\SalaryController@saveEmployee');
+
+    Route::get('/v1/users','API\UserController@fetchUsers');
 });
 

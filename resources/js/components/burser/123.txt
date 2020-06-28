@@ -1,0 +1,53 @@
+<!--
+                            <v-select
+                                v-model="worker" :items="employees"
+                                chips attach clearable :item-text="textEmployee"
+                                label="Search Employee"
+                                :search-input="workerSearch"
+                                color="ml-3 mr-12 white--text"
+                                autocomplete
+                                hint="Please Search Employee"
+                                v-on:change="handleEmployeeSearch()"
+                            >
+                                <template v-slot:item='{item}'>
+                                    <v-row align="center" justify="center">
+                                        <v-col cols="12" sm="3" class="mr-2">
+                                            <img width="35" height="35" class="img-circle" src="/files/user_all.png"/>
+                                        </v-col>
+                                        <v-spacer></v-spacer>
+                                        <v-col cols="12" sm="6">
+                                            <h4 v-html='`${item.name} ${item.wage}`'/>
+                                        </v-col>
+                                    </v-row>
+
+                                </template>
+                            </v-select>
+ -->
+
+
+ <template>
+                                <v-select
+                                v-model="worker" :items="employees"
+                                chips attach clearable :item-text="textEmployee"
+
+                                label="Search Employee"
+                                color="ml-3 mr-12 white--text"
+                                autocomplete
+                                hint="Please Search Employee"
+                                v-on:change="handleEmployeeSearch()"
+                                :menu-props="{ top: true, offsetY: true }"
+                                >
+                                    <template v-slot:item='{item}'>
+                                        <v-row align="center" justify="center">
+                                            <v-col cols="12" sm="3" class="mr-2">
+                                                <img width="35" height="35" class="img-circle" src="/files/user_all.png"/>
+                                            </v-col>
+                                            <v-spacer></v-spacer>
+                                            <v-col cols="12" sm="6">
+                                                <h4 v-html='`${item.name} ${item.wage}`'/>
+                                            </v-col>
+                                        </v-row>
+
+                                    </template>
+                                </v-select>
+                            </template>

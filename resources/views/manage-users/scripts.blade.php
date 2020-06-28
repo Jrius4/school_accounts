@@ -1,4 +1,4 @@
-@section('first-scripts')
+@section('other-scripts')
         <!-- jQuery -->
     <script src="{{asset('adminlte/plugins/jquery/jquery.min.js')}}"></script>
     <!-- jQuery UI 1.11.4 -->
@@ -6,9 +6,9 @@
     <link rel="stylesheet" href="{{asset('schools/plugins/select2/css/select2.min.css')}}">
     <script src="{{asset('schools/plugins/select2/js/select2.full.min.js')}}"></script>
 
-@endsection
+{{-- @endsection
 
-@section('scripts')
+@section('others-scripts') --}}
 
 <script src="{{asset('adminlte/plugins/moment/moment.min.js')}}"></script>
 <script src="{{asset('adminlte/plugins/inputmask/min/jquery.inputmask.bundle.min.js')}}"></script>

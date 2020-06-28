@@ -67,6 +67,14 @@ class UserController extends BackendController
         $request->validate($rules);
         // dd($request->all());
         $user = new User();
+
+        if(isset($request['wage_salary']) || isset($request['wage_paid']) || isset($request['wage_balance']) || isset($request['wage_loan']) || isset($request['wage_upfront'])){
+            $user->wage_salary = $request['wage_salary'];
+            $user->wage_paid = $request['wage_paid'];
+            $user->wage_balance = $request['wage_balance'];
+            $user->wage_loan = $request['wage_loan'];
+            $user->wage_upfront = $request['wage_upfront'];
+        }
         $user->name = $request['name'];
         $user->username = $request['username'];
         $user->password = $request['password'];
@@ -208,6 +216,23 @@ class UserController extends BackendController
             'entry_date'=>$request['entry_date'],
             'former_school'=>$request['former_school'],
         ));
+
+        if(isset($request['wage_salary']) || isset($request['wage_paid']) || isset($request['wage_balance']) || isset($request['wage_loan']) || isset($request['wage_upfront'])){
+            $user->update(array(
+                'wage_salary' => $request['wage_salary'],
+                'wage_paid' => $request['wage_paid'],
+                'wage_balance' => $request['wage_balance'],
+                'wage_loan' => $request['wage_loan'],
+                'wage_upfront' => $request['wage_upfront'],
+            ));
+
+        }
+
+        if(isset($request['wage_salary'])) $user->update(array('wage_salary'=>$request['wage_salary']));
+        if(isset($request['wage_paid'])) $user->update(array('wage_paid'=>$request['wage_paid']));
+        if(isset($request['wage_balance'])) $user->update(array('wage_balance'=>$request['wage_balance']));
+        if(isset($request['wage_loan'])) $user->update(array('wage_loan'=>$request['wage_loan']));
+        if(isset($request['wage_upfront'])) $user->update(array('wage_upfront'=>$request['wage_upfront']));
         if($request['hidden_roles']!=null){
 
             $roles_array = explode(',',$request['hidden_roles']);

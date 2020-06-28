@@ -14,6 +14,7 @@ class BackendController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('api');
         // $this->middleware('check-permissions');
     }
 }

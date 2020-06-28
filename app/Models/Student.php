@@ -5,22 +5,62 @@ namespace App\Models;
 use App\Combination;
 use App\DeclareResults;
 use App\Mark;
+use App\Payment;
 use App\PpTrComment;
 use App\Result;
 use App\Schclass;
 use App\Schstream;
+use App\StudentFee;
 use App\Subject;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Laravel\Passport\HasApiTokens;
 
 class Student extends Authenticatable
 {
-    use Notifiable;
-    protected $guard = 'admin';
-    protected $fillable = ['name','roll_number','password','schclass_id','schstream_id','combination_id','gender','amount_paid','image','medical_form','admission_form'];
+    use Notifiable,HasApiTokens;
+    protected $guard = 'student';
+    protected $fillable = ['name','roll_number','password','schclass_id','schstream_id','combination_id','gender','amount_paid','image','last_seen_at','medical_form','admission_form'];
 
     protected $hidden = ['password','remember_token'];
 
+    public function followers()
+    {
+        return $this->belongsToMany(self::class, 'followers', 'follows_id', 'user_id')
+                    ->withTimestamps();
+    }
+
+    public function follows()
+    {
+        return $this->belongsToMany(self::class, 'followers', 'user_id', 'follows_id')
+                    ->withTimestamps();
+    }
+
+    public function follow($userId)
+    {
+        $this->follows()->attach($userId);
+        return $this;
+    }
+
+    public function unfollow($userId)
+    {
+        $this->follows()->detach($userId);
+        return $this;
+    }
+
+    public function isFollowing($userId)
+    {
+        return (boolean) $this->follows()->where('follows_id', $userId)->first(['follows_id']);
+    }
+
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
+    }
+    public function studentFees()
+    {
+        return $this->hasMany(StudentFee::class);
+    }
     public function marks()
     {
         return $this->hasMany(Mark::class);

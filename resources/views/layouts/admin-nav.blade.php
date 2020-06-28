@@ -60,10 +60,13 @@
 
 
                 @endif
-
                 <li class="nav-item">
                     <a href="#"  class="nav-link "><i class="fa big-icon fa-key"></i> <span class="mini-dn">My Account</span></a>
                 </li>
+                <li class="nav-item">
+                    <a href="#"  class="nav-link "><i class="fa big-icon fa-key"></i> <span class="mini-dn">My Account</span></a>
+                </li>
+
 
 			</ul>
 		</div>

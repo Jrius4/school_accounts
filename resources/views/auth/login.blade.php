@@ -8,7 +8,7 @@ body{
  min-height: 100%
 }
 .head-info{
-    color: antiquewhite;
+    color: #ffffff;
     background-color: #323638;
 
 }
@@ -78,7 +78,7 @@ footer a{
                 </div>
                 <div class="card-body">
                     <h4 class="mb-2">Administration</h4>
-                    <form class="adminpro-form" method="POST" action='{{ url("/") }}' aria-label="{{ __('Login') }}">
+                    <form class="adminpro-form" method="POST" action='{{ route("login-admin") }}' aria-label="{{ __('Login') }}">
                         @csrf
                         <div class="form-group">
                             <label for="roll_number">Username</label>
@@ -114,53 +114,6 @@ footer a{
 
         </div>
 
-<div class="col-lg-12 d-none">
-
-    <div class="row container my-2 mx-auto text-white">
-        <div class="mr-auto col-sm-6">
-            <div class="">
-                <h4>Users</h4>
-                <h6>Password: 123456</h6>
-                @foreach (App\User::get() as $user)
-                <div class="row d-flex justify-content-center">
-                    <div class="mr-auto">
-                        <h5>Username</h5>
-                        <p>{{$user->username}}</p>
-                    </div>
-                    <div class="ml-auto">
-                        <h5>Roles:</h5>
-                        <ul class="list-group">
-                            @foreach ($user->roles as $role)
-                                <li class="list-group-item bg-dark">{{$role->display_name}}</li>
-                            @endforeach
-                        </ul>
-
-                    </div>
-                </div>
-                @endforeach
-            </div>
-        </div>
-
-
-
-        <div class="ml-auto col-sm-6">
-            <ul class="list-group ml-auto col-sm-6">
-                <h4>Students</h4>
-                <h5>Roll Number</h5>
-                @foreach (App\Models\Student::get() as $stud)
-                <li class="list-group-item bg-dark">
-                    {{$stud->roll_number.' Class: '. $stud->schclass->name}}
-                </li>
-                @endforeach
-            </ul>
-        </div>
-
-
-
-
-    </div>
-
-</div>
 
 
     </div>
@@ -178,4 +131,15 @@ footer a{
  <script src="{{asset('adminlte/plugins/jquery/jquery.min.js')}}"></script>
  <!-- jQuery UI 1.11.4 -->
  <script src="{{asset('adminlte/plugins/jquery-ui/jquery-ui.min.js')}}"></script>
+@endsection
+
+@section('scripts')
+    <script type="text/javascript">
+        @if($loggedOut)
+            localStorage.removeItem('access_token')
+        @endif
+
+        var storageItems = localStorage;
+        console.log(Object.keys(storageItems))
+    </script>
 @endsection

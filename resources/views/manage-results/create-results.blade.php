@@ -5,7 +5,7 @@
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb elevation-2">
         <li class="breadcrumb-item"><a href="{{url('/')}}">Home</a></li>
-        <li class="breadcrumb-item" aria-current="page"><a href="{{route('roles.index')}}">Manage Roles</a></li>
+        <li class="breadcrumb-item" aria-current="page"><a href="{{route('roles.index')}}">Input Results Results</a></li>
         <li class="breadcrumb-item active" aria-current="page">Enter Term @if(request()->term == 'term-1'){{'One'}}@elseif(request()->term == 'term-2'){{'Two'}}@elseif(request()->term == 'term-3'){{'Three'}}@endif @if(request()->set == 'b-o-t'){{'Beginning Of Term'}}@elseif(request()->set == 'm-o-t'){{'Mid Of Term'}}@elseif(request()->set == 'e-o-t'){{'End Of Term'}}@endif Results</li>
     </ol>
 </nav>
@@ -15,7 +15,7 @@
 
 <div class="row">
     <div class="col-12">
-        <div class="card elevation-2 animated flipInX">
+        <div class="card card-info elevation-2 col-md-8 mx-auto animated slideInDown">
             <div class="card-header row">
                 <h3 class="card-title mr-auto">Enter Term @if(request()->term == 'term-1'){{'One'}}@elseif(request()->term == 'term-2'){{'Two'}}@elseif(request()->term == 'term-3'){{'Three'}}@else <script type="text/javascript">$(document).ready(function(){
                     window.location.href = "{{url('/')}}"
@@ -25,12 +25,14 @@
             </div>
             <div class="card-body">
                             <form action="javascript:void(0)" id="insert_data">
+                                {{-- <div class="row d-flex justify-content-center">
 
-                                <div class="container row d-flex justify-content-center">
+                                </div> --}}
+                                <div class="row d-flex justify-content-center">
                                         <div style="display:none">
                                         <input type="hidden" name="term" value={{request()->term}}><input type="hidden" value={{request()->set}} name="set"><input type="hidden" name="teacher_id" value="{{Auth::user()->id}}">
                                         </div>
-                                        <div class="form-group col-md-8">
+                                        <div class="form-group col-12 d-block">
                                             <label>Class</label>
                                                 <select name="schclass" id="schclass" class="action form-control col-12 d-block">
                                                     <option value="">select a class</option>
@@ -44,13 +46,13 @@
                                                     @endif
                                                 </select>
                                         </div>
-                                        <div class="form-group col-md-8">
+                                        <div class="form-group col-12 d-block">
                                             <label>Subject</label>
                                             <select name="subject" id="subject" class="action form-control col-12 d-block">
                                             </select>
                                         </div>
 
-                                        <div class="form-group col-md-8">
+                                        <div class="form-group col-12 d-block">
                                            <label>Student</label>
 
                                             <select name="student" class="action form-control col-12 d-block" id="student"></select>
@@ -59,7 +61,7 @@
 
 
 
-                                        <div class="form-group col-md-8">
+                                        <div class="form-group col-12 d-block">
                                             <label>Does Subject Contain More than One Paper?</label>
 
                                             <select name="has_papers" class="action form-control col-12 d-block" id="has_papers">
@@ -69,7 +71,7 @@
                                             </select>
                                         </div>
 
-                                        <div class="form-group col-md-8">
+                                        <div class="form-group col-12 d-block">
                                             <label>Papers</label>
                                             <div id="papers"></div>
                                             <input type="hidden" name="hidden_marks" id='hidden_marks'>
@@ -77,7 +79,7 @@
 
 
 
-                                            <div class="form-group col-md-8">
+                                            <div class="form-group col-12 d-block">
                                                 <button class="btn btn-sm btn-info d-block col-12" name="submit" type="submit">Add Marks</button>
                                             </div>
 
@@ -91,6 +93,8 @@
 
 
             </section>
+
+
 
 
 @endsection
@@ -121,7 +125,6 @@ $(function(){
     var has_papers =null;
     var paper_marks = new Array();
 
-
     $('.action').change(function(){
         if($(this).val()!=''){
             var action = $(this).attr('id');
@@ -148,7 +151,7 @@ $(function(){
             {
                 result ='papers'
             }
-            console.log('action:'+action+' query:'+query+' class_id:'+class_id+' subject_id:'+subject_id+' student_id:'+student_id)
+            // console.log('action:'+action+' query:'+query+' class_id:'+class_id+' subject_id:'+subject_id+' student_id:'+student_id)
 
             console.log(result)
             $.ajax({
@@ -158,12 +161,12 @@ $(function(){
                 success:function(data)
                 {
                     $('#'+result).html(data);
-                    console.log(data)
+                    // console.log(data)
 
                 },
                 error:function(data)
                 {
-                    console.log(data)
+                    // console.log(data)
                 }
 
             });
@@ -180,186 +183,19 @@ $(function(){
 
 
     $("#schclass").select2();
-    // $("#schclass").select2({
-    //     placeholder: "Select second subject",
-    //     allowClear: true,
-    //     ajax: {
-    //         url: "{{url('/api/get-classes')}}",
-    //         dataType: 'json',
-    //         delay:250,
-    //         data:function(params){
-    //             var query = {
-    //                 q:params.term,
-    //                 page:params.page
-    //             };
-    //             return query;
-    //         },
-    //         processResults: function (data, params) {
-    //             params.page = params.page||1;
-
-    //             return {
-    //                 results: data.data,
-    //                 pagination: {
-    //                     more: (params.page * 10) < data.total
-    //                 }
-    //             };
-    //         },
-    //         success:function(data)
-    //         {
-    //             console.log(data.data);
-    //         },
-    //         error:function(data)
-    //         {
-    //             console.log(data);
-    //         },
-    //         cache:true,
-
-
-    //     },
-    //     minimumInputLength:1,
-    //     templateResult:formatRepoSecond,
-    //     templateSelection:formatRepoSecondSelection
-    // });
-
-    // function formatRepoSecond(repo){
-    //     if(repo.loading){
-    //         return repo.text
-    //     }
-
-    //     var $container =$("<span>"+repo.name+"</span>");
-    //     return $container;
-    // }
-    // function formatRepoSecondSelection(repo)
-    // {
-    //     return repo.name;
-    // }
-
-
-
-
-    // $("#student").select2({
-    //     placeholder: "Select Student",
-    //     allowClear: true,
-    //     ajax: {
-    //         url: "{{url('/api/get-students')}}",
-    //         dataType: 'json',
-    //         delay:250,
-    //         data:function(params){
-    //             var query = {
-    //                 q:params.term,
-    //                 page:params.page
-    //             };
-    //             return query;
-    //         },
-    //         processResults: function (data, params) {
-    //             params.page = params.page||1;
-
-    //             return {
-    //                 results: data.data,
-    //                 pagination: {
-    //                     more: (params.page * 10) < data.total
-    //                 }
-    //             };
-    //         },
-    //         success:function(data)
-    //         {
-    //             console.log(data.data);
-    //         },
-    //         error:function(data)
-    //         {
-    //             console.log(data);
-    //         },
-    //         cache:true,
-
-
-    //     },
-    //     minimumInputLength:1,
-    //     templateResult:formatRepoThird,
-    //     templateSelection:formatRepoThirdSelection
-    // });
-
-    // function formatRepoThird(repo){
-    //     if(repo.loading){
-    //         return repo.text
-    //     }
-
-    //     var $container =$("<span>"+repo.name+"</span>");
-    //     return $container;
-    // }
-    // function formatRepoThirdSelection(repo)
-    // {
-    //     return repo.name;
-    // }
-
-
-
-
-    // $("#subject").select2({
-    //     placeholder: "Select second subject",
-    //     allowClear: true,
-    //     ajax: {
-    //         url: "{{url('/api/get-o-level-subjects')}}",
-    //         dataType: 'json',
-    //         delay:250,
-    //         data:function(params){
-    //             var query = {
-    //                 q:params.term,
-    //                 page:params.page
-    //             };
-    //             return query;
-    //         },
-    //         processResults: function (data, params) {
-    //             params.page = params.page||1;
-
-    //             return {
-    //                 results: data.data,
-    //                 pagination: {
-    //                     more: (params.page * 10) < data.total
-    //                 }
-    //             };
-    //         },
-    //         success:function(data)
-    //         {
-    //             console.log(data.data);
-    //         },
-    //         error:function(data)
-    //         {
-    //             console.log(data);
-    //         },
-    //         cache:true,
-
-
-    //     },
-    //     minimumInputLength:1,
-    //     templateResult:formatRepoOSecond,
-    //     templateSelection:formatRepoOSecondSelection
-    // });
-
-    // function formatRepoOSecond(repo){
-    //     if(repo.loading){
-    //         return repo.text
-    //     }
-
-    //     var $container =$("<span>"+repo.name+"</span>");
-    //     return $container;
-    // }
-    // function formatRepoOSecondSelection(repo)
-    // {
-    //     return repo.name;
-    // }
-
 
     $('.marks').on('change',function(e){
         var mark_2 = $('.mark').value;
         paper_marks.push(mark_2);
     });
+    var setTerm = "{{request()->set}}"
+    var currentTerm = "{{request()->term}}"
+    console.log(`${setTerm}-${currentTerm}`)
 
 $('#insert_data').on('submit',function(event){
     var formData = $('#insert_data').serialize();
-    // if(||)
+
     console.log($('.marks').val())
-    // var marks = paper_marks.toString();
-    // $('#hidden_marks').val(marks)
     console.log(paper_marks)
 
     $.ajax({
@@ -378,8 +214,7 @@ $('#insert_data').on('submit',function(event){
             $('#results').html(`<div class="alert alert-danger col-sm-6">${html}</div>`);
         }
         if(Object.keys(data)=='success'){
-            window.location.href = "{{route('manage-combinations.index')}}";
-
+            window.location.href = `{{url('/examsets/${currentTerm}/${setTerm}/term-sets')}}`;
         }
 
         },

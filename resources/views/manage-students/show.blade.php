@@ -1,4 +1,12 @@
 @extends('layouts.main-dashboard')
+@section('first-scripts')
+<style>
+    span{
+        display: inline;
+    }
+</style>
+
+@endsection
 
 @section('dashboard')
 
@@ -9,6 +17,7 @@
         <li class="breadcrumb-item active" aria-current="page">{{$student->name}} {{$student->schclass->name}}</li>
     </ol>
 </nav>
+
 
 
 <section class="content">
@@ -37,7 +46,23 @@
                                                             <td>{{$student->name}}</td>
                                                             <td>{{$student->roll_number}}</td>
                                                             <td>{{substr($student->roll_number, 0,1)=='O'?'O level':'A level'}}</td>
-                                                            <td>{{'PMTD/ICT'}}</td>
+                                                            <td>
+                                                                @if(substr($student->roll_number, 0,1)=='O' && $student->schclass_id >=3 && $student->schclass_id <=4 )
+
+                                                                    @if($student->subjects->count() >0)
+
+                                                                        @foreach ($student->subjects as $subject)
+                                                                            <span>{{$subject->name.","}}</span>
+                                                                        @endforeach
+                                                                    @else
+                                                                        <p>No optional subject assigned yet</p>
+                                                                    @endif
+
+                                                                @else
+
+                                                                <span>{{$student->combination->combination_name}}</span>
+                                                                @endif
+                                                            </td>
                                                         </tr>
                                                     </tbody>
                                                 </table>

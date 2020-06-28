@@ -16,30 +16,42 @@
 
 <section class="row d-flex justify-content-center">
 
-    <div class="card mx-auto col-md-8 p-0">
+    <div class="card mx-auto col-md-6 p-0 animated flipInX">
         <div class="card-header text-center text-light bg-dark">
             Set Fees Structure
         </div>
         <div class="card-body">
-            <form action="javascript:void(0)">
+            <form action="{{route('burser.store')}}" method="POST">
+                @csrf
+                <input type="hidden" name="_method" value="POST">
                 <div class="form-group d-block col-12">
-                    <label for="schclass_id">Class</label>
-                    <select class="form-control" name="schclass_id" id="schclass_id">
+                    <label for="class">Class</label>
+                    <select class="form-control @error('class') is-invalid @enderror" name="class" id="class">
                         <div class="d-none">{{$classes = App\Schclass::orderBy('id','asc')->get()}}</div>
                         <option value="">Choose class</option>
                         @foreach ($classes as $row)
                         <option value="{{$row->id}}">{{$row->name}}</option>
                         @endforeach
                     </select>
+                    @error('class')
+                    <small class="text-danger">
+                        {{$message}}
+                    </small>
+                    @enderror
                 </div>
 
                 <div class="form-group d-block col-12">
-                    <label for="schclass_id">Fees Amount</label>
-                    <input type="text" name="amount" class="form-control" id="amount"/>
+                    <label for="fees_amount">Fees Amount</label>
+                    <input type="text" name="fees_amount" class="form-control @error('fees_amount') is-invalid @enderror" id="fees_amount" placeholder="100000"/>
+                    @error('fees_amount')
+                        <small class="text-danger">
+                            {{$message}}
+                        </small>
+                    @enderror
                 </div>
 
 
-                    <input type="submit" value="submit" class="btn btn-gradient-secondary d-block col-12"/>
+                    <input type="submit" value="submit" class="btn btn-block bg-gradient-primary btn-sm"/>
 
 
             </form>
@@ -47,14 +59,58 @@
 
     </div>
 
+    <div class="card mx-auto col-md-6 p-0 animated flipInX">
+        <div class="card-header text-center text-light bg-dark">
+            Set Fees Structure Table
+        </div>
+        <div class="card-body table-responsive no-wrap p-0 col-12">
+
+            <table class="table" style="width:100%">
+                <thead>
+                    <tr>
+                         <th>
+                        Class
+                    </th>
+                    <th>
+                        Fees Amount
+                    </th>
+                    </tr>
+
+                </thead>
+                <tbody>
+                   <span class="d-none">{{$fees = App\ClassFee::orderBy('schclass_id','asc')->get()}}</span>
+                    @foreach ($fees as $row)
+                        <tr>
+                            <td>
+                                {{$row->schclass->name}}
+                            </td>
+                            <td>
+                                {{$row->fees_amount}}
+                            </td>
+                        </tr>
+
+                    @endforeach
+                </tbody>
+
+
+
+                <tfoot>
+                    <th>
+                        Class
+                    </th>
+                    <th>
+                        Fees Amount
+                    </th>
+                </tfoot>
+            </table>
+
+
+        </div>
+
+    </div>
+
 </section>
 
-@section('script')
- <!-- jQuery -->
- <script src="{{asset('adminlte/plugins/jquery/jquery.min.js')}}"></script>
- <!-- jQuery UI 1.11.4 -->
- <script src="{{asset('adminlte/plugins/jquery-ui/jquery-ui.min.js')}}"></script>
-@endsection
 
 
 

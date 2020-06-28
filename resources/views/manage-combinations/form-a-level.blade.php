@@ -1,27 +1,27 @@
 
 
                     <div class="form-group py col-md-8">
-                        <label for="name">First Subject</label>
+                        <label for="name">First Option</label>
                         <select name="first_subject" id="first_subject" class="form-control col-12 d-block">
-                            <option value="">Select First Subject</option>
+                            <option value="">Select First Option</option>
                             @foreach ($subjects as $subject)
                                 <option value="{{$subject->id}}">{{$subject->name}}</option>
                             @endforeach
                         </select>
                     </div>
                     <div class="form-group py col-md-8">
-                        <label for="name">Second Subject</label>
+                        <label for="name">Second Option</label>
                         <select name="second_subject" id="second_subject" class="form-control col-12 d-block">
-                            <option value="">Select Second Subject</option>
+                            <option value="">Select Second Option</option>
                             @foreach ($subjects as $subject)
                                 <option value="{{$subject->id}}">{{$subject->name}}</option>
                             @endforeach
                         </select>
                     </div>
                     <div class="form-group py col-md-8">
-                        <label for="name">Third Subject</label>
+                        <label for="name">Third Option</label>
                         <select name="third_subject" id="third_subject" class="form-control col-12 d-block">
-                            <option value="">Select Third Subject</option>
+                            <option value="">Select Third Option</option>
                             @foreach ($subjects as $subject)
                                 <option value="{{$subject->id}}">{{$subject->name}}</option>
                             @endforeach
