@@ -48,6 +48,12 @@ class SchoolAccountTableSeeder extends Seeder
                 'slug'=>str_slug('School Assets')
             )
         );
+        $accType->create(
+            array(
+                'name'=>'Ungrouped',
+                'slug'=>str_slug('Ungrouped')
+            )
+        );
 
         $acc->create(
             array(

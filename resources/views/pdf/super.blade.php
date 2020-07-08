@@ -52,7 +52,7 @@
                     <div class="row contacts">
                         <div class="col invoice-to">
                             <div class="text-gray-light">CASH RECIEPT:</div>
-                            <h2 class="to">{{json_decode($invoice->expenseInfo,true)['requestedBy']}}</h2>
+                            <h2 class="to">{{$invoice->requested_by}}</h2>
                             {{-- <div class="address">796 Silver Harbour, TX 79273, US</div>
                             <div class="email"><a href="mailto:john@example.com">john@example.com</a></div> --}}
                         </div>
@@ -121,7 +121,7 @@
                                     <td class="no">02</td>
                                     <td class="text-left">
                                     <h3>Salary Type : <small>{{$invoice->expensetype}}</small></h3>
-                                    {{json_decode($invoice->expenseInfo,true)['description']}}
+                                    {{$invoice->overview}}
                                     </td>
                                     <td class="unit">{{'UGX '.number_format($invoice->expenseTotal,0)}}</td>
                                     <td class="qty">{{'UGX '.number_format(json_decode($invoice->worker,true)['wage_balance'],0)}}</td>

@@ -13,6 +13,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 use PDF;
 
 class MakeExpenseController extends Controller
@@ -175,14 +176,14 @@ class MakeExpenseController extends Controller
         $expense = $request->all();
         $date = new Carbon();
         $date2 = $date->now();
-
-        $token =  strtoupper(substr(time(),0,5).\Str::random(3).\Str::random(3).substr(time(),-3).$date->parse($date2)->format('y'));
+        $token =  strtoupper(substr(time(),0,5).Str::random(3).Str::random(3).substr(time(),-3).$date->parse($date2)->format('y'));
         $expenseData = new Expense();
-            $uuid = \Str::uuid();
+            $uuid = Str::uuid();
             $expenseData->uuid = $uuid;
             $expenseData->token= $token;
             $expenseData->expensetype = $request->ExpenseType;
-            $expenseData->expenseInfo = json_encode($request->expenseInfo,true);
+            $expenseData->overview = $request->overview;
+            $expenseData->requested_by = $request->requested_by;
             $expenseData->expenseTerm = json_encode($request->expenseTerm,true);
             $expenseData->expenseTotal = $request->expenseTotal;
             $expenseData->makeBorrowItems = json_encode($request->makeBorrowItems,true);

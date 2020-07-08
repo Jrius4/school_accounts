@@ -37,6 +37,10 @@ class User extends Authenticatable
         return $this->hasMany(Blog::class,'code','id');
     }
 
+    public function tasks(){
+        return $this->hasMany(Task::class);
+    }
+
     public function followers()
     {
         return $this->belongsToMany(self::class, 'followers', 'follows_id', 'user_id')

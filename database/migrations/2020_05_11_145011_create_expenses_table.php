@@ -17,9 +17,11 @@ class CreateExpensesTable extends Migration
             $table->bigIncrements('id');
             $table->string('uuid')->nullable();
             $table->string('token')->nullable();
+            $table->string('AccountSpendFrom')->nullable();
             $table->string('expensetype')->nullable();
             $table->text('expenseItems')->nullable();
-            $table->text('expenseInfo')->nullable();
+            $table->string('requested_by')->nullable();
+            $table->text('overview')->nullable();
             $table->text('expenseTerm')->nullable();
             $table->string('expenseTotal')->nullable();
             $table->text('makeBorrowItems')->nullable();

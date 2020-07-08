@@ -13,6 +13,8 @@ class CreateBlogsTable extends Migration
      */
     public function up()
     {
+
+       if(Schema::connection('mysql2')->hasTable('blogs')) \DB::connection('mysql2')->statement("DROP TABLE blogs");
         Schema::connection('mysql2')->create('blogs', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('code')->index();

@@ -42,13 +42,12 @@
           v-text="title"
         />
 
-        
-       
+
+
         <v-icon
             v-else-if="icon"
             size="32"
             v-text="icon"
-            class="bg-dark"
         />
 
         <div

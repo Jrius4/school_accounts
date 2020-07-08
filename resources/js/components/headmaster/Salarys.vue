@@ -1,4 +1,5 @@
 <template>
+<v-app>
     <v-container fluid>
         <base-v-component
             heading="Employee Salaries" class="text-primary"
@@ -167,6 +168,7 @@
 
 
     </v-container>
+</v-app>
 </template>
 <script>
 import { mapState , mapActions} from 'vuex';

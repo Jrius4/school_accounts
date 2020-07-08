@@ -519,6 +519,7 @@ export default new Vuex.Store({
             context.commit('RESET_EXPENSE');
         },
         async storeMadeExpenseAction(context,expenseInfo){
+            console.log({expenseInfo})
             if(context.getters.loggedIn){
                 return new Promise((resolve,reject)=>{
                     Axios.post('/api/store-expense',expenseInfo,{

@@ -125,3 +125,35 @@ Route::middleware('auth:api')->group(function(){
     Route::get('/v1/users','API\UserController@fetchUsers');
 });
 
+Route::middleware('auth:api')->group(function () {
+        Route::get('/user-tasks','TaskController@index');
+        Route::post('/user-tasks','TaskController@store');
+        Route::get('/user-tasks/{id}','TaskController@show');
+        Route::post('/user-tasks/{id}','TaskController@update');
+        Route::delete('/user-tasks/{id}','TaskController@destroy');
+
+        Route::get('/account-types',"AccountTypeController@index");
+        Route::post('/account-types','AccountTypeController@store');
+        Route::get('/account-types/{id}','AccountTypeController@show');
+        Route::post('/account-types/{id}','AccountTypeController@update');
+        Route::delete('/account-types/{id}','AccountTypeController@destroy');
+
+        Route::get('/accounts','AccountController@index');
+        Route::post('/accounts','AccountController@store');
+        Route::get('/accounts/{id}','AccountController@show');
+        Route::post('/accounts/{id}','AccountController@update');
+        Route::delete('/accounts/{id}','AccountController@destroy');
+
+
+        Route::get('/accounts/{account_id}/structures','FeesStructureController@index');
+        Route::post('/accounts/{account_id}/structures','FeesStructureController@store');
+        Route::get('/accounts/{account_id}/structures/{id}','FeesStructureController@show');
+        Route::post('/accounts/{account_id}/structures/{id}','FeesStructureController@update');
+        Route::delete('/accounts/{account_id}/structures/{id}','FeesStructureController@destroy');
+
+        Route::get('payment-details','PaymentReportController@indexDetailed');
+        Route::get('payment-reports','PaymentReportController@overviewReport');
+
+
+});
+

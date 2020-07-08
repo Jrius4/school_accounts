@@ -1,4 +1,5 @@
 <template>
+<v-app>
 <div class="container-fluid">
     <div class="row">
         <div class="col-12 bg-dark text-center font-italic">
@@ -240,7 +241,7 @@
                     </div>
                     <div class="form-group col-sm-12 d-block">
                         <label>Description:</label>
-                        <textarea cols="30" rows="10"  class="form-control col-12" placeholder="description" v-model="expenseInfo.description"></textarea>
+                        <textarea cols="30" rows="10"  class="form-control col-12" placeholder="description" v-model="expenseInfo.overview"></textarea>
                     </div>
                     <div class="form-group col-sm-12 d-block">
                         <button class="btn btn-block btn-dark" v-on:click="makeExpense">
@@ -255,6 +256,7 @@
     </div>
 
 </div>
+</v-app>
 </template>
 
 <script>
@@ -310,7 +312,7 @@ export default {
             errEmployee:"Please Select Employee!",
             expenseInfo:{
                 requestedBy:"",
-                description:""
+                overview:""
             }
         }
     },
@@ -336,7 +338,8 @@ export default {
                     'accountSendFrom':this.account,
                     'expenseTerm':this.term,
                     'expenseTotal':this.$store.state.expenseTotal,
-                    'expenseInfo':this.expenseInfo,
+                    'requested_by':this.expenseInfo.requestedBy,
+                    'overview':this.expenseInfo.overview,
                     'makeBorrowItems':(this.$store.state.makeBorrowItems.length>0?this.$store.state.makeBorrowItems:[]),
                     'totalBorrow':(this.$store.state.makeBorrowItems.length>0?this.$store.state.expNav.totalBorrowed:0),
                     'makeLoanBorrowItems':(this.$store.state.makeLoanBorrowItems.length>0?this.$store.state.makeLoanBorrowItems:[]),
@@ -354,7 +357,8 @@ export default {
                     'accountSendFrom':this.account,
                     'expenseTerm':this.term,
                     'expenseTotal':this.$store.state.expenseTotal,
-                    'expenseInfo':this.expenseInfo,
+                    'requested_by':this.expenseInfo.requested_by,
+                    'overview':this.expenseInfo.overview,
                     'makeBorrowItems':(this.$store.state.makeBorrowItems.length>0?this.$store.state.makeBorrowItems:[]),
                     'totalBorrow':(this.$store.state.makeBorrowItems.length>0?this.$store.state.expNav.totalBorrowed:0),
                     'makeLoanBorrowItems':(this.$store.state.makeLoanBorrowItems.length>0?this.$store.state.makeLoanBorrowItems:[]),

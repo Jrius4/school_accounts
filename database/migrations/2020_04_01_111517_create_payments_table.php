@@ -15,9 +15,13 @@ class CreatePaymentsTable extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('paymentType')->nullable();
             $table->unsignedBigInteger('student_id')->nullable();
-            $table->longText('fees')->nullable();
+            $table->longText('paidItems')->nullable();
+            $table->string('fullAmount')->nullable();
+            $table->string('balance')->nullable();
             $table->string('paid_by')->nullable();
+            $table->string('description')->nullable();
             $table->unsignedBigInteger('term_id')->nullable();
             $table->timestamps();
             $table->foreign('student_id')->references('id')->on('students')->onDelete('cascade')->onUpdate('cascade');

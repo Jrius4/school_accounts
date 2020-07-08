@@ -30,5 +30,6 @@ class DatabaseSeeder extends Seeder
         $this->call(ListingSeeder::class);
         $this->call(MessengerTableSeeder::class);
         $this->call(BlogTableSeeder::class);
+        $this->call(IncomeStatementsSeeder::class);
     }
 }
