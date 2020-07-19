@@ -19,26 +19,26 @@ class BlogTableSeeder extends Seeder
         $faker = Factory::create();
         $date = new Carbon();
         Task::create([
-            'title'=>'school tour',
-            'detail'=>'school tour',
-            'start'=>$date->parse('2020-07-15 19:38:55')->modify('+1 days'),
-            'end'=>$date->parse('2020-07-15 19:38:55')->modify('+3 days'),
+            'name'=>'school tour',
+            'details'=>'school tour',
+            'start'=>$date->parse('2020-07-15')->modify('+1 days')->format('Y-m-d'),
+            'end'=>$date->parse('2020-07-15')->modify('+3 days')->format('Y-m-d'),
             'user_id'=>8,
         ]);
 
         Task::create([
-            'title'=>'PTA',
-            'detail'=>'academics',
-            'start'=>$date->parse('2020-07-15 19:38:55')->modify('-15 days'),
-            'end'=>$date->parse('2020-07-15 19:38:55')->modify('-15 days'),
+            'name'=>'PTA',
+            'details'=>'academics',
+            'start'=>$date->parse('2020-07-15')->modify('-15 days')->format('Y-m-d'),
+            'end'=>$date->parse('2020-07-15')->modify('-15 days')->format('Y-m-d'),
             'user_id'=>8,
         ]);
 
         Task::create([
-            'title'=>'school tour',
-            'detail'=>'school tour',
-            'start'=>$date->parse('2020-07-15 19:38:55')->modify('+13 days'),
-            'end'=>$date->parse('2020-07-15 19:38:55')->modify('+16 days'),
+            'name'=>'school tour',
+            'details'=>'school tour',
+            'start'=>$date->parse('2020-07-15')->modify('+13 days')->format('Y-m-d'),
+            'end'=>$date->parse('2020-07-15')->modify('+16 days')->format('Y-m-d'),
             'user_id'=>8,
         ]);
 

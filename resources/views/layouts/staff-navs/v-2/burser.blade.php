@@ -3,45 +3,20 @@
     <a href="#" class="nav-link"><i class="nav-icon fas fa-circle"></i>
 
         <p>
-            Students
+            Payments
             <i class="right fas fa-angle-left"></i>
         </p>
     </a>
 
     <ul class="nav nav-treeview">
         <li class="nav-item">
-            <a href="{{route('payments.student-payment')}}" class="nav-link">
+            <a href="{{route('make-payment')}}" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Payments</p>
             </a>
         </li>
         <li class="nav-item">
-            <a href="{{route('payments.all-payments')}}" class="nav-link">
-                <i class="far fa-eye nav-icon"></i>
-                <p>View Payments</p>
-            </a>
-        </li>
-    </ul>
-</li>
-
-<li class="nav-item has-treeview">
-    <a href="#" class="nav-link"><i class="nav-icon fas fa-circle"></i>
-
-        <p>
-            Assets
-            <i class="right fas fa-angle-left"></i>
-        </p>
-    </a>
-
-    <ul class="nav nav-treeview">
-        <li class="nav-item">
-            <a href="{{route('assets-payments.create')}}" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Payments</p>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="{{route('payments.all-payments')}}" class="nav-link">
+            <a href="{{route('view-payments')}}" class="nav-link">
                 <i class="far fa-eye nav-icon"></i>
                 <p>View Payments</p>
             </a>
@@ -62,13 +37,13 @@
 
     <ul class="nav nav-treeview">
         <li class="nav-item">
-            <a href="{{route('exp-categories.index')}}" class="nav-link">
+            <a href="{{route('view-expenses')}}" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
-                <p>Categories</p>
+                <p>View Expenses</p>
             </a>
         </li>
         <li class="nav-item">
-            <a href="{{route('expenses.create')}}" class="nav-link">
+            <a href="{{url('/')}}" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Spend</p>
             </a>

@@ -154,6 +154,12 @@ Route::middleware('auth:api')->group(function () {
         Route::get('payment-details','PaymentReportController@indexDetailed');
         Route::get('payment-reports','PaymentReportController@overviewReport');
 
+        Route::get('v1/get-students','API\StudentsController@getStudents')->name('get-students.all');
 
+        Route::get('expense-details','ExpenseReportController@indexDetailed');
+
+        Route::get('overview-payments','PaymentReportController@overviewReport');
 });
+
+Route::get('details','PaymentReportController@listOutcomes');
 

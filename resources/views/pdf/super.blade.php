@@ -36,7 +36,6 @@
                             <h2 class="name">
                                 <span  class="text-primary">
                                     FRIENDS ACADEMY  KITENDE
-
                                 </span>
                             </h2>
                             <div>MIXED DAY AND BOARDING SECONDARY SCHOOL</div>

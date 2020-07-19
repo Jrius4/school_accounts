@@ -13,7 +13,6 @@ class SalaryController extends BackendController
     }
     public function getEmployees(Request $request)
     {
-        // return $request->all();
         $query = $request->query('query');
         $rowsPerPage = $request->query('rowsPerPage');
         $sortRowsBy = 'name';

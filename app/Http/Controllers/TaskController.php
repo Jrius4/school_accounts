@@ -18,7 +18,7 @@ class TaskController extends Controller
     {
         if(Auth::check()){
             $user = Auth::user()->id;
-            $tasks = Task::where('user_id',$user)->paginate(10);
+            $tasks = Task::where('user_id',$user)->get();
         }
         else{
             $tasks = ['unauthorized access'];
@@ -50,7 +50,7 @@ class TaskController extends Controller
 
             $inputs = $request->all();
             $rules = [
-                'title'=>'required',
+                'name'=>'required',
                 'start'=>'required',
                 'end'=>'required',
             ];
@@ -66,17 +66,15 @@ class TaskController extends Controller
             $tasks = new Task();
             $user = Auth::user()->id;
             $tasks->create([
-                'title'=>$request->title,
-                'detail'=>$request->detail,
+                'name'=>$request->name,
+                'details'=>$request->details,
                 'start'=>$request->start,
                 'end'=>$request->end,
+                'color'=>$request->color!= null?$request->color:'#272727',
                 'user_id'=>$user,
             ]);
 
-            $tasks = [
-                'success'=>true,
-                'message'=>'create successfully',
-            ];
+            $tasks = $tasks->where('name',$request->name)->where('details',$request->details)->first();
             return response()->json(compact('tasks'));
 
         }
@@ -131,15 +129,14 @@ class TaskController extends Controller
         $task = new Task();
         if($task->where('id',$id)->exists()){
             $tasks = $task->find($id);
-            $tasks->title = isset($request->title)?$request->title:$tasks->title;
-            $tasks->detail = isset($request->detail)?$request->detail:$tasks->detail;
+            $tasks->name = isset($request->name)?$request->name:$tasks->name;
+            $tasks->details = isset($request->details)?$request->details:$tasks->details;
             $tasks->start = isset($request->start)?$request->start:$tasks->start;
             $tasks->end = isset($request->end)?$request->end:$tasks->end;
+            $tasks->color = isset($request->color)?$request->color:$tasks->color;
             $tasks->save();
 
-            $tasks = [
-                'message'=>'saved successfully',
-            ];
+            $tasks = $task->find($id);
         }
         else{
             $tasks = ['task no found'];

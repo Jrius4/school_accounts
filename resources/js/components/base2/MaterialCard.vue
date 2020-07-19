@@ -42,10 +42,12 @@
           v-text="title"
         />
 
+
+
         <v-icon
-          v-else-if="icon"
-          size="32"
-          v-text="icon"
+            v-else-if="icon"
+            size="32"
+            v-text="icon"
         />
 
         <div
@@ -67,7 +69,6 @@
         :class="`ml-4  ${titleColor}`"
       >
         <div
-
           :class="`display-1 card-title font-weight-light  ${titleColor}`"
           v-text="title"
         />

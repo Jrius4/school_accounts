@@ -79,7 +79,7 @@
 
 
 
-                                </v-data-table>
+                            </v-data-table>
                        </v-window-item>
                        <v-window-item :value="2">
                            <v-form v-if="selectedEditItem !== null" class="light-blue--text text--darken-3">
@@ -351,7 +351,7 @@ export default {
         search(value){
             if(!this.search) {
                 this.search = "";
-                };
+                }
 
                 this.loading = true;
                 this.getDataFromApi()

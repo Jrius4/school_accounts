@@ -301,6 +301,16 @@ Route::group(['middleware'=>'auth'],function(){
     //salary
     Route::get('/employee-salaries','Salary\SalaryController@employeeSalary')->name('employee-salary.index');
 
+    Route::get('print-test','PdfController@printTestTfile');
+    Route::get('print-invoice','PdfController@printInvoice');
+    Route::get('print-expense','PdfController@printExpense')->name('print.expense');
+
+    //payments
+    Route::get('make-payment','API\PaymentsController@makePayment')->name('make-payment');
+    Route::get('view-payments','API\PaymentsController@viewPayments')->name('view-payments');
+    Route::get('view-expenses','API\PaymentsController@viewExpenses')->name('view-expenses');
+    Route::get('overview-payments','PaymentReportController@overviewPayments')->name('overview-payments');
+
 });
 
 Route::get('/test-dashboard',function(){
@@ -313,6 +323,5 @@ Route::get('/test-dashboardv2',function(){
     return view('portals.layouts.main');
  });
 
- Route::get('print-test','PdfController@printTestTfile');
- Route::get('print-invoice','PdfController@printInvoice');
- Route::get('print-expense','PdfController@printExpense')->name('print.expense');
+
+

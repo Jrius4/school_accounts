@@ -11,7 +11,8 @@ class AccountController extends Controller
     public function index(Request $request)
     {
         $query = $request->query('query');
-        $rowsPerPage = $request->query('rowsPerPage');
+        $rowsPerPage = $request->query('rowsPerPage')!==null?$request->query('rowsPerPage'):5;
+        $rowsPerPage = $request->query('rowsPerPage')==-1?SchoolAccount::count():$request->query('rowsPerPage');
         $sortRowsBy = 'account_name';
         $sortDesc = false;
         if(isset($request['sortDesc']) && $request['sortDesc'] !== '' ){

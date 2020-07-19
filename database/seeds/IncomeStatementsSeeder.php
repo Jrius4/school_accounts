@@ -20,7 +20,7 @@ class IncomeStatementsSeeder extends Seeder
         DB::table('expenses')->insert([
             [
                 'uuid'=>Str::uuid(),
-                'token'=>strtoupper(substr(time(),0,5).Str::random(3).Str::random(3).substr(time(),-3).$date->parse($date2)->format('y')),
+                'token'=>'EX'.strtoupper(substr(time(),0,5).Str::random(3).Str::random(3).substr(time(),-3).$date->parse($date2)->format('y')),
                 'AccountSpendFrom'=>"School Fees",
                 'expensetype'=>'Salary',
                 'expenseItems'=>null,
@@ -41,7 +41,7 @@ class IncomeStatementsSeeder extends Seeder
             ],
             [
                 'uuid'=>Str::uuid(),
-                'token'=>strtoupper(substr(time(),0,5).Str::random(3).Str::random(3).substr(time(),-3).$date->parse($date2)->format('y')),
+                'token'=>'EX'.strtoupper(substr(time(),0,5).Str::random(3).Str::random(3).substr(time(),-3).$date->parse($date2)->format('y')),
                 'AccountSpendFrom'=>"School Fees",
                 'expensetype'=>'Salary',
                 'expenseItems'=>null,
@@ -50,19 +50,21 @@ class IncomeStatementsSeeder extends Seeder
                 'expenseTerm'=>2,
                 'expenseTotal'=>25000000,
                 'makeBorrowItems'=>json_encode([
-                    'credit'=>24500000,
-                    'selectedAccount'=>[
-                        'balance'=>"450080000",
-                        'id'=>2,
-                        "name"=>"Construction Loan"
+                    [
+                        'credit'=>24500000,
+                        'selectedAccount'=>[
+                            'balance'=>"450080000",
+                            'id'=>2,
+                            "name"=>"Construction Loan"
+                        ]
                     ]],true),
                     'makeLoanBorrowItems'=>json_encode([
-                    'credit'=>500000,
+                    ['credit'=>500000,
                    'selectedAccount'=>[
                         'balance'=>"8080000",
                         'id'=>4,
                         "name"=>"Development Fees"
-                    ]],true),
+                    ]]],true),
                 'salaryPaymentType'=>'Normal',
                 'salaryTerm'=>json_encode(['id'=>1,'name'=>'Term 1'],true),
                 'totalBorrow'=>178800,
@@ -74,7 +76,7 @@ class IncomeStatementsSeeder extends Seeder
             ],
             [
                 'uuid'=>Str::uuid(),
-                'token'=>strtoupper(substr(time(),0,5).Str::random(3).Str::random(3).substr(time(),-3).$date->parse($date2)->format('y')),
+                'token'=>'EX'.strtoupper(substr(time(),0,5).Str::random(3).Str::random(3).substr(time(),-3).$date->parse($date2)->format('y')),
                 'AccountSpendFrom'=>"School Fees",
                 'expensetype'=>'Salary',
                 'expenseItems'=>null,
@@ -83,19 +85,19 @@ class IncomeStatementsSeeder extends Seeder
                 'expenseTerm'=>1,
                 'expenseTotal'=>650000,
                 'makeBorrowItems'=>json_encode([
-                    'credit'=>200000,
+                    ['credit'=>200000,
                     'selectedAccount'=>[
                         'balance'=>"450080000",
                         'id'=>2,
                         "name"=>"Construction Loan"
-                    ]],true),
+                    ]]],true),
                     'makeLoanBorrowItems'=>json_encode([
-                    'credit'=>78800,
+                    ['credit'=>78800,
                    'selectedAccount'=>[
                         'balance'=>"8080000",
                         'id'=>4,
                         "name"=>"Development Fees"
-                    ]],true),
+                    ]]],true),
                 'salaryPaymentType'=>'Normal',
                 'salaryTerm'=>json_encode(['id'=>1,'name'=>'Term 1'],true),
                 'totalBorrow'=>178800,
@@ -113,7 +115,7 @@ class IncomeStatementsSeeder extends Seeder
             ],
             [
                 'uuid'=>Str::uuid(),
-                'token'=>strtoupper(substr(time(),0,5).Str::random(3).Str::random(3).substr(time(),-3).$date->parse($date2)->format('y')),
+                'token'=>'EX'.strtoupper(substr(time(),0,5).Str::random(3).Str::random(3).substr(time(),-3).$date->parse($date2)->format('y')),
                 'AccountSpendFrom'=>"School Fees",
                 'expensetype'=>"Welfare",
                 'expenseItems'=>json_encode([
@@ -132,19 +134,19 @@ class IncomeStatementsSeeder extends Seeder
                 'expenseTerm'=>1,
                 'expenseTotal'=>1080000,
                 'makeBorrowItems'=>json_encode([
-                    'credit'=>200000,
+                    ['credit'=>200000,
                     'selectedAccount'=>[
                         'balance'=>"450080000",
                         'id'=>2,
                         "name"=>"Construction Loan"
-                    ]],true),
+                    ]]],true),
                     'makeLoanBorrowItems'=>json_encode([
-                    'credit'=>78800,
+                    ['credit'=>78800,
                    'selectedAccount'=>[
                         'balance'=>"8080000",
                         'id'=>4,
                         "name"=>"Development Fees"
-                    ]],true),
+                    ]]],true),
                 'salaryPaymentType'=>null,
                 'salaryTerm'=>null,
                 'totalBorrow'=>178800,
@@ -156,7 +158,7 @@ class IncomeStatementsSeeder extends Seeder
             ],
             [
                 'uuid'=>Str::uuid(),
-                'token'=>strtoupper(substr(time(),0,5).Str::random(3).Str::random(3).substr(time(),-3).$date->parse($date2)->format('y')),
+                'token'=>'EX'.strtoupper(substr(time(),0,5).Str::random(3).Str::random(3).substr(time(),-3).$date->parse($date2)->format('y')),
                 'AccountSpendFrom'=>"School Fees",
                 'expensetype'=>"Welfare",
                 'expenseItems'=>json_encode([
@@ -187,7 +189,7 @@ class IncomeStatementsSeeder extends Seeder
             ],
             [
                 'uuid'=>Str::uuid(),
-                'token'=>strtoupper(substr(time(),0,5).Str::random(3).Str::random(3).substr(time(),-3).$date->parse($date2)->format('y')),
+                'token'=>'EX'.strtoupper(substr(time(),0,5).Str::random(3).Str::random(3).substr(time(),-3).$date->parse($date2)->format('y')),
                 'AccountSpendFrom'=>"School Fees",
                 'expensetype'=>"Welfare",
                 'expenseItems'=>json_encode([
@@ -231,7 +233,7 @@ class IncomeStatementsSeeder extends Seeder
             ],
             [
                 'uuid'=>Str::uuid(),
-                'token'=>strtoupper(substr(time(),0,5).Str::random(3).Str::random(3).substr(time(),-3).$date->parse($date2)->format('y')),
+                'token'=>'EX'.strtoupper(substr(time(),0,5).Str::random(3).Str::random(3).substr(time(),-3).$date->parse($date2)->format('y')),
                 'AccountSpendFrom'=>"School Fees",
                 'expensetype'=>'Salary',
                 'expenseItems'=>null,
@@ -240,18 +242,20 @@ class IncomeStatementsSeeder extends Seeder
                 'expenseTerm'=>1,
                 'expenseTotal'=>456000,
                 'makeBorrowItems'=>json_encode([
-                    'credit'=>200000,
+                    ['credit'=>200000,
                     'selectedAccount'=>[
                         'balance'=>"450080000",
                         'id'=>2,
                         "name"=>"Construction Loan"
-                    ]],true),
+                    ]]],true),
                     'makeLoanBorrowItems'=>json_encode([
-                    'credit'=>78800,
-                   'selectedAccount'=>[
-                        'balance'=>"8080000",
-                        'id'=>4,
-                        "name"=>"Development Fees"
+                    [
+                        'credit'=>78800,
+                        'selectedAccount'=>[
+                            'balance'=>"8080000",
+                            'id'=>4,
+                            "name"=>"Development Fees"
+                    ]
                     ]],true),
                 'salaryPaymentType'=>'Normal',
                 'salaryTerm'=>json_encode(['id'=>1,'name'=>'Term 1'],true),
@@ -270,8 +274,13 @@ class IncomeStatementsSeeder extends Seeder
             ],
         ]);
 
+        $date = new Carbon();
+        $date2 = $date->now();
+        $token =  strtoupper(substr(time(),0,5).Str::random(3).Str::random(3).substr(time(),-3).$date->parse($date2)->format('y'));
         DB::table('payments')->insert([
             [
+                'reciept_no'=>'P'.strtoupper(substr(time(),0,5).Str::random(3).Str::random(3)
+                .substr(time(),-3).$date->parse($date2)->format('y')),
                 'paymentType'=>['student','loan','asset'][2],
                 'paidItems'=>json_encode([
                     [
@@ -289,6 +298,8 @@ class IncomeStatementsSeeder extends Seeder
                 'updated_at'=>$date->parse("2016-07-18 17:27:18")->modify('-1 days')
             ],
             [
+                'reciept_no'=>'P'.strtoupper(substr(time(),0,5).Str::random(3).Str::random(3)
+                .substr(time(),-3).$date->parse($date2)->format('y')),
                 'paymentType'=>['student','loan','asset'][0],
                 'paidItems'=>json_encode([
                     [
@@ -317,6 +328,8 @@ class IncomeStatementsSeeder extends Seeder
                 'updated_at'=>$date->parse("2020-07-06 17:27:18")->modify('-14 weeks')
             ],
             [
+                'reciept_no'=>'P'.strtoupper(substr(time(),0,5).Str::random(3).Str::random(3)
+                .substr(time(),-3).$date->parse($date2)->format('y')),
                 'paymentType'=>['student','loan','asset'][0],
                 'paidItems'=>json_encode([
                     [
@@ -345,6 +358,8 @@ class IncomeStatementsSeeder extends Seeder
                 'updated_at'=>$date->parse("2020-07-06 17:27:18")->modify('-11 weeks')
             ],
             [
+                'reciept_no'=>'P'.strtoupper(substr(time(),0,5).Str::random(3).Str::random(3)
+                .substr(time(),-3).$date->parse($date2)->format('y')),
                 'paymentType'=>['student','loan','asset'][1],
                 'paidItems'=>json_encode([
                     [
@@ -363,6 +378,8 @@ class IncomeStatementsSeeder extends Seeder
             ],
 
             [
+                'reciept_no'=>'P'.strtoupper(substr(time(),0,5).Str::random(3).Str::random(3)
+                .substr(time(),-3).$date->parse($date2)->format('y')),
                 'paymentType'=>['student','loan','asset'][2],
                 'paidItems'=>json_encode([
                     [
@@ -380,6 +397,8 @@ class IncomeStatementsSeeder extends Seeder
                 'updated_at'=>$date->parse("2020-07-18 17:27:18")->modify('-1 days')
             ],
             [
+                'reciept_no'=>'P'.strtoupper(substr(time(),0,5).Str::random(3).Str::random(3)
+                .substr(time(),-3).$date->parse($date2)->format('y')),
                 'paymentType'=>['student','loan','asset'][2],
                 'paidItems'=>json_encode([
                     [
@@ -397,6 +416,8 @@ class IncomeStatementsSeeder extends Seeder
                 'updated_at'=>$date->parse("2020-07-18 17:27:18")->modify('-1 days')
             ],
             [
+                'reciept_no'=>'P'.strtoupper(substr(time(),0,5).Str::random(3).Str::random(3)
+                .substr(time(),-3).$date->parse($date2)->format('y')),
                 'paymentType'=>['student','loan','asset'][1],
                 'paidItems'=>json_encode([
                     [

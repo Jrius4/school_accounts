@@ -59,6 +59,38 @@ export default new Vuex.Store({
         },
         totalEmployees:null,
         employeeSortRowsBy:'name',
+        students:[],
+        studentPagination:{
+            page:1,
+            rowsPerPage:10,
+        },
+        totalstudents:0,
+        studentSortRowsBy:'name',
+
+        accounts:[],
+        accountPagination:{
+            page:1,
+            rowsPerPage:5,
+        },
+        totalaccounts:0,
+        accountSortRowsBy:'account_name',
+        payments:[],
+        paymentPagination:{
+            page:1,
+            rowsPerPage:15,
+        },
+        totalpayments:0,
+        paymentSortRowsBy:'created_at',
+        expenses:[],
+        expensePagination:{
+            page:1,
+            rowsPerPage:15,
+        },
+        totalexpenses:0,
+        expenseSortRowsBy:'created_at',
+        tasks:[],
+
+        queryType:'daily',
     },
     mutations:{
         getUser(state,user){
@@ -235,7 +267,7 @@ export default new Vuex.Store({
         //     currentState.socket.reconnectError = true;
         // }
 
-        //start employees
+        // start employees
         SET_EMPLOYEES(currentState,payload){
             currentState.employees = payload.data;
             currentState.employeePagination.page = parseInt(payload.current_page);
@@ -252,8 +284,65 @@ export default new Vuex.Store({
             else{
                 Vue.set(currentState.employees,index,item);
             }
-        }
+        },
         //end employees
+        // tasks
+        GET_TASKS(currentState,payload){
+            currentState.tasks = payload
+        },
+        SAVE_TASK(currentState,item){
+            let index = currentState.tasks.findIndex(c=>c.id == item.id);
+            if(index == -1){
+                currentState.tasks.push(item);
+            }
+            else{
+                Vue.set(currentState.tasks,index,item);
+            }
+        },
+        DELETE_TASK(currentState,item){
+            let index = currentState.tasks.findIndex(c=>c.id == item);
+            currentState.tasks.splice(index,1);
+        },
+        // end tasks
+        GET_STUDENTS(currentState,payload){
+            currentState.students = payload.data;
+            currentState.studentPagination.page = parseInt(payload.current_page);
+            currentState.studentPagination.rowsPerPage =parseInt(payload.per_page);
+            currentState.totalstudents = parseInt(payload.total);
+        },
+
+        //accounts
+        GET_ACCOUNTS(currentState,payload){
+            currentState.accounts = payload.data;
+            currentState.accountPagination.page = parseInt(payload.current_page);
+            currentState.accountPagination.rowsPerPage =parseInt(payload.per_page);
+            currentState.totalaccounts = parseInt(payload.total);
+        },
+        // accounts end
+        // payments start
+        GET_EXPENSES_FULL(currentState,payload){
+            currentState.expenses = payload.data;
+            currentState.expensePagination.page = parseInt(payload.current_page);
+            currentState.expensePagination.rowsPerPage =parseInt(payload.per_page);
+            currentState.totalexpenses = parseInt(payload.total);
+            currentState.expenseSortRowsBy = payload.sortRowsBy;
+        },
+        GET_PAYMENTS_FULL(currentState,payload){
+            currentState.payments = payload.data;
+            currentState.paymentPagination.page = parseInt(payload.current_page);
+            currentState.paymentPagination.rowsPerPage =parseInt(payload.per_page);
+            currentState.totalpayments = parseInt(payload.total);
+            currentState.paymentSortRowsBy = payload.sortRowsBy;
+        },
+
+        GET_PAYMENTS_INCOME(currentState,payload){
+            currentState.payments = payload.payments;
+            currentState.paymentPagination.page = parseInt(payload.page);
+            currentState.paymentPagination.rowsPerPage =parseInt(payload.rowsPerPage);
+            currentState.totalpayments = parseInt(payload.total);
+            currentState.queryType = payload.queryType;
+        },
+        // payments end
     },
     getters:{
         loggedIn(state){
@@ -700,8 +789,314 @@ export default new Vuex.Store({
                         reject(err);
                         })
              });
-         }
+         },
         //expense end
+
+        // tasks
+
+        async GET_TASKS_ACTION(context,data){
+            if(context.getters.loggedIn){
+                return new Promise((resolve,reject)=>{
+                    let url = `/api/user-tasks`;
+                    Axios.get(url,{
+                        headers:{
+                            Authorization: "Bearer "+context.state.token
+                        }
+                    }).then(
+                        response =>{
+                            const tasks = response.data.tasks;
+                            context.commit('GET_TASKS',tasks);
+                            resolve(tasks);
+                        }
+                    ).catch((err)=>{
+                        console.log(err);
+                        reject(err);
+                    })
+
+                });
+            }
+            else{
+                console.log('not loggedIn')
+            }
+        },
+        async ADD_TASK(context,data){
+
+        },
+        async SAVE_TASK_ACTION(context,data){
+            if(context.getters.loggedIn){
+                let task_id = data.id || '';
+                if(task_id!==''){
+                    return new Promise((resolve,reject)=>{
+                        let url = `/api/user-tasks/${task_id}`;
+                        Axios.post(url,data,{
+                            headers:{
+                                Authorization: "Bearer "+context.state.token
+                            }
+                        }).then(
+                            response =>{
+                                const tasks = response.data.tasks;
+                                context.commit('SAVE_TASK',tasks);
+                                resolve(tasks);
+                            }
+                        ).catch((err)=>{
+                            console.log(err);
+                            reject(err);
+                        })
+
+                    });
+                }
+                else if (task_id===''){
+                    return new Promise((resolve,reject)=>{
+                        let url = `/api/user-tasks`;
+                        Axios.post(url,data,{
+                            headers:{
+                                Authorization: "Bearer "+context.state.token
+                            }
+                        }).then(
+                            response =>{
+                                const tasks = response.data.tasks;
+                                context.commit('SAVE_TASK',tasks);
+                                resolve(tasks);
+                            }
+                        ).catch((err)=>{
+                            console.log(err);
+                            reject(err);
+                        })
+
+                    });
+                }
+            }
+            else{
+                console.log('not loggedIn')
+            }
+
+        },
+        async DELETE_TASK_ACTION(context,data){
+            if(context.getters.loggedIn){
+                let task_id = data || '';
+                if(task_id!==''){
+                    return new Promise((resolve,reject)=>{
+                        let url = `/api/user-tasks/${task_id}`;
+                        Axios.delete(url,{
+                            headers:{
+                                Authorization: "Bearer "+context.state.token
+                            }
+                        }).then(
+                            response =>{
+                                const tasks = response.data.tasks;
+                                context.commit('DELETE_TASK',data);
+                                resolve(tasks);
+                            }
+                        ).catch((err)=>{
+                            console.log(err);
+                            reject(err);
+                        })
+
+                    });
+                }
+            }
+            else{
+                console.log('not loggedIn')
+            }
+        },
+
+        // tasks end
+        // payments
+        async GET_STUDENTS_ACTION(context,data){
+            return new Promise((resolve,reject)=>{
+                let url = `/api/v1/get-students`;
+                let query = data.val||'';
+                        Axios.get(url,{
+                            headers:{
+                                Authorization: "Bearer "+context.state.token,
+                            },
+                            params:{
+                                query:query,
+                                rowsPerPage:data.perPage || "",
+                            }
+                        }).then(
+                            response =>{
+
+                                const students = response.data.students;
+                                context.commit('GET_STUDENTS',students);
+                                resolve(students);
+                            }
+                        ).catch((err)=>{
+                            console.log(err);
+                            reject(err);
+                        });
+            })
+        },
+        // payments end
+        //accounts
+        async GET_ACCOUNTS_ACTION(context,payload){
+
+            if(context.getters.loggedIn){
+                return new Promise((resolve,reject)=>{
+
+                    let query = payload.val || "";
+                    let page = payload.page || "";
+                    let sortRowsBy = payload.sortRowsBy || "account_name";
+                    let rowsPerPage = payload.rowsPerPage || 5;
+                    let sortDesc = payload.sortDesc || '';
+                    const url = `/api/accounts`;
+                    Axios.get(url,{
+                        headers:{
+                            Authorization: "Bearer "+context.state.token
+                        },
+                        params:{
+                            query,
+                            rowsPerPage,
+                            page,
+                            sortRowsBy,
+                            sortDesc
+                        }
+                    }).then(
+                        res =>{
+                            context.commit('GET_ACCOUNTS',res.data.accounts);
+                            resolve(res.data);
+                        }
+                    ).catch(err=>{
+                        console.log(err)
+                        reject(err)
+                    })
+
+                });
+            }
+            else{
+                console.log('not authorized')
+            }
+        },
+        //accounts end
+
+        // payments-view
+        async GET_PAYMENTS_FULL_ACTION(context,payload){
+            if(context.getters.loggedIn){
+                return new Promise((resolve,reject)=>{
+                    let query = payload.val || "";
+                    let page = payload.page || "";
+                    let sortRowsBy = payload.sortRowsBy || "id";
+                    let rowsPerPage = payload.rowsPerPage || 5;
+                    let sortDesc = payload.sortDesc || '';
+
+
+                    let url = `/api/payment-details`;
+                    Axios.get(url,{
+                        headers:{
+                            Authorization: "Bearer "+context.state.token
+                        },
+                        params:{
+                            query,
+                            rowsPerPage,
+                            page,
+                            sortRowsBy,
+                            sortDesc
+                        }
+                    }).then(
+                        response =>{
+                            const payments = response.data.payments;
+                            Object.assign(payments,{sortRowsBy});
+                            context.commit('GET_PAYMENTS_FULL',payments);
+                            resolve(payments);
+                        }
+                    ).catch((err)=>{
+                        console.log(err);
+                        reject(err);
+                    })
+
+                });
+            }
+            else{
+                console.log('not loggedIn')
+            }
+        },
+        // payment
+        // expenses-view
+        async GET_EXPENSES_FULL_ACTION(context,payload){
+            if(context.getters.loggedIn){
+                return new Promise((resolve,reject)=>{
+                    let query = payload.val || "";
+                    let page = payload.page || "";
+                    let sortRowsBy = payload.sortRowsBy || "id";
+                    let rowsPerPage = payload.rowsPerPage || 5;
+                    let sortDesc = payload.sortDesc || '';
+
+                    let url = `/api/expense-details`;
+                    Axios.get(url,{
+                        headers:{
+                            Authorization: "Bearer "+context.state.token
+                        },
+                        params:{
+                            query,
+                            rowsPerPage,
+                            page,
+                            sortRowsBy,
+                            sortDesc
+                        }
+                    }).then(
+                        response =>{
+                            const expenses = response.data.expenses;
+                            Object.assign(expenses,{sortRowsBy});
+
+                            context.commit('GET_EXPENSES_FULL',expenses);
+                            resolve(expenses);
+                        }
+                    ).catch((err)=>{
+                        console.log(err);
+                        reject(err);
+                    })
+
+                });
+            }
+            else{
+                console.log('not loggedIn')
+            }
+        },
+        // expense
+        // payments-view
+        async GET_PAYMENTS_INCOME_ACTION(context,payload){
+            if(context.getters.loggedIn){
+                return new Promise((resolve,reject)=>{
+                    let query = payload.val || "";
+                    let page = payload.page || "";
+                    let sortRowsBy = payload.sortRowsBy || "id";
+                    let rowsPerPage = payload.rowsPerPage || 5;
+                    let sortDesc = payload.sortDesc || '';
+                    let queryType = payload.queryType || '';
+
+
+                    let url = `/api/overview-payments`;
+                    Axios.get(url,{
+                        headers:{
+                            Authorization: "Bearer "+context.state.token
+                        },
+                        params:{
+                            query,
+                            rowsPerPage,
+                            page,
+                            sortRowsBy,
+                            sortDesc,
+                            queryType,
+                        }
+                    }).then(
+                        response =>{
+                            const payments = response.data;
+                            Object.assign(payments,{sortRowsBy});
+                            context.commit('GET_PAYMENTS_INCOME',payments);
+                            resolve(payments);
+                        }
+                    ).catch((err)=>{
+                        console.log(err);
+                        reject(err);
+                    })
+
+                });
+            }
+            else{
+                console.log('not loggedIn')
+            }
+        },
+        // payment
 
     },
     inject:["eventBus","restDataSource"],

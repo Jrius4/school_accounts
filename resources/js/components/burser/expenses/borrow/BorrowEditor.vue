@@ -1,5 +1,5 @@
 <template>
-<div class="text-left">
+<v-sheet class="text-left white p-2">
    <h4>Credit Editor</h4>
    <div class="form-group d-block col">
        <label>Account Name</label>
@@ -34,7 +34,7 @@
         </button>
       </div>
    </div>
-</div>
+</v-sheet>
 
 
 </template>

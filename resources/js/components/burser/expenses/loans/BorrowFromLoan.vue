@@ -1,5 +1,5 @@
 <template>
-    <div class="row d-flex justify-content-center card card-body elevation-2 text-center col-12 bg-light h-200 text-dark mx-auto">
+    <div class="row d-flex justify-content-center card card-body elevation-2 text-center col-12 bg-light h-200 text-dark mx-auto blue lighten-4">
         <h4 class="font-italic col-12">Loan Accounts</h4>
         <div class="col-10 mx-auto">
             <button v-on:click="toggle" :disabled="showBorrow?true:false" class="btn btn-block btn-dark btn-sm">

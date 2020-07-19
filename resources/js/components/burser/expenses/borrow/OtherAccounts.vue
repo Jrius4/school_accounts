@@ -1,5 +1,5 @@
 <template>
-  <div class="col">
+  <v-sheet class="col white p-2">
         <table class="table table-xs">
             <thead>
                 <tr>
@@ -20,7 +20,7 @@
             </tbody>
 
         </table>
-  </div>
+  </v-sheet>
 </template>
 
 <script>

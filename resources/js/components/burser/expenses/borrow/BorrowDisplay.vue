@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="row d-flex justify-content-center card card-body elevation-2 text-center col-12 bg-light h-200 text-dark mx-auto">
+        <v-sheet class="row d-flex justify-content-center card card-body elevation-2 text-center col-12 bg-light h-200 text-dark mx-auto grey lighten-2">
             <h4 class="font-italic col-12">Outflow Summary</h4>
             <div class="col-10 mx-auto">
                 <table class="table table-sm text-left">
@@ -56,7 +56,7 @@
                 </button>
             </div>
             <div v-if="showBorrow || show"
-                class="col-12 row d-flex justify-content-center">
+                class="col-12 row d-flex justify-content-center grey lighten-1">
                 <div class="col-12">
                     <h5 class="text-center">
                     Borrowing
@@ -77,7 +77,8 @@
 
             </div>
 
-        </div>
+        </v-sheet>
+
         <borrow-from-loan :term="term" :account="account" />
 
     </div>

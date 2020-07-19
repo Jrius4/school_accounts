@@ -1,5 +1,5 @@
 <template>
-  <div class="row col">
+  <v-sheet class="row col white p-2">
       <h4>Borrow Summary</h4>
       <table class="table table-sm col-12" style="font-size:12px;">
           <thead>
@@ -59,7 +59,7 @@
 
       </table>
 
-  </div>
+  </v-sheet>
 </template>
 
 <script>

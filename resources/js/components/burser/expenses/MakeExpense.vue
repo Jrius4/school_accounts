@@ -5,12 +5,24 @@
         <div class="col-12 bg-dark text-center font-italic">
             <a href="" class="mavbar-brand">Make Expense</a>
         </div>
+        <div class="col-lg-6 col-md-6 blue-grey p-2  mx-auto">
+            <v-sheet class="m-2 p-2 blue-grey lighten-3">
+                <h3 class="text-center">Tasks' Schedules</h3>
+            </v-sheet>
+            <v-sheet>
+                <task-calendar/>
+            </v-sheet>
+        </div>
 
 
 
-        <div class="col-md-9 text-dark p-2 mx-auto">
-            <h3>Type Of Expense</h3>
-            <div class="form-group col-12 d-block">
+        <div class="col-lg-6 col-md-6 text-dark p-2 blue-grey mx-auto">
+            <v-sheet class="m-2 p-2 blue-grey lighten-3 black--text">
+                <h3 class="text-center">Expense Form</h3>
+            </v-sheet>
+
+            <v-sheet>
+                    <div class="form-group col-12 d-block">
 
                     <v-sheet class="bg-transparent">
                         <v-form>
@@ -33,188 +45,187 @@
                         </v-form>
                     </v-sheet>
 
-            </div>
-            <transition
-
-            >
-            <div class="col-12" v-if="expenseType === 'Welfare' || expenseType === '...others'">
-                <h3 class="text-dark display-6 m-2">Items</h3>
-                <div class="row d-flex justify-content-center mx-auto">
-                    <div class="col">
-                        <component v-bind:is="selectedComponent"></component>
-                    </div>
                 </div>
-            </div>
-            <div class="col-12" v-else>
 
-                    <h3 class="text-dark m-2">Salary Form</h3>
-                    <div class="form-group col-12 d-block">
+                <transition
 
-                       <v-select
-                                id="expenseTypeTerm"
-                                ref="expenseTypeTerm"
-                                v-model="expenseTypeTerm" :items="[{'id':1,'name':'Term 1'},{'id':2,'name':'Term 2'},{'id':3,'name':'Term 3'}]"
-                                attach clearable
-                                label="Select Term" item-text="name"
-                                color="ml-3 mr-12 white--text"
-                                hint="Please select expense type"
-                                v-on:change="handleExpenseTypeTerm()"
-                            ></v-select>
-                            <small v-if="errExpenseTypeTerm.includes('Please Select Term!')" class="text-danger col-12">
-                                {{errExpenseTypeTerm}}
-                            </small>
-                            <small v-else class="text-success col-12">
-                                {{errExpenseTypeTerm}}
-                            </small>
+                >
+                    <div class="col-12" v-if="expenseType === 'Welfare' || expenseType === '...others'">
+                        <h3 class="text-dark display-6 m-2">Items</h3>
+                        <div class="row d-flex justify-content-center mx-auto">
+                            <div class="col">
+                                <component v-bind:is="selectedComponent"></component>
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group col-12 d-block">
-                            <v-autocomplete
-                                id="worker"
-                                v-model="worker"
-                                label="Find Employee"
-                                :items="employees"
-                                :search-input.sync="employeeSearch"
-                                :item-text="textEmployee"
-                                autocomplete
-                                append-icon="mdi-database-search"
-                                :menu-props="{ bottom: true, offsetY: true }"
-                                hint="Please Search Employee"
-                                chips attach clearable
-                                v-on:change="handleEmployeeSearch()"
-                            >
-                                <template v-slot:selection="data">
-                                    <v-chip
-                                    v-bind="data.attrs"
-                                    :input-value="data.selected"
-                                    close
-                                    @click="data.select"
-                                    @click:close="remove(data.item)"
+
+                    <div class="col-12" v-else>
+
+                            <h3 class="text-dark m-2">Salary Form</h3>
+                            <div class="form-group col-12 d-block">
+
+                                <v-select
+                                        id="expenseTypeTerm"
+                                        ref="expenseTypeTerm"
+                                        v-model="expenseTypeTerm" :items="[{'id':1,'name':'Term 1'},{'id':2,'name':'Term 2'},{'id':3,'name':'Term 3'}]"
+                                        attach clearable
+                                        label="Select Term" item-text="name"
+                                        color="ml-3 mr-12 white--text"
+                                        hint="Please select expense type"
+                                        v-on:change="handleExpenseTypeTerm()"
+                                    ></v-select>
+                                    <small v-if="errExpenseTypeTerm.includes('Please Select Term!')" class="text-danger col-12">
+                                        {{errExpenseTypeTerm}}
+                                    </small>
+                                    <small v-else class="text-success col-12">
+                                        {{errExpenseTypeTerm}}
+                                    </small>
+                            </div>
+                            <div class="form-group col-12 d-block">
+                                    <v-autocomplete
+                                        id="worker"
+                                        v-model="worker"
+                                        label="Find Employee"
+                                        :items="employees"
+                                        :search-input.sync="employeeSearch"
+                                        :item-text="textEmployee"
+                                        autocomplete
+                                        append-icon="mdi-database-search"
+                                        :menu-props="{ bottom: true, offsetY: true }"
+                                        hint="Please Search Employee"
+                                        chips attach clearable
+                                        v-on:change="handleEmployeeSearch()"
                                     >
-                                    <v-avatar left>
-                                        <v-img :src="`/files/${data.item.image!== null?data.item.image:'user_all.png'}`"></v-img>
-                                    </v-avatar>
-                                    {{ data.item.name }}
-                                    </v-chip>
-                                </template>
+                                        <template v-slot:selection="data">
+                                            <v-chip
+                                            v-bind="data.attrs"
+                                            :input-value="data.selected"
+                                            close
+                                            @click="data.select"
+                                            @click:close="remove(data.item)"
+                                            >
+                                            <v-avatar left>
+                                                <v-img :src="`/files/${data.item.image!== null?data.item.image:'user_all.png'}`"></v-img>
+                                            </v-avatar>
+                                            {{ data.item.name }}
+                                            </v-chip>
+                                        </template>
 
-                                <template v-slot:item='{item}'>
-                                    <v-row align="center" justify="center">
-                                        <v-col cols="12" sm="3">
-                                            <img width="35" height="35" class="img-circle" :src="`/files/${item.image!== null?item.image:'user_all.png'}`"/>
-                                        </v-col>
-                                        <!-- <v-spacer></v-spacer> -->
-                                        <v-col cols="12" sm="6" class="mx-1">
-                                            <h4 v-html='`${item.name} ${item.wage_salary}`'/>
-                                        </v-col>
-                                    </v-row>
+                                        <template v-slot:item='{item}'>
+                                            <v-row align="center" justify="center">
+                                                <v-col cols="12" sm="3">
+                                                    <img width="35" height="35" class="img-circle" :src="`/files/${item.image!== null?item.image:'user_all.png'}`"/>
+                                                </v-col>
+                                                <!-- <v-spacer></v-spacer> -->
+                                                <v-col cols="12" sm="6" class="mx-1">
+                                                    <h4 v-html='`${item.name} ${item.wage_salary}`'/>
+                                                </v-col>
+                                            </v-row>
 
-                                </template>
-                            </v-autocomplete>
+                                        </template>
+                                    </v-autocomplete>
+
+                            </div>
+                            <div v-if="this.employee.roles.length > 0" class="col-12 d-block">
+                                <h4 class="text-left">Roles</h4>
+                                <table class="table table-sm">
+                                    <tbody>
+                                        <tr>
+                                            <th>Titles</th>
+                                            <td>
+                                                <h6 v-for="role in this.employee.roles" :key="role.id">
+                                                    {{`${role.display_name}`.toLowerCase()}}
+                                                </h6>
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div v-if="this.workerSalary !== null" class="col-12 d-block">
+                                <h4 class="text-left">Salary Summary</h4>
+                                <table class="table table-sm">
+                                    <tbody>
+                                        <tr>
+                                            <th>Salary</th>
+                                            <td>
+                                                <h6>
+                                                    {{workerSalary.wage_salary | currency}}
+                                                </h6>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Balance</th>
+                                            <td>
+                                                <h6>
+                                                    {{workerSalary.wage_balance | currency}}
+                                                </h6>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Advance Pay</th>
+                                            <td>
+                                                <h6>
+                                                    {{workerSalary.wage_upfront | currency}}
+                                                </h6>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Advance Loan</th>
+                                            <td>
+                                                <h6>
+                                                    {{workerSalary.wage_loan | currency}}
+                                                </h6>
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="form-group col-12 d-block">
+                                <label>Employee Wage</label>
+                                <input class="form-control col-12" v-model="formatWageAmount" disabled/>
+                            </div>
+                            <div>
+                                <v-select
+                                label="Salary Payment Type"
+                                v-model="payType"
+                                class="ml-3 mr-12 ligth-blue-text text--darken-3"
+                                :items="['Normal','Advance','Loan']"
+                                attach clearable
+                                hint="Please select Salary Payment type"
+                                ></v-select>
+                            </div>
+
+                            <div class="form-group col-12 d-block">
+                                <v-text-field label="Pay" :rules="payRules" id="wagePaid"  v-model="formatPaymentAmount"></v-text-field>
+                                <small v-if="errEmployee.includes('Please Select Employee!')" class="text-danger col-12">
+                                        {{errEmployee}}
+                                    </small>
+                                    <small v-else class="text-success col-12">
+                                        {{errEmployee}}
+                                    </small>
+                            </div>
+                            <div class="form-group col-12 d-block" v-if="payType==='Normal'">
+                                <label>Salary Balance</label>
+                                <input class="form-control col-12" v-model="formatBalanceAmount" disabled/>
+                            </div>
+                            <div class="col-12 d-block" v-if="payType === 'Advance'">
+                                <v-text-field :disabled="true" label="Salary Advance" v-model="formatPaymentAdvanceAmount"></v-text-field>
+
+                            </div>
+                            <div class="col-12 d-block" v-if="payType === 'Loan'">
+                                <v-text-field :disabled="true" label="Salary Loan" v-model="formatPaymentLoanAmount"></v-text-field>
+                            </div>
 
                     </div>
-                    <div v-if="this.employee.roles.length > 0" class="col-12 d-block">
-                        <h4 class="text-left">Roles</h4>
-                        <table class="table table-sm">
-                            <tbody>
-                                <tr>
-                                    <th>Titles</th>
-                                    <td>
-                                        <h6 v-for="role in this.employee.roles" :key="role.id">
-                                            {{`${role.display_name}`.toLowerCase()}}
-                                        </h6>
-                                    </td>
-                                </tr>
-
-                            </tbody>
-                        </table>
-                    </div>
-                    <div v-if="this.workerSalary !== null" class="col-12 d-block">
-                        <h4 class="text-left">Salary Summary</h4>
-                        <table class="table table-sm">
-                            <tbody>
-                                <tr>
-                                    <th>Salary</th>
-                                    <td>
-                                        <h6>
-                                            {{workerSalary.wage_salary | currency}}
-                                        </h6>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>Balance</th>
-                                    <td>
-                                        <h6>
-                                            {{workerSalary.wage_balance | currency}}
-                                        </h6>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>Advance Pay</th>
-                                    <td>
-                                        <h6>
-                                            {{workerSalary.wage_upfront | currency}}
-                                        </h6>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>Advance Loan</th>
-                                    <td>
-                                        <h6>
-                                            {{workerSalary.wage_loan | currency}}
-                                        </h6>
-                                    </td>
-                                </tr>
-
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="form-group col-12 d-block">
-                        <label>Employee Wage</label>
-                        <input class="form-control col-12" v-model="formatWageAmount" disabled/>
-                    </div>
-                    <div>
-                        <v-select
-                        label="Salary Payment Type"
-                        v-model="payType"
-                        class="ml-3 mr-12 ligth-blue-text text--darken-3"
-                        :items="['Normal','Advance','Loan']"
-                        attach clearable
-                        hint="Please select Salary Payment type"
-                        ></v-select>
-                    </div>
-
-                    <div class="form-group col-12 d-block">
-                        <v-text-field label="Pay" :rules="payRules" id="wagePaid"  v-model="formatPaymentAmount"></v-text-field>
-                        <small v-if="errEmployee.includes('Please Select Employee!')" class="text-danger col-12">
-                                {{errEmployee}}
-                            </small>
-                            <small v-else class="text-success col-12">
-                                {{errEmployee}}
-                            </small>
-                    </div>
-                    <div class="form-group col-12 d-block" v-if="payType==='Normal'">
-                        <label>Salary Balance</label>
-                        <input class="form-control col-12" v-model="formatBalanceAmount" disabled/>
-                    </div>
-                    <div class="col-12 d-block" v-if="payType === 'Advance'">
-                        <v-text-field :disabled="true" label="Salary Advance" v-model="formatPaymentAdvanceAmount"></v-text-field>
-
-                    </div>
-                    <div class="col-12 d-block" v-if="payType === 'Loan'">
-                        <v-text-field :disabled="true" label="Salary Loan" v-model="formatPaymentLoanAmount"></v-text-field>
-                    </div>
-
-            </div>
-            </transition>
-
+                </transition>
+            </v-sheet>
         </div>
-        <div class="col-md-3 bg-warning p-2  mx-auto">
-            <h3 class="m-2">Items' Summary</h3>
-        </div>
-
         <div class="col-12 my-2">
-                <div class="row col-md-8 mx-auto">
+                <div class="row col-12 mx-auto blue-grey lighten-3">
                     <div class="form-group col-sm-6 d-block">
+                        <label for="">Term Spending</label>
                         <select id="term" class="form-control col" v-model="term" :class="termSelection">
                             <option value="">Select Term</option>
                             <option v-for="i in terms" v-bind:key="i.id" :value="i.id">{{i.name}}</option>
@@ -224,8 +235,9 @@
                         </small>
                     </div>
                     <div class="form-group col-sm-6 d-block float-right">
+                        <label for="">Account Spending</label>
                         <select id="account" class="form-control col" :class="accountSelection"  v-model="account">
-                            <option value="">Select Category</option>
+                            <option value="">Select Account</option>
                             <option v-for="acc in accounts" v-bind:key="acc.id">{{acc.name}}</option>
                         </select>
                         <small v-if="errAccount.includes('account') && bothSelected" class="text-danger col-12">

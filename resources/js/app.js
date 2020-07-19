@@ -132,7 +132,17 @@ Vue.component('comment-component',require('./components/common/Comments.vue').de
 // EmployeeSalary
 Vue.component('employee-salary',require('./components/headmaster/Salarys.vue').default);
 Vue.component('upload-files', require('./components/common/UploadFiles.vue').default);
+// tasks
+Vue.component('task-calendar', require('./components/tasks/TaskCalendar.vue').default);
 
+Vue.component('make-payment', require('./components/payments/MakePayment.vue').default);
+Vue.component('view-payments', require('./components/payments/ViewPayments.vue').default);
+Vue.component('view-expenses', require('./components/expenses/ViewExpenses.vue').default);
+Vue.component('payments-overview', require('./components/income/PaymentsView.vue').default);
+
+import VueTextareaAutosize from 'vue-textarea-autosize'
+
+Vue.use(VueTextareaAutosize)
 
 import VueChatScroll from 'vue-chat-scroll';
 // import { not } from 'vuelidate/lib/validators';
