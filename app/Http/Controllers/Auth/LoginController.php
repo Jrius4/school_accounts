@@ -152,10 +152,23 @@ class LoginController extends Controller
     public function logout(Request $request)
     {
         $user = Auth::user();
-        $user->tokens->each(function($token,$key){
-            $token->delete();
-        });
-        $user->update(['api_token'=>null]);
+        $student = AUth::guard('students')->user();
+
+        if($user!==null){
+
+            $user->tokens->each(function($token,$key){
+                $token->delete();
+            });
+            $user->update(['api_token'=>null]);
+        }
+        else if ($student !==null){
+            $student->tokens->each(function($token,$key){
+                $token->delete();
+            });
+            $student->update(['api_token'=>null]);
+        }
+
+
 
         $this->guard()->logout();
 

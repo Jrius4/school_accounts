@@ -5,14 +5,13 @@ namespace App\Http\Controllers;
 use App\Expense;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 
 class ExpenseReportController extends Controller
 {
     public function indexDetailed(Request $request)
     {
-        // dump($request->all());
-
         $query = $request->query('query');
         $rowsPerPage = $request->query('rowsPerPage')!=null?$request->query('rowsPerPage'):10;
         if($request->query('rowsPerPage')==-1)$rowsPerPage = Expense::count();
@@ -51,15 +50,15 @@ class ExpenseReportController extends Controller
             GROUP BY expense_day, week_of_the_month, month_of_the_year, year;
             ');
         }
-        else if($queryType == 'daily_types')
+        else if($queryType == 'daily_by_group')
         {
             $expenses = DB::select('
-            SELECT COUNT(*) AS no_expenses, SUM(expenseTotal) AS total_amount,paymentType ,
+            SELECT COUNT(*) AS no_expenses, SUM(expenseTotal) AS total_amount,expensetype ,
             DATE(created_at) AS expense_day,
             FLOOR((DAY(created_at)-1)/7 + 1) AS week_of_the_month,
             MONTHNAME(created_at) AS "month_of_the_year", YEAR(created_at) AS year
             FROM expenses
-            GROUP BY paymentType,expense_day, week_of_the_month, month_of_the_year, year;
+            GROUP BY expensetype,expense_day, week_of_the_month, month_of_the_year, year;
             ');
         }
 
@@ -73,14 +72,14 @@ class ExpenseReportController extends Controller
             GROUP BY week_of_the_month, month_of_the_year, year;
             ');
         }
-        else if($queryType == 'weekly_types')
+        else if($queryType == 'weekly_by_group')
         {
             $expenses = DB::select('
-            SELECT COUNT(*) AS no_expenses, SUM(expenseTotal) AS total_amount,paymentType,
+            SELECT COUNT(*) AS no_expenses, SUM(expenseTotal) AS total_amount,expensetype,
             FLOOR((DAY(created_at)-1)/7 + 1) AS week_of_the_month,
             MONTHNAME(created_at) AS "month_of_the_year", YEAR(created_at) AS year
             FROM expenses
-            GROUP BY paymentType, week_of_the_month, month_of_the_year, year;
+            GROUP BY expensetype, week_of_the_month, month_of_the_year, year;
             ');
         }
 
@@ -93,13 +92,13 @@ class ExpenseReportController extends Controller
             GROUP BY month_of_the_year, year;
             ');
         }
-        else if($queryType == 'monthly_types')
+        else if($queryType == 'monthly_by_group')
         {
             $expenses = DB::select('
-            SELECT COUNT(*) AS no_expenses, SUM(expenseTotal) AS total_amount,paymentType,
+            SELECT COUNT(*) AS no_expenses, SUM(expenseTotal) AS total_amount,expensetype,
             MONTHNAME(created_at) AS "month_of_the_year", YEAR(created_at) AS year
             FROM expenses
-            GROUP BY paymentType, month_of_the_year, year;
+            GROUP BY expensetype, month_of_the_year, year;
             ');
         }
 
@@ -112,21 +111,23 @@ class ExpenseReportController extends Controller
             GROUP BY year;
             ');
         }
-        else if($queryType == 'yearly_types')
+        else if($queryType == 'yearly_by_group')
         {
             $expenses = DB::select('
-            SELECT COUNT(*) AS no_expenses, SUM(expenseTotal) AS total_amount,paymentType,
+            SELECT COUNT(*) AS no_expenses, SUM(expenseTotal) AS total_amount,expensetype,
             YEAR(created_at) AS year
             FROM expenses
-            GROUP BY paymentType, year;
+            GROUP BY expensetype, year;
             ');
         }
-        else if($queryType == 'types')
+        else if($queryType == 'groups')
         {
             $expenses = DB::select('
-            SELECT COUNT(*) AS no_expenses, SUM(expenseTotal) AS total_amount,paymentType
+            SELECT COUNT(*) AS no_expenses,
+            SUM(expenseTotal) AS total_amount,
+            expensetype
             FROM expenses
-            GROUP BY paymentType;
+            GROUP BY expensetype;
             ');
         }
         else if($queryType == 'all')
@@ -136,115 +137,55 @@ class ExpenseReportController extends Controller
             FROM expenses;
             ');
         }
-        else if($queryType == 'interval')
-        {
-            $start = $request->query('start')!==null?$request->query('start'):null;
-            $end = $request->query('end')!==null?$request->query('end'):null;
-            $expenses = DB::select('
-            SELECT  COUNT(*) AS no_expenses, SUM(expenseTotal) AS total_amount FROM expenses A
-            where CAST(A.created_at AS DATE) BETWEEN CAST("'.$date->parse($start)->format('Y-m-d').'" AS DATE) AND CAST("'.$date->parse($end)->format('Y-m-d').'" AS DATE)
-            ;');
-        }
-        else if($queryType == 'interval_types')
-        {
-            $start = $request->query('start')!==null?$request->query('start'):null;
-            $end = $request->query('end')!==null?$request->query('end'):null;
-            $expenses = DB::select('
-            SELECT  COUNT(*) AS no_expenses, SUM(expenseTotal) AS total_amount,paymentType FROM expenses A
-            where CAST(A.created_at AS DATE) BETWEEN CAST("'.$date->parse($start)->format('Y-m-d').'" AS DATE)
-            AND CAST("'.$date->parse($end)->format('Y-m-d').'" AS DATE)
-            GROUP BY paymentType
-            ;');
-        }
 
-        else if($queryType == 'income_statement_daily')
-        {
-            $expenses = DB::select('
-                SELECT SUM(A.expenseTotal) as total_payment_amount,
-                SUM(B.expenseTotal) as total_expense_amount,
-                (SUM(A.expenseTotal) - SUM(B.expenseTotal)) as grand_difference,
-                DATE(A.created_at) as creation_date
-                FROM schools.expenses AS A INNER JOIN schools.expenses AS B
-                ON DATE(A.created_at) = DATE(B.created_at)
-                GROUP BY creation_date;
-            ');
+        else if ($queryType == 'interval'){
+            $start = $request->query('start');
+            $end = $request->query('end');
+
+            $startDate = $date->parse($start)->format('Y-m-d');
+            $endDate = $date->parse($end)->format('Y-m-d');
+            $expenses = DB::select("
+            SELECT COUNT(*) AS no_expenses,
+            '".$startDate."_".$endDate."' AS p_period,SUM(ex.expenseTotal) AS total_amount
+            FROM expenses AS ex WHERE ex.created_at
+            BETWEEN DATE('".$startDate."') AND DATE('".$endDate."') GROUP BY p_period;
+            ");
 
         }
-        else if($queryType == 'income_statement_weekly')
+        else if($queryType == 'interval_by_group')
         {
-            $expenses = DB::select('
-            SELECT SUM(A.expenseTotal) as total_payment_amount,
-            SUM(B.expenseTotal) as total_expense_amount,
-            (SUM(A.expenseTotal) - SUM(B.expenseTotal)) as grand_difference,
-            FLOOR((DAY(A.created_at)-1)/7 + 1) AS month_week,
-            MONTHNAME(A.created_at) as creation_month,
-            YEAR(A.created_at) as creation_year
-            FROM schools.expenses AS A INNER JOIN schools.expenses AS B
-            ON
-            FLOOR((DAY(A.created_at)-1)/7 + 1) = FLOOR((DAY(B.created_at)-1)/7 + 1)
-            &&
-            MONTHNAME(A.created_at) = MONTHNAME(B.created_at)
-            && YEAR(A.created_at) = YEAR(B.created_at)
-            GROUP BY month_week,creation_month,creation_year;
-            ');
+            $start = $request->query('start');
+            $end = $request->query('end');
 
-        }
-        else if($queryType == 'income_statement_monthly')
-        {
-            $expenses = DB::select('
-            SELECT SUM(A.expenseTotal) as total_payment_amount,
-            SUM(B.expenseTotal) as total_expense_amount,
-            (SUM(A.expenseTotal) - SUM(B.expenseTotal)) as grand_difference,
-            MONTHNAME(A.created_at) as creation_month,
-            YEAR(A.created_at) as creation_year
-            FROM schools.expenses AS A INNER JOIN schools.expenses AS B
-            ON MONTHNAME(A.created_at) = MONTHNAME(B.created_at)
-            && YEAR(A.created_at) = YEAR(B.created_at)
-            GROUP BY creation_month,creation_year;
-            ');
-
-        }
-        else if($queryType == 'income_statement_yearly')
-        {
-            $expenses = DB::select('
-            SELECT SUM(A.expenseTotal) as total_payment_amount,
-            SUM(B.expenseTotal) as total_expense_amount,
-            (SUM(A.expenseTotal) - SUM(B.expenseTotal)) as grand_difference,
-            YEAR(A.created_at) as creation_year
-            FROM schools.expenses AS A INNER JOIN schools.expenses AS B
-            ON YEAR(A.created_at) = YEAR(B.created_at)
-            GROUP BY creation_year;
-            ');
-
-        }
-        else if($queryType == 'income_statement_interval')
-        {
-            $start = $request->query('start')!==null?$request->query('start'):null;
-            $end = $request->query('end')!==null?$request->query('end'):null;
-            $expenses = DB::select('
-                SELECT SUM(A.expenseTotal) as total_payment_amount,
-                SUM(B.expenseTotal) as total_expense_amount,
-                (SUM(A.expenseTotal) - SUM(B.expenseTotal)) as grand_difference,
-                CAST(A.created_at AS DATE) as creation_date
-                FROM schools.expenses AS A INNER JOIN schools.expenses AS B
-                ON CAST(A.created_at AS DATE) = CAST(B.created_at AS DATE)
-                where CAST(A.created_at AS DATE) BETWEEN CAST("'.$date->parse($start)->format('Y-m-d').'" AS DATE)
-                AND CAST("'.$date->parse($end)->format('Y-m-d').'" AS DATE)
-                GROUP BY CAST(A.created_at AS DATE),CAST(B.created_at AS DATE);
-            ');
+            $startDate = $date->parse($start)->format('Y-m-d');
+            $endDate = $date->parse($end)->format('Y-m-d');
+            $expenses = DB::select("
+            SELECT expensetype, COUNT(*) AS no_expenses,
+            '".$startDate."_".$endDate."' AS p_period,SUM(ex.expenseTotal) AS total_amount
+            FROM expenses AS ex WHERE ex.created_at
+            BETWEEN DATE('".$startDate."') AND DATE('".$endDate."') GROUP BY expensetype,p_period;
+            ");
         }
 
         $total = count($expenses);
-        $page = $request->page != null?$request->page:1;
-        $perPage = $request->perPage != null?$request->perPage:5;
-        $expenses = collect($expenses)->forPage($page,$perPage);
+        $page = $request->query('page') != null?$request->query('page'):1;
+        $rowsPerPage = $request->query('rowsPerPage') != null?$request->query('rowsPerPage'):5;
+        $offset = ($page * $rowsPerPage) - $rowsPerPage;
+        $payments = new LengthAwarePaginator(array_slice($expenses,$offset,$rowsPerPage,false),
+        $total,$rowsPerPage,$page,['path'=>$request->url(),
+        'query'=>$request->query()
+        ]);
 
 
 
 
 
 
-        return response()->json(compact('expenses','perPage','page','total'));
+        return response()->json(compact('payments','queryType'));
+    }
+    public function overviewPayments()
+    {
+        return view('fianance.payments.overview-expenses');
     }
 
 

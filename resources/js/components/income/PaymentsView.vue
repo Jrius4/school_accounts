@@ -6,7 +6,7 @@
                     <v-col cols="12">
                         <base-material-card
                             icon="mdi-finance"
-                            title="Payments"
+                            title="Payments Overview"
                             color="indigo darken-3"
                             class="px-5 py-3 elevation-4"
                         >
@@ -49,30 +49,36 @@
                                                     </v-btn>
                                                     </template>
                                                     <v-list>
-                                                    <v-list-item @click="typeSelected('daily')">
-                                                        <v-list-item-title>Daily</v-list-item-title>
-                                                    </v-list-item>
-                                                    <v-list-item @click="typeSelected('daily_by_group')">
-                                                        <v-list-item-title>Daily By Groups</v-list-item-title>
-                                                    </v-list-item>
-                                                    <v-list-item @click="typeSelected('weekly')">
-                                                        <v-list-item-title>Weekly</v-list-item-title>
-                                                    </v-list-item>
-                                                    <v-list-item @click="typeSelected('weekly_by_group')">
-                                                        <v-list-item-title>Weekly By Groups</v-list-item-title>
-                                                    </v-list-item>
-                                                    <v-list-item @click="typeSelected('monthly')">
-                                                        <v-list-item-title>Monthly</v-list-item-title>
-                                                    </v-list-item>
-                                                    <v-list-item @click="typeSelected('monthly_by_group')">
-                                                        <v-list-item-title>Monthly By Groups</v-list-item-title>
-                                                    </v-list-item>
-                                                    <v-list-item @click="typeSelected('yearly')">
-                                                        <v-list-item-title>Yearly</v-list-item-title>
-                                                    </v-list-item>
-                                                    <v-list-item @click="typeSelected('yearly_by_group')">
-                                                        <v-list-item-title>Yearly By Groups</v-list-item-title>
-                                                    </v-list-item>
+                                                        <v-list-item @click="typeSelected('daily')">
+                                                            <v-list-item-title>Daily</v-list-item-title>
+                                                        </v-list-item>
+                                                        <v-list-item @click="typeSelected('daily_by_group')">
+                                                            <v-list-item-title>Daily By Groups</v-list-item-title>
+                                                        </v-list-item>
+                                                        <v-list-item @click="typeSelected('weekly')">
+                                                            <v-list-item-title>Weekly</v-list-item-title>
+                                                        </v-list-item>
+                                                        <v-list-item @click="typeSelected('weekly_by_group')">
+                                                            <v-list-item-title>Weekly By Groups</v-list-item-title>
+                                                        </v-list-item>
+                                                        <v-list-item @click="typeSelected('monthly')">
+                                                            <v-list-item-title>Monthly</v-list-item-title>
+                                                        </v-list-item>
+                                                        <v-list-item @click="typeSelected('monthly_by_group')">
+                                                            <v-list-item-title>Monthly By Groups</v-list-item-title>
+                                                        </v-list-item>
+                                                        <v-list-item @click="typeSelected('yearly')">
+                                                            <v-list-item-title>Yearly</v-list-item-title>
+                                                        </v-list-item>
+                                                        <v-list-item @click="typeSelected('yearly_by_group')">
+                                                            <v-list-item-title>Yearly By Groups</v-list-item-title>
+                                                        </v-list-item>
+                                                        <v-list-item @click="typeSelected('interval')">
+                                                            <v-list-item-title>By Interval</v-list-item-title>
+                                                        </v-list-item>
+                                                        <v-list-item @click="typeSelected('interval_by_group')">
+                                                            <v-list-item-title>By Interval Groups</v-list-item-title>
+                                                        </v-list-item>
                                                     </v-list>
                                                 </v-menu>
 
@@ -119,6 +125,29 @@
                         </base-material-card>
                     </v-col>
                 </v-row>
+                <v-row>
+                    <v-col cols="12" md="12">
+                        <echart-bar-graph categorial="true"
+                        heading="Payments Line Graph"
+                        :sourceInput="sourceInput"/>
+                    </v-col>
+                </v-row>
+
+
+                <v-dialog v-model="inputStartEnd" max-width="500">
+                    <v-card>
+                        <v-container>
+                            <v-form @submit.prevent="sendStartEnd">
+                                <v-text-field v-model="startDate" required type="date" label="start (required)"></v-text-field>
+                                <v-text-field v-model="endDate" required type="date" label="end (required)"></v-text-field>
+                                <v-btn type="submit" dark color="teal" class="mr-4" @click.stop="inputStartEnd = false">
+                                    Submit Interval
+                                </v-btn>
+                            </v-form>
+                        </v-container>
+                    </v-card>
+                </v-dialog>
+
             </v-container>
         </v-content>
     </v-app>
@@ -150,7 +179,12 @@ import {mapState} from 'vuex';
             yearly: 'Yearly',
             yearly_by_group: 'Yearly By Group',
             day: 'Day',
+            interval: 'Interval',
+            interval_by_group: 'By Interval Group',
             },
+            startDate:'',
+            endDate:'',
+            inputStartEnd:false,
 
         }),
         computed:{
@@ -158,32 +192,40 @@ import {mapState} from 'vuex';
                 payments:state=>state.payments,
                 paymentPagination:state=>state.paymentPagination.page,
                 totalpayments:state=>state.totalpayments,
-                paymentSortRowsBy:state=>state.paymentSortRowsBy,
                 queryType:state=>state.queryType,
             }),
+            sourceInput(){
+                let data = [];
+                data.push(['amount','date']);
+
+                setTimeout(()=>{
+                    data.push(this.payments);
+                },5000)
+                return data;
+            },
             headersPay(){
 
                 if(this.queryType === 'daily')
                 {
                     return [
-                    {text:'COUNT',align:'left',sortable:true,value:'no_payments'},
-                    {text:'TOTAL AMOUNT',align:'left',sortable:true,value:'total_amount'},
-                    {text:'DATE',align:'left',sortable:true,value:'paid_day'},
-                    {text:'WEEK OF THE MONTH',align:'left',sortable:true,value:'week_of_the_month'},
-                    {text:'MONTH OF THE YEAR',align:'left',sortable:true,value:'month_of_the_year'},
-                    {text:'YEAR',align:'left',sortable:true,value:'year'},
+                    {text:'COUNT',align:'left',sortable:false,value:'no_payments'},
+                    {text:'TOTAL AMOUNT',align:'left',sortable:false,value:'total_amount'},
+                    {text:'DATE',align:'left',sortable:false,value:'paid_day'},
+                    {text:'WEEK OF THE MONTH',align:'left',sortable:false,value:'week_of_the_month'},
+                    {text:'MONTH OF THE YEAR',align:'left',sortable:false,value:'month_of_the_year'},
+                    {text:'YEAR',align:'left',sortable:false,value:'year'},
                 ]
                 }
 
                 else if(this.queryType === 'daily_by_group')
                 {
                     return [
-                    {text:'COUNT',align:'left',sortable:true,value:'no_payments'},
-                    {text:'TOTAL AMOUNT',align:'left',sortable:true,value:'total_amount'},
-                    {text:'DATE',align:'left',sortable:true,value:'paid_day'},
-                    {text:'WEEK OF THE MONTH',align:'left',sortable:true,value:'week_of_the_month'},
-                    {text:'MONTH OF THE YEAR',align:'left',sortable:true,value:'month_of_the_year'},
-                    {text:'YEAR',align:'left',sortable:true,value:'year'},
+                    {text:'COUNT',align:'left',sortable:false,value:'no_payments'},
+                    {text:'TOTAL AMOUNT',align:'left',sortable:false,value:'total_amount'},
+                    {text:'DATE',align:'left',sortable:false,value:'paid_day'},
+                    {text:'WEEK OF THE MONTH',align:'left',sortable:false,value:'week_of_the_month'},
+                    {text:'MONTH OF THE YEAR',align:'left',sortable:false,value:'month_of_the_year'},
+                    {text:'YEAR',align:'left',sortable:false,value:'year'},
                 ]
 
                 }
@@ -191,24 +233,24 @@ import {mapState} from 'vuex';
                 if(this.queryType === 'weekly')
                 {
                     return [
-                    {text:'COUNT',align:'left',sortable:true,value:'no_payments'},
-                    {text:'TOTAL AMOUNT',align:'left',sortable:true,value:'total_amount'},
-                    {text:'DATE',align:'left',sortable:true,value:'paid_day'},
-                    {text:'WEEK OF THE MONTH',align:'left',sortable:true,value:'week_of_the_month'},
-                    {text:'MONTH OF THE YEAR',align:'left',sortable:true,value:'month_of_the_year'},
-                    {text:'YEAR',align:'left',sortable:true,value:'year'},
+                    {text:'COUNT',align:'left',sortable:false,value:'no_payments'},
+                    {text:'TOTAL AMOUNT',align:'left',sortable:false,value:'total_amount'},
+                    {text:'DATE',align:'left',sortable:false,value:'paid_day'},
+                    {text:'WEEK OF THE MONTH',align:'left',sortable:false,value:'week_of_the_month'},
+                    {text:'MONTH OF THE YEAR',align:'left',sortable:false,value:'month_of_the_year'},
+                    {text:'YEAR',align:'left',sortable:false,value:'year'},
                 ]
                 }
 
                 else if(this.queryType === 'weekly_by_group')
                 {
                     return [
-                    {text:'COUNT',align:'left',sortable:true,value:'no_payments'},
-                    {text:'TOTAL AMOUNT',align:'left',sortable:true,value:'total_amount'},
-                    {text:'DATE',align:'left',sortable:true,value:'paid_day'},
-                    {text:'WEEK OF THE MONTH',align:'left',sortable:true,value:'week_of_the_month'},
-                    {text:'MONTH OF THE YEAR',align:'left',sortable:true,value:'month_of_the_year'},
-                    {text:'YEAR',align:'left',sortable:true,value:'year'},
+                    {text:'COUNT',align:'left',sortable:false,value:'no_payments'},
+                    {text:'TOTAL AMOUNT',align:'left',sortable:false,value:'total_amount'},
+                    {text:'Group',align:'left',sortable:false,value:'paymentType'},
+                    {text:'WEEK OF THE MONTH',align:'left',sortable:false,value:'week_of_the_month'},
+                    {text:'MONTH OF THE YEAR',align:'left',sortable:false,value:'month_of_the_year'},
+                    {text:'YEAR',align:'left',sortable:false,value:'year'},
                 ]
 
                 }
@@ -216,27 +258,67 @@ import {mapState} from 'vuex';
                 if(this.queryType === 'monthly')
                 {
                     return [
-                    {text:'COUNT',align:'left',sortable:true,value:'no_payments'},
-                    {text:'TOTAL AMOUNT',align:'left',sortable:true,value:'total_amount'},
-                    {text:'DATE',align:'left',sortable:true,value:'paid_day'},
-                    {text:'WEEK OF THE MONTH',align:'left',sortable:true,value:'week_of_the_month'},
-                    {text:'MONTH OF THE YEAR',align:'left',sortable:true,value:'month_of_the_year'},
-                    {text:'YEAR',align:'left',sortable:true,value:'year'},
+                    {text:'COUNT',align:'left',sortable:false,value:'no_payments'},
+                    {text:'TOTAL AMOUNT',align:'left',sortable:false,value:'total_amount'},
+                    {text:'DATE',align:'left',sortable:false,value:'paid_day'},
+                    {text:'WEEK OF THE MONTH',align:'left',sortable:false,value:'week_of_the_month'},
+                    {text:'MONTH OF THE YEAR',align:'left',sortable:false,value:'month_of_the_year'},
+                    {text:'YEAR',align:'left',sortable:false,value:'year'},
                 ]
                 }
 
                 else if(this.queryType === 'monthly_by_group')
                 {
                     return [
-                    {text:'COUNT',align:'left',sortable:true,value:'no_payments'},
-                    {text:'TOTAL AMOUNT',align:'left',sortable:true,value:'total_amount'},
-                    {text:'DATE',align:'left',sortable:true,value:'paid_day'},
-                    {text:'WEEK OF THE MONTH',align:'left',sortable:true,value:'week_of_the_month'},
-                    {text:'MONTH OF THE YEAR',align:'left',sortable:true,value:'month_of_the_year'},
-                    {text:'YEAR',align:'left',sortable:true,value:'year'},
+                            {text:'COUNT',align:'left',sortable:false,value:'no_payments'},
+                            {text:'TOTAL AMOUNT',align:'left',sortable:false,value:'total_amount'},
+                            {text:'Group',align:'left',sortable:false,value:'paymentType'},
+                            {text:'MONTH OF THE YEAR',align:'left',sortable:false,value:'month_of_the_year'},
+                            {text:'YEAR',align:'left',sortable:false,value:'year'},
+                        ]
+
+                }
+
+                else if(this.queryType === 'yearly')
+                {
+                    return [
+                    {text:'COUNT',align:'left',sortable:false,value:'no_payments'},
+                    {text:'TOTAL AMOUNT',align:'left',sortable:false,value:'total_amount'},
+                    {text:'YEAR',align:'left',sortable:false,value:'year'},
+                ]
+                }
+
+                else if(this.queryType === 'yearly_by_group')
+                {
+                    return [
+                    {text:'COUNT',align:'left',sortable:false,value:'no_payments'},
+                    {text:'Group',align:'left',sortable:false,value:'paymentType'},
+                    {text:'TOTAL AMOUNT',align:'left',sortable:false,value:'total_amount'},
+                    {text:'YEAR',align:'left',sortable:false,value:'year'},
                 ]
 
                 }
+                else if(this.queryType === 'interval')
+                {
+                    return [
+                    {text:'COUNT',align:'left',sortable:false,value:'no_payments'},
+                    {text:'TOTAL AMOUNT',align:'left',sortable:false,value:'total_amount'},
+                    {text:'Interval',align:'left',sortable:false,value:'p_period'},
+                ]
+
+                }
+                else if(this.queryType === 'interval_by_group')
+                {
+                    return [
+                        {text:'COUNT',align:'left',sortable:false,value:'no_payments'},
+                        {text:'Group',align:'left',sortable:false,value:'paymentType'},
+                        {text:'TOTAL AMOUNT',align:'left',sortable:false,value:'total_amount'},
+                        {text:'Interval',align:'left',sortable:false,value:'p_period'},
+                    ]
+
+                }
+
+
 
 
             },
@@ -258,10 +340,14 @@ import {mapState} from 'vuex';
                                         rowsPerPage:itemsPerPage,
                                         sortDesc:sortDesc[0],
                                         queryType:this.type,
+                                        start:this.startDate,
+                                        end:this.endDate,
                                      }
 
                         this.$store.dispatch('GET_PAYMENTS_INCOME_ACTION',pagination).finally(()=>{
                             this.loadingPay = false;
+                            this.startDate = '';
+                                        this.endDate = '';
                         });
                     }
                     else if(search.length > 0){
@@ -275,10 +361,14 @@ import {mapState} from 'vuex';
                                             rowsPerPage:itemsPerPage,
                                             sortDesc:sortDesc[0],
                                             queryType:this.type,
+                                            start:this.startDate,
+                                            end:this.endDate,
                                         }
 
                                     this.$store.dispatch('GET_PAYMENTS_INCOME_ACTION',pagination).finally(()=>{
-                                        this.loadingAcc = false;
+                                        this.loadingPay = false;
+                                        this.startDate = '';
+                                        this.endDate = '';
                                     });
 
                         }
@@ -292,10 +382,14 @@ import {mapState} from 'vuex';
                                             rowsPerPage:itemsPerPage,
                                             sortDesc:sortDesc[0],
                                             queryType:this.type,
+                                            start:this.startDate,
+                                            end:this.endDate,
                                         }
 
                                     this.$store.dispatch('GET_PAYMENTS_INCOME_ACTION',pagination).finally(()=>{
-                                        this.loadingAcc = false;
+                                        this.loadingPay = false;
+                                        this.startDate = '';
+                                        this.endDate = '';
                                     });
 
                         }
@@ -303,9 +397,17 @@ import {mapState} from 'vuex';
 
                 });
             },
+            sendStartEnd(){
+                this.getPayments();
+            },
             typeSelected(val){
                 this.type = val;
-                this.getPayments();
+                if(val === 'interval' || val === 'interval_by_group'){
+                    this.inputStartEnd = true;
+                }
+                else{
+                    this.getPayments();
+                }
             },
             refreshPayments(){
                 this.searchPay = "";

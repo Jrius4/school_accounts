@@ -43,13 +43,13 @@
         </ul>
     </li>
 
-<li class="nav-header">Income Statements</li>
+<li class="nav-header"> <i class="nav-icon fas fa-balance-scale-right"></i> Income Statements</li>
 
 <li class="nav-item has-treeview">
     <a href="#" class="nav-link">
-        <i class="nav-icon fas fa-users"></i>
+        <i class="nav-icon fas fa-balance-scale-right"></i>
         <p>
-            Payments
+            Financial Reports
             <i class="right fas fa-angle-left"></i>
         </p>
     </a>
@@ -58,7 +58,19 @@
         <li class="nav-item">
             <a href="{{route('overview-payments')}}" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
+                <p>Payments</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{{route('overview-expenses')}}" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
                 <p>Expenses</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{{route('overview-payments-and-expenses')}}" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Overview</p>
             </a>
         </li>
     </ul>

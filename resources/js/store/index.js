@@ -4,6 +4,8 @@ import Axios from "axios";
 import PrefsModule from "./preferences";
 import NavModule from "../components/cities/navigation";
 import ExpenseNavModule from "../components/burser/expenses/navigation";
+import incomeStatementsModule from './incomeStatements';
+import makePaymentsModule from "./makePayments";
 
 const citiesUrl = "/api/vue-cities";
 
@@ -29,7 +31,9 @@ export default new Vuex.Store({
     modules:{
         prefs:PrefsModule,
         nav:NavModule,
-        expNav:ExpenseNavModule
+        expNav:ExpenseNavModule,
+        makePaymentsModule,
+        incomeStatementsModule
     },
     state:{
         cities:[],
@@ -336,10 +340,17 @@ export default new Vuex.Store({
         },
 
         GET_PAYMENTS_INCOME(currentState,payload){
-            currentState.payments = payload.payments;
-            currentState.paymentPagination.page = parseInt(payload.page);
-            currentState.paymentPagination.rowsPerPage =parseInt(payload.rowsPerPage);
-            currentState.totalpayments = parseInt(payload.total);
+            currentState.payments = payload.payments.data;
+            currentState.paymentPagination.page = parseInt(payload.payments.current_page);
+            currentState.paymentPagination.rowsPerPage =parseInt(payload.payments.per_page);
+            currentState.totalpayments = parseInt(payload.payments.total);
+            currentState.queryType = payload.queryType;
+        },
+        GET_EXPENSES_INCOME(currentState,payload){
+            currentState.payments = payload.payments.data;
+            currentState.paymentPagination.page = parseInt(payload.payments.current_page);
+            currentState.paymentPagination.rowsPerPage =parseInt(payload.payments.per_page);
+            currentState.totalpayments = parseInt(payload.payments.total);
             currentState.queryType = payload.queryType;
         },
         // payments end
@@ -382,36 +393,13 @@ export default new Vuex.Store({
 
     },
     actions:{
-        // sendMessageAction:function(context,message){
-        //     Vue.prototype.$socket.send(message)
-        // },
         async getCitiesAction(context){
             (await Axios.get(citiesUrl)).data.data.forEach(
             // (await this.restDataSource.getCities()).forEach(
                 c=>context.commit("saveCity",c)
             );
         },
-        /**
-         * async getSeachedItemsAction(context,keywords){
-            return new Promise((resolve,reject)=>{
-                Axios.get('/api/search-student',{
-                    headers:{
-                        Authorization: "Bearer "+context.state.token
-                    },
-                    params:{
-                        keywords
-                    }
-                }).then(response=>{
-                    let items = response.data.data
-                    context.commit('getSearchedItems',items);
-                    resolve(items);
-                }).catch(err=>
-                    reject(err))
 
-            });
-        },
-         *
-        */
 
 
         async getUserAction(context){
@@ -513,38 +501,6 @@ export default new Vuex.Store({
             context.commit("saveNewExpenseItem",item);
 
         },
-        /**
-        async saveExpenseItemAction(context,item){
-            let index = context.state.expenseItems.findIndex(i=>i.name == item.name);
-            let total;
-            console.log(index)
-            if (index == -1) {
-                item = ((await Axios.post('/api/make-expenses',item,{
-                        headers:{
-                            Authorization: "Bearer "+context.state.token
-                        }
-                    })).data)
-
-                    total = item.totalItems;
-                    item = item.expenseItems;
-                    context.commit('getExpenseTotal',total)
-
-            } else {
-                item = ((await Axios.put(`/api/make-expenses/${item.id}`,item,{
-                        headers:{
-                            Authorization: "Bearer "+context.state.token
-                        }
-                    })).data)
-
-                    total = item.totalItems;
-                    item = item.expenseItems;
-                    context.commit('getExpenseTotal',total)
-
-
-            }
-            context.commit("saveNewExpenseItem",item,total);
-        },
-        */
         async getExpenseItemAction(context){
             Axios.get('/api/make-expenses',{
                 headers:{
@@ -1055,14 +1011,16 @@ export default new Vuex.Store({
         // expense
         // payments-view
         async GET_PAYMENTS_INCOME_ACTION(context,payload){
+            console.log({payload})
             if(context.getters.loggedIn){
                 return new Promise((resolve,reject)=>{
                     let query = payload.val || "";
                     let page = payload.page || "";
-                    let sortRowsBy = payload.sortRowsBy || "id";
                     let rowsPerPage = payload.rowsPerPage || 5;
                     let sortDesc = payload.sortDesc || '';
                     let queryType = payload.queryType || '';
+                    let start = payload.start || '';
+                    let end = payload.end || '';
 
 
                     let url = `/api/overview-payments`;
@@ -1074,15 +1032,58 @@ export default new Vuex.Store({
                             query,
                             rowsPerPage,
                             page,
-                            sortRowsBy,
                             sortDesc,
                             queryType,
+                            start,
+                            end,
+                        }
+                    }).then(
+                        response =>{
+                            console.log({response})
+                            const payments = response.data;
+                            context.commit('GET_PAYMENTS_INCOME',payments);
+                            resolve(payments);
+                        }
+                    ).catch((err)=>{
+                        console.log(err);
+                        reject(err);
+                    })
+
+                });
+            }
+            else{
+                console.log('not loggedIn')
+            }
+        },
+        async GET_EXPENSES_INCOME_ACTION(context,payload){
+            if(context.getters.loggedIn){
+                return new Promise((resolve,reject)=>{
+                    let page = payload.page || "";
+                    let rowsPerPage = payload.rowsPerPage || 5;
+                    let sortDesc = payload.sortDesc || '';
+                    let queryType = payload.queryType || '';
+                    let start = payload.start || '';
+                    let end = payload.end || '';
+
+
+                    let url = `/api/overview-expenses`;
+                    Axios.get(url,{
+                        headers:{
+                            Authorization: "Bearer "+context.state.token
+                        },
+                        params:{
+                            rowsPerPage,
+                            page,
+                            sortDesc,
+                            queryType,
+                            start,
+                            end,
                         }
                     }).then(
                         response =>{
                             const payments = response.data;
-                            Object.assign(payments,{sortRowsBy});
-                            context.commit('GET_PAYMENTS_INCOME',payments);
+
+                            context.commit('GET_EXPENSES_INCOME',payments);
                             resolve(payments);
                         }
                     ).catch((err)=>{

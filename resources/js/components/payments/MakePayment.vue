@@ -65,7 +65,7 @@
                             </template>
                         </v-autocomplete>
                     </v-col>
-                    <v-col cols="12" xl="7" lg="7" md="7" v-if="student !== ''">
+                    <v-col cols="12" xl="7" lg="7" md="7" v-if="student !== null">
                         <table class="table table-sm">
                             <thead>
                                 <tr>
@@ -96,7 +96,7 @@
                             </tbody>
                         </table>
                     </v-col>
-                    <v-col cols="12" xl="7" lg="7" md="7" v-if="student === ''">
+                    <v-col cols="12" xl="7" lg="7" md="7" v-if="student === null">
 
                         <v-text-field
                         v-model="studentName"
@@ -255,6 +255,20 @@
                                                     </v-btn>
                                                 </td>
                                             </tr>
+                                            <tr v-if="activePayments.length>0">
+                                                <td>
+                                                   Active Total
+                                                </td>
+                                                <td>
+                                                    {{this.fullAmount | currency}}
+                                                </td>
+                                                <td>
+                                                   Active Balance
+                                                </td>
+                                                <td>
+                                                    {{this.activeBalance | currency}}
+                                                </td>
+                                            </tr>
                                             <tr v-if="activePayments.length === 0">
                                                 <th colspan="2">No Payment</th>
                                             </tr>
@@ -266,26 +280,49 @@
                     </v-col>
                 </v-row>
                 <v-row flat>
-                    <v-col cols="12">
+                    <v-col cols="12" sm="6">
+                        <v-select label="Term"
+                        :item-text="textTerm"
+                        :menu-props="{ bottom: true, offsetY: true }"
+                        :items="[{id:1,name:'Term I'},{id:2,name:'Term II'},{id:3,name:'Term III'}]"
+                        v-model="term_id"
+                        v-on:change="textTermChange()"
+                        >
+                        </v-select>
+                    </v-col>
+                    <v-col cols="12" sm="6">
                         <v-text-field
-                        v-model="paidBy"
+                        v-model="paid_by"
                         label="Paid By"
                         ></v-text-field>
+                    </v-col>
+                </v-row>
+                <v-row flat>
+                    <v-col cols="12" sm="6">
                         <v-text-field
-                        v-model="balance"
+                        v-model="activeBalanceFormat"
+                        disabled
+                        label="Computed Balance"
+                        ></v-text-field>
+                        <v-text-field
+                        v-model="balanceFormat"
                         label="Amount Balance"
                         ></v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="6">
                         <v-textarea
-                         cols="6" rows="6"
+                         cols="6" rows="3"
                         v-model="description"
                         label="Description"
                         ></v-textarea>
                     </v-col>
+                </v-row>
+                <v-row flat>
                     <v-col cols="12">
-                        <v-btn small dark color="teal darken-3" class="btn-block" @click="savePayment">
+                        <v-btn small dark color="teal darken-3" class="btn-block" @click="makePayment">
                             Save
                         </v-btn>
-                        <v-btn small dark color="grey darken-3" class="btn-block" @click="cancelPayment">
+                        <v-btn small dark color="grey darken-3" class="btn-block" @click="cancelMakePayment">
                             Cancel
                         </v-btn>
                     </v-col>
@@ -301,9 +338,10 @@ export default {
     name:'MakePayment',
     data:()=>({
         paymentType:'Student',
-        student:'',
+        student:null,
         stLoading:false,
         payingStudent:null,
+        student_id:null,
         studentSearch:'',
         studentFound:false,
         studentSelected:null,
@@ -324,9 +362,15 @@ export default {
         amountDeposit:'',
         amountBalance:'',
         activePayments:[],
-        paidBy:"",
+        term_id:"",
+        termSelected:null,
+        termSelection:null,
+        paid_by:"",
         balance:"",
         description:"",
+        fullAmount:0,
+        activeBalance:0,
+
     }),
     methods:{
         getAccounts(){
@@ -392,11 +436,13 @@ export default {
         loadPayment(){
             let index =  this.activePayments.findIndex(c=>c.account_name === this.accountSelected.account_name);
             if(index == -1){
+
                 this.activePayments.push({
                     account_name:this.accountSelected.account_name,
                     deposited:this.amountDeposit,
                     balance:this.amountBalance,
                 });
+
             }
             else{
                 Vue.set( this.activePayments,index,{
@@ -404,7 +450,14 @@ export default {
                         deposited:this.amountDeposit,
                         balance:this.amountBalance,
                     });
+
             }
+            this.fullAmount = 0;
+            this.activeBalance = 0;
+            this.activePayments.forEach(item=>{
+                this.fullAmount+=item.deposited;
+                this.activeBalance+=item.balance;
+            });
         },
         getStudents(){
             let pagination={
@@ -437,9 +490,23 @@ export default {
                 this.studentSelected = null;
             }
         },
+        textTerm(item){
+            this.termSelected = item;
+
+            return item.name;
+        },
+        textTermChange(){
+           this.termSelection = this.termSelected;
+            if(!this.term_id){
+                this.term = "";
+                this.termSelection = null;
+                this.termSelected = null;
+            }
+        },
+
         remove(){
             this.studentSelection = null;
-            this.student = '';
+            this.student = null;
         },
         refreshAcc(){
             this.searchAcc = "";
@@ -455,6 +522,7 @@ export default {
             this.amountDeposit = 0;
             this.amountBalance = 0;
         },
+
         formatAsCurrency(value,dec){
             dec = dec || 0;
             if (value === null){
@@ -466,11 +534,7 @@ export default {
         },
         savePayment(){
             this.loadPayment();
-            // this.activePayments.push({
-            //     account_name:this.accountSelected.account_name,
-            //     deposited:this.amountDeposit,
-            //     balance:this.amountBalance,
-            // });
+
             this.accStep = 1;
             this.accountSelected=null;
             this.amountDeposit = 0;
@@ -479,17 +543,67 @@ export default {
         removePayment(item){
             let index = this.activePayments.findIndex(
                 c=>c.account_name === item.account_name);
+
             this.activePayments.splice(index,1);
+            this.fullAmount -= item.deposited;
             this.accStep = 1;
             this.accountSelected=null;
             this.amountDeposit = 0;
             this.amountBalance = 0;
+            this.fullAmount = 0;
+            this.activeBalance = 0;
+            this.activePayments.forEach(item=>{
+                this.fullAmount+=item.deposited;
+                this.activeBalance+=item.balance;
+            });
         },
         cancelPayment(){
             this.accStep = 1;
             this.accountSelected=null;
             this.amountDeposit = 0;
             this.amountBalance = 0;
+        },
+        makePayment(){
+            this.term_id = this.termSelection?this.termSelection.id : '';
+            this.student_id = this.studentSelection?this.studentSelection.id : '';
+            let balance = this.activeBalance + this.balance;
+            let formData = {
+                    term_id:this.term_id || '',
+                    paymentType:this.paymentType || '',
+                    paidItems:this.activePayments || [],
+                    fullAmount:this.fullAmount || '',
+                    balance:balance || 0,
+                    description:this.description || '',
+                    student_id:this.student_id || '',
+                    paid_by:this.paid_by || '',
+                }
+            this.$store.dispatch('makePaymentsModule/MAKE_PAYMENTS_ACTION',formData).finally(()=>{
+                this.term_id = null;
+                this.paymentType = 'Student';
+                this.activePayments = [];
+                this.balance = 0;
+                this.activeBalance = 0;
+                this.fullAmount = 0;
+                this.student_id = '';
+                this.paid_by = '';
+                this.description = '';
+                this.student = null;
+                this.studentSelection = null;
+            })
+        },
+        cancelMakePayment(){
+                this.term_id = null;
+                 this.student = null;
+                this.studentSelection = null;
+
+                this.paymentType = 'Student';
+                this.activePayments = [];
+                this.balance = 0;
+                this.activeBalance = 0;
+                this.fullAmount = 0;
+                this.student_id = '';
+                this.paid_by = '';
+                this.description = '';
         }
     },
     computed:{
@@ -510,6 +624,26 @@ export default {
                 this.amountDeposit = Number(newValue.replace(/[^0-9\.]/g,''));
             }
        },
+       activeBalanceFormat:{
+                get:function(){
+                                if(this.activeBalance !== null){
+                                    return this.formatAsCurrency(this.activeBalance,0);
+                                }
+                            },
+                set:function(newValue){
+                    this.activeBalance = Number(newValue.replace(/[^0-9\.]/g,''));
+                }
+        },
+        balanceFormat:{
+            get:function(){
+                                if(this.balance !== null){
+                                    return this.formatAsCurrency(this.balance,0);
+                                }
+                            },
+            set:function(newValue){
+                this.balance = Number(newValue.replace(/[^0-9\.]/g,''));
+            }
+        },
        amountBalanceFormat:{
            get:function(){
                 if(this.amountBalance !== null){

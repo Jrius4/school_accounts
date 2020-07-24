@@ -159,6 +159,8 @@ Route::middleware('auth:api')->group(function () {
         Route::get('expense-details','ExpenseReportController@indexDetailed');
 
         Route::get('overview-payments','PaymentReportController@overviewReport');
+        Route::get('overview-expenses','ExpenseReportController@overviewReport');
+        Route::post('make-payment','API\MakePaymentsController@storePayment');
 });
 
 Route::get('details','PaymentReportController@listOutcomes');

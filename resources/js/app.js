@@ -139,6 +139,8 @@ Vue.component('make-payment', require('./components/payments/MakePayment.vue').d
 Vue.component('view-payments', require('./components/payments/ViewPayments.vue').default);
 Vue.component('view-expenses', require('./components/expenses/ViewExpenses.vue').default);
 Vue.component('payments-overview', require('./components/income/PaymentsView.vue').default);
+Vue.component('expenses-overview', require('./components/income/ExpensesView.vue').default);
+Vue.component('overview-reports', require('./components/income/Overview.vue').default);
 
 import VueTextareaAutosize from 'vue-textarea-autosize'
 
@@ -226,9 +228,10 @@ function makeNotificationText(notification) {
 }
 **/
 import vuetify from './plugins/vuetify';
-import './plugins/base'
-import './plugins/chartist'
-import './plugins/vee-validate'
+import './plugins/base';
+import './plugins/echarts';
+import './plugins/chartist';
+import './plugins/vee-validate';
 
 export default new Vue({
     router,

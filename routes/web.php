@@ -310,6 +310,8 @@ Route::group(['middleware'=>'auth'],function(){
     Route::get('view-payments','API\PaymentsController@viewPayments')->name('view-payments');
     Route::get('view-expenses','API\PaymentsController@viewExpenses')->name('view-expenses');
     Route::get('overview-payments','PaymentReportController@overviewPayments')->name('overview-payments');
+    Route::get('overview-expenses','ExpenseReportController@overviewPayments')->name('overview-expenses');
+    Route::get('overview-payments-and-expenses','PaymentReportController@overview')->name('overview-payments-and-expenses');
 
 });
 
