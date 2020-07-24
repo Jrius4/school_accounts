@@ -33,7 +33,7 @@
                                     <h3>{{fee.account_name}}</h3>
                                 </td>
                                 <td class="unit">{{fee.balance | currency}}</td>
-                                <td class="total" colspan="2">{{fee.paid | currency}}</td>
+                                <td class="total" colspan="2">{{fee.deposited | currency}}</td>
                             </tr>
                         </tbody>
                         <tfoot>
