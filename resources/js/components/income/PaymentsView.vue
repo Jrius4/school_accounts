@@ -14,8 +14,7 @@
                                 <v-window-item :value="1">
                                     <v-data-table
                                     dense
-                                    :search="searchPay"
-                                    item-key="paid_day" :headers="headersPay"
+                                    :search="searchPay" :headers="headersPay"
                                     :items="payments"
                                     sort-by="paid_day" class="mr-2"
                                     :loading="loadingPay"
@@ -208,25 +207,20 @@ import {mapState} from 'vuex';
                 if(this.queryType === 'daily')
                 {
                     return [
-                    {text:'COUNT',align:'left',sortable:false,value:'no_payments'},
-                    {text:'TOTAL AMOUNT',align:'left',sortable:false,value:'total_amount'},
-                    {text:'DATE',align:'left',sortable:false,value:'paid_day'},
-                    {text:'WEEK OF THE MONTH',align:'left',sortable:false,value:'week_of_the_month'},
-                    {text:'MONTH OF THE YEAR',align:'left',sortable:false,value:'month_of_the_year'},
-                    {text:'YEAR',align:'left',sortable:false,value:'year'},
-                ]
+                        {text:'COUNT',align:'left',sortable:false,value:'no_payments'},
+                        {text:'TOTAL AMOUNT',align:'left',sortable:false,value:'total_amount'},
+                        {text:'DATE',align:'left',sortable:false,value:'paid_day'}
+                    ]
                 }
 
                 else if(this.queryType === 'daily_by_group')
                 {
                     return [
-                    {text:'COUNT',align:'left',sortable:false,value:'no_payments'},
-                    {text:'TOTAL AMOUNT',align:'left',sortable:false,value:'total_amount'},
-                    {text:'DATE',align:'left',sortable:false,value:'paid_day'},
-                    {text:'WEEK OF THE MONTH',align:'left',sortable:false,value:'week_of_the_month'},
-                    {text:'MONTH OF THE YEAR',align:'left',sortable:false,value:'month_of_the_year'},
-                    {text:'YEAR',align:'left',sortable:false,value:'year'},
-                ]
+                        {text:'COUNT',align:'left',sortable:false,value:'no_payments'},
+                        {text:'TOTAL AMOUNT',align:'left',sortable:false,value:'total_amount'},
+                        {text:'DATE',align:'left',sortable:false,value:'paid_day'},
+                        {text:'Group',align:'left',sortable:false,value:'paymentType'},
+                    ]
 
                 }
 
@@ -235,7 +229,6 @@ import {mapState} from 'vuex';
                     return [
                     {text:'COUNT',align:'left',sortable:false,value:'no_payments'},
                     {text:'TOTAL AMOUNT',align:'left',sortable:false,value:'total_amount'},
-                    {text:'DATE',align:'left',sortable:false,value:'paid_day'},
                     {text:'WEEK OF THE MONTH',align:'left',sortable:false,value:'week_of_the_month'},
                     {text:'MONTH OF THE YEAR',align:'left',sortable:false,value:'month_of_the_year'},
                     {text:'YEAR',align:'left',sortable:false,value:'year'},
@@ -245,26 +238,24 @@ import {mapState} from 'vuex';
                 else if(this.queryType === 'weekly_by_group')
                 {
                     return [
-                    {text:'COUNT',align:'left',sortable:false,value:'no_payments'},
-                    {text:'TOTAL AMOUNT',align:'left',sortable:false,value:'total_amount'},
-                    {text:'Group',align:'left',sortable:false,value:'paymentType'},
-                    {text:'WEEK OF THE MONTH',align:'left',sortable:false,value:'week_of_the_month'},
-                    {text:'MONTH OF THE YEAR',align:'left',sortable:false,value:'month_of_the_year'},
-                    {text:'YEAR',align:'left',sortable:false,value:'year'},
-                ]
+                        {text:'COUNT',align:'left',sortable:false,value:'no_payments'},
+                        {text:'TOTAL AMOUNT',align:'left',sortable:false,value:'total_amount'},
+                        {text:'Group',align:'left',sortable:false,value:'paymentType'},
+                        {text:'WEEK OF THE MONTH',align:'left',sortable:false,value:'week_of_the_month'},
+                        {text:'MONTH OF THE YEAR',align:'left',sortable:false,value:'month_of_the_year'},
+                        {text:'YEAR',align:'left',sortable:false,value:'year'},
+                    ]
 
                 }
 
                 if(this.queryType === 'monthly')
                 {
                     return [
-                    {text:'COUNT',align:'left',sortable:false,value:'no_payments'},
-                    {text:'TOTAL AMOUNT',align:'left',sortable:false,value:'total_amount'},
-                    {text:'DATE',align:'left',sortable:false,value:'paid_day'},
-                    {text:'WEEK OF THE MONTH',align:'left',sortable:false,value:'week_of_the_month'},
-                    {text:'MONTH OF THE YEAR',align:'left',sortable:false,value:'month_of_the_year'},
-                    {text:'YEAR',align:'left',sortable:false,value:'year'},
-                ]
+                        {text:'COUNT',align:'left',sortable:false,value:'no_payments'},
+                        {text:'TOTAL AMOUNT',align:'left',sortable:false,value:'total_amount'},
+                        {text:'MONTH OF THE YEAR',align:'left',sortable:false,value:'month_of_the_year'},
+                        {text:'YEAR',align:'left',sortable:false,value:'year'},
+                    ]
                 }
 
                 else if(this.queryType === 'monthly_by_group')
@@ -291,11 +282,11 @@ import {mapState} from 'vuex';
                 else if(this.queryType === 'yearly_by_group')
                 {
                     return [
-                    {text:'COUNT',align:'left',sortable:false,value:'no_payments'},
-                    {text:'Group',align:'left',sortable:false,value:'paymentType'},
-                    {text:'TOTAL AMOUNT',align:'left',sortable:false,value:'total_amount'},
-                    {text:'YEAR',align:'left',sortable:false,value:'year'},
-                ]
+                        {text:'COUNT',align:'left',sortable:false,value:'no_payments'},
+                        {text:'Group',align:'left',sortable:false,value:'paymentType'},
+                        {text:'TOTAL AMOUNT',align:'left',sortable:false,value:'total_amount'},
+                        {text:'YEAR',align:'left',sortable:false,value:'year'},
+                    ]
 
                 }
                 else if(this.queryType === 'interval')

@@ -45,21 +45,16 @@ class PaymentReportController extends Controller
         {
             $payments = DB::select('
                 SELECT COUNT(*) AS no_payments, SUM(fullAmount) AS total_amount ,
-                DATE(created_at) AS paid_day,
-                FLOOR((DAY(created_at)-1)/7 + 1) AS week_of_the_month,
-                MONTHNAME(created_at) AS "month_of_the_year", YEAR(created_at) AS year
-                FROM payments GROUP BY paid_day,week_of_the_month,month_of_the_year,year;
+                DATE(created_at) AS paid_day
+                FROM payments GROUP BY paid_day ORDER BY paid_day;
             ');
         }
         else if($queryType == 'daily_by_group')
         {
             $payments = DB::select('
                 SELECT COUNT(*) AS no_payments, SUM(fullAmount) AS total_amount,paymentType ,
-                DATE(created_at) AS paid_day,
-                FLOOR((DAY(created_at)-1)/7 + 1) AS week_of_the_month,
-                MONTHNAME(created_at) AS "month_of_the_year", YEAR(created_at) AS year
-                FROM payments GROUP BY paymentType,paid_day,week_of_the_month,
-                month_of_the_year,year;
+                DATE(created_at) AS paid_day
+                FROM payments GROUP BY paid_day,paymentType ORDER BY paid_day,paymentType;
             ');
         }
 
@@ -68,9 +63,10 @@ class PaymentReportController extends Controller
             $payments = DB::select('
                 SELECT COUNT(*) AS no_payments, SUM(fullAmount) AS total_amount,
                 FLOOR((DAY(created_at)-1)/7 + 1) AS week_of_the_month,
-                MONTHNAME(created_at) AS "month_of_the_year", YEAR(created_at) AS year
+                MONTHNAME(created_at) AS "month_of_the_year",
+                YEAR(created_at) AS year
                 FROM payments
-                GROUP BY week_of_the_month, month_of_the_year, year;
+                GROUP BY year, month_of_the_year, week_of_the_month ORDER BY year, month_of_the_year, week_of_the_month;
             ');
         }
         else if($queryType == 'weekly_by_group')
@@ -78,9 +74,9 @@ class PaymentReportController extends Controller
             $payments = DB::select('
                 SELECT COUNT(*) AS no_payments, SUM(fullAmount) AS total_amount,paymentType,
                 FLOOR((DAY(created_at)-1)/7 + 1) AS week_of_the_month,
-                MONTHNAME(created_at) AS "month_of_the_year", YEAR(created_at) AS year
+                MONTH(created_at) AS month_of_the_year, YEAR(created_at) AS year
                 FROM payments
-                GROUP BY paymentType, week_of_the_month, month_of_the_year, year;
+                GROUP BY year, month_of_the_year, week_of_the_month,paymentType ORDER BY year, month_of_the_year, week_of_the_month,paymentType;
             ');
         }
 
@@ -88,19 +84,19 @@ class PaymentReportController extends Controller
         {
             $payments = DB::select('
                 SELECT COUNT(*) AS no_payments, SUM(fullAmount) AS total_amount,
-                MONTHNAME(created_at) AS "month_of_the_year", YEAR(created_at) AS year
+                MONTH(created_at) AS month_of_the_year, YEAR(created_at) AS year
                 FROM payments
-                GROUP BY month_of_the_year, year;
+                GROUP BY year,month_of_the_year ORDER BY year,month_of_the_year;
             ');
         }
         else if($queryType == 'monthly_by_group')
         {
             $payments = DB::select('
                 SELECT COUNT(*) AS no_payments, SUM(fullAmount) AS total_amount,paymentType,
-                MONTHNAME(created_at) AS "month_of_the_year",
+                MONTH(created_at) AS month_of_the_year,
                 YEAR(created_at) AS year
                 FROM payments
-                GROUP BY paymentType, month_of_the_year, year;
+                GROUP BY year,month_of_the_year,paymentType  ORDER BY year,month_of_the_year,paymentType;
             ');
         }
 
@@ -325,6 +321,21 @@ class PaymentReportController extends Controller
         // $income = collect($income)
         // ->forPage($page,$rowsPerPage);
       return response()->json(compact('income','page','rowsPerPage','total','period'));
+    }
+
+    public function graphPayments()
+    {
+        return view('fianance.graphs.payments-graph');
+    }
+
+    public function graphExpenses()
+    {
+        return view('fianance.graphs.expenses-graph');
+    }
+
+    public function graphIncomeStatement()
+    {
+        return view('fianance.graphs.income-statements-graph');
     }
 
 }

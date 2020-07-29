@@ -285,8 +285,8 @@ class IncomeStatementsSeeder extends Seeder
                 'paidItems'=>json_encode([
                     [
                         'account_name'=>'building block c',
-                        'paid'=>'200000',
-                        'balance'=>'0',
+                        'balance'=>'200000',
+                        'deposited'=>'0',
                     ],
                 ]),
                 'balance'=>'0',
@@ -304,18 +304,18 @@ class IncomeStatementsSeeder extends Seeder
                 'paidItems'=>json_encode([
                     [
                         'account_name'=>'school fees',
-                        'paid'=>'190000',
                         'balance'=>'190000',
+                        'deposited'=>'190000',
                     ],
                     [
                         'account_name'=>'sports',
-                        'paid'=>'15000',
                         'balance'=>'15000',
+                        'deposited'=>'15000',
                     ],
                     [
                         'account_name'=>'development fees',
-                        'paid'=>'10000',
-                        'balance'=>'20000',
+                        'balance'=>'10000',
+                        'deposited'=>'20000',
                     ],
 
                 ]),
@@ -334,18 +334,18 @@ class IncomeStatementsSeeder extends Seeder
                 'paidItems'=>json_encode([
                     [
                         'account_name'=>'school fees',
-                        'paid'=>'190000',
                         'balance'=>'190000',
+                        'deposited'=>'190000',
                     ],
                     [
                         'account_name'=>'sports',
-                        'paid'=>'15000',
                         'balance'=>'15000',
+                        'deposited'=>'15000',
                     ],
                     [
                         'account_name'=>'development fees',
-                        'paid'=>'10000',
-                        'balance'=>'20000',
+                        'balance'=>'10000',
+                        'deposited'=>'20000',
                     ],
 
                 ]),
@@ -364,8 +364,8 @@ class IncomeStatementsSeeder extends Seeder
                 'paidItems'=>json_encode([
                     [
                         'account_name'=>'school fees',
-                        'paid'=>'190000',
                         'balance'=>'190000',
+                        'deposited'=>'190000',
                     ],
                 ]),
                 'balance'=>'250000',
@@ -384,7 +384,7 @@ class IncomeStatementsSeeder extends Seeder
                 'paidItems'=>json_encode([
                     [
                         'account_name'=>'building block c',
-                        'paid'=>'200000',
+                        'deposited'=>'200000',
                         'balance'=>'0',
                     ],
                 ]),
@@ -403,7 +403,7 @@ class IncomeStatementsSeeder extends Seeder
                 'paidItems'=>json_encode([
                     [
                         'account_name'=>'building block c',
-                        'paid'=>'450000',
+                        'deposited'=>'450000',
                         'balance'=>'0',
                     ],
                 ]),
@@ -422,12 +422,12 @@ class IncomeStatementsSeeder extends Seeder
                 'paidItems'=>json_encode([
                     [
                         'account_name'=>'students',
-                        'paid'=>'190000',
+                        'deposited'=>'190000',
                         'balance'=>'190000',
                     ],
                     [
                         'account_name'=>'sports',
-                        'paid'=>'14000',
+                        'deposited'=>'14000',
                         'balance'=>'16000',
                     ],
                 ]),

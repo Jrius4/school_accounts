@@ -141,6 +141,9 @@ Vue.component('view-expenses', require('./components/expenses/ViewExpenses.vue')
 Vue.component('payments-overview', require('./components/income/PaymentsView.vue').default);
 Vue.component('expenses-overview', require('./components/income/ExpensesView.vue').default);
 Vue.component('overview-reports', require('./components/income/Overview.vue').default);
+Vue.component('payments-graph', require('./components/financialGraphs/PaymentsGraph.vue').default);
+Vue.component('expenses-graph', require('./components/financialGraphs/ExpensesGraph.vue').default);
+Vue.component('income-statements-graph', require('./components/financialGraphs/IncomeStatementsCharts.vue').default);
 
 import VueTextareaAutosize from 'vue-textarea-autosize'
 

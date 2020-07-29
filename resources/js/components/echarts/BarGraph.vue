@@ -44,9 +44,10 @@ import Echarts from 'vue-echarts';
 import echarts from 'echarts/lib/echarts';
 import 'echarts/lib/chart/bar';
 import 'zrender/lib/svg/svg';
-import 'echarts/lib/theme/dark'
+import 'echarts/lib/theme/dark';
 import qs from 'qs';
 import theme from './theme.json';
+echarts.registerTheme('ovilia-green', theme);
 export default {
     props:['heading','sourceInput','categorial'],
     components:{'v-chart':Echarts},
@@ -65,7 +66,7 @@ export default {
 
     },
     mounted(){
-        echarts.registerTheme('ovilia-green', theme);
+
         console.log(this.sourceInput);
     },
     methods:{
@@ -82,7 +83,9 @@ export default {
                     ]
                 },
                 xAxis: this.categorial === 'true'?{type: 'category'}: {},
-                yAxis: {},
+                yAxis: {
+                    type:'value'
+                },
                 series:[
                     {type:'bar'},
                     {type:'bar'},
@@ -97,23 +100,23 @@ export default {
             });
         },
         refresh () {
-      // simulating async data from server
-      this.seconds = 3
-      const bar = this.$refs.bar
-      bar.showLoading({
-        text: 'Loading…',
-        color: '#4ea397',
-        maskColor: 'rgba(255, 255, 255, 0.4)'
-      });
-      const timer = setInterval(() => {
-        this.seconds--
-        if (this.seconds === 0) {
-          clearTimeout(timer)
-          bar.hideLoading()
-          this.bar = this.getData()
-        }
-      }, 1000)
-    },
+            // simulating async data from server
+            this.seconds = 3
+            const bar = this.$refs.bar
+            bar.showLoading({
+                text: 'Loading…',
+                color: '#4ea397',
+                maskColor: 'rgba(255, 255, 255, 0.4)'
+            });
+            const timer = setInterval(() => {
+                this.seconds--
+                if (this.seconds === 0) {
+                clearTimeout(timer)
+                bar.hideLoading()
+                this.bar = this.getData()
+                }
+            }, 1000)
+        },
     toggleRenderer () {
       if (this.initOptions.renderer === 'canvas') {
         this.initOptions.renderer = 'svg'

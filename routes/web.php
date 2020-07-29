@@ -313,6 +313,10 @@ Route::group(['middleware'=>'auth'],function(){
     Route::get('overview-expenses','ExpenseReportController@overviewPayments')->name('overview-expenses');
     Route::get('overview-payments-and-expenses','PaymentReportController@overview')->name('overview-payments-and-expenses');
 
+    Route::get('graph-payments','PaymentReportController@graphPayments')->name('graph-payments');
+    Route::get('graph-expenses','ExpenseReportController@graphExpenses')->name('graph-expenses');
+    Route::get('graph-payments-and-expenses','PaymentReportController@graphIncomeStatement')->name('graph-payments-and-expenses');
+
 });
 
 Route::get('/test-dashboard',function(){
