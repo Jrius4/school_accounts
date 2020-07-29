@@ -686,3 +686,569 @@ Connection id 480662857.710637336 sending message {"event":"pusher_internal:subs
 Connection id 480662857.710637336 sending message {"event":"pusher_internal:subscription_succeeded","channel":"private-new-notification.9"}
 903424: connection id 480662857.710637336 received message: {"event":"pusher:ping","data":{}}.
 Connection id 480662857.710637336 sending message {"event":"pusher:pong"}
+903424: connection id 480662857.710637336 received message: {"event":"pusher:ping","data":{}}.
+Connection id 480662857.710637336 sending message {"event":"pusher:pong"}
+903424: connection id 480662857.710637336 received message: {"event":"pusher:ping","data":{}}.
+Connection id 480662857.710637336 sending message {"event":"pusher:pong"}
+903424: connection id 480662857.710637336 received message: {"event":"pusher:ping","data":{}}.
+Connection id 480662857.710637336 sending message {"event":"pusher:pong"}
+903424: connection id 480662857.710637336 received message: {"event":"pusher:ping","data":{}}.
+Connection id 480662857.710637336 sending message {"event":"pusher:pong"}
+903424: connection id 480662857.710637336 received message: {"event":"pusher:ping","data":{}}.
+Connection id 480662857.710637336 sending message {"event":"pusher:pong"}
+903424: connection id 480662857.710637336 received message: {"event":"pusher:ping","data":{}}.
+Connection id 480662857.710637336 sending message {"event":"pusher:pong"}
+903424: connection id 480662857.710637336 received message: {"event":"pusher:ping","data":{}}.
+Connection id 480662857.710637336 sending message {"event":"pusher:pong"}
+903424: connection id 480662857.710637336 received message: {"event":"pusher:ping","data":{}}.
+Connection id 480662857.710637336 sending message {"event":"pusher:pong"}
+903424: connection id 480662857.710637336 received message: {"event":"pusher:ping","data":{}}.
+Connection id 480662857.710637336 sending message {"event":"pusher:pong"}
+903424: connection id 480662857.710637336 received message: {"event":"pusher:ping","data":{}}.
+Connection id 480662857.710637336 sending message {"event":"pusher:pong"}
+903424: connection id 480662857.710637336 received message: {"event":"pusher:ping","data":{}}.
+Connection id 480662857.710637336 sending message {"event":"pusher:pong"}
+903424: connection id 480662857.710637336 received message: {"event":"pusher:ping","data":{}}.
+Connection id 480662857.710637336 sending message {"event":"pusher:pong"}
+903424: connection id 480662857.710637336 received message: {"event":"pusher:ping","data":{}}.
+Connection id 480662857.710637336 sending message {"event":"pusher:pong"}
+903424: connection id 480662857.710637336 received message: {"event":"pusher:ping","data":{}}.
+Connection id 480662857.710637336 sending message {"event":"pusher:pong"}
+903424: connection id 480662857.710637336 received message: {"event":"pusher:ping","data":{}}.
+Connection id 480662857.710637336 sending message {"event":"pusher:pong"}
+903424: connection id 480662857.710637336 received message: {"event":"pusher:ping","data":{}}.
+Connection id 480662857.710637336 sending message {"event":"pusher:pong"}
+903424: connection id 480662857.710637336 received message: {"event":"pusher:ping","data":{}}.
+Connection id 480662857.710637336 sending message {"event":"pusher:pong"}
+903424: connection id 480662857.710637336 received message: {"event":"pusher:ping","data":{}}.
+Connection id 480662857.710637336 sending message {"event":"pusher:pong"}
+903424: connection id 480662857.710637336 received message: {"event":"pusher:ping","data":{}}.
+Connection id 480662857.710637336 sending message {"event":"pusher:pong"}
+903424: connection id 480662857.710637336 received message: {"event":"pusher:ping","data":{}}.
+Connection id 480662857.710637336 sending message {"event":"pusher:pong"}
+903424: connection id 480662857.710637336 received message: {"event":"pusher:ping","data":{}}.
+Connection id 480662857.710637336 sending message {"event":"pusher:pong"}
+903424: connection id 480662857.710637336 received message: {"event":"pusher:ping","data":{}}.
+Connection id 480662857.710637336 sending message {"event":"pusher:pong"}
+903424: connection id 480662857.710637336 received message: {"event":"pusher:ping","data":{}}.
+Connection id 480662857.710637336 sending message {"event":"pusher:pong"}
+Connection id 480662857.710637336 closed.
+New connection opened for app key gr8332.
+Connection id 907528656.497035006 sending message {"event":"pusher:connection_established","data":"{\"socket_id\":\"907528656.497035006\",\"activity_timeout\":30}"}
+903424: connection id 907528656.497035006 received message: {"event":"pusher:subscribe","data":{"channel":"home"}}.
+Connection id 907528656.497035006 sending message {"event":"pusher_internal:subscription_succeeded","channel":"home"}
+903424: connection id 907528656.497035006 received message: {"event":"pusher:subscribe","data":{"auth":"gr8332:c5dbcc2f07ad8184edb0452e33efdcb76b0ef71582c4a9dc63975a15526e4012","channel":"private-new-notification.9"}}.
+Connection id 907528656.497035006 sending message {"event":"pusher_internal:subscription_succeeded","channel":"private-new-notification.9"}
+903424: connection id 907528656.497035006 received message: {"event":"pusher:ping","data":{}}.
+Connection id 907528656.497035006 sending message {"event":"pusher:pong"}
+Connection id 907528656.497035006 closed.
+New connection opened for app key gr8332.
+Connection id 340999421.319172655 sending message {"event":"pusher:connection_established","data":"{\"socket_id\":\"340999421.319172655\",\"activity_timeout\":30}"}
+903424: connection id 340999421.319172655 received message: {"event":"pusher:subscribe","data":{"channel":"home"}}.
+Connection id 340999421.319172655 sending message {"event":"pusher_internal:subscription_succeeded","channel":"home"}
+903424: connection id 340999421.319172655 received message: {"event":"pusher:subscribe","data":{"auth":"gr8332:6252f9968bc8a1f542e30a390d5b12bf9f8f2b47657554b4c73c7f8e25660efd","channel":"private-new-notification.9"}}.
+Connection id 340999421.319172655 sending message {"event":"pusher_internal:subscription_succeeded","channel":"private-new-notification.9"}
+903424: connection id 340999421.319172655 received message: {"event":"pusher:ping","data":{}}.
+Connection id 340999421.319172655 sending message {"event":"pusher:pong"}
+903424: connection id 340999421.319172655 received message: {"event":"pusher:ping","data":{}}.
+Connection id 340999421.319172655 sending message {"event":"pusher:pong"}
+903424: connection id 340999421.319172655 received message: {"event":"pusher:ping","data":{}}.
+Connection id 340999421.319172655 sending message {"event":"pusher:pong"}
+903424: connection id 340999421.319172655 received message: {"event":"pusher:ping","data":{}}.
+Connection id 340999421.319172655 sending message {"event":"pusher:pong"}
+903424: connection id 340999421.319172655 received message: {"event":"pusher:ping","data":{}}.
+Connection id 340999421.319172655 sending message {"event":"pusher:pong"}
+903424: connection id 340999421.319172655 received message: {"event":"pusher:ping","data":{}}.
+Connection id 340999421.319172655 sending message {"event":"pusher:pong"}
+903424: connection id 340999421.319172655 received message: {"event":"pusher:ping","data":{}}.
+Connection id 340999421.319172655 sending message {"event":"pusher:pong"}
+903424: connection id 340999421.319172655 received message: {"event":"pusher:ping","data":{}}.
+Connection id 340999421.319172655 sending message {"event":"pusher:pong"}
+903424: connection id 340999421.319172655 received message: {"event":"pusher:ping","data":{}}.
+Connection id 340999421.319172655 sending message {"event":"pusher:pong"}
+903424: connection id 340999421.319172655 received message: {"event":"pusher:ping","data":{}}.
+Connection id 340999421.319172655 sending message {"event":"pusher:pong"}
+903424: connection id 340999421.319172655 received message: {"event":"pusher:ping","data":{}}.
+Connection id 340999421.319172655 sending message {"event":"pusher:pong"}
+903424: connection id 340999421.319172655 received message: {"event":"pusher:ping","data":{}}.
+Connection id 340999421.319172655 sending message {"event":"pusher:pong"}
+903424: connection id 340999421.319172655 received message: {"event":"pusher:ping","data":{}}.
+Connection id 340999421.319172655 sending message {"event":"pusher:pong"}
+903424: connection id 340999421.319172655 received message: {"event":"pusher:ping","data":{}}.
+Connection id 340999421.319172655 sending message {"event":"pusher:pong"}
+903424: connection id 340999421.319172655 received message: {"event":"pusher:ping","data":{}}.
+Connection id 340999421.319172655 sending message {"event":"pusher:pong"}
+903424: connection id 340999421.319172655 received message: {"event":"pusher:ping","data":{}}.
+Connection id 340999421.319172655 sending message {"event":"pusher:pong"}
+903424: connection id 340999421.319172655 received message: {"event":"pusher:ping","data":{}}.
+Connection id 340999421.319172655 sending message {"event":"pusher:pong"}
+903424: connection id 340999421.319172655 received message: {"event":"pusher:ping","data":{}}.
+Connection id 340999421.319172655 sending message {"event":"pusher:pong"}
+903424: connection id 340999421.319172655 received message: {"event":"pusher:ping","data":{}}.
+Connection id 340999421.319172655 sending message {"event":"pusher:pong"}
+903424: connection id 340999421.319172655 received message: {"event":"pusher:ping","data":{}}.
+Connection id 340999421.319172655 sending message {"event":"pusher:pong"}
+903424: connection id 340999421.319172655 received message: {"event":"pusher:ping","data":{}}.
+Connection id 340999421.319172655 sending message {"event":"pusher:pong"}
+903424: connection id 340999421.319172655 received message: {"event":"pusher:ping","data":{}}.
+Connection id 340999421.319172655 sending message {"event":"pusher:pong"}
+Connection id 340999421.319172655 closed.
+New connection opened for app key gr8332.
+Connection id 294124557.224353256 sending message {"event":"pusher:connection_established","data":"{\"socket_id\":\"294124557.224353256\",\"activity_timeout\":30}"}
+903424: connection id 294124557.224353256 received message: {"event":"pusher:subscribe","data":{"channel":"home"}}.
+Connection id 294124557.224353256 sending message {"event":"pusher_internal:subscription_succeeded","channel":"home"}
+903424: connection id 294124557.224353256 received message: {"event":"pusher:subscribe","data":{"auth":"gr8332:3ed40a239c22ca491091000e26b9848c48f96388d0264f0e47aa51080f69e566","channel":"private-new-notification.9"}}.
+Connection id 294124557.224353256 sending message {"event":"pusher_internal:subscription_succeeded","channel":"private-new-notification.9"}
+903424: connection id 294124557.224353256 received message: {"event":"pusher:ping","data":{}}.
+Connection id 294124557.224353256 sending message {"event":"pusher:pong"}
+903424: connection id 294124557.224353256 received message: {"event":"pusher:ping","data":{}}.
+Connection id 294124557.224353256 sending message {"event":"pusher:pong"}
+903424: connection id 294124557.224353256 received message: {"event":"pusher:ping","data":{}}.
+Connection id 294124557.224353256 sending message {"event":"pusher:pong"}
+903424: connection id 294124557.224353256 received message: {"event":"pusher:ping","data":{}}.
+Connection id 294124557.224353256 sending message {"event":"pusher:pong"}
+903424: connection id 294124557.224353256 received message: {"event":"pusher:ping","data":{}}.
+Connection id 294124557.224353256 sending message {"event":"pusher:pong"}
+Connection id 294124557.224353256 closed.
+New connection opened for app key gr8332.
+Connection id 569419700.908971771 sending message {"event":"pusher:connection_established","data":"{\"socket_id\":\"569419700.908971771\",\"activity_timeout\":30}"}
+903424: connection id 569419700.908971771 received message: {"event":"pusher:subscribe","data":{"channel":"home"}}.
+Connection id 569419700.908971771 sending message {"event":"pusher_internal:subscription_succeeded","channel":"home"}
+903424: connection id 569419700.908971771 received message: {"event":"pusher:subscribe","data":{"auth":"gr8332:ec56d99533a9fb23e465409d82dc1d3c62ba38e3c567bdc091f40987742adbd7","channel":"private-new-notification.9"}}.
+Connection id 569419700.908971771 sending message {"event":"pusher_internal:subscription_succeeded","channel":"private-new-notification.9"}
+903424: connection id 569419700.908971771 received message: {"event":"pusher:ping","data":{}}.
+Connection id 569419700.908971771 sending message {"event":"pusher:pong"}
+903424: connection id 569419700.908971771 received message: {"event":"pusher:ping","data":{}}.
+Connection id 569419700.908971771 sending message {"event":"pusher:pong"}
+903424: connection id 569419700.908971771 received message: {"event":"pusher:ping","data":{}}.
+Connection id 569419700.908971771 sending message {"event":"pusher:pong"}
+Connection id 569419700.908971771 closed.
+New connection opened for app key gr8332.
+Connection id 931780080.995758559 sending message {"event":"pusher:connection_established","data":"{\"socket_id\":\"931780080.995758559\",\"activity_timeout\":30}"}
+903424: connection id 931780080.995758559 received message: {"event":"pusher:subscribe","data":{"channel":"home"}}.
+Connection id 931780080.995758559 sending message {"event":"pusher_internal:subscription_succeeded","channel":"home"}
+903424: connection id 931780080.995758559 received message: {"event":"pusher:subscribe","data":{"auth":"gr8332:2a26d2e0faab4db1b9d38f4eaf42e69c1f46383c190c150d536b1e91fcf8456f","channel":"private-new-notification.9"}}.
+Connection id 931780080.995758559 sending message {"event":"pusher_internal:subscription_succeeded","channel":"private-new-notification.9"}
+903424: connection id 931780080.995758559 received message: {"event":"pusher:ping","data":{}}.
+Connection id 931780080.995758559 sending message {"event":"pusher:pong"}
+903424: connection id 931780080.995758559 received message: {"event":"pusher:ping","data":{}}.
+Connection id 931780080.995758559 sending message {"event":"pusher:pong"}
+903424: connection id 931780080.995758559 received message: {"event":"pusher:ping","data":{}}.
+Connection id 931780080.995758559 sending message {"event":"pusher:pong"}
+903424: connection id 931780080.995758559 received message: {"event":"pusher:ping","data":{}}.
+Connection id 931780080.995758559 sending message {"event":"pusher:pong"}
+903424: connection id 931780080.995758559 received message: {"event":"pusher:ping","data":{}}.
+Connection id 931780080.995758559 sending message {"event":"pusher:pong"}
+Connection id 931780080.995758559 closed.
+New connection opened for app key gr8332.
+Connection id 170841288.697449302 sending message {"event":"pusher:connection_established","data":"{\"socket_id\":\"170841288.697449302\",\"activity_timeout\":30}"}
+903424: connection id 170841288.697449302 received message: {"event":"pusher:subscribe","data":{"channel":"home"}}.
+Connection id 170841288.697449302 sending message {"event":"pusher_internal:subscription_succeeded","channel":"home"}
+903424: connection id 170841288.697449302 received message: {"event":"pusher:subscribe","data":{"auth":"gr8332:0c2dd8322aef43c843d4ee7d8114f4d3dfb69964fdc699c56006822aeb608522","channel":"private-new-notification.9"}}.
+Connection id 170841288.697449302 sending message {"event":"pusher_internal:subscription_succeeded","channel":"private-new-notification.9"}
+Connection id 170841288.697449302 closed.
+New connection opened for app key gr8332.
+Connection id 155395127.407246669 sending message {"event":"pusher:connection_established","data":"{\"socket_id\":\"155395127.407246669\",\"activity_timeout\":30}"}
+903424: connection id 155395127.407246669 received message: {"event":"pusher:subscribe","data":{"channel":"home"}}.
+Connection id 155395127.407246669 sending message {"event":"pusher_internal:subscription_succeeded","channel":"home"}
+903424: connection id 155395127.407246669 received message: {"event":"pusher:subscribe","data":{"auth":"gr8332:328f65766f3c3b779a9ea664f5a34b6ea02f4a856a095ee2aba3844ce977774b","channel":"private-new-notification.9"}}.
+Connection id 155395127.407246669 sending message {"event":"pusher_internal:subscription_succeeded","channel":"private-new-notification.9"}
+903424: connection id 155395127.407246669 received message: {"event":"pusher:ping","data":{}}.
+Connection id 155395127.407246669 sending message {"event":"pusher:pong"}
+903424: connection id 155395127.407246669 received message: {"event":"pusher:ping","data":{}}.
+Connection id 155395127.407246669 sending message {"event":"pusher:pong"}
+Connection id 155395127.407246669 closed.
+New connection opened for app key gr8332.
+Connection id 51061536.269051707 sending message {"event":"pusher:connection_established","data":"{\"socket_id\":\"51061536.269051707\",\"activity_timeout\":30}"}
+903424: connection id 51061536.269051707 received message: {"event":"pusher:subscribe","data":{"channel":"home"}}.
+Connection id 51061536.269051707 sending message {"event":"pusher_internal:subscription_succeeded","channel":"home"}
+903424: connection id 51061536.269051707 received message: {"event":"pusher:subscribe","data":{"auth":"gr8332:78c57197e3cecaf30045b08b853d02b88b7b771190211cef92d3a312b45a3fce","channel":"private-new-notification.9"}}.
+Connection id 51061536.269051707 sending message {"event":"pusher_internal:subscription_succeeded","channel":"private-new-notification.9"}
+Connection id 51061536.269051707 closed.
+New connection opened for app key gr8332.
+Connection id 61047179.482348697 sending message {"event":"pusher:connection_established","data":"{\"socket_id\":\"61047179.482348697\",\"activity_timeout\":30}"}
+903424: connection id 61047179.482348697 received message: {"event":"pusher:subscribe","data":{"channel":"home"}}.
+Connection id 61047179.482348697 sending message {"event":"pusher_internal:subscription_succeeded","channel":"home"}
+903424: connection id 61047179.482348697 received message: {"event":"pusher:subscribe","data":{"auth":"gr8332:6a2cdbc8768eb2738b441532c852c0d343ab4649670d9dde22461159719171e4","channel":"private-new-notification.9"}}.
+Connection id 61047179.482348697 sending message {"event":"pusher_internal:subscription_succeeded","channel":"private-new-notification.9"}
+903424: connection id 61047179.482348697 received message: {"event":"pusher:ping","data":{}}.
+Connection id 61047179.482348697 sending message {"event":"pusher:pong"}
+Connection id 61047179.482348697 closed.
+New connection opened for app key gr8332.
+Connection id 125541527.85590054 sending message {"event":"pusher:connection_established","data":"{\"socket_id\":\"125541527.85590054\",\"activity_timeout\":30}"}
+903424: connection id 125541527.85590054 received message: {"event":"pusher:subscribe","data":{"channel":"home"}}.
+Connection id 125541527.85590054 sending message {"event":"pusher_internal:subscription_succeeded","channel":"home"}
+903424: connection id 125541527.85590054 received message: {"event":"pusher:subscribe","data":{"auth":"gr8332:4637db41b86baa465dc718ecf39a1896dcfc8b4a3cd746287077f110284b3742","channel":"private-new-notification.9"}}.
+Connection id 125541527.85590054 sending message {"event":"pusher_internal:subscription_succeeded","channel":"private-new-notification.9"}
+903424: connection id 125541527.85590054 received message: {"event":"pusher:ping","data":{}}.
+Connection id 125541527.85590054 sending message {"event":"pusher:pong"}
+903424: connection id 125541527.85590054 received message: {"event":"pusher:ping","data":{}}.
+Connection id 125541527.85590054 sending message {"event":"pusher:pong"}
+903424: connection id 125541527.85590054 received message: {"event":"pusher:ping","data":{}}.
+Connection id 125541527.85590054 sending message {"event":"pusher:pong"}
+903424: connection id 125541527.85590054 received message: {"event":"pusher:ping","data":{}}.
+Connection id 125541527.85590054 sending message {"event":"pusher:pong"}
+Connection id 125541527.85590054 closed.
+New connection opened for app key gr8332.
+Connection id 909960702.455264532 sending message {"event":"pusher:connection_established","data":"{\"socket_id\":\"909960702.455264532\",\"activity_timeout\":30}"}
+903424: connection id 909960702.455264532 received message: {"event":"pusher:subscribe","data":{"channel":"home"}}.
+Connection id 909960702.455264532 sending message {"event":"pusher_internal:subscription_succeeded","channel":"home"}
+903424: connection id 909960702.455264532 received message: {"event":"pusher:subscribe","data":{"auth":"gr8332:cd1e74f9934cc2811aab684c10ea288c52a31d24e955b1e8b684e9a7c370562c","channel":"private-new-notification.9"}}.
+Connection id 909960702.455264532 sending message {"event":"pusher_internal:subscription_succeeded","channel":"private-new-notification.9"}
+903424: connection id 909960702.455264532 received message: {"event":"pusher:ping","data":{}}.
+Connection id 909960702.455264532 sending message {"event":"pusher:pong"}
+903424: connection id 909960702.455264532 received message: {"event":"pusher:ping","data":{}}.
+Connection id 909960702.455264532 sending message {"event":"pusher:pong"}
+903424: connection id 909960702.455264532 received message: {"event":"pusher:ping","data":{}}.
+Connection id 909960702.455264532 sending message {"event":"pusher:pong"}
+903424: connection id 909960702.455264532 received message: {"event":"pusher:ping","data":{}}.
+Connection id 909960702.455264532 sending message {"event":"pusher:pong"}
+903424: connection id 909960702.455264532 received message: {"event":"pusher:ping","data":{}}.
+Connection id 909960702.455264532 sending message {"event":"pusher:pong"}
+903424: connection id 909960702.455264532 received message: {"event":"pusher:ping","data":{}}.
+Connection id 909960702.455264532 sending message {"event":"pusher:pong"}
+903424: connection id 909960702.455264532 received message: {"event":"pusher:ping","data":{}}.
+Connection id 909960702.455264532 sending message {"event":"pusher:pong"}
+903424: connection id 909960702.455264532 received message: {"event":"pusher:ping","data":{}}.
+Connection id 909960702.455264532 sending message {"event":"pusher:pong"}
+903424: connection id 909960702.455264532 received message: {"event":"pusher:ping","data":{}}.
+Connection id 909960702.455264532 sending message {"event":"pusher:pong"}
+903424: connection id 909960702.455264532 received message: {"event":"pusher:ping","data":{}}.
+Connection id 909960702.455264532 sending message {"event":"pusher:pong"}
+903424: connection id 909960702.455264532 received message: {"event":"pusher:ping","data":{}}.
+Connection id 909960702.455264532 sending message {"event":"pusher:pong"}
+903424: connection id 909960702.455264532 received message: {"event":"pusher:ping","data":{}}.
+Connection id 909960702.455264532 sending message {"event":"pusher:pong"}
+903424: connection id 909960702.455264532 received message: {"event":"pusher:ping","data":{}}.
+Connection id 909960702.455264532 sending message {"event":"pusher:pong"}
+903424: connection id 909960702.455264532 received message: {"event":"pusher:ping","data":{}}.
+Connection id 909960702.455264532 sending message {"event":"pusher:pong"}
+903424: connection id 909960702.455264532 received message: {"event":"pusher:ping","data":{}}.
+Connection id 909960702.455264532 sending message {"event":"pusher:pong"}
+903424: connection id 909960702.455264532 received message: {"event":"pusher:ping","data":{}}.
+Connection id 909960702.455264532 sending message {"event":"pusher:pong"}
+903424: connection id 909960702.455264532 received message: {"event":"pusher:ping","data":{}}.
+Connection id 909960702.455264532 sending message {"event":"pusher:pong"}
+903424: connection id 909960702.455264532 received message: {"event":"pusher:ping","data":{}}.
+Connection id 909960702.455264532 sending message {"event":"pusher:pong"}
+903424: connection id 909960702.455264532 received message: {"event":"pusher:ping","data":{}}.
+Connection id 909960702.455264532 sending message {"event":"pusher:pong"}
+903424: connection id 909960702.455264532 received message: {"event":"pusher:ping","data":{}}.
+Connection id 909960702.455264532 sending message {"event":"pusher:pong"}
+903424: connection id 909960702.455264532 received message: {"event":"pusher:ping","data":{}}.
+Connection id 909960702.455264532 sending message {"event":"pusher:pong"}
+Connection id 909960702.455264532 closed.
+New connection opened for app key gr8332.
+Connection id 204007901.776326633 sending message {"event":"pusher:connection_established","data":"{\"socket_id\":\"204007901.776326633\",\"activity_timeout\":30}"}
+903424: connection id 204007901.776326633 received message: {"event":"pusher:subscribe","data":{"channel":"home"}}.
+Connection id 204007901.776326633 sending message {"event":"pusher_internal:subscription_succeeded","channel":"home"}
+903424: connection id 204007901.776326633 received message: {"event":"pusher:subscribe","data":{"auth":"gr8332:ee8aead170e919bef634920e8f46043652c577c07121daa7c0db1b23e0ef57e7","channel":"private-new-notification.9"}}.
+Connection id 204007901.776326633 sending message {"event":"pusher_internal:subscription_succeeded","channel":"private-new-notification.9"}
+903424: connection id 204007901.776326633 received message: {"event":"pusher:ping","data":{}}.
+Connection id 204007901.776326633 sending message {"event":"pusher:pong"}
+903424: connection id 204007901.776326633 received message: {"event":"pusher:ping","data":{}}.
+Connection id 204007901.776326633 sending message {"event":"pusher:pong"}
+903424: connection id 204007901.776326633 received message: {"event":"pusher:ping","data":{}}.
+Connection id 204007901.776326633 sending message {"event":"pusher:pong"}
+903424: connection id 204007901.776326633 received message: {"event":"pusher:ping","data":{}}.
+Connection id 204007901.776326633 sending message {"event":"pusher:pong"}
+Connection id 204007901.776326633 closed.
+New connection opened for app key gr8332.
+Connection id 809818099.783806292 sending message {"event":"pusher:connection_established","data":"{\"socket_id\":\"809818099.783806292\",\"activity_timeout\":30}"}
+903424: connection id 809818099.783806292 received message: {"event":"pusher:subscribe","data":{"channel":"home"}}.
+Connection id 809818099.783806292 sending message {"event":"pusher_internal:subscription_succeeded","channel":"home"}
+903424: connection id 809818099.783806292 received message: {"event":"pusher:subscribe","data":{"auth":"gr8332:481c438b545c6c04b6c95b797852657cdab6aaf615f2c77f0a49c8c735a5c494","channel":"private-new-notification.9"}}.
+Connection id 809818099.783806292 sending message {"event":"pusher_internal:subscription_succeeded","channel":"private-new-notification.9"}
+903424: connection id 809818099.783806292 received message: {"event":"pusher:ping","data":{}}.
+Connection id 809818099.783806292 sending message {"event":"pusher:pong"}
+903424: connection id 809818099.783806292 received message: {"event":"pusher:ping","data":{}}.
+Connection id 809818099.783806292 sending message {"event":"pusher:pong"}
+Connection id 809818099.783806292 closed.
+New connection opened for app key gr8332.
+Connection id 172095380.786207373 sending message {"event":"pusher:connection_established","data":"{\"socket_id\":\"172095380.786207373\",\"activity_timeout\":30}"}
+903424: connection id 172095380.786207373 received message: {"event":"pusher:subscribe","data":{"channel":"home"}}.
+Connection id 172095380.786207373 sending message {"event":"pusher_internal:subscription_succeeded","channel":"home"}
+903424: connection id 172095380.786207373 received message: {"event":"pusher:subscribe","data":{"auth":"gr8332:28d7d5629b138611b084afc0b3eaa61166a511e121a3df46d2cf043c698e9142","channel":"private-new-notification.9"}}.
+Connection id 172095380.786207373 sending message {"event":"pusher_internal:subscription_succeeded","channel":"private-new-notification.9"}
+903424: connection id 172095380.786207373 received message: {"event":"pusher:ping","data":{}}.
+Connection id 172095380.786207373 sending message {"event":"pusher:pong"}
+Connection id 172095380.786207373 closed.
+New connection opened for app key gr8332.
+Connection id 445967325.806420870 sending message {"event":"pusher:connection_established","data":"{\"socket_id\":\"445967325.806420870\",\"activity_timeout\":30}"}
+903424: connection id 445967325.806420870 received message: {"event":"pusher:subscribe","data":{"channel":"home"}}.
+Connection id 445967325.806420870 sending message {"event":"pusher_internal:subscription_succeeded","channel":"home"}
+903424: connection id 445967325.806420870 received message: {"event":"pusher:subscribe","data":{"auth":"gr8332:c158fc7cf21f55078a8d92b15151d02620d4088aa3717e414b8fd14067dd7efe","channel":"private-new-notification.9"}}.
+Connection id 445967325.806420870 sending message {"event":"pusher_internal:subscription_succeeded","channel":"private-new-notification.9"}
+903424: connection id 445967325.806420870 received message: {"event":"pusher:ping","data":{}}.
+Connection id 445967325.806420870 sending message {"event":"pusher:pong"}
+903424: connection id 445967325.806420870 received message: {"event":"pusher:ping","data":{}}.
+Connection id 445967325.806420870 sending message {"event":"pusher:pong"}
+Connection id 445967325.806420870 closed.
+New connection opened for app key gr8332.
+Connection id 877114263.235852641 sending message {"event":"pusher:connection_established","data":"{\"socket_id\":\"877114263.235852641\",\"activity_timeout\":30}"}
+903424: connection id 877114263.235852641 received message: {"event":"pusher:subscribe","data":{"channel":"home"}}.
+Connection id 877114263.235852641 sending message {"event":"pusher_internal:subscription_succeeded","channel":"home"}
+903424: connection id 877114263.235852641 received message: {"event":"pusher:subscribe","data":{"auth":"gr8332:b4ae129f6e71f48b8c19347b7c3bf447610c9dc4d86a8a0f814d93f80c61bedb","channel":"private-new-notification.9"}}.
+Connection id 877114263.235852641 sending message {"event":"pusher_internal:subscription_succeeded","channel":"private-new-notification.9"}
+903424: connection id 877114263.235852641 received message: {"event":"pusher:ping","data":{}}.
+Connection id 877114263.235852641 sending message {"event":"pusher:pong"}
+903424: connection id 877114263.235852641 received message: {"event":"pusher:ping","data":{}}.
+Connection id 877114263.235852641 sending message {"event":"pusher:pong"}
+903424: connection id 877114263.235852641 received message: {"event":"pusher:ping","data":{}}.
+Connection id 877114263.235852641 sending message {"event":"pusher:pong"}
+903424: connection id 877114263.235852641 received message: {"event":"pusher:ping","data":{}}.
+Connection id 877114263.235852641 sending message {"event":"pusher:pong"}
+903424: connection id 877114263.235852641 received message: {"event":"pusher:ping","data":{}}.
+Connection id 877114263.235852641 sending message {"event":"pusher:pong"}
+903424: connection id 877114263.235852641 received message: {"event":"pusher:ping","data":{}}.
+Connection id 877114263.235852641 sending message {"event":"pusher:pong"}
+903424: connection id 877114263.235852641 received message: {"event":"pusher:ping","data":{}}.
+Connection id 877114263.235852641 sending message {"event":"pusher:pong"}
+903424: connection id 877114263.235852641 received message: {"event":"pusher:ping","data":{}}.
+Connection id 877114263.235852641 sending message {"event":"pusher:pong"}
+903424: connection id 877114263.235852641 received message: {"event":"pusher:ping","data":{}}.
+Connection id 877114263.235852641 sending message {"event":"pusher:pong"}
+903424: connection id 877114263.235852641 received message: {"event":"pusher:ping","data":{}}.
+Connection id 877114263.235852641 sending message {"event":"pusher:pong"}
+903424: connection id 877114263.235852641 received message: {"event":"pusher:ping","data":{}}.
+Connection id 877114263.235852641 sending message {"event":"pusher:pong"}
+Connection id 877114263.235852641 closed.
+New connection opened for app key gr8332.
+Connection id 580145895.524200085 sending message {"event":"pusher:connection_established","data":"{\"socket_id\":\"580145895.524200085\",\"activity_timeout\":30}"}
+903424: connection id 580145895.524200085 received message: {"event":"pusher:subscribe","data":{"channel":"home"}}.
+Connection id 580145895.524200085 sending message {"event":"pusher_internal:subscription_succeeded","channel":"home"}
+903424: connection id 580145895.524200085 received message: {"event":"pusher:subscribe","data":{"auth":"gr8332:7abc21de4bab8e7696a65b27e73aa7570ce8a52f94ea9618c1ea36a6659773c7","channel":"private-new-notification.9"}}.
+Connection id 580145895.524200085 sending message {"event":"pusher_internal:subscription_succeeded","channel":"private-new-notification.9"}
+903424: connection id 580145895.524200085 received message: {"event":"pusher:ping","data":{}}.
+Connection id 580145895.524200085 sending message {"event":"pusher:pong"}
+903424: connection id 580145895.524200085 received message: {"event":"pusher:ping","data":{}}.
+Connection id 580145895.524200085 sending message {"event":"pusher:pong"}
+Connection id 580145895.524200085 closed.
+New connection opened for app key gr8332.
+Connection id 461967682.669094089 sending message {"event":"pusher:connection_established","data":"{\"socket_id\":\"461967682.669094089\",\"activity_timeout\":30}"}
+903424: connection id 461967682.669094089 received message: {"event":"pusher:subscribe","data":{"channel":"home"}}.
+Connection id 461967682.669094089 sending message {"event":"pusher_internal:subscription_succeeded","channel":"home"}
+903424: connection id 461967682.669094089 received message: {"event":"pusher:subscribe","data":{"auth":"gr8332:f338d231d78da98a8001bfdb6e5faf34842e6ad4bdc5d814320505c627084795","channel":"private-new-notification.9"}}.
+Connection id 461967682.669094089 sending message {"event":"pusher_internal:subscription_succeeded","channel":"private-new-notification.9"}
+903424: connection id 461967682.669094089 received message: {"event":"pusher:ping","data":{}}.
+Connection id 461967682.669094089 sending message {"event":"pusher:pong"}
+903424: connection id 461967682.669094089 received message: {"event":"pusher:ping","data":{}}.
+Connection id 461967682.669094089 sending message {"event":"pusher:pong"}
+903424: connection id 461967682.669094089 received message: {"event":"pusher:ping","data":{}}.
+Connection id 461967682.669094089 sending message {"event":"pusher:pong"}
+903424: connection id 461967682.669094089 received message: {"event":"pusher:ping","data":{}}.
+Connection id 461967682.669094089 sending message {"event":"pusher:pong"}
+903424: connection id 461967682.669094089 received message: {"event":"pusher:ping","data":{}}.
+Connection id 461967682.669094089 sending message {"event":"pusher:pong"}
+903424: connection id 461967682.669094089 received message: {"event":"pusher:ping","data":{}}.
+Connection id 461967682.669094089 sending message {"event":"pusher:pong"}
+903424: connection id 461967682.669094089 received message: {"event":"pusher:ping","data":{}}.
+Connection id 461967682.669094089 sending message {"event":"pusher:pong"}
+903424: connection id 461967682.669094089 received message: {"event":"pusher:ping","data":{}}.
+Connection id 461967682.669094089 sending message {"event":"pusher:pong"}
+903424: connection id 461967682.669094089 received message: {"event":"pusher:ping","data":{}}.
+Connection id 461967682.669094089 sending message {"event":"pusher:pong"}
+903424: connection id 461967682.669094089 received message: {"event":"pusher:ping","data":{}}.
+Connection id 461967682.669094089 sending message {"event":"pusher:pong"}
+903424: connection id 461967682.669094089 received message: {"event":"pusher:ping","data":{}}.
+Connection id 461967682.669094089 sending message {"event":"pusher:pong"}
+903424: connection id 461967682.669094089 received message: {"event":"pusher:ping","data":{}}.
+Connection id 461967682.669094089 sending message {"event":"pusher:pong"}
+903424: connection id 461967682.669094089 received message: {"event":"pusher:ping","data":{}}.
+Connection id 461967682.669094089 sending message {"event":"pusher:pong"}
+903424: connection id 461967682.669094089 received message: {"event":"pusher:ping","data":{}}.
+Connection id 461967682.669094089 sending message {"event":"pusher:pong"}
+903424: connection id 461967682.669094089 received message: {"event":"pusher:ping","data":{}}.
+Connection id 461967682.669094089 sending message {"event":"pusher:pong"}
+903424: connection id 461967682.669094089 received message: {"event":"pusher:ping","data":{}}.
+Connection id 461967682.669094089 sending message {"event":"pusher:pong"}
+903424: connection id 461967682.669094089 received message: {"event":"pusher:ping","data":{}}.
+Connection id 461967682.669094089 sending message {"event":"pusher:pong"}
+903424: connection id 461967682.669094089 received message: {"event":"pusher:ping","data":{}}.
+Connection id 461967682.669094089 sending message {"event":"pusher:pong"}
+903424: connection id 461967682.669094089 received message: {"event":"pusher:ping","data":{}}.
+Connection id 461967682.669094089 sending message {"event":"pusher:pong"}
+903424: connection id 461967682.669094089 received message: {"event":"pusher:ping","data":{}}.
+Connection id 461967682.669094089 sending message {"event":"pusher:pong"}
+903424: connection id 461967682.669094089 received message: {"event":"pusher:ping","data":{}}.
+Connection id 461967682.669094089 sending message {"event":"pusher:pong"}
+903424: connection id 461967682.669094089 received message: {"event":"pusher:ping","data":{}}.
+Connection id 461967682.669094089 sending message {"event":"pusher:pong"}
+903424: connection id 461967682.669094089 received message: {"event":"pusher:ping","data":{}}.
+Connection id 461967682.669094089 sending message {"event":"pusher:pong"}
+903424: connection id 461967682.669094089 received message: {"event":"pusher:ping","data":{}}.
+Connection id 461967682.669094089 sending message {"event":"pusher:pong"}
+903424: connection id 461967682.669094089 received message: {"event":"pusher:ping","data":{}}.
+Connection id 461967682.669094089 sending message {"event":"pusher:pong"}
+903424: connection id 461967682.669094089 received message: {"event":"pusher:ping","data":{}}.
+Connection id 461967682.669094089 sending message {"event":"pusher:pong"}
+903424: connection id 461967682.669094089 received message: {"event":"pusher:ping","data":{}}.
+Connection id 461967682.669094089 sending message {"event":"pusher:pong"}
+903424: connection id 461967682.669094089 received message: {"event":"pusher:ping","data":{}}.
+Connection id 461967682.669094089 sending message {"event":"pusher:pong"}
+903424: connection id 461967682.669094089 received message: {"event":"pusher:ping","data":{}}.
+Connection id 461967682.669094089 sending message {"event":"pusher:pong"}
+903424: connection id 461967682.669094089 received message: {"event":"pusher:ping","data":{}}.
+Connection id 461967682.669094089 sending message {"event":"pusher:pong"}
+903424: connection id 461967682.669094089 received message: {"event":"pusher:ping","data":{}}.
+Connection id 461967682.669094089 sending message {"event":"pusher:pong"}
+903424: connection id 461967682.669094089 received message: {"event":"pusher:ping","data":{}}.
+Connection id 461967682.669094089 sending message {"event":"pusher:pong"}
+903424: connection id 461967682.669094089 received message: {"event":"pusher:ping","data":{}}.
+Connection id 461967682.669094089 sending message {"event":"pusher:pong"}
+903424: connection id 461967682.669094089 received message: {"event":"pusher:ping","data":{}}.
+Connection id 461967682.669094089 sending message {"event":"pusher:pong"}
+903424: connection id 461967682.669094089 received message: {"event":"pusher:ping","data":{}}.
+Connection id 461967682.669094089 sending message {"event":"pusher:pong"}
+903424: connection id 461967682.669094089 received message: {"event":"pusher:ping","data":{}}.
+Connection id 461967682.669094089 sending message {"event":"pusher:pong"}
+903424: connection id 461967682.669094089 received message: {"event":"pusher:ping","data":{}}.
+Connection id 461967682.669094089 sending message {"event":"pusher:pong"}
+903424: connection id 461967682.669094089 received message: {"event":"pusher:ping","data":{}}.
+Connection id 461967682.669094089 sending message {"event":"pusher:pong"}
+903424: connection id 461967682.669094089 received message: {"event":"pusher:ping","data":{}}.
+Connection id 461967682.669094089 sending message {"event":"pusher:pong"}
+903424: connection id 461967682.669094089 received message: {"event":"pusher:ping","data":{}}.
+Connection id 461967682.669094089 sending message {"event":"pusher:pong"}
+903424: connection id 461967682.669094089 received message: {"event":"pusher:ping","data":{}}.
+Connection id 461967682.669094089 sending message {"event":"pusher:pong"}
+903424: connection id 461967682.669094089 received message: {"event":"pusher:ping","data":{}}.
+Connection id 461967682.669094089 sending message {"event":"pusher:pong"}
+903424: connection id 461967682.669094089 received message: {"event":"pusher:ping","data":{}}.
+Connection id 461967682.669094089 sending message {"event":"pusher:pong"}
+903424: connection id 461967682.669094089 received message: {"event":"pusher:ping","data":{}}.
+Connection id 461967682.669094089 sending message {"event":"pusher:pong"}
+903424: connection id 461967682.669094089 received message: {"event":"pusher:ping","data":{}}.
+Connection id 461967682.669094089 sending message {"event":"pusher:pong"}
+903424: connection id 461967682.669094089 received message: {"event":"pusher:ping","data":{}}.
+Connection id 461967682.669094089 sending message {"event":"pusher:pong"}
+903424: connection id 461967682.669094089 received message: {"event":"pusher:ping","data":{}}.
+Connection id 461967682.669094089 sending message {"event":"pusher:pong"}
+903424: connection id 461967682.669094089 received message: {"event":"pusher:ping","data":{}}.
+Connection id 461967682.669094089 sending message {"event":"pusher:pong"}
+903424: connection id 461967682.669094089 received message: {"event":"pusher:ping","data":{}}.
+Connection id 461967682.669094089 sending message {"event":"pusher:pong"}
+903424: connection id 461967682.669094089 received message: {"event":"pusher:ping","data":{}}.
+Connection id 461967682.669094089 sending message {"event":"pusher:pong"}
+903424: connection id 461967682.669094089 received message: {"event":"pusher:ping","data":{}}.
+Connection id 461967682.669094089 sending message {"event":"pusher:pong"}
+903424: connection id 461967682.669094089 received message: {"event":"pusher:ping","data":{}}.
+Connection id 461967682.669094089 sending message {"event":"pusher:pong"}
+903424: connection id 461967682.669094089 received message: {"event":"pusher:ping","data":{}}.
+Connection id 461967682.669094089 sending message {"event":"pusher:pong"}
+903424: connection id 461967682.669094089 received message: {"event":"pusher:ping","data":{}}.
+Connection id 461967682.669094089 sending message {"event":"pusher:pong"}
+903424: connection id 461967682.669094089 received message: {"event":"pusher:ping","data":{}}.
+Connection id 461967682.669094089 sending message {"event":"pusher:pong"}
+903424: connection id 461967682.669094089 received message: {"event":"pusher:ping","data":{}}.
+Connection id 461967682.669094089 sending message {"event":"pusher:pong"}
+903424: connection id 461967682.669094089 received message: {"event":"pusher:ping","data":{}}.
+Connection id 461967682.669094089 sending message {"event":"pusher:pong"}
+903424: connection id 461967682.669094089 received message: {"event":"pusher:ping","data":{}}.
+Connection id 461967682.669094089 sending message {"event":"pusher:pong"}
+903424: connection id 461967682.669094089 received message: {"event":"pusher:ping","data":{}}.
+Connection id 461967682.669094089 sending message {"event":"pusher:pong"}
+903424: connection id 461967682.669094089 received message: {"event":"pusher:ping","data":{}}.
+Connection id 461967682.669094089 sending message {"event":"pusher:pong"}
+903424: connection id 461967682.669094089 received message: {"event":"pusher:ping","data":{}}.
+Connection id 461967682.669094089 sending message {"event":"pusher:pong"}
+903424: connection id 461967682.669094089 received message: {"event":"pusher:ping","data":{}}.
+Connection id 461967682.669094089 sending message {"event":"pusher:pong"}
+903424: connection id 461967682.669094089 received message: {"event":"pusher:ping","data":{}}.
+Connection id 461967682.669094089 sending message {"event":"pusher:pong"}
+903424: connection id 461967682.669094089 received message: {"event":"pusher:ping","data":{}}.
+Connection id 461967682.669094089 sending message {"event":"pusher:pong"}
+903424: connection id 461967682.669094089 received message: {"event":"pusher:ping","data":{}}.
+Connection id 461967682.669094089 sending message {"event":"pusher:pong"}
+903424: connection id 461967682.669094089 received message: {"event":"pusher:ping","data":{}}.
+Connection id 461967682.669094089 sending message {"event":"pusher:pong"}
+903424: connection id 461967682.669094089 received message: {"event":"pusher:ping","data":{}}.
+Connection id 461967682.669094089 sending message {"event":"pusher:pong"}
+903424: connection id 461967682.669094089 received message: {"event":"pusher:ping","data":{}}.
+Connection id 461967682.669094089 sending message {"event":"pusher:pong"}
+903424: connection id 461967682.669094089 received message: {"event":"pusher:ping","data":{}}.
+Connection id 461967682.669094089 sending message {"event":"pusher:pong"}
+903424: connection id 461967682.669094089 received message: {"event":"pusher:ping","data":{}}.
+Connection id 461967682.669094089 sending message {"event":"pusher:pong"}
+903424: connection id 461967682.669094089 received message: {"event":"pusher:ping","data":{}}.
+Connection id 461967682.669094089 sending message {"event":"pusher:pong"}
+903424: connection id 461967682.669094089 received message: {"event":"pusher:ping","data":{}}.
+Connection id 461967682.669094089 sending message {"event":"pusher:pong"}
+903424: connection id 461967682.669094089 received message: {"event":"pusher:ping","data":{}}.
+Connection id 461967682.669094089 sending message {"event":"pusher:pong"}
+Connection id 461967682.669094089 closed.
+New connection opened for app key gr8332.
+Connection id 229769363.95103737 sending message {"event":"pusher:connection_established","data":"{\"socket_id\":\"229769363.95103737\",\"activity_timeout\":30}"}
+903424: connection id 229769363.95103737 received message: {"event":"pusher:subscribe","data":{"channel":"home"}}.
+Connection id 229769363.95103737 sending message {"event":"pusher_internal:subscription_succeeded","channel":"home"}
+903424: connection id 229769363.95103737 received message: {"event":"pusher:subscribe","data":{"auth":"gr8332:47c69bc03ff05e0c776db9335665d6063eee535aaff0f9c60c15c309209fcdc8","channel":"private-new-notification.9"}}.
+Connection id 229769363.95103737 sending message {"event":"pusher_internal:subscription_succeeded","channel":"private-new-notification.9"}
+Connection id 229769363.95103737 closed.
+New connection opened for app key gr8332.
+Connection id 274725926.527376831 sending message {"event":"pusher:connection_established","data":"{\"socket_id\":\"274725926.527376831\",\"activity_timeout\":30}"}
+903424: connection id 274725926.527376831 received message: {"event":"pusher:subscribe","data":{"channel":"home"}}.
+Connection id 274725926.527376831 sending message {"event":"pusher_internal:subscription_succeeded","channel":"home"}
+903424: connection id 274725926.527376831 received message: {"event":"pusher:ping","data":{}}.
+Connection id 274725926.527376831 sending message {"event":"pusher:pong"}
+903424: connection id 274725926.527376831 received message: {"event":"pusher:ping","data":{}}.
+Connection id 274725926.527376831 sending message {"event":"pusher:pong"}
+Connection id 274725926.527376831 closed.
+New connection opened for app key gr8332.
+Connection id 938333218.176735477 sending message {"event":"pusher:connection_established","data":"{\"socket_id\":\"938333218.176735477\",\"activity_timeout\":30}"}
+903424: connection id 938333218.176735477 received message: {"event":"pusher:subscribe","data":{"channel":"home"}}.
+Connection id 938333218.176735477 sending message {"event":"pusher_internal:subscription_succeeded","channel":"home"}
+903424: connection id 938333218.176735477 received message: {"event":"pusher:subscribe","data":{"auth":"gr8332:c189961ef4c9f4dc408cb5fd10c5db5ca007bf0d28a346b566863d779da714a6","channel":"private-new-notification.9"}}.
+Connection id 938333218.176735477 sending message {"event":"pusher_internal:subscription_succeeded","channel":"private-new-notification.9"}
+903424: connection id 938333218.176735477 received message: {"event":"pusher:ping","data":{}}.
+Connection id 938333218.176735477 sending message {"event":"pusher:pong"}
+Connection id 938333218.176735477 closed.
+New connection opened for app key gr8332.
+Connection id 2976559.310787422 sending message {"event":"pusher:connection_established","data":"{\"socket_id\":\"2976559.310787422\",\"activity_timeout\":30}"}
+903424: connection id 2976559.310787422 received message: {"event":"pusher:subscribe","data":{"channel":"home"}}.
+Connection id 2976559.310787422 sending message {"event":"pusher_internal:subscription_succeeded","channel":"home"}
+903424: connection id 2976559.310787422 received message: {"event":"pusher:ping","data":{}}.
+Connection id 2976559.310787422 sending message {"event":"pusher:pong"}
+903424: connection id 2976559.310787422 received message: {"event":"pusher:ping","data":{}}.
+Connection id 2976559.310787422 sending message {"event":"pusher:pong"}
+903424: connection id 2976559.310787422 received message: {"event":"pusher:ping","data":{}}.
+Connection id 2976559.310787422 sending message {"event":"pusher:pong"}
+903424: connection id 2976559.310787422 received message: {"event":"pusher:ping","data":{}}.
+Connection id 2976559.310787422 sending message {"event":"pusher:pong"}
+903424: connection id 2976559.310787422 received message: {"event":"pusher:ping","data":{}}.
+Connection id 2976559.310787422 sending message {"event":"pusher:pong"}
+903424: connection id 2976559.310787422 received message: {"event":"pusher:ping","data":{}}.
+Connection id 2976559.310787422 sending message {"event":"pusher:pong"}
+903424: connection id 2976559.310787422 received message: {"event":"pusher:ping","data":{}}.
+Connection id 2976559.310787422 sending message {"event":"pusher:pong"}
+903424: connection id 2976559.310787422 received message: {"event":"pusher:ping","data":{}}.
+Connection id 2976559.310787422 sending message {"event":"pusher:pong"}
+903424: connection id 2976559.310787422 received message: {"event":"pusher:ping","data":{}}.
+Connection id 2976559.310787422 sending message {"event":"pusher:pong"}
+903424: connection id 2976559.310787422 received message: {"event":"pusher:ping","data":{}}.
+Connection id 2976559.310787422 sending message {"event":"pusher:pong"}
+903424: connection id 2976559.310787422 received message: {"event":"pusher:ping","data":{}}.
+Connection id 2976559.310787422 sending message {"event":"pusher:pong"}
+903424: connection id 2976559.310787422 received message: {"event":"pusher:ping","data":{}}.
+Connection id 2976559.310787422 sending message {"event":"pusher:pong"}
+903424: connection id 2976559.310787422 received message: {"event":"pusher:ping","data":{}}.
+Connection id 2976559.310787422 sending message {"event":"pusher:pong"}
+903424: connection id 2976559.310787422 received message: {"event":"pusher:ping","data":{}}.
+Connection id 2976559.310787422 sending message {"event":"pusher:pong"}
+903424: connection id 2976559.310787422 received message: {"event":"pusher:ping","data":{}}.
+Connection id 2976559.310787422 sending message {"event":"pusher:pong"}
+903424: connection id 2976559.310787422 received message: {"event":"pusher:ping","data":{}}.
+Connection id 2976559.310787422 sending message {"event":"pusher:pong"}
+903424: connection id 2976559.310787422 received message: {"event":"pusher:ping","data":{}}.
+Connection id 2976559.310787422 sending message {"event":"pusher:pong"}
+903424: connection id 2976559.310787422 received message: {"event":"pusher:ping","data":{}}.
+Connection id 2976559.310787422 sending message {"event":"pusher:pong"}
+903424: connection id 2976559.310787422 received message: {"event":"pusher:ping","data":{}}.
+Connection id 2976559.310787422 sending message {"event":"pusher:pong"}
+903424: connection id 2976559.310787422 received message: {"event":"pusher:ping","data":{}}.
+Connection id 2976559.310787422 sending message {"event":"pusher:pong"}
+903424: connection id 2976559.310787422 received message: {"event":"pusher:ping","data":{}}.
+Connection id 2976559.310787422 sending message {"event":"pusher:pong"}
+903424: connection id 2976559.310787422 received message: {"event":"pusher:ping","data":{}}.
+Connection id 2976559.310787422 sending message {"event":"pusher:pong"}
+903424: connection id 2976559.310787422 received message: {"event":"pusher:ping","data":{}}.
+Connection id 2976559.310787422 sending message {"event":"pusher:pong"}
