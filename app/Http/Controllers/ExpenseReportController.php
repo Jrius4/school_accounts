@@ -43,22 +43,18 @@ class ExpenseReportController extends Controller
         {
             $expenses = DB::select('
             SELECT COUNT(*) AS no_expenses, SUM(expenseTotal) AS total_amount ,
-            DATE(created_at) AS expense_day,
-            FLOOR((DAY(created_at)-1)/7 + 1) AS week_of_the_month,
-            MONTHNAME(created_at) AS "month_of_the_year", YEAR(created_at) AS year
+            DATE(created_at) AS expense_day
             FROM expenses
-            GROUP BY expense_day, week_of_the_month, month_of_the_year, year;
+            GROUP BY expense_day ORDER BY expense_day;
             ');
         }
         else if($queryType == 'daily_by_group')
         {
             $expenses = DB::select('
             SELECT COUNT(*) AS no_expenses, SUM(expenseTotal) AS total_amount,expensetype ,
-            DATE(created_at) AS expense_day,
-            FLOOR((DAY(created_at)-1)/7 + 1) AS week_of_the_month,
-            MONTHNAME(created_at) AS "month_of_the_year", YEAR(created_at) AS year
+            DATE(created_at) AS expense_day
             FROM expenses
-            GROUP BY expensetype,expense_day, week_of_the_month, month_of_the_year, year;
+            GROUP BY expense_day,expensetype ORDER BY expense_day,expensetype;
             ');
         }
 
@@ -67,9 +63,9 @@ class ExpenseReportController extends Controller
             $expenses = DB::select('
             SELECT COUNT(*) AS no_expenses, SUM(expenseTotal) AS total_amount,
             FLOOR((DAY(created_at)-1)/7 + 1) AS week_of_the_month,
-            MONTHNAME(created_at) AS "month_of_the_year", YEAR(created_at) AS year
+            MONTH(created_at) AS "month_of_the_year", YEAR(created_at) AS year
             FROM expenses
-            GROUP BY week_of_the_month, month_of_the_year, year;
+            GROUP BY year,month_of_the_year,week_of_the_month ORDER BY year,month_of_the_year,week_of_the_month;
             ');
         }
         else if($queryType == 'weekly_by_group')
@@ -77,9 +73,9 @@ class ExpenseReportController extends Controller
             $expenses = DB::select('
             SELECT COUNT(*) AS no_expenses, SUM(expenseTotal) AS total_amount,expensetype,
             FLOOR((DAY(created_at)-1)/7 + 1) AS week_of_the_month,
-            MONTHNAME(created_at) AS "month_of_the_year", YEAR(created_at) AS year
+            MONTH(created_at) AS "month_of_the_year", YEAR(created_at) AS year
             FROM expenses
-            GROUP BY expensetype, week_of_the_month, month_of_the_year, year;
+            GROUP BY year,month_of_the_year,week_of_the_month,expensetype ORDER BY year,month_of_the_year,week_of_the_month,expensetype;
             ');
         }
 
@@ -87,18 +83,18 @@ class ExpenseReportController extends Controller
         {
             $expenses = DB::select('
             SELECT COUNT(*) AS no_expenses, SUM(expenseTotal) AS total_amount,
-            MONTHNAME(created_at) AS "month_of_the_year", YEAR(created_at) AS year
+            MONTH(created_at) AS "month_of_the_year", YEAR(created_at) AS year
             FROM expenses
-            GROUP BY month_of_the_year, year;
+            GROUP BY year,month_of_the_year ORDER BY year,month_of_the_year;
             ');
         }
         else if($queryType == 'monthly_by_group')
         {
             $expenses = DB::select('
             SELECT COUNT(*) AS no_expenses, SUM(expenseTotal) AS total_amount,expensetype,
-            MONTHNAME(created_at) AS "month_of_the_year", YEAR(created_at) AS year
+            MONTH(created_at) AS "month_of_the_year", YEAR(created_at) AS year
             FROM expenses
-            GROUP BY expensetype, month_of_the_year, year;
+            GROUP BY year,month_of_the_year,expensetype ORDER BY year,month_of_the_year,expensetype;
             ');
         }
 
@@ -108,7 +104,7 @@ class ExpenseReportController extends Controller
             SELECT COUNT(*) AS no_expenses, SUM(expenseTotal) AS total_amount,
             YEAR(created_at) AS year
             FROM expenses
-            GROUP BY year;
+            GROUP BY year ORDER BY year;
             ');
         }
         else if($queryType == 'yearly_by_group')
@@ -117,7 +113,7 @@ class ExpenseReportController extends Controller
             SELECT COUNT(*) AS no_expenses, SUM(expenseTotal) AS total_amount,expensetype,
             YEAR(created_at) AS year
             FROM expenses
-            GROUP BY expensetype, year;
+            GROUP BY year,expensetype ORDER BY year,expensetype;
             ');
         }
         else if($queryType == 'groups')
@@ -127,7 +123,7 @@ class ExpenseReportController extends Controller
             SUM(expenseTotal) AS total_amount,
             expensetype
             FROM expenses
-            GROUP BY expensetype;
+            GROUP BY expensetype ORDER BY expensetype;
             ');
         }
         else if($queryType == 'all')
@@ -186,6 +182,10 @@ class ExpenseReportController extends Controller
     public function overviewPayments()
     {
         return view('fianance.payments.overview-expenses');
+    }
+
+    public function graphExpenses(){
+        return view('fianance.graphs.expenses-graph');
     }
 
 

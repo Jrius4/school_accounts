@@ -135,6 +135,7 @@ Vue.component('upload-files', require('./components/common/UploadFiles.vue').def
 // tasks
 Vue.component('task-calendar', require('./components/tasks/TaskCalendar.vue').default);
 
+Vue.component('accounts-index', require('./components/accounts/AccountsIndex.vue').default);
 Vue.component('make-payment', require('./components/payments/MakePayment.vue').default);
 Vue.component('view-payments', require('./components/payments/ViewPayments.vue').default);
 Vue.component('view-expenses', require('./components/expenses/ViewExpenses.vue').default);
@@ -144,6 +145,8 @@ Vue.component('overview-reports', require('./components/income/Overview.vue').de
 Vue.component('payments-graph', require('./components/financialGraphs/PaymentsGraph.vue').default);
 Vue.component('expenses-graph', require('./components/financialGraphs/ExpensesGraph.vue').default);
 Vue.component('income-statements-graph', require('./components/financialGraphs/IncomeStatementsCharts.vue').default);
+Vue.component('financial-graphs', require('./components/financialGraphs/FinancialGraphs.vue').default);
+Vue.component('ModalItem', require('./components/common/ModalItem.vue').default);
 
 import VueTextareaAutosize from 'vue-textarea-autosize'
 

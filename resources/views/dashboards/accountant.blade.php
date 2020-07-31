@@ -13,6 +13,10 @@
         </div>
     </div>
 </div>
+<section class="row d-flex justify-content-center">
+    <financial-graphs/>
+</section>
+
 
 <section class="row d-flex justify-content-center">
 

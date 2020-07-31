@@ -11,33 +11,9 @@
 
         <ul class="nav nav-treeview">
             <li class="nav-item">
-                <a href="{{route('overview-payments')}}" class="nav-link">
+                <a href="{{route('accounts-index')}}" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
-                    <p>Create Accounts Type</p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="{{route('account.create')}}" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Create Accounts</p>
-                </a>
-            </li>
-            {{-- <li class="nav-item">
-                <a href="{{route('structures.create')}}" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Create Structure</p>
-                </a>
-            </li> --}}
-            <li class="nav-item">
-                <a href="{{route('acc-category.index')}}" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Account Types</p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="{{route('school_accounts.index')}}" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>View All Accounts</p>
+                    <p>Accounts</p>
                 </a>
             </li>
         </ul>
@@ -99,7 +75,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a href="{{route('overview-payments-and-expenses')}}" class="nav-link">
+            <a href="{{route('graph-payments-and-expenses')}}" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Overview</p>
             </a>

@@ -226,8 +226,8 @@ Route::get('/accounts/school-account','Accounts\AccountantController@getCreateAc
 Route::post('/accounts/school-account','Accounts\AccountantController@storeAccountForm')->name('account.store');
 // Route::post('/accounts/school-account')->name();
 // Route::post('/accounts/school-account')->name(); //edit account types
-//asset payments
-Route::resource('assets-payments', 'AssetPaymentController');
+//school_accounts
+Route::get('accounts-index', 'AccountController@accountView')->name('accounts-index');
 //student payments
 Route::get('/students-payments/all-payments','Accounts\BurserController@allStudentsPayment')->name('payments.all-payments');
 Route::get('/student-payments','Accounts\BurserController@studentPayments')->name('payments.students');

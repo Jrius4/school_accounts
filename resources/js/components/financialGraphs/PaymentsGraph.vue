@@ -3,86 +3,62 @@
         <v-content>
             <v-container>
                 <v-row>
-                    <v-col cols="12">
-                            <base-material-card
-                                icon="mdi-finance"
-                                title="Payments Graph"
-                                color="indigo darken-3"
-                                class="px-5 py-3 elevation-4"
-                            >
-                            <v-row flat>
-                                <v-col cols="12">
-                                    <v-toolbar>
-                                        <v-menu bottom right>
-                                            <template v-slot:activator="{ on }">
-                                            <v-btn outlined v-on="on" small>
-                                                <span>{{ typeToLabel[type] }}</span>
-                                                <v-icon right>mdi-menu-down</v-icon>
-                                            </v-btn>
-                                            </template>
-                                            <v-list>
-                                                <v-list-item @click="typeSelected('daily')">
-                                                    <v-list-item-title>Daily</v-list-item-title>
-                                                </v-list-item>
-                                                <v-list-item @click="typeSelected('daily_by_group')">
-                                                    <v-list-item-title>Daily By Groups</v-list-item-title>
-                                                </v-list-item>
-                                                <v-list-item @click="typeSelected('weekly')">
-                                                    <v-list-item-title>Weekly</v-list-item-title>
-                                                </v-list-item>
-                                                <v-list-item @click="typeSelected('weekly_by_group')">
-                                                    <v-list-item-title>Weekly By Groups</v-list-item-title>
-                                                </v-list-item>
-                                                <v-list-item @click="typeSelected('monthly')">
-                                                    <v-list-item-title>Monthly</v-list-item-title>
-                                                </v-list-item>
-                                                <v-list-item @click="typeSelected('monthly_by_group')">
-                                                    <v-list-item-title>Monthly By Groups</v-list-item-title>
-                                                </v-list-item>
-                                                <v-list-item @click="typeSelected('yearly')">
-                                                    <v-list-item-title>Yearly</v-list-item-title>
-                                                </v-list-item>
-                                                <v-list-item @click="typeSelected('yearly_by_group')">
-                                                    <v-list-item-title>Yearly By Groups</v-list-item-title>
-                                                </v-list-item>
-                                                <v-list-item @click="typeSelected('interval')">
-                                                    <v-list-item-title>By Interval</v-list-item-title>
-                                                </v-list-item>
-                                                <v-list-item @click="typeSelected('interval_by_group')">
-                                                    <v-list-item-title>By Interval Groups</v-list-item-title>
-                                                </v-list-item>
-                                            </v-list>
-                                        </v-menu>
+                    <figure>
 
-                                        <v-spacer></v-spacer>
+                    <v-menu bottom right>
+                        <template v-slot:activator="{ on }">
+                        <v-btn outlined v-on="on" small>
+                            <span>{{ typeToLabel[type] }}</span>
+                            <v-icon right>mdi-menu-down</v-icon>
+                        </v-btn>
+                        </template>
+                        <v-list>
+                            <v-list-item @click="typeSelected('daily')">
+                                <v-list-item-title>Daily</v-list-item-title>
+                            </v-list-item>
+                            <v-list-item @click="typeSelected('daily_by_group')">
+                                <v-list-item-title>Daily By Groups</v-list-item-title>
+                            </v-list-item>
+                            <v-list-item @click="typeSelected('weekly')">
+                                <v-list-item-title>Weekly</v-list-item-title>
+                            </v-list-item>
+                            <v-list-item @click="typeSelected('weekly_by_group')">
+                                <v-list-item-title>Weekly By Groups</v-list-item-title>
+                            </v-list-item>
+                            <v-list-item @click="typeSelected('monthly')">
+                                <v-list-item-title>Monthly</v-list-item-title>
+                            </v-list-item>
+                            <v-list-item @click="typeSelected('monthly_by_group')">
+                                <v-list-item-title>Monthly By Groups</v-list-item-title>
+                            </v-list-item>
+                            <v-list-item @click="typeSelected('yearly')">
+                                <v-list-item-title>Yearly</v-list-item-title>
+                            </v-list-item>
+                            <v-list-item @click="typeSelected('yearly_by_group')">
+                                <v-list-item-title>Yearly By Groups</v-list-item-title>
+                            </v-list-item>
+                            <v-list-item @click="typeSelected('interval')">
+                                <v-list-item-title>By Interval</v-list-item-title>
+                            </v-list-item>
+                            <v-list-item @click="typeSelected('interval_by_group')">
+                                <v-list-item-title>By Interval Groups</v-list-item-title>
+                            </v-list-item>
+                        </v-list>
+                    </v-menu>
 
-
-                                    </v-toolbar>
-                                </v-col>
-                            </v-row>
-                            <v-row>
-                                <figure>
-
-                                    <EchartMain
-                                        :options="getData"
-                                        :init-options="initOptions"
-                                        ref="bar"
-                                        theme="ovilia-green"
-                                        autoresize
-                                        @zr:click="handleZrClick"
-                                        @click="handleClick"
-                                    />
-                                </figure>
-                            </v-row>
-
-
-                            </base-material-card>
-                    </v-col>
+                        <EchartMain
+                            :options="getData"
+                            :init-options="initOptions"
+                            ref="bar"
+                            theme="ovilia-green"
+                            autoresize
+                            @zr:click="handleZrClick"
+                            @click="handleClick"
+                        />
+                    </figure>
                 </v-row>
             </v-container>
         </v-content>
-
-
     </v-app>
 </template>
 
@@ -123,19 +99,18 @@ EchartMain.registerTheme('ovilia-green', theme)
             return {
                 type: 'daily',
                 typeToLabel: {
-                    daily: 'Daily',
-                    daily_by_group: 'Daily By Group',
-                    weekly: 'Weekly',
-                    weekly_by_group: 'Weekly By Group',
-                    monthly: 'Monthly',
-                    monthly_by_group: 'Monthly By Group',
-                    yearly: 'Yearly',
-                    yearly_by_group: 'Yearly By Group',
-                    day: 'Day',
-                    interval: 'Interval',
-                    interval_by_group: 'By Interval Group',
-
-                },
+            daily: 'Daily',
+            daily_by_group: 'Daily By Group',
+            weekly: 'Weekly',
+            weekly_by_group: 'Weekly By Group',
+            monthly: 'Monthly',
+            monthly_by_group: 'Monthly By Group',
+            yearly: 'Yearly',
+            yearly_by_group: 'Yearly By Group',
+            day: 'Day',
+            interval: 'Interval',
+            interval_by_group: 'By Interval Group',
+            },
                 data,
                 seconds:-1,
                 inputStartEnd:false,
@@ -207,7 +182,7 @@ EchartMain.registerTheme('ovilia-green', theme)
                             xAxis: {
                                 data: xAxisData,
                                 splitLine: {
-                                    show: false
+                                    show: true
                                 }
                             },
                             yAxis: {
@@ -284,7 +259,7 @@ EchartMain.registerTheme('ovilia-green', theme)
                                 // type:'category',
                                 data: xAxisData,
                                 splitLine: {
-                                    show: false
+                                    show: true
                                 }
                             }],
                             yAxis:[
@@ -373,7 +348,7 @@ EchartMain.registerTheme('ovilia-green', theme)
                             xAxis: {
                                 data: xAxisData,
                                 splitLine: {
-                                    show: false
+                                    show: true
                                 }
                             },
                             yAxis: {
@@ -451,7 +426,7 @@ EchartMain.registerTheme('ovilia-green', theme)
                                 // type:'category',
                                 data: xAxisData,
                                 splitLine: {
-                                    show: false
+                                    show: true
                                 }
                             }],
                             yAxis:[
@@ -538,7 +513,7 @@ EchartMain.registerTheme('ovilia-green', theme)
                             xAxis: {
                                 data: xAxisData,
                                 splitLine: {
-                                    show: false
+                                    show: true
                                 }
                             },
                             yAxis:[
@@ -614,7 +589,7 @@ EchartMain.registerTheme('ovilia-green', theme)
                                 // type:'category',
                                 data: xAxisData,
                                 splitLine: {
-                                    show: false
+                                    show: true
                                 }
                             }],
                             yAxis:[
@@ -701,7 +676,7 @@ EchartMain.registerTheme('ovilia-green', theme)
                             xAxis: {
                                 data: xAxisData,
                                 splitLine: {
-                                    show: false
+                                    show: true
                                 }
                             },
                             yAxis: {
@@ -774,7 +749,7 @@ EchartMain.registerTheme('ovilia-green', theme)
                                 // type:'category',
                                 data: xAxisData,
                                 splitLine: {
-                                    show: false
+                                    show: true
                                 }
                             }],
                             yAxis:[
@@ -915,7 +890,7 @@ EchartMain.registerTheme('ovilia-green', theme)
 </script>
 
 
-<style lang="stylus">
+<style lang="stylus" scoped>
 *,
 *::before,
 *::after
@@ -1063,7 +1038,7 @@ figure
   min-width: calc(40vw + 4em)
 
   .echarts
-    // width 40vw
+    width 40vw
     width 100%
     min-width 400px
     height 300px

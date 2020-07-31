@@ -11,7 +11,10 @@ class AccountTypeController extends Controller
     public function index(Request $request)
     {
         $query = $request->query('query');
-        $rowsPerPage = $request->query('rowsPerPage');
+        $rowsPerPage = $request->query('rowsPerPage')?$request->query('rowsPerPage'):15;
+        if($rowsPerPage == -1){
+            $rowsPerPage = AccCategory::count();
+        }
         $sortRowsBy = 'name';
         $sortDesc = false;
         if(isset($request['sortDesc']) && $request['sortDesc'] !== '' ){
@@ -28,7 +31,7 @@ class AccountTypeController extends Controller
         }
         $accountTypes = AccCategory::with('schoolAccounts')->orderBy($sortRowsBy,($sortDesc?'desc':'asc'))->where('name','like','%'.$query.'%')->paginate($rowsPerPage);
 
-        return response()->json(compact('accountTypes'));
+        return response()->json(compact('accountTypes','sortRowsBy'));
     }
 
     public function store(Request $request)

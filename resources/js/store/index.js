@@ -6,6 +6,10 @@ import NavModule from "../components/cities/navigation";
 import ExpenseNavModule from "../components/burser/expenses/navigation";
 import incomeStatementsModule from './incomeStatements';
 import makePaymentsModule from "./makePayments";
+import expensesModule from "./expenses";
+import paymentsModule from "./payments";
+import accountTypesModule from "./accountTypes";
+import alertActionModule from './alertAction';
 
 const citiesUrl = "/api/vue-cities";
 
@@ -29,11 +33,15 @@ for (let i= 1;i<=20;i++){
 
 export default new Vuex.Store({
     modules:{
+        alertActionModule,
         prefs:PrefsModule,
         nav:NavModule,
+        accountTypesModule,
         expNav:ExpenseNavModule,
         makePaymentsModule,
-        incomeStatementsModule
+        incomeStatementsModule,
+        expensesModule,
+        paymentsModule,
     },
     state:{
         cities:[],
@@ -1055,6 +1063,7 @@ export default new Vuex.Store({
                 console.log('not loggedIn')
             }
         },
+
         async GET_EXPENSES_INCOME_ACTION(context,payload){
             if(context.getters.loggedIn){
                 return new Promise((resolve,reject)=>{

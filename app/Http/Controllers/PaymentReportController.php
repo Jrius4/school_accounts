@@ -63,7 +63,7 @@ class PaymentReportController extends Controller
             $payments = DB::select('
                 SELECT COUNT(*) AS no_payments, SUM(fullAmount) AS total_amount,
                 FLOOR((DAY(created_at)-1)/7 + 1) AS week_of_the_month,
-                MONTHNAME(created_at) AS "month_of_the_year",
+                MONTH(created_at) AS "month_of_the_year",
                 YEAR(created_at) AS year
                 FROM payments
                 GROUP BY year, month_of_the_year, week_of_the_month ORDER BY year, month_of_the_year, week_of_the_month;
@@ -229,12 +229,12 @@ class PaymentReportController extends Controller
             $income = DB::select("
             WITH z AS ((SELECT  'inflow' AS ptype, SUM(pa.fullAmount) AS p_amount,
             FLOOR((DAY(pa.created_at)-1)/7 + 1) AS p_week,
-            MONTHNAME(pa.created_at) AS p_month,YEAR(pa.created_at) AS p_year FROM payments AS pa
+            MONTH(pa.created_at) AS p_month,YEAR(pa.created_at) AS p_year FROM payments AS pa
             GROUP BY p_year,p_month,p_week)
             UNION ALL
             (SELECT  'outflow' AS ptype,SUM(ex.expenseTotal) AS p_amount,
             FLOOR((DAY(ex.created_at)-1)/7 + 1) AS p_week,
-            MONTHNAME(ex.created_at) AS p_month,YEAR(ex.created_at) AS p_year FROM expenses AS ex
+            MONTH(ex.created_at) AS p_month,YEAR(ex.created_at) AS p_year FROM expenses AS ex
             GROUP BY p_year,p_month,p_week))
 
             SELECT a.p_week, a.p_month,a.p_year,if(a.p_amount,a.p_amount,0) AS inflow,if(b.p_amount,b.p_amount,0) AS outflow,
@@ -251,11 +251,11 @@ class PaymentReportController extends Controller
         {
             $income = DB::select("
                 WITH z AS ((SELECT  'inflow' AS ptype, SUM(pa.fullAmount) AS p_amount,
-                MONTHNAME(pa.created_at) AS p_month,YEAR(pa.created_at) AS p_year FROM payments AS pa
+                MONTH(pa.created_at) AS p_month,YEAR(pa.created_at) AS p_year FROM payments AS pa
                 GROUP BY p_year,p_month)
                 UNION ALL
                 (SELECT  'outflow' AS ptype,SUM(ex.expenseTotal) AS p_amount,
-                MONTHNAME(ex.created_at) AS p_month,YEAR(ex.created_at) AS p_year FROM expenses AS ex
+                MONTH(ex.created_at) AS p_month,YEAR(ex.created_at) AS p_year FROM expenses AS ex
                 GROUP BY p_year,p_month))
 
                 SELECT a.p_month,a.p_year,if(a.p_amount,a.p_amount,0) AS inflow,if(b.p_amount,b.p_amount,0) AS outflow,

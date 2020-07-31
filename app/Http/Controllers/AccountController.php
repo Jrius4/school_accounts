@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Validator;
 
 class AccountController extends Controller
 {
+    public function accountView(){
+        return view("fianance.accounts.accounts_index");
+    }
     public function index(Request $request)
     {
         $query = $request->query('query');
