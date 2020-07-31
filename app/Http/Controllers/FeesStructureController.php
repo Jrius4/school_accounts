@@ -109,7 +109,7 @@ class FeesStructureController extends Controller
         {
             if($structures->where('id',$id)->exists())
             {
-                $structures = $structures->find($id);
+                $structures = $structures->with('schoolAccount')->find($id);
             }
             else{
                 $structures = [

@@ -10,6 +10,7 @@ class AccountTypeController extends Controller
 {
     public function index(Request $request)
     {
+
         $query = $request->query('query');
         $rowsPerPage = $request->query('rowsPerPage')?$request->query('rowsPerPage'):15;
         if($rowsPerPage == -1){
@@ -144,10 +145,10 @@ class AccountTypeController extends Controller
 
             foreach ($accountTypes->schoolAccounts as $acc) {
                 $acc->update([
-                    'acc_category_id'=>7
+                    'acc_category_id'=>6
                 ]);
             }
-            if($id >7)
+            if($id >6)
             {
                 $accountTypes->delete();
                 $accountTypes = [

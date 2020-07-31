@@ -13,6 +13,7 @@ class AccountController extends Controller
     }
     public function index(Request $request)
     {
+
         $query = $request->query('query');
         $rowsPerPage = $request->query('rowsPerPage')!==null?$request->query('rowsPerPage'):5;
         $rowsPerPage = $request->query('rowsPerPage')==-1?SchoolAccount::count():$request->query('rowsPerPage');
@@ -32,7 +33,9 @@ class AccountController extends Controller
         }
         $accounts = SchoolAccount::with('feeStructures','accCategory')->orderBy($sortRowsBy,($sortDesc?'desc':'asc'))->where('account_name','like','%'.$query.'%')->orWhere('amount','like','%'.$query.'%')->paginate($rowsPerPage);
 
-        return response()->json(compact('accounts'));
+
+
+        return response()->json(compact('accounts','sortRowsBy'));
     }
 
     public function store(Request $request)
@@ -71,7 +74,7 @@ class AccountController extends Controller
         $accounts = new SchoolAccount();
         if($accounts->where('id',$id)->exists())
         {
-            $accounts = $accounts->find($id);
+            $accounts = $accounts->with('feeStructures','accCategory')->find($id);
 
         }
         else{

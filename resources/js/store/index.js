@@ -9,6 +9,7 @@ import makePaymentsModule from "./makePayments";
 import expensesModule from "./expenses";
 import paymentsModule from "./payments";
 import accountTypesModule from "./accountTypes";
+import accountsModule from "./accounts";
 import alertActionModule from './alertAction';
 
 const citiesUrl = "/api/vue-cities";
@@ -37,11 +38,13 @@ export default new Vuex.Store({
         prefs:PrefsModule,
         nav:NavModule,
         accountTypesModule,
+        accountsModule,
         expNav:ExpenseNavModule,
         makePaymentsModule,
         incomeStatementsModule,
         expensesModule,
         paymentsModule,
+
     },
     state:{
         cities:[],

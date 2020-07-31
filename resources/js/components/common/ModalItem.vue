@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapMutations } from 'vuex';
     export default {
         props:[
 
@@ -54,6 +54,7 @@ import { mapState } from 'vuex';
                 message:state=>state.alertActionModule.message,
                 title:state=>state.alertActionModule.title
             }),
+
             alertFormat(){
                 if(this.status=== 'successful'){
                     return 'successfully';
@@ -68,6 +69,9 @@ import { mapState } from 'vuex';
             }
         },
         methods:{
+            ...mapMutations({
+                setItems:'alertActionModule/ALERT'
+            }),
             openModal(){
                 if(this.status === 'successful'){
                     const isVisible = "is-visible";
@@ -99,12 +103,14 @@ import { mapState } from 'vuex';
             if(this.open){
                 this.openModal();
             }
+            let newThis = this;
 
             const openEls = this.$el.querySelectorAll("[data-open]");
             const closeEls = this.$el.querySelectorAll("[data-close]");
 
             const isVisible = "is-visible";
             const that = this.$el;
+
             for(const el of openEls){
                 el.addEventListener("click",function(){
                     const moodalId = this.dataset.open;
@@ -124,13 +130,24 @@ import { mapState } from 'vuex';
                 if(e.key == "Escape" && that.querySelector(".moodal.is-visible")){
 
                     that.querySelector(".moodal.is-visible").classList.remove(isVisible);
+                    newThis.setItems({
+                        open : false,
+                        title : '',
+                        message : '',
+                        status : ''
+                    })
                 }
             })
 
             that.addEventListener("click",e=>{
                 if(e.target === that.querySelector(".moodal.is-visible")){
                     that.querySelector(".moodal.is-visible").classList.remove(isVisible);
-
+                    newThis.setItems({
+                        open : false,
+                        title : '',
+                        message : '',
+                        status : ''
+                    })
                 }
             })
 

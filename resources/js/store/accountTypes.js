@@ -9,7 +9,7 @@ export default {
             rowsPerPage:15,
         },
         totalgroups:0,
-        groupSortRowsBy:'name'
+        groupSortRowsBy:'name',
     },
     getters:{
 
@@ -105,29 +105,23 @@ export default {
         },
 
         async DELETE_ACCOUNT_GROUP_ACTION(context,payload){
-            console.log({payload});
             if(context.rootGetters.loggedIn){
                 return new Promise((resolve,reject)=>{
                     let id = payload.id || null;
-
-
-                        url = `/api/account-types/${id}`
-
-
-
+                    const url = `/api/account-types/${id}`
                     Axios.delete(url,{
                         headers:{
                             Authorization: "Bearer "+context.rootState.token
-                        },
+                        }
                     }).then(
                         response =>{
-                            const accountTypes = response.data;
+                            const accountTypes = response.data.accountTypes;
                             resolve(accountTypes)
                         }
                     ).catch((err)=>{
                         console.log(err);
                         reject(err);
-                    })
+                    });
 
                 });
             }

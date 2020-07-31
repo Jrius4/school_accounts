@@ -256,6 +256,7 @@ import { mapState } from 'vuex';
                 else{
 
                     this.$store.dispatch('accountTypesModule/SAVE_ACCOUNT_GROUPS_ACTION',formData).then((res)=>{
+
                     let alert = {
                         status:'successful',
                         open:true,
@@ -292,7 +293,7 @@ import { mapState } from 'vuex';
                 this.accTypeStep = 1;
             },
             viewItem(item){
-                console.log(item)
+
                 this.accTypeStep = 2;
                 this.selectedItem = item;
             },
@@ -317,11 +318,12 @@ import { mapState } from 'vuex';
 
 
                 this.$store.dispatch('accountTypesModule/DELETE_ACCOUNT_GROUP_ACTION',formData).then((res)=>{
+
                     let alert = {
-                        status:'successful',
+                        status:(res.message).includes('not')?'failed':'successful',
                         open:true,
                         message:res.message || 'successfully Deletion',
-                        title:'Action Successful'
+                        title:(res.message).includes('not')?'Action Failed':'Action Successful'
                     }
                     this.$store.dispatch('alertActionModule/ALERT_ACTION',alert);
                 }).catch(()=>{
@@ -346,7 +348,7 @@ import { mapState } from 'vuex';
         },
         watch:{
             searchAccType(val){
-                console.log(val);
+
                 if(!val){
                     this.searchAccType = "";
                 }

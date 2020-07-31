@@ -226,8 +226,7 @@ Route::get('/accounts/school-account','Accounts\AccountantController@getCreateAc
 Route::post('/accounts/school-account','Accounts\AccountantController@storeAccountForm')->name('account.store');
 // Route::post('/accounts/school-account')->name();
 // Route::post('/accounts/school-account')->name(); //edit account types
-//school_accounts
-Route::get('accounts-index', 'AccountController@accountView')->name('accounts-index');
+
 //student payments
 Route::get('/students-payments/all-payments','Accounts\BurserController@allStudentsPayment')->name('payments.all-payments');
 Route::get('/student-payments','Accounts\BurserController@studentPayments')->name('payments.students');
@@ -298,6 +297,8 @@ Route::group(['middleware'=>'auth'],function(){
     Route::get('/messenger/{user_id}','MessengerController@getMessages')->name('messenger.fetch-messages');
     Route::post('/messenger','MessengerController@sendMessage');
 
+    //school_accounts
+Route::get('accounts-index', 'AccountController@accountView')->name('accounts-index');
     //salary
     Route::get('/employee-salaries','Salary\SalaryController@employeeSalary')->name('employee-salary.index');
 
