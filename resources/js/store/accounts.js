@@ -73,7 +73,7 @@ export default {
                     }).then(
                         response =>{
                             const accounts = response.data;
-                            console.log({accounts})
+
                             context.commit('GET_ACCOUNTS',accounts);
                             resolve(accounts);
                         }

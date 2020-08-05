@@ -1,6 +1,7 @@
 <?php
 
 use App\Role;
+use App\Permission;
 use App\User;
 use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
@@ -122,6 +123,7 @@ class RolesTableSeeder extends Seeder
                 'password'=>'123456',
                 'remember_token'=>Str::random(10)
                 ])->attachRole($accountant);
+
 
     }
 }

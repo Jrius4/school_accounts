@@ -11,6 +11,7 @@ import paymentsModule from "./payments";
 import accountTypesModule from "./accountTypes";
 import accountsModule from "./accounts";
 import alertActionModule from './alertAction';
+import rolesModule from './roles'
 
 const citiesUrl = "/api/vue-cities";
 
@@ -37,6 +38,7 @@ export default new Vuex.Store({
         alertActionModule,
         prefs:PrefsModule,
         nav:NavModule,
+        rolesModule,
         accountTypesModule,
         accountsModule,
         expNav:ExpenseNavModule,
