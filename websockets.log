@@ -267,3 +267,7 @@ Connection id 431479302.707178933 sending message {"event":"pusher:pong"}
 Connection id 657948079.113786820 sending message {"event":"pusher:pong"}
 903424: connection id 431479302.707178933 received message: {"event":"pusher:ping","data":{}}.
 Connection id 431479302.707178933 sending message {"event":"pusher:pong"}
+903424: connection id 657948079.113786820 received message: {"event":"pusher:ping","data":{}}.
+Connection id 657948079.113786820 sending message {"event":"pusher:pong"}
+903424: connection id 431479302.707178933 received message: {"event":"pusher:ping","data":{}}.
+Connection id 431479302.707178933 sending message {"event":"pusher:pong"}
