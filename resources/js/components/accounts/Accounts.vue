@@ -62,8 +62,8 @@
                                                     fa fa-trash
                                                 </v-icon>
                                             </template>
-                                            <template v-slot:item.acc_category="{item}">
-                                                {{`(${item.acc_category?item.acc_category.name:'No'}) Group`}}
+                                            <template v-slot:item.acc_category_id="{item}">
+                                                {{`(${item.acc_category_id !== null?item.acc_category.name:'No'}) Group`}}
                                             </template>
                                             <template v-slot:item.amount="{item}">
                                                 {{item.amount | currency}}
@@ -188,7 +188,8 @@
                                         </v-row>
                                         <v-row flat>
                                             <v-col cols="12" sm="8">
-                                                <h3 class="text-center"> Accounts' Editor</h3>
+                                                <h3 class="text-center"> {{selectedItem !== null?'Update':'Add New'}} Account Form</h3>
+                                                <hr>
                                             </v-col>
                                         </v-row>
                                         <v-row>
@@ -219,7 +220,7 @@
 
                                                         <v-col cols="8">
                                                             <v-autocomplete
-
+                                                                :selected="accountGroupSelected"
                                                                 append-icon="mdi-database-search"
                                                                 label="Account Group"
                                                                 v-model="accountGroup"
@@ -301,7 +302,7 @@ import { mapState } from 'vuex';
             headers:[
                         {text:'account',align:'left',sortable:true,value:'account_name'},
                         {text:'Balance',align:'left',sortable:true,value:'amount'},
-                        {text:'Group',align:'left',sortable:false,value:'acc_category'},
+                        {text:'Group',align:'left',sortable:false,value:'acc_category_id'},
                         {text:'NUMBER OF STRUCTURES',align:'left',sortable:false,value:'fee_structures'},
                         {text:'ACTION',align:'left',sortable:false,value:'action'}
                     ],
@@ -558,8 +559,14 @@ import { mapState } from 'vuex';
                     this.accountGroup = null;
                 }
                 else if (item !== null || item !== ""){
-                    this.accountName = item.name;
+
                     this.selectedItem = item;
+
+                    this.accountName = item.account_name;
+                    this.accountBalance = item.amount;
+                    this.accountMinBalance = item.set_minium_balance;
+                    this.accountGroup = item.acc_category_id!==null ? item.acc_category.name:null;
+                    this.accountGroupSelected = item.acc_category_id!==null ? item.acc_category:null;
                 }
                 this.accTypeStep = 3;
 

@@ -94,8 +94,18 @@ import { mapState, mapMutations } from 'vuex';
 
                 const isVisible = "is-visible";
                 let that = this.$el;
+                let newThis = this;
                 if(that.querySelector(".moodal.is-visible"))
-                that.querySelector(".moodal.is-visible").classList.remove(isVisible);
+                {
+                    that.querySelector(".moodal.is-visible").classList.remove(isVisible);
+                    newThis.setItems({
+                        open : false,
+                        title : '',
+                        message : '',
+                        status : ''
+                    });
+                }
+
 
             }
         },
@@ -135,7 +145,7 @@ import { mapState, mapMutations } from 'vuex';
                         title : '',
                         message : '',
                         status : ''
-                    })
+                    });
                 }
             })
 
