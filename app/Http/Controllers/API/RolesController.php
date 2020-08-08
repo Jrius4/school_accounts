@@ -5,6 +5,10 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Role;
+use App\User;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 use App\Permission;
@@ -19,6 +23,62 @@ class RolesController extends Controller
         $roles = $roles->with('permissions', 'users')->where('name', 'like', '%' . $query . '%')->orWhere('display_name', 'like', '%' . $query . '%')->paginate(15);
 
         return response()->json(compact('roles'));
+    }
+
+    public function checkUniqueness(Request $request)
+    {
+        $email = $request['email'];
+        $username = $request['username'];
+        $message = [];
+
+        if ($username !== null) {
+            $users = new User();
+            $x = "";
+            do {
+                $username .= $x;
+                $x++;
+            } while ($users->where('username', $username)->exists());
+        }
+        if ($email !== null) {
+            $users = new User();
+            $x = "";
+            $emailRun = Str::singular(Str::before($email, "@"));
+            $emailSuffix = Str::singular(Str::after($email, "@"));
+            do {
+                $emailRun .= $x;
+                $email = $emailRun . '@' . $emailSuffix;
+
+                $x++;
+            } while ($users->where('email', $email)->exists());
+        }
+
+        return response()->json(compact('username', 'email'));
+    }
+
+    public function createUser(Request $request)
+    {
+        $files = $request['files'];
+        $fileNames = null;
+        if ($files !== null) {
+            $fileNames = [];
+            $path = 'pictures';
+            $filename = null;
+            foreach ($files as $key => $file) {
+                $file_input = $request->file('file' . $key);
+                $filename = strtolower(Str::random(5)) . time() . '_ticket.'
+                    . $file_input->getClientOriginalExtension();
+
+                if (Storage::disk('uploads')->put($path . '/' . $filename,  File::get($file_input))) {
+                    array_push($fileNames, ['name' => $filename]);
+                }
+            }
+            $fileNames = $filename;
+            return response()->json($fileNames);
+
+            $user = User::create([
+                'image'
+            ]);
+        }
     }
 
     public function saveRole(Request $request)

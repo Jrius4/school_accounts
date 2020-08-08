@@ -20,19 +20,20 @@ class TeacherSubjectSeederTable extends Seeder
         $subject2 = Subject::whereName('Ordinary Physics')->first();
         $subject3 = Subject::whereName('Ordinary Biology')->first();
         User::create([
-            'name'=>'Magezi Peter',
-            'username'=>'magezi',
-            'slug'=>'magezi',
-            'password'=>'123456',
-            'remember_token'=>Str::random(10)
-            ]);
+            'last_name' => 'Magezi',
+            'first_name' => 'Peter',
+            'given_name' => 'Clever',
+            'email' => 'mpc1@test.com',
+            'username' => 'mpc1',
+            'slug' => 'magezi',
+            'password' => '123456',
+            'remember_token' => Str::random(10)
+        ]);
         $user = new User();
-        $user->whereName('Magezi Peter')->first()->roles()->detach($teacher);
-        $user->whereName('Magezi Peter')->first()->roles()->attach($teacher);
+        $user->where('email', 'mpc1@test.com')->first()->roles()->detach($teacher);
+        $user->where('email', 'mpc1@test.com')->first()->roles()->attach($teacher);
 
-        $user->whereName('Magezi Peter')->first()->subjects()->detach([$subject1->id,$subject2->id,$subject3->id]);
-        $user->whereName('Magezi Peter')->first()->subjects()->attach([$subject1->id,$subject2->id,$subject3->id]);
-
-
+        $user->where('email', 'mpc1@test.com')->first()->subjects()->detach([$subject1->id, $subject2->id, $subject3->id]);
+        $user->where('email', 'mpc1@test.com')->first()->subjects()->attach([$subject1->id, $subject2->id, $subject3->id]);
     }
 }

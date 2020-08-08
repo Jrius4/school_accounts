@@ -74,10 +74,10 @@ class RolesTableSeeder extends Seeder
         $user2->detachRole($admin);
         $user2->attachRole($admin);
 
-         // second user as headteacher
-         $user3 = User::find(3);
-         $user3->detachRole($headteacher);
-         $user3->attachRole($headteacher);
+        // second user as headteacher
+        $user3 = User::find(3);
+        $user3->detachRole($headteacher);
+        $user3->attachRole($headteacher);
 
         // second user as editor
         $user4 = User::find(4);
@@ -96,34 +96,37 @@ class RolesTableSeeder extends Seeder
 
 
         User::create([
-            'name'=>'Umar Boss',
-            'username'=>'Umar',
-            'slug'=>'umar',
-            'password'=>'123456',
-            'remember_token'=>Str::random(10)
-            ]);
+            'first_name' => 'Umar',
+            'last_name' => 'Masaba',
+            'username' => 'mu1',
+            'email' => 'mu1@test.com',
+            'slug' => 'umar',
+            'password' => '123456',
+            'remember_token' => Str::random(10)
+        ]);
 
-        $user->whereName('Umar Boss')->first()->roles()->detach($headteacher);
-        $user->whereName('Umar Boss')->first()->roles()->attach($headteacher);
+        $user->where('email','mu1@test.com')->first()->roles()->detach($headteacher);
+        $user->where('email','mu1@test.com')->first()->roles()->attach($headteacher);
 
         $user->create(array(
-            'name'=>'Burser',
-            'username'=>'burser',
-            'slug'=>'burser',
-            'password'=>'123456',
-            'remember_token'=>Str::random(10)
+            'first_name' => 'Burser',
+            'last_name' => 'Burser',
+            'username' => 'bu1',
+            'email' => 'bu1@test.com',
+            'slug' => 'burser',
+            'password' => '123456',
+            'remember_token' => Str::random(10)
         ));
-        $user->whereName('Burser')->first()->roles()->detach($burser);
-        $user->whereName('Burser')->first()->roles()->attach($burser);
+        $user->where('email','bu1@test.com')->first()->roles()->detach($burser);
+        $user->where('email','bu1@test.com')->first()->roles()->attach($burser);
 
         $user90 = User::create([
-                'name'=>'accountant',
-                'username'=>'accountant',
-                'slug'=>'accountant',
-                'password'=>'123456',
-                'remember_token'=>Str::random(10)
-                ])->attachRole($accountant);
-
-
+            'first_name' => 'accountant',
+            'username' => 'ac1',
+            'email' => 'ac1@test.com',
+            'slug' => 'accountant',
+            'password' => '123456',
+            'remember_token' => Str::random(10)
+        ])->attachRole($accountant);
     }
 }

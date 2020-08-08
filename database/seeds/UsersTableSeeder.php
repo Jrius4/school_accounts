@@ -19,7 +19,7 @@ class UsersTableSeeder extends Seeder
 
         DB::table('users')->insert([
             [
-                'name' => 'super_admin',
+                'last_name' => 'super_admin',
                 'username' => 'super_admin',
                 'slug' => 'super_admin',
                 'email' => 'super_admin@test.com',
@@ -32,7 +32,7 @@ class UsersTableSeeder extends Seeder
 
             ],
             [
-                'name' => 'admin',
+                'last_name' => 'admin',
                 'username' => 'admin',
                 'slug' => 'admin',
                 'email' => 'admin@test.com',
@@ -46,7 +46,7 @@ class UsersTableSeeder extends Seeder
             ]
             ,
             [
-                'name' => 'headteacher',
+                'last_name' => 'headteacher',
                 'username' => 'headteacher',
                 'slug' => 'headteacher',
                 'email' => 'headteacher@test.com',
@@ -59,7 +59,7 @@ class UsersTableSeeder extends Seeder
 
             ],
             [
-                'name' => 'academic',
+                'last_name' => 'academic',
                 'username' => 'academic',
                 'slug' => 'academic',
                 'email' => 'academic@test.com',
@@ -72,7 +72,7 @@ class UsersTableSeeder extends Seeder
 
             ],
             [
-                'name' => 'teacher',
+                'last_name' => 'teacher',
                 'username' => 'teacher',
                 'slug' => 'teacher',
                 'email' => 'teacher@test.com',
@@ -85,7 +85,7 @@ class UsersTableSeeder extends Seeder
 
             ],
             [
-                'name' => 'secretary',
+                'last_name' => 'secretary',
                 'username' => 'secretary',
                 'slug' => 'secretary',
                 'email' => 'secretary@test.com',

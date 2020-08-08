@@ -2,7 +2,7 @@
     <div>
         <h3>Student Dashboard</h3>
         <p>
-            Welcome <span v-if="user !== null" class="font-italic">{{user.name}}</span><span v-if="user == null" class="font-italic">username</span>.
+            Welcome <span v-if="user !== null" class="font-italic">{{`${user.first_name}${user.given_name?" "+user.given_name:""} ${user.last_name}`}} </span><span v-if="user == null" class="font-italic">username</span>.
         </p>
     </div>
 </template>

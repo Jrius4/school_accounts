@@ -85,7 +85,7 @@ class LoginController extends Controller
 
 
 
-        if (Auth::guard()->attempt(['username' => $request->username, 'password' => $request->password], $request->get('remember'))) {
+        if (Auth::guard()->attempt(['username' => $request->username, 'password' => $request->password], $request->get('remember')) || Auth::guard()->attempt(['email' => $request->username, 'password' => $request->password], $request->get('remember'))) {
 
             $id = Auth::user()->id;
             $user = User::where('id',$id)->first();

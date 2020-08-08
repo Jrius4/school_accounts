@@ -13,16 +13,18 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('staffs',function(Blueprint $table){
+        Schema::create('staffs', function (Blueprint $table) {
             $table->smallIncrements('id');
             $table->string('name')->unique()->default('administrator');
             $table->string('slug')->default('administrator');
             $table->timestamps();
-
         });
         Schema::create('users', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name');
+            $table->string('first_name')->nullable();
+            $table->string('last_name')->nullable();
+            $table->string('given_name')->nullable();
+            $table->string('contact')->nullable();
             $table->string('username')->unique();
             $table->string('is_class_teacher')->nullable();
             $table->string('slug')->unique();

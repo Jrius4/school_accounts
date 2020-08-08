@@ -166,6 +166,8 @@ Route::middleware('auth:api')->group(function () {
     Route::get('roles', 'API\RolesController@getRoles');
     Route::post('roles', 'API\RolesController@saveRole');
     Route::get('roles/{role}', 'API\RolesController@showRole');
+    Route::post('roles/users/check-uniqueness', 'API\RolesController@checkUniqueness');
+    Route::post('roles/create-user', 'API\RolesController@createUser');
 
     Route::get('permissions', 'API\RolesController@getPermissions');
     Route::get('permissions/{permission}', 'API\RolesController@showPermission');

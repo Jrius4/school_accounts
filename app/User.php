@@ -19,9 +19,9 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','slug','image','username','staff_id','some_form','is_class_teacher',
+        'last_name','first_name','given_name', 'email', 'password','slug','image','username','staff_id','some_form','is_class_teacher',
         'schclass_id','biography','join_as','entry_date','former_school','last_seen_at','api_token',
-        'wage_salary','wage_paid','wage_balance','wage_loan','wage_upfront'
+        'wage_salary','wage_paid','wage_balance','wage_loan','wage_upfront','contact'
     ];
 
     /**

@@ -1,3 +1,5 @@
+import { result } from "lodash";
+
 export default {
     namespaced: true,
     state: {
@@ -27,6 +29,102 @@ export default {
     },
     getters: {},
     actions: {
+        async CHECK_USERNAME_ACTION(context, payload) {
+            return new Promise((resolve, reject) => {
+                if (context.rootGetters.loggedIn) {
+                    const email = payload.email || "";
+                    const username = payload.username || "";
+                    const url = `/api/roles/users/check-uniqueness`;
+                    const data = {
+                        username,
+                        email
+                    };
+                    axios
+                        .post(url, data, {
+                            headers: {
+                                Authorization:
+                                    "Bearer " + context.rootState.token
+                            }
+                        })
+                        .then(result => {
+                            const data = result.data;
+                            resolve(data);
+                        })
+                        .catch(err => reject(err));
+                } else {
+                }
+            });
+        },
+        async SAVE_USER_ACTION(context,payload)
+        {
+            return new Promise((resolve,reject)=>{
+                if(context.rootGetters.loggedIn){
+                    console.log(payload);
+                    const username = payload.username || "";
+                    const first_name = payload.first_name || "";
+                    const last_name = payload.last_name || "";
+                    const given_name = payload.given_name || "";
+                    const contact = payload.contact || "";
+                    const email = payload.email || "";
+                    const password = payload.password || "";
+                    const files = payload.files || "";
+                    const roles = payload.roles || "";
+                    const permissions = payload.permissions || "";
+
+                    let formData = new FormData();
+
+                    if (files !== "") {
+                    for (let index = 0; index < files.length; index++) {
+                            formData.append("files[]", files[index]);
+                            formData.append(`file${index}`, files[index]);
+                        }
+                    } else {
+                        formData.append("files", files);
+                    }
+
+                    formData.append('username',username);
+                    formData.append('first_name',first_name);
+                    formData.append('last_name',last_name);
+                    formData.append('given_name',given_name);
+                    formData.append('email',email);
+                    formData.append('contact',contact);
+                    formData.append('roles[]',roles);
+                    formData.append('permissions[]',permissions);
+                    // formData.append('files[]',files);
+                    formData.append('password',password);
+
+                    const url = `/api/roles/create-user`;
+
+                    axios
+                    .post(url, formData, {
+                        headers: {
+                            "Content-Type":
+                                "multipart/form-data; charset=utf-8; boundary=" +
+                                Math.random()
+                                    .toString()
+                                    .substr(2),
+                            Authorization:
+                                    "Bearer " + context.rootState.token
+                        }
+                    })
+                    .then(result => {
+                        console.log(result);
+                        const user = result.data.user;
+
+                        resolve(user);
+                    })
+                    .catch(err => {
+                        console.log(err);
+                        reject(err);
+                    });
+
+
+                }
+                else{
+
+                }
+            })
+        },
         async GET_ROLES_ACTION(context, payload) {
             return new Promise((resolve, reject) => {
                 if (context.rootGetters.loggedIn) {
@@ -155,11 +253,43 @@ export default {
                 }
             });
         },
+        async SAVE_PERMISSION_ACTION(context, payload) {
+            return new Promise((resolve, reject) => {
+                if (context.rootGetters.loggedIn) {
+                    const url = `/api/permissions`;
+
+                    axios
+                        .post(url, formData, {
+                            headers: {
+                                Authorization:
+                                    "Bearer " + context.rootState.token
+                            }
+                        })
+                        .then(result => {
+                            var permission = result.data;
+                            console.log(permission);
+                            context.dispatch("GET_PERMISSIONS_ACTION", {
+                                page: 1,
+                                query: ""
+                            });
+                            resolve(permission);
+                        })
+                        .catch(err => {
+                            console.log(err);
+                            reject(err);
+                        });
+                } else {
+                    console.log("not logged In!");
+                    const err = "not logged In!";
+                    reject({ err });
+                }
+            });
+        },
         async GET_PERMISSIONS_ACTION(context, payload) {
             return new Promise((resolve, reject) => {
                 if (context.rootGetters.loggedIn) {
                     const page = payload.page || 1;
-                    const query = payload.query || null;
+                    const query = payload.query || "";
 
                     const url = `/api/permissions`;
 
