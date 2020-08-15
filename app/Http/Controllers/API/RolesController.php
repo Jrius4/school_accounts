@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
+
 use App\Permission;
 
 class RolesController extends Controller
@@ -58,27 +59,39 @@ class RolesController extends Controller
     public function createUser(Request $request)
     {
         $files = $request['files'];
+        $inputs = $request->all();
+
         $fileNames = null;
         if ($files !== null) {
             $fileNames = [];
-            $path = 'pictures';
-            $filename = null;
+            $path = 'images';
             foreach ($files as $key => $file) {
                 $file_input = $request->file('file' . $key);
-                $filename = strtolower(Str::random(5)) . time() . '_ticket.'
+                $filename = strtolower(Str::random(5)) . time() . '_member.'
                     . $file_input->getClientOriginalExtension();
 
                 if (Storage::disk('uploads')->put($path . '/' . $filename,  File::get($file_input))) {
-                    array_push($fileNames, ['name' => $filename]);
+                    array_push($fileNames, $filename);
                 }
             }
-            $fileNames = $filename;
-            return response()->json($fileNames);
-
-            $user = User::create([
-                'image'
-            ]);
+            $fileNames = $fileNames[0];
         }
+        $user = User::create([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'given_name' => $request->given_name,
+            'username' => $request->username,
+            'email' => $request->email,
+            'slug' => str_slug($request->username),
+            'contact' => $request->contact,
+            'password' => $request->password,
+            'image' => $fileNames,
+        ]);
+
+        $user->attachRoles($request['roles'] !== null ? $request['roles'] : []);
+        $user->attachPermissions($request['permissions'] !== null ? $request['permissions'] : []);
+
+        return response()->json(['message' => 'saved successfully']);
     }
 
     public function saveRole(Request $request)
@@ -104,6 +117,7 @@ class RolesController extends Controller
 
         return response()->json(['message' => "Saved Role Successfully"]);
     }
+
     public function showRole($role)
     {
         $role_id = $role;
@@ -130,9 +144,5 @@ class RolesController extends Controller
         });
 
         return response()->json(compact('permissions'));
-    }
-
-    public function showPermission($permission)
-    {
     }
 }

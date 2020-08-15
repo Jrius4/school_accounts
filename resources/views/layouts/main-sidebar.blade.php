@@ -119,6 +119,9 @@
                 </p>
             </a>
         </li>
+        <li  class="nav-item mb-4">
+                     <a href="{{route('app-tests')}}" class="nav-link">App Tests</a>
+                </li>
 
 
         </ul>

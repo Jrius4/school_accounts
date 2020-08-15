@@ -122,6 +122,8 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/v1/saveSalaryEmployee', 'Salary\SalaryController@saveEmployee');
 
     Route::get('/v1/users', 'API\UserController@fetchUsers');
+    Route::get('/v1/get-users', 'API\UserController@getUsers');
+    Route::get('/v1/get-users/{user}', 'API\UserController@getUser');
 });
 
 Route::middleware('auth:api')->group(function () {

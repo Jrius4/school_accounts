@@ -13,13 +13,20 @@ import { RestDataSource } from "./restDataSource/RestDataSource";
 import store from "./store";
 window.Vue = require("vue");
 import Vuelidate from "vuelidate";
+Vue.use(Vuelidate);
+import CxltToastr from "cxlt-vue2-toastr";
+import "cxlt-vue2-toastr/dist/css/cxlt-vue2-toastr.css";
+
+var toastrConfigs = {
+    position: "top right"
+};
+Vue.use(CxltToastr, toastrConfigs);
 // import VueNativeStock from 'vue-native-websocket';
 
 // Vue.use(VueNativeStock,'ws://schools.dev.com/8090', {
 //    store:store,
 //    format:'json'
 //   });
-Vue.use(Vuelidate);
 
 import "animate.css/animate.min.css";
 import "popmotion/dist/popmotion.global.min.js";
@@ -96,6 +103,7 @@ Vue.use(VueHtmlToPaper, options);
 // );
 
 import vSelect from "vue-select";
+Vue.component("test-form", require("./components/common/TestForm.vue").default);
 
 Vue.component("v-select-field", vSelect);
 Vue.component(

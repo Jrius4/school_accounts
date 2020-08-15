@@ -60,7 +60,7 @@
       <p>
         Teachers
         <i class="fas fa-angle-left right"></i>
-        <span class="badge badge-info right">{{App\User::whereName('teacher')->first()->count()}}</span>
+        <span class="badge badge-info right">{{App\Role::whereName('teacher')->first()->count()}}</span>
       </p>
     </a>
     <ul class="nav nav-treeview">

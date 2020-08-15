@@ -17,7 +17,21 @@
         <div class="card col-12 p-0 card-dark m-x elevation-2 animated bounce">
             <div class="card-header row">
                 <h3 class="card-title mr-auto">Manage Staffs</h3>
-                <a href="{{route('users.create')}}" class="btn btn-sm btn-outline-primary">Create New User</a>
+                <div class="btn-group-sm">
+                   <a href="{{route('users.create')}}" class="btn btn-sm btn-outline-primary">Create New User</a>
+                   <div class="btn-group">
+                        <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Export
+                        </button>
+                        <div class="dropdown-menu bg-dark animated flipInX">
+                            <a class="dropdown-item dropdown-item-navi" href="{{route('users-export',['exportType'=>'excel'])}}">EXCEL</a>
+                            <a class="dropdown-item dropdown-item-navi" href="{{route('users-export',['exportType'=>'csv'])}}">CSV</a>
+                            <a class="dropdown-item dropdown-item-navi" href="{{route('users-export',['exportType'=>'pdf'])}}">PDF</a>
+                        </div>
+                    </div>
+
+                </div>
+
             </div>
             <div class="card-body">
                 <div class="row">
@@ -37,15 +51,15 @@
                                                             <div class="alert alert-danger">No info</div>
                                                     @else
                                                         @foreach ($users as $user)
-                                                            <tr title="{{$user->name}}">
-                                                                <td>
-                                                                {{$user->name}}
+                                                            <tr title="{{$user->first_name}}{{$user->last_name}}{{$user->given_name}}">
+                                                                <td >
+                                                                {{$user->first_name}} {{$user->last_name}} {{$user->given_name}}
                                                                 </td>
 
                                                                 <td>
                                                                     @if ($user->roles->count()>0)
                                                                         @foreach ($user->roles as $role)
-                                                                            <span class="bg-primary" style="color:white;padding:3px">{{$role->display_name}}</span>
+                                                                            <span class="badge-primary pa-2">{{$role->display_name}}</span>
                                                                         @endforeach
                                                                     @else
                                                                         <span class="bg-warning">No role assigned</span>

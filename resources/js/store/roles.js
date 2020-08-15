@@ -1,5 +1,3 @@
-import { result } from "lodash";
-
 export default {
     namespaced: true,
     state: {
@@ -55,11 +53,9 @@ export default {
                 }
             });
         },
-        async SAVE_USER_ACTION(context,payload)
-        {
-            return new Promise((resolve,reject)=>{
-                if(context.rootGetters.loggedIn){
-                    console.log(payload);
+        async SAVE_USER_ACTION(context, payload) {
+            return new Promise((resolve, reject) => {
+                if (context.rootGetters.loggedIn) {
                     const username = payload.username || "";
                     const first_name = payload.first_name || "";
                     const last_name = payload.last_name || "";
@@ -74,7 +70,7 @@ export default {
                     let formData = new FormData();
 
                     if (files !== "") {
-                    for (let index = 0; index < files.length; index++) {
+                        for (let index = 0; index < files.length; index++) {
                             formData.append("files[]", files[index]);
                             formData.append(`file${index}`, files[index]);
                         }
@@ -82,48 +78,62 @@ export default {
                         formData.append("files", files);
                     }
 
-                    formData.append('username',username);
-                    formData.append('first_name',first_name);
-                    formData.append('last_name',last_name);
-                    formData.append('given_name',given_name);
-                    formData.append('email',email);
-                    formData.append('contact',contact);
-                    formData.append('roles[]',roles);
-                    formData.append('permissions[]',permissions);
-                    // formData.append('files[]',files);
-                    formData.append('password',password);
+                    if (roles !== "") {
+                        for (let index = 0; index < roles.length; index++) {
+                            formData.append("roles[]", roles[index]);
+                        }
+                    } else {
+                        formData.append("roles", roles);
+                    }
+
+                    if (permissions !== "") {
+                        for (
+                            let index = 0;
+                            index < permissions.length;
+                            index++
+                        ) {
+                            formData.append(
+                                "permissions[]",
+                                permissions[index]
+                            );
+                        }
+                    } else {
+                        formData.append("permissions", permissions);
+                    }
+
+                    formData.append("username", username);
+                    formData.append("first_name", first_name);
+                    formData.append("last_name", last_name);
+                    formData.append("given_name", given_name);
+                    formData.append("email", email);
+                    formData.append("contact", contact);
+
+                    formData.append("password", password);
 
                     const url = `/api/roles/create-user`;
 
                     axios
-                    .post(url, formData, {
-                        headers: {
-                            "Content-Type":
-                                "multipart/form-data; charset=utf-8; boundary=" +
-                                Math.random()
-                                    .toString()
-                                    .substr(2),
-                            Authorization:
+                        .post(url, formData, {
+                            headers: {
+                                "Content-Type":
+                                    "multipart/form-data; charset=utf-8; boundary=" +
+                                    Math.random()
+                                        .toString()
+                                        .substr(2),
+                                Authorization:
                                     "Bearer " + context.rootState.token
-                        }
-                    })
-                    .then(result => {
-                        console.log(result);
-                        const user = result.data.user;
-
-                        resolve(user);
-                    })
-                    .catch(err => {
-                        console.log(err);
-                        reject(err);
-                    });
-
-
+                            }
+                        })
+                        .then(result => {
+                            resolve(result.data);
+                        })
+                        .catch(err => {
+                            console.log(err);
+                            reject(err);
+                        });
+                } else {
                 }
-                else{
-
-                }
-            })
+            });
         },
         async GET_ROLES_ACTION(context, payload) {
             return new Promise((resolve, reject) => {

@@ -43,6 +43,7 @@
         "@mdi/font": "^5.3.45",
         "admin-lte": "3",
         "chart.js": "^2.9.3",
+        "cxlt-vue2-toastr": "^1.1.1",
         "echarts-gl": "^1.1.1",
         "echarts-liquidfill": "^2.0.6",
         "echarts-stat": "^1.1.1",
