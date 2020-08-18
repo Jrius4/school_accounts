@@ -177,8 +177,10 @@ Route::post('/assign-class-to-teacher', 'TeacherController@storeAssignedClassToT
 Route::get('/manage-assign-class-to-teacher', 'TeacherController@manageAssignedClassToTeacher');
 Route::get('/manage-assign-subject-to-teacher', 'TeacherController@manageAssignedSubjectToTeacher');
 //building results
+
 Route::resource('marks', 'ResultController');
 Route::get('/examsets/{term}/{set}/term-sets', 'ResultController@getBot');
+Route::middleware('auth')->get('/enter-results/{term}/{set}/term-sets', 'ResultController@enterResults');
 Route::post('/fetch-papers', 'ResultController@fetchPapers');
 Route::post('/store-student-marks', 'ResultController@storeStudentMarks');
 Route::get('/manage-marks', 'ResultController@getManageMarks');

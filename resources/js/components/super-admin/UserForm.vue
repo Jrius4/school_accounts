@@ -99,9 +99,7 @@
           <v-col cols="12">
             <v-text-field
               outlined
-              v-model="
-                                                                memberPassword
-                                                            "
+              v-model="memberPassword"
               :append-icon="
                             show1
                                 ? 'mdi-eye'

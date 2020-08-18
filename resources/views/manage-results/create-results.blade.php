@@ -25,9 +25,7 @@
             </div>
             <div class="card-body">
                             <form action="javascript:void(0)" id="insert_data">
-                                {{-- <div class="row d-flex justify-content-center">
 
-                                </div> --}}
                                 <div class="row d-flex justify-content-center">
                                         <div style="display:none">
                                         <input type="hidden" name="term" value={{request()->term}}><input type="hidden" value={{request()->set}} name="set"><input type="hidden" name="teacher_id" value="{{Auth::user()->id}}">
@@ -92,7 +90,7 @@
             </div>
 
 
-            </section>
+</section>
 
 
 

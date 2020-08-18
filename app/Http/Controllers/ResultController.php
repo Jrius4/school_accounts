@@ -11,6 +11,7 @@ use App\Schclass;
 use App\Subject;
 use App\Term;
 use App\User;
+use App\Calculator;
 use Barryvdh\DomPDF\Facade as PDF;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -31,6 +32,57 @@ class ResultController extends BackendController
 
 
         return view('manage-results.create-results',compact('values','schclasses'));
+    }
+    public function enterResults()
+    {
+        $schclasses = Auth::user()->schclasses()->get();
+        return view('manage-results.enter-results',compact('schclasses'));
+    }
+    public function teacherClasses(Request $request)
+    {
+        $q = $request->query('q');
+        $classes = Auth::user()->schclasses()->get();
+        return $classes;
+    }
+    public function teacherSubjects(Request $request)
+    {
+        $q = $request->query('q');
+        $level = $request->query('level');
+        $subjects = Auth::user()->subjects()->where('level','like','%'.$level.'%')->where('name','like','%'.$q.'%')->get();
+        return $subjects;
+    }
+    public function teacherStudents(Request $request)
+    {
+        $students = new Student();
+        $q = $request->query('q');
+        $level = $request->query('level');
+        $class_id = $request->query('class_id');
+        $students = $students->with('schstream','schclass','subjects','combination')->where('schclass_id',$class_id)->where('name','like','%'.$q.'%')->orWhere('roll_number','like','%'.$q.'%')->get();
+        return $students;
+    }
+
+    public function EnterResultsNew(Request $request){
+        $student_id = $request['student_id'];
+        $subject_id = $request['subject_id'];
+        $papers = $request['papers'];
+
+        $cal = new Calculator();
+        $cal->set_inputs($papers);
+        $processed = $cal->get_inputs($papers);
+
+        $students = new Student();
+        $subjects = new Subject();
+        $student = null;
+        $subject = null;
+        if($students->where('id',$student_id)->exists()){
+            $student = $students->find($student_id);
+        }
+        if($subjects->where('id',$subject_id)->exists()){
+            $subject = $subjects->find($subject_id);
+        }
+
+        return response()->json(compact('subject','student','papers','processed'));
+
     }
 
     public function fetchPapers(Request $request)

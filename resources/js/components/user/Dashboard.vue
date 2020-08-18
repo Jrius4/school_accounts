@@ -1,12 +1,17 @@
 <template>
-  <div class="teal elevation-2">
-    <h3>User Dashboard</h3>
-    <p>
-      Welcome
-      <span v-if="user !== null" class="font-italic">{{`${user.first_name?user.first_name:""}${user.given_name?" "+user.given_name:""} ${user.last_name?user.last_name:""}`}}</span>
-      <span v-if="user == null" class="font-italic">username</span>.
-    </p>
-  </div>
+  <v-app style="height:150px">
+    <v-card-text class="teal white--text elevation-6">
+      <h3>User Dashboard</h3>
+      <p>
+        Welcome
+        <span
+          v-if="user !== null"
+          class="font-italic"
+        >{{`${user.first_name?user.first_name:""}${user.given_name?" "+user.given_name:""} ${user.last_name?user.last_name:""}`}}</span>
+        <span v-if="user == null" class="font-italic">username</span>.
+      </p>
+    </v-card-text>
+  </v-app>
 </template>
 
 <script>

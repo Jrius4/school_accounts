@@ -49,6 +49,10 @@ Route::get('/get-roles', function () {
     $roles = Role::where('name', 'LIKE', '%' . request('q') . '%')->paginate(10);
     return $roles;
 });
+Route::middleware('auth:api')->get('/teacher-classes', 'ResultController@teacherClasses');
+Route::middleware('auth:api')->get('/teacher-subjects', 'ResultController@teacherSubjects');
+Route::middleware('auth:api')->get('/teacher-students', 'ResultController@teacherStudents');
+Route::middleware('auth:api')->post('/teacher-enter-student-results', 'ResultController@EnterResultsNew');
 Route::get('/get-classes', function () {
     $roles = Schclass::where('name', 'LIKE', '%' . request('q') . '%')->paginate(10);
     return $roles;

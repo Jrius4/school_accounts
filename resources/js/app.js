@@ -103,9 +103,18 @@ Vue.use(VueHtmlToPaper, options);
 // );
 
 import vSelect from "vue-select";
-Vue.component("test-form", require("./components/common/TestForm.vue").default);
-
 Vue.component("v-select-field", vSelect);
+Vue.component("test-form", require("./components/common/TestForm.vue").default);
+// teacher
+Vue.component(
+    "teacher-nav-bar",
+    require("./components/teacher/TeacherNavBar.vue").default
+);
+Vue.component(
+    "enter-marks",
+    require("./components/teacher/EnterMarks.vue").default
+);
+
 Vue.component(
     "search-student",
     require("./components/admin/SearchStudent.vue").default

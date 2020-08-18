@@ -11,19 +11,19 @@
     </a>
         <ul class="nav nav-treeview">
             <li class="nav-item">
-                <a href="{{url('/examsets/term-1/b-o-t/term-sets')}}" class="nav-link">
+                <a href="{{url('/enter-results/term-1/b-o-t/term-sets')}}" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>B.O.T</p>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="{{url('/examsets/term-1/m-o-t/term-sets')}}" class="nav-link">
+                <a href="{{url('/enter-results/term-1/m-o-t/term-sets')}}" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>M.O.T</p>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="{{url('/examsets/term-1/e-o-t/term-sets')}}" class="nav-link">
+                <a href="{{url('/enter-results/term-1/e-o-t/term-sets')}}" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>E.O.T</p>
                 </a>
@@ -45,19 +45,19 @@
     </a>
     <ul class="nav nav-treeview">
         <li class="nav-item">
-            <a href="{{url('/examsets/term-2/b-o-t/term-sets')}}" class="nav-link">
+            <a href="{{url('/enter-results/term-2/b-o-t/term-sets')}}" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>B.O.T</p>
             </a>
         </li>
         <li class="nav-item">
-            <a href="{{url('/examsets/term-2/m-o-t/term-sets')}}" class="nav-link">
+            <a href="{{url('/enter-results/term-2/m-o-t/term-sets')}}" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>M.O.T</p>
             </a>
         </li>
         <li class="nav-item">
-            <a href="{{url('/examsets/term-2/e-o-t/term-sets')}}" class="nav-link">
+            <a href="{{url('/enter-results/term-2/e-o-t/term-sets')}}" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>E.O.T</p>
             </a>
@@ -79,19 +79,19 @@
     </a>
     <ul class="nav nav-treeview">
         <li class="nav-item">
-            <a href="{{url('/examsets/term-3/b-o-t/term-sets')}}" class="nav-link">
+            <a href="{{url('/enter-results/term-3/b-o-t/term-sets')}}" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>B.O.T</p>
             </a>
         </li>
         <li class="nav-item">
-            <a href="{{url('/examsets/term-3/m-o-t/term-sets')}}" class="nav-link">
+            <a href="{{url('/enter-results/term-3/m-o-t/term-sets')}}" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>M.O.T</p>
             </a>
         </li>
         <li class="nav-item">
-            <a href="{{url('/examsets/term-3/e-o-t/term-sets')}}" class="nav-link">
+            <a href="{{url('/enter-results/term-3/e-o-t/term-sets')}}" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>E.O.T</p>
             </a>
