@@ -7,8 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Subject extends Model
 {
-    protected $fillable = ['name','level','subject_code','subject_compulsory'];
+    protected $fillable = ['name', 'slug', 'level', 'subject_code', 'subject_compulsory'];
 
+    public function setNameAttribute($value)
+    {
+        $this->attributes['name'] = $value;
+        $this->attributes['slug'] = str_slug($value);
+    }
     public function paperSets()
     {
         return $this->hasMany(Setpp::class);
@@ -29,19 +34,23 @@ class Subject extends Model
     {
         return $this->belongsToMany(Paper::class);
     }
-    public function schoolClasses(){
+    public function schoolClasses()
+    {
         return $this->belongsToMany(Schclass::class);
     }
-    public function schoolClass(){
+    public function schoolClass()
+    {
         return $this->belongsTo(Schclass::class);
     }
 
-    public function users(){
+    public function users()
+    {
         return $this->belongsToMany(User::class);
     }
 
 
-    public function user(){
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
     public function results()
@@ -52,7 +61,4 @@ class Subject extends Model
     {
         return $this->belongsToMany(Student::class);
     }
-
-
-
 }

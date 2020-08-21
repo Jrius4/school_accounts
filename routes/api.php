@@ -49,10 +49,17 @@ Route::get('/get-roles', function () {
     $roles = Role::where('name', 'LIKE', '%' . request('q') . '%')->paginate(10);
     return $roles;
 });
+
+//results
+Route::group(['middleware' => ['auth:api']], function () {
+    Route::get('teachers-work/{user}', 'ClassResultController@allClasses');
+    Route::middleware('auth:api')->get('/class-results', 'ClassResultController@results');
+});
 Route::middleware('auth:api')->get('/teacher-classes', 'ResultController@teacherClasses');
 Route::middleware('auth:api')->get('/teacher-subjects', 'ResultController@teacherSubjects');
 Route::middleware('auth:api')->get('/teacher-students', 'ResultController@teacherStudents');
 Route::middleware('auth:api')->post('/teacher-enter-student-results', 'ResultController@EnterResultsNew');
+Route::get('/every-student-results', 'ResultController@GetEveryStudentResults');
 Route::get('/get-classes', function () {
     $roles = Schclass::where('name', 'LIKE', '%' . request('q') . '%')->paginate(10);
     return $roles;

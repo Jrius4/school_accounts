@@ -71,12 +71,21 @@
             </v-card>
           </v-col>
         </v-row>
+        <v-row>
+          <v-col cols="12">
+            <v-card>
+              <teacher-classes />
+            </v-card>
+          </v-col>
+        </v-row>
       </v-container>
     </v-content>
   </v-app>
 </template>
 <script>
+import TeacherClasses from "./TeacherClasses";
 export default {
+  components: { TeacherClasses },
   data() {
     return {
       items: [

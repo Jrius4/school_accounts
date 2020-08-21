@@ -17,6 +17,7 @@ class CreateSubjectsTable extends Migration
             $table->bigIncrements('id');
             $table->string('level')->nullable();
             $table->string('name')->unique();
+            $table->string('slug')->unique();
             $table->string('subject_code')->unique()->nullable();
             $table->boolean('subject_compulsory')->nullable();
             $table->timestamps();

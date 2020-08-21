@@ -41,6 +41,10 @@ class Student extends Authenticatable
         $this->follows()->attach($userId);
         return $this;
     }
+     public function exams()
+    {
+        return $this->hasMany('App\Exam','student_id');
+    }
 
     public function unfollow($userId)
     {

@@ -111,6 +111,10 @@ Vue.component(
     require("./components/teacher/TeacherNavBar.vue").default
 );
 Vue.component(
+    "teacher-class",
+    require("./components/teacher/TeacherClasses.vue").default
+);
+Vue.component(
     "enter-marks",
     require("./components/teacher/EnterMarks.vue").default
 );

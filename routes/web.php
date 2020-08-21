@@ -332,3 +332,7 @@ Route::get('/test-dashboardv2', function () {
 Route::middleware('auth', 'api')->get('/test-main-layout', function () {
     return view('portals.layouts.main');
 });
+//teacher class results
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('class-results/{class}','ClassResultController@index');
+});

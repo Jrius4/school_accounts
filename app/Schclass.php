@@ -14,6 +14,11 @@ class Schclass extends Model
         if (! empty($value)) $this->attributes['slug'] = str_slug($this->name);
     }
 
+    public function exams()
+    {
+        return $this->hasMany('App\Exam','schclass_id');
+    }
+
     public function classFee()
     {
         return $this->hasOne(ClassFee::class);

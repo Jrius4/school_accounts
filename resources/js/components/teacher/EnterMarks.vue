@@ -27,10 +27,7 @@
                     :item-text="textClass"
                     autocomplete
                     append-icon="mdi-database-search"
-                    :menu-props="{
-                                            bottom: true,
-                                            offsetY: true
-                                        }"
+                    :menu-props="{bottom: true,offsetY: true}"
                     hint="Please Search Class"
                     chips
                     attach
@@ -287,6 +284,8 @@ export default {
   props: ["term", "set"],
   data: () => {
     return {
+      setID: "",
+      termID: "",
       resultClass: "",
       searchClass: "",
       class: null,
@@ -422,10 +421,13 @@ export default {
       let term = "";
       if (this.term === "term-1") {
         term += "Term One";
+        this.termID += "1";
       } else if (this.term === "term-2") {
         term += "Term Two";
+        this.termID += "2";
       } else if (this.term === "term-3") {
         term += "Term Three";
+        this.termID += "3";
       }
       return term;
     },
@@ -433,10 +435,13 @@ export default {
       let set = "";
       if (this.set === "b-o-t") {
         set += "Beginning Of Term";
+        this.setID += "1";
       } else if (this.set === "m-o-t") {
         set += "Mid Of Term";
+        this.setID += "2";
       } else if (this.set === "e-o-t") {
         set += "End Of Term";
+        this.setID += "3";
       }
       return set;
     },
@@ -542,6 +547,10 @@ export default {
         this.subjectSelection = null;
         this.subjectSelected = null;
       }
+      if (!!this.resultSubject) {
+        this.papercount = this.subjectSelection.papers_in.length;
+        if (this.papercount < 1) this.papercount = 1;
+      }
     },
     removeSubject() {
       this.subjectSelection = null;
@@ -574,9 +583,13 @@ export default {
         this.studentSelected = null;
       }
     },
-    removeSubject() {
+    removeStudent() {
       this.studentSelection = null;
       this.resultStudent = null;
+    },
+    removeSubject() {
+      this.subjectSelection = null;
+      this.resultSubject = null;
     },
     sendMarks() {
       let papers = new Array();
@@ -615,24 +628,31 @@ export default {
           hideMethod: "slideOutUp",
         });
         let data = {
+          setID: this.setID,
+          termID: this.termID,
           papers,
           subject_id: this.subjectSelection.id,
+          level: this.subjectSelection.level,
           student_id: this.studentSelection.id,
+          class_id: this.classSelection.id,
         };
-        this.$store.dispatch("enterResultsModule/SEND_MARKS_ACTION", data).then(()=>{
+        this.$store
+          .dispatch("enterResultsModule/SEND_MARKS_ACTION", data)
+          .then(() => {
             this.$toast.success({
-          title: "Save Marks",
-          message: "Marks Saved successfully",
-          color: "#00C853",
-          timeOut: 5000,
-          showMethod: "lightSpeedIn",
-          hideMethod: "slideOutUp",
-        });
-        });
+              title: "Save Marks",
+              message: "Marks Saved successfully",
+              color: "#00C853",
+              timeOut: 5000,
+              showMethod: "lightSpeedIn",
+              hideMethod: "slideOutUp",
+            });
+            this.cancelSubmit();
+          });
       }
     },
+
     cancelSubmit() {
-    
       this.$toast.info({
         title: "Cleaning Entries",
         message: "Resetting form",
@@ -658,12 +678,13 @@ export default {
       this.paperThree = 0;
       this.papercount = 1;
       this.errorMessages = [];
-            this.formHasErrors = false;
+      this.formHasErrors = false;
 
-            Object.keys(this.form).forEach(f => {
-                this.$refs[f].reset();
-            });
+      Object.keys(this.form).forEach((f) => {
+        this.$refs[f].reset();
+      });
     },
+
     resultSubjectCheck() {
       this.errorMessages =
         this.resultSubject && !this.resultClass ? "This field is required" : "";

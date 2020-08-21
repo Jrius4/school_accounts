@@ -122,35 +122,35 @@ export default {
             });
         },
 
-        async SEND_MARKS_ACTION(context, payload)
-        {
+        async SEND_MARKS_ACTION(context, payload) {
             return new Promise((resolve, reject) => {
                 if (context.rootGetters.loggedIn) {
                     let url = "/api/teacher-enter-student-results";
                     let papers = payload.papers || "";
                     let subject_id = payload.subject_id || "";
                     let student_id = payload.student_id || "";
+                    let class_id = payload.class_id || "";
+                    let level = payload.level || "";
+                    let setID = payload.setID || "";
+                    let termID = payload.termID || "";
 
                     let formData = new FormData();
-                    if (papers !== "")
-                    {
+                    if (papers !== "") {
                         for (let index = 0; index < papers.length; index++) {
-                             formData.append('papers[]', papers[index]);                            
+                            formData.append("papers[]", papers[index]);
                         }
+                    } else {
+                        formData.append("papers", papers);
                     }
-                    else {
-                        formData.append('papers', papers);
-                    }
-                    formData.append('student_id', student_id);
-                    formData.append('subject_id', subject_id);
-
-
-                    
-
-
+                    formData.append("level", level);
+                    formData.append("student_id", student_id);
+                    formData.append("subject_id", subject_id);
+                    formData.append("class_id", class_id);
+                    formData.append("setID", setID);
+                    formData.append("termID", termID);
 
                     axios
-                        .post(url,formData, {
+                        .post(url, formData, {
                             headers: {
                                 Authorization:
                                     "Bearer " + context.rootState.token
@@ -160,7 +160,7 @@ export default {
                             const results = res.data;
                             // context.commit("GET_STUDENTS", students);
                             resolve(results);
-                            console.log(results)
+                            console.log(results);
                         })
                         .catch(err => {
                             console.log(err);
