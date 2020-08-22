@@ -26,7 +26,11 @@
                         prepend-inner-icon="mdi-database-search"
                         label="Search"
                       ></v-text-field>
-                      <template v-if="$vuetify.breakpoint.mdAndUp">
+                      <template
+                        v-if="
+                                                    $vuetify.breakpoint.mdAndUp
+                                                "
+                      >
                         <v-spacer></v-spacer>
                         <v-select
                           v-model="sortBy"
@@ -55,7 +59,7 @@
                   <template v-slot:default="props">
                     <v-row>
                       <v-col
-                        v-for="(item,n) in props.items"
+                        v-for="(item, n) in props.items"
                         :key="`${n}-result`"
                         cols="12"
                         sm="8"
@@ -64,9 +68,37 @@
                       >
                         <v-card shaped raised>
                           <v-card-title
-                            :style="`background:${['#0097A7','#00796B','#43A047','#FF6F00','#D84315','#546E7A'][n%6]};color:#FAFAFA`"
+                            :style="
+                                                            `background:${
+                                                                [
+                                                                    '#0097A7',
+                                                                    '#00796B',
+                                                                    '#43A047',
+                                                                    '#FF6F00',
+                                                                    '#D84315',
+                                                                    '#546E7A'
+                                                                ][n % 6]
+                                                            };color:#FAFAFA`
+                                                        "
                             class="subheading font-weight-bold"
-                          >{{ item.student.name }}</v-card-title>
+                          >
+                            <v-avatar
+                              size="100"
+                              class="mx-auto v-card--material__avatar elevation-6"
+                              color="grey"
+                            >
+                              <v-img :src="`/images/${item.student.image}`" />
+                            </v-avatar>
+                            <v-row flat>
+                              <v-col>
+                                <h3>
+                                  {{
+                                  item.student.name
+                                  }}
+                                </h3>
+                              </v-col>
+                            </v-row>
+                          </v-card-title>
                           <v-card-text>
                             <!-- <v-list dense>
                               <v-list-item v-for="(key, index) in filteredKeys" :key="index">
@@ -79,7 +111,7 @@
                                 >{{ item[key.value.toLowerCase()] }}</v-list-item-content>
                               </v-list-item>
                             </v-list>-->
-                            <h4>{{item.indexno}}</h4>
+                            <h4>{{ item.indexno }}</h4>
                             <v-simple-table dense>
                               <template v-slot:default>
                                 <thead>
@@ -89,11 +121,31 @@
                                   </tr>
                                 </thead>
                                 <tbody>
-                                  <tr v-for="(exam,ind) in item.subjects" :key="`${ind}-index`">
+                                  <tr
+                                    v-for="(exam,
+                                                                        ind) in item.subjects"
+                                    :key="
+                                                                            `${ind}-index`
+                                                                        "
+                                  >
                                     <td
-                                      :colspan="JSON.parse(exam).papers.length"
-                                    >{{ exam.subject.subject_code }}</td>
-                                    <td>{{ exam.student_name }}</td>
+                                      :rowspan="
+                                                                                paperExtract(
+                                                                                    exam
+                                                                                )
+                                                                            "
+                                    >
+                                      {{
+                                      exam
+                                      .subject
+                                      .subject_code
+                                      }}
+                                    </td>
+                                    <td>
+                                      {{
+                                      exam.student_name
+                                      }}
+                                    </td>
                                   </tr>
                                 </tbody>
                               </template>
@@ -108,7 +160,12 @@
                     <v-row class="mt-2" align="center" justify="center">
                       <span class="grey--text">Items per page</span>
                       <v-menu offset-y>
-                        <template v-slot:activator="{ on, attrs }">
+                        <template
+                          v-slot:activator="{
+                                                        on,
+                                                        attrs
+                                                    }"
+                        >
                           <v-btn dark text color="primary" class="ml-2" v-bind="attrs" v-on="on">
                             {{ itemsPerPage }}
                             <v-icon>mdi-chevron-down</v-icon>
@@ -116,18 +173,30 @@
                         </template>
                         <v-list>
                           <v-list-item
-                            v-for="(number, index) in itemsPerPageArray"
+                            v-for="(number,
+                                                        index) in itemsPerPageArray"
                             :key="index"
-                            @click="updateItemsPerPage(number)"
+                            @click="
+                                                            updateItemsPerPage(
+                                                                number
+                                                            )
+                                                        "
                           >
-                            <v-list-item-title>{{ number }}</v-list-item-title>
+                            <v-list-item-title>
+                              {{
+                              number
+                              }}
+                            </v-list-item-title>
                           </v-list-item>
                         </v-list>
                       </v-menu>
 
                       <v-spacer></v-spacer>
 
-                      <span class="mr-4 grey--text">Page {{ page }} of {{ numberOfPages }}</span>
+                      <span class="mr-4 grey--text">
+                        Page {{ page }} of
+                        {{ numberOfPages }}
+                      </span>
                       <v-btn fab dark color="blue darken-3" class="mr-1" @click="formerPage">
                         <v-icon>mdi-chevron-left</v-icon>
                       </v-btn>
@@ -145,7 +214,6 @@
     </v-content>
   </v-app>
 </template>
-
 
 <script>
 import { mapState } from "vuex";
@@ -199,9 +267,16 @@ export default {
   },
   methods: {
     paperExtract(exam) {
-      let papers = JSON.parse(exam.b_o_t || "{}");
+      let b_o_t = JSON.parse(exam.b_o_t) || null;
+      let m_o_t = JSON.parse(exam.m_o_t) || null;
+      let e_o_t = JSON.parse(exam.e_o_t) || null;
+      let papers = {
+        b_o_t,
+        m_o_t,
+        e_o_t,
+      };
       console.log({ papers });
-      return 4;
+      return papers;
     },
     textName(val) {
       return val.name;
