@@ -95,130 +95,120 @@ class ResultController extends BackendController
         if ($subjects->where('id', $subject_id)->exists()) {
             $subject = $subjects->with('papers')->find($subject_id);
         }
-        if($level == "Advanced Level")
-        {
-           if($setID == "1") $botpapers = $processed['botpapers'];
-           if($setID == "2") $motpapers = $processed['motpapers'];
-           if($setID == "3") $eotpapers = $processed['eotpapers'];
-           $alevelsubpapers = $processed['subpapers'];
-           $alevelgrade = $processed['grade'];
-           $alevelpoints = $processed['point'];
-        
-        if($exams->where('year',$year)->where('term_id',$termID)->where('subject_id',$subject_id)->where('student_id',$student_id)->count()>0){
-            $exam = $exams->where('year',$year)->where('term_id',$termID)->where('subject_id',$subject_id)->where('student_id',$student_id)->first();
+        if ($level == "Advanced Level") {
+            if ($setID == "1") $botpapers = $processed['botpapers'];
+            if ($setID == "2") $motpapers = $processed['motpapers'];
+            if ($setID == "3") $eotpapers = $processed['eotpapers'];
+            $alevelsubpapers = $processed['subpapers'];
+            $alevelgrade = $processed['grade'];
+            $alevelpoints = $processed['point'];
 
-            $exam->term_id = $termID;
-            $exam->indexno = $student !== null ? $student->roll_number:$exam->indexno;
-            $exam->student_name = $student !== null ? $student->name:$exam->student_name;
-            $exam->subject_name = $subject !== null ? $subject->name.' / '.$subject->level:$exam->subject_name;
-            $exam->student_id = $student_id;
-            $exam->subject_id = $subject_id;
-            $exam->schclass_id = $class_id;
-            $exam->user_id = auth()->user()->id;
-            $exam->year = $year;
-            $exam->papers = null;
-            $exam->b_o_t = $botpapers !== null ?json_encode(['papers'=>$alevelsubpapers,'grade'=>$alevelgrade,'points'=>$alevelpoints,'computed'=>$botpapers],true):$exam->b_o_t;
-            $exam->m_o_t = $motpapers !== null ? json_encode(['papers'=>$alevelsubpapers,'grade'=>$alevelgrade,'points'=>$alevelpoints,'computed'=>$motpapers],true):$exam->m_o_t;
-            $exam->e_o_t = $eotpapers !== null ? json_encode(['papers'=>$alevelsubpapers,'grade'=>$alevelgrade,'points'=>$alevelpoints,'computed'=>$eotpapers],true):$exam->e_o_t;
+            if ($exams->where('year', $year)->where('term_id', $termID)->where('subject_id', $subject_id)->where('student_id', $student_id)->count() > 0) {
+                $exam = $exams->where('year', $year)->where('term_id', $termID)->where('subject_id', $subject_id)->where('student_id', $student_id)->first();
 
-            $exam->save();
+                $exam->term_id = $termID;
+                $exam->indexno = $student !== null ? $student->roll_number : $exam->indexno;
+                $exam->student_name = $student !== null ? $student->name : $exam->student_name;
+                $exam->subject_name = $subject !== null ? $subject->name . ' / ' . $subject->level : $exam->subject_name;
+                $exam->student_id = $student_id;
+                $exam->subject_id = $subject_id;
+                $exam->schclass_id = $class_id;
+                $exam->user_id = auth()->user()->id;
+                $exam->year = $year;
+                $exam->papers = null;
+                $exam->b_o_t = $botpapers !== null ? json_encode(['papers' => $alevelsubpapers, 'grade' => $alevelgrade, 'points' => $alevelpoints, 'computed' => $botpapers], true) : $exam->b_o_t;
+                $exam->m_o_t = $motpapers !== null ? json_encode(['papers' => $alevelsubpapers, 'grade' => $alevelgrade, 'points' => $alevelpoints, 'computed' => $motpapers], true) : $exam->m_o_t;
+                $exam->e_o_t = $eotpapers !== null ? json_encode(['papers' => $alevelsubpapers, 'grade' => $alevelgrade, 'points' => $alevelpoints, 'computed' => $eotpapers], true) : $exam->e_o_t;
 
-            return response()->json(['message'=>'edited successfully']);
-        }
-        elseif($exams->where('year',$year)->where('term_id',$termID)->where('subject_id',$subject_id)->where('student_id',$student_id)->count() == 0){
+                $exam->save();
+
+                return response()->json(['message' => 'edited successfully']);
+            } elseif ($exams->where('year', $year)->where('term_id', $termID)->where('subject_id', $subject_id)->where('student_id', $student_id)->count() == 0) {
                 $exams->term_id = $termID;
-                $exams->indexno = $student !== null ? $student->roll_number:null;
-                $exams->student_name = $student !== null ? $student->name:null;
-                $exams->subject_name = $subject !== null ? $subject->name.' / '.$subject->level:null;
+                $exams->indexno = $student !== null ? $student->roll_number : null;
+                $exams->student_name = $student !== null ? $student->name : null;
+                $exams->subject_name = $subject !== null ? $subject->name . ' / ' . $subject->level : null;
                 $exams->student_id = $student_id;
                 $exams->subject_id = $subject_id;
                 $exams->schclass_id = $class_id;
                 $exams->year = $year;
                 $exams->user_id = auth()->user()->id;
                 $exams->papers = null;
-                $exams->b_o_t = $botpapers !== null ?json_encode(['papers'=>$alevelsubpapers,'grade'=>$alevelgrade,'points'=>$alevelpoints,'computed'=>$botpapers],true):null;
-                $exams->m_o_t = $motpapers !== null ? json_encode(['papers'=>$alevelsubpapers,'grade'=>$alevelgrade,'points'=>$alevelpoints,'computed'=>$motpapers],true):null;
-                $exams->e_o_t = $eotpapers !== null ? json_encode(['papers'=>$alevelsubpapers,'grade'=>$alevelgrade,'points'=>$alevelpoints,'computed'=>$eotpapers],true):null;
+                $exams->b_o_t = $botpapers !== null ? json_encode(['papers' => $alevelsubpapers, 'grade' => $alevelgrade, 'points' => $alevelpoints, 'computed' => $botpapers], true) : null;
+                $exams->m_o_t = $motpapers !== null ? json_encode(['papers' => $alevelsubpapers, 'grade' => $alevelgrade, 'points' => $alevelpoints, 'computed' => $motpapers], true) : null;
+                $exams->e_o_t = $eotpapers !== null ? json_encode(['papers' => $alevelsubpapers, 'grade' => $alevelgrade, 'points' => $alevelpoints, 'computed' => $eotpapers], true) : null;
 
                 $exams->save();
 
-                return response()->json(['message'=>'saved successfully']);
-        }
-         
-        
-        }
+                return response()->json(['message' => 'saved successfully']);
+            }
+        } elseif ($level == "Ordinary Level") {
+            if ($setID == "1") $botpapers = $processed['botpapers'];
+            if ($setID == "2") $motpapers = $processed['motpapers'];
+            if ($setID == "3") $eotpapers = $processed['eotpapers'];
+            $olevelsubpapers = $processed['subpapers'];
+            $olevelgrade = $processed['oAgg'];
+            $olevelpoints = $processed['oSubpoints'];
 
+            if ($exams->where('year', $year)->where('term_id', $termID)->where('subject_id', $subject_id)->where('student_id', $student_id)->count() > 0) {
+                $exam = $exams->where('year', $year)->where('term_id', $termID)->where('subject_id', $subject_id)->where('student_id', $student_id)->first();
 
-        elseif($level == "Ordinary Level")
-        {
-           if($setID == "1") $botpapers = $processed['botpapers'];
-           if($setID == "2") $motpapers = $processed['motpapers'];
-           if($setID == "3") $eotpapers = $processed['eotpapers'];
-           $olevelsubpapers = $processed['subpapers'];
-           $olevelgrade = $processed['oAgg'];
-           $olevelpoints = $processed['oSubpoints'];
-        
-        if($exams->where('year',$year)->where('term_id',$termID)->where('subject_id',$subject_id)->where('student_id',$student_id)->count()>0){
-            $exam = $exams->where('year',$year)->where('term_id',$termID)->where('subject_id',$subject_id)->where('student_id',$student_id)->first();
+                $exam->term_id = $termID;
+                $exam->indexno = $student !== null ? $student->roll_number : $exam->indexno;
+                $exam->student_name = $student !== null ? $student->name : $exam->student_name;
+                $exam->subject_name = $subject !== null ? $subject->name . ' / ' . $subject->level : $exam->subject_name;
+                $exam->student_id = $student_id;
+                $exam->subject_id = $subject_id;
+                $exam->schclass_id = $class_id;
+                $exam->user_id = auth()->user()->id;
+                $exam->year = $year;
+                $exam->papers = null;
+                $exam->b_o_t = $botpapers !== null ? json_encode(['papers' => $olevelsubpapers, 'grade' => $olevelgrade, 'points' => $olevelpoints, 'computed' => $botpapers], true) : $exam->b_o_t;
+                $exam->m_o_t = $motpapers !== null ? json_encode(['papers' => $olevelsubpapers, 'grade' => $olevelgrade, 'points' => $olevelpoints, 'computed' => $motpapers], true) : $exam->m_o_t;
+                $exam->e_o_t = $eotpapers !== null ? json_encode(['papers' => $olevelsubpapers, 'grade' => $olevelgrade, 'points' => $olevelpoints, 'computed' => $eotpapers], true) : $exam->e_o_t;
 
-            $exam->term_id = $termID;
-            $exam->indexno = $student !== null ? $student->roll_number:$exam->indexno;
-            $exam->student_name = $student !== null ? $student->name:$exam->student_name;
-            $exam->subject_name = $subject !== null ? $subject->name.' / '.$subject->level:$exam->subject_name;
-            $exam->student_id = $student_id;
-            $exam->subject_id = $subject_id;
-            $exam->schclass_id = $class_id;
-            $exam->user_id = auth()->user()->id;
-            $exam->year = $year;
-            $exam->papers = null;
-            $exam->b_o_t = $botpapers !== null ?json_encode(['papers'=>$olevelsubpapers,'grade'=>$olevelgrade,'points'=>$olevelpoints,'computed'=>$botpapers],true):$exam->b_o_t;
-            $exam->m_o_t = $motpapers !== null ? json_encode(['papers'=>$olevelsubpapers,'grade'=>$olevelgrade,'points'=>$olevelpoints,'computed'=>$motpapers],true):$exam->m_o_t;
-            $exam->e_o_t = $eotpapers !== null ? json_encode(['papers'=>$olevelsubpapers,'grade'=>$olevelgrade,'points'=>$olevelpoints,'computed'=>$eotpapers],true):$exam->e_o_t;
+                $exam->save();
 
-            $exam->save();
-
-            return response()->json(['message'=>'edited successfully']);
-        }
-        elseif($exams->where('year',$year)->where('term_id',$termID)->where('subject_id',$subject_id)->where('student_id',$student_id)->count() == 0){
+                return response()->json(['message' => 'edited successfully']);
+            } elseif ($exams->where('year', $year)->where('term_id', $termID)->where('subject_id', $subject_id)->where('student_id', $student_id)->count() == 0) {
                 $exams->term_id = $termID;
-                $exams->indexno = $student !== null ? $student->roll_number:null;
-                $exams->student_name = $student !== null ? $student->name:null;
-                $exams->subject_name = $subject !== null ? $subject->name.' / '.$subject->level:null;
+                $exams->indexno = $student !== null ? $student->roll_number : null;
+                $exams->student_name = $student !== null ? $student->name : null;
+                $exams->subject_name = $subject !== null ? $subject->name . ' / ' . $subject->level : null;
                 $exams->subject_id = $subject_id;
+                $exams->student_id = $student_id;
                 $exams->schclass_id = $class_id;
                 $exams->year = $year;
                 $exams->user_id = auth()->user()->id;
                 $exams->papers = null;
-                $exams->b_o_t = $botpapers !== null ?json_encode(['papers'=>$olevelsubpapers,'grade'=>$olevelgrade,'points'=>$olevelpoints,'computed'=>$botpapers],true):null;
-                $exams->m_o_t = $motpapers !== null ? json_encode(['papers'=>$olevelsubpapers,'grade'=>$olevelgrade,'points'=>$olevelpoints,'computed'=>$motpapers],true):null;
-                $exams->e_o_t = $eotpapers !== null ? json_encode(['papers'=>$olevelsubpapers,'grade'=>$olevelgrade,'points'=>$olevelpoints,'computed'=>$eotpapers],true):null;
+                $exams->b_o_t = $botpapers !== null ? json_encode(['papers' => $olevelsubpapers, 'grade' => $olevelgrade, 'points' => $olevelpoints, 'computed' => $botpapers], true) : null;
+                $exams->m_o_t = $motpapers !== null ? json_encode(['papers' => $olevelsubpapers, 'grade' => $olevelgrade, 'points' => $olevelpoints, 'computed' => $motpapers], true) : null;
+                $exams->e_o_t = $eotpapers !== null ? json_encode(['papers' => $olevelsubpapers, 'grade' => $olevelgrade, 'points' => $olevelpoints, 'computed' => $eotpapers], true) : null;
 
                 $exams->save();
 
-                return response()->json(['message'=>'saved successfully']);
+                return response()->json(['message' => 'saved successfully']);
+            }
         }
-         
-        
-        }
-        
 
-        
 
-        
 
-       
 
-        return response()->json(compact('year','termID','setID', 'subject', 'student', 'papers', 'processed','Aresults'));
+
+
+
+
+        return response()->json(compact('year', 'termID', 'setID', 'subject', 'student', 'papers', 'processed', 'Aresults'));
     }
 
-    public function GetEveryStudentResults(){
+    public function GetEveryStudentResults()
+    {
 
         $exams = new Exam();
 
         $exams = $exams->with('student')->latest()->get();
 
         return response()->json(compact('exams'));
-
     }
 
     public function fetchPapers(Request $request)

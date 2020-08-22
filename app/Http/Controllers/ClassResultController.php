@@ -5,23 +5,34 @@ namespace App\Http\Controllers;
 use App\Exam;
 use Illuminate\Http\Request;
 use App\Schclass;
+use App\Subject;
 use App\User;
 
 class ClassResultController extends Controller
 {
-    public function index(Request $request, $class)
+    public function index(Request $request)
     {
+        $query = $request->query('query');
+        $event = $request->query('event');
+        $results = null;
+        $exams = new Exam();
+        $from = null;
         $classes = new Schclass();
-        $class_id = $class;
-        $class = null;
-
-        if ($classes->where('slug', $class_id)->exists()) {
-            $class = $classes->where('slug', $class_id)->first();
+        $subjects = new Subject();
+        if ($event == 'class') {
+            if ($classes->where('slug', $query)->exists()) {
+                $from = $classes->where('slug', $query)->first();
+            }
+        } elseif ($event == 'subject') {
+            if ($subjects->where('slug', $query)->exists()) {
+                $from = $subjects->where('slug', $query)->first();
+            }
         }
 
 
 
-        return view('manage-results.class-results', compact('class'));
+
+        return view('manage-results.class-results', compact('event', 'query', 'from'));
     }
     public function allStudents(Request $request)
     {
@@ -40,16 +51,25 @@ class ClassResultController extends Controller
     }
     public function results(Request $request)
     {
-        $item_id = $request->query('item_id');
+        $query = $request->query('query');
         $event = $request->query('event');
         $results = null;
+        $item_id = null;
+        $classes = new Schclass();
+        $subjects = new Subject();
         $exams = new Exam();
         if ($event == 'class') {
-            $results = $exams->with('student', 'schclass')->latest()->where('year', date('Y'))->where('schclass_id', $item_id)->paginate(20);
+            if ($classes->where('slug', $query)->exists()) {
+                $item_id = $classes->where('slug', $query)->first()->id;
+            }
+            $results = $exams->with('student', 'schclass', 'subject')->latest()->where('year', date('Y'))->where('schclass_id', $item_id)->get();
         } elseif ($event == 'subject') {
-            $results = $exams->with('student', 'schclass')->latest()->where('year', date('Y'))->where('subject_id', $item_id)->paginate(20);
+            if ($subjects->where('slug', $query)->exists()) {
+                $item_id = $subjects->where('slug', $query)->first()->id;
+            }
+            $results = $exams->with('student', 'schclass', 'subject')->latest()->where('year', date('Y'))->where('subject_id', $item_id)->get();
         } else {
-            $results = $exams->with('student', 'schclass')->latest()->paginate(20);
+            $results = $exams->with('student', 'schclass', 'subject')->latest()->get();
         }
 
         // $results = compact('event', 'item_id');

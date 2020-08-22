@@ -14,6 +14,10 @@ class Subject extends Model
         $this->attributes['name'] = $value;
         $this->attributes['slug'] = str_slug($value);
     }
+    public function exams()
+    {
+        return $this->hasMany('App\Exam', 'subject_id');
+    }
     public function paperSets()
     {
         return $this->hasMany(Setpp::class);

@@ -334,5 +334,5 @@ Route::middleware('auth', 'api')->get('/test-main-layout', function () {
 });
 //teacher class results
 Route::group(['middleware' => 'auth'], function () {
-    Route::get('class-results/{class}','ClassResultController@index');
+    Route::get('class-results', 'ClassResultController@index');
 });

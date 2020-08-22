@@ -115,6 +115,10 @@ Vue.component(
     require("./components/teacher/TeacherClasses.vue").default
 );
 Vue.component(
+    "students-results",
+    require("./components/teacher/StudentsResults.vue").default
+);
+Vue.component(
     "enter-marks",
     require("./components/teacher/EnterMarks.vue").default
 );

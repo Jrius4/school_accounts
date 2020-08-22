@@ -16,10 +16,10 @@ export default {
             currentState.subjects = payload.subjects || [];
         },
         FETCH_RESULTS(currentState, payload) {
-            currentState.results = payload.data;
-            currentState.resultPagination.page = payload.current_page;
-            currentState.resultPagination.rowsPerPage = payload.per_page;
-            currentState.totalresults = payload.total;
+            currentState.results = payload;
+            // currentState.resultPagination.page = payload.current_page;
+            // currentState.resultPagination.rowsPerPage = payload.per_page;
+            // currentState.totalresults = payload.total;
         }
     },
     actions: {
@@ -57,7 +57,7 @@ export default {
         async FETCH_RESULTS_ACTIONS(context, payload) {
             return new Promise((resolve, reject) => {
                 if (context.rootGetters.loggedIn) {
-                    const item_id = payload.item_id || 0;
+                    const query = payload.query || 0;
                     const event = payload.event || "";
                     const url = `/api/class-results`;
 
@@ -68,7 +68,7 @@ export default {
                                     "Bearer " + context.rootState.token
                             },
                             params: {
-                                item_id,
+                                query,
                                 event
                             }
                         })
