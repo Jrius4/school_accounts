@@ -5,6 +5,8 @@ namespace App;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
+use App\Models\Student;
+use App\Exam;
 
 class Calculator
 {
@@ -13,6 +15,7 @@ class Calculator
     public $level;
     public $termID;
     public $setID;
+    public $studentID;
 
     public function set_inputs($input, $level, $termID, $setID)
     {
@@ -20,6 +23,67 @@ class Calculator
         $this->level = $level;
         $this->termID = $termID;
         $this->setID = $setID;
+    }
+
+    public function set_student($student,$term,$level)
+    {
+        $this->studentID = $student;
+        $this->termID = $term;
+        $this->level = $level;
+    }
+    public function get_mark($score,$level){
+        $level = $score;
+        $subpoints = "";
+       $agg = "";
+
+        if ($level == 'Advanced Level') {
+            
+            
+        } 
+        else if ($level == 'Ordinary Level') {
+            $oAgg = "";
+            $oSubpoints = "";
+            $oAvg = $score;
+
+
+
+            if ($oAvg >= 90 && $oAvg <= 100) {
+                $oAgg .= 'D1';
+                $oSubpoints .= '1';
+            } elseif ($oAvg >= 80 && $oAvg < 90) {
+                $oAgg .= 'D2';
+                $oSubpoints .= '2';
+            } elseif ($oAvg >= 75 && $oAvg < 80) {
+                $oAgg .= 'C3';
+                $oSubpoints .= '3';
+            } elseif ($oAvg >= 70 && $oAvg < 75) {
+                $oAgg .= 'C4';
+                $oSubpoints .= '4';
+            } elseif ($oAvg >= 65 && $oAvg < 70) {
+                $oAgg .= 'C5';
+                $oSubpoints .= '5';
+            } elseif ($oAvg >= 60 && $oAvg < 65) {
+                $oAgg .= 'C6';
+                $oSubpoints .= '6';
+            } elseif ($oAvg >= 55 && $oAvg < 60) {
+                $oAgg .= 'P7';
+                $oSubpoints .= '7';
+            } elseif ($oAvg >= 50 && $oAvg < 55) {
+                $oAgg .= 'P8';
+                $oSubpoints .= '8';
+            } elseif ($oAvg >= 45 && $oAvg < 50) {
+                $oAgg .= 'F9';
+                $oSubpoints .= '9';
+            } elseif ($oAvg >= 0 && $oAvg < 45) {
+                $oAgg .= 'F9';
+                $oSubpoints .= '9';
+            }
+
+            $oAvg = round($oAvg, 2);
+            $score = ['score' => $oAvg, 'grade' => $oAgg, 'points' => $oSubpoints];
+            return $score;
+        }
+
     }
     public function get_inputs()
     {
@@ -240,5 +304,67 @@ class Calculator
         }
 
         return compact('inputs', 'agg', 'subpoints', 'grade', 'point', 'level', 'oAvg', 'oSubpoints', 'oAgg', 'termID', 'setID', 'subpapers', 'botpapers', 'motpapers', 'eotpapers');
+    }
+
+    public function get_overallTerm()
+    {
+        $students = new Student();
+        $exams = new Exam();
+        if($students->where('id',$this->studentID)->exists()){
+            if($exams->where('year',date('Y'))->where('term_id',$this->termID)->where('student_id',$this->studentID)->exists()){
+                if($exams->where('year',date('Y'))->where('term_id',$this->termID)->where('student_id',$this->studentID)->where('termBrief','true')->exists()){
+                    $exam = $exams->where('year',date('Y'))->where('term_id',$this->termID)->where('student_id',$this->studentID)->where('termCompact','true')->first();
+                    $message = "Update termBrief score";
+                    dump($message);
+
+                }
+                elseif($exams->where('year',date('Y'))->where('term_id',$this->termID)->where('student_id',$this->studentID)->where('termBrief','true')->count() == 0){
+                    $message = "New termBrief Score";
+                    dump($message);
+                    $results = $exams->where('year',date('Y'))->where('term_id',$this->termID)->where('student_id',$this->studentID)->get();
+                    dump($results);
+
+                    
+                    if($this->level == 'Ordinary Level'){
+                        foreach($results as $key=>$result)
+                        {
+                            $all = [];
+                            $result->b_o_t ? array_push($all,json_decode($result->b_o_t,true)['computed'][0]['score']):array_push($all,0);
+                            $result->m_o_t ?  array_push($all,json_decode($result->m_o_t,true)['computed'][0]['score']):array_push($all,0);
+                            $result->e_o_t ? array_push($all,json_decode($result->e_o_t,true)['computed'][0]['score']):array_push($all,0);
+                            $result->total = $this->get_mark(array_sum($all),$this->level)['score'];
+                            $result->grade = $this->get_mark(array_sum($all),$this->level)['grade'];
+                            $result->point = $this->get_mark(array_sum($all),$this->level)['points'];
+                            $result->save();
+                            dump($result);
+                        }
+                    }
+                    elseif($this->level == 'Advanced Level'){
+                        foreach($results as $key=>$result)
+                        {
+                            $all = [];
+                            // $result->b_o_t ? array_push($all,json_decode($result->b_o_t,true)['computed'][0]['score']):array_push($all,0);
+                            // $result->m_o_t ?  array_push($all,json_decode($result->m_o_t,true)['computed'][0]['score']):array_push($all,0);
+                            // $result->e_o_t ? array_push($all,json_decode($result->e_o_t,true)['computed'][0]['score']):array_push($all,0);
+                            // $result->total = $this->get_mark(array_sum($all),$this->level)['score'];
+                            // $result->grade = $this->get_mark(array_sum($all),$this->level)['grade'];
+                            // $result->point = $this->get_mark(array_sum($all),$this->level)['points'];
+                            // $result->save();
+                            dump($result);
+                        }
+                    }
+
+                }
+
+            }else{
+                $message = "Student Not In any Results";
+                dump($message);
+            }
+        }
+        else {
+            $message = "Student Not Found";
+            dump($message);
+            // return response()->json(compact('message'));
+        }
     }
 }

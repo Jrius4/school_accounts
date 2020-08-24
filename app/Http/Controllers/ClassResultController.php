@@ -62,14 +62,18 @@ class ClassResultController extends Controller
             if ($classes->where('slug', $query)->exists()) {
                 $item_id = $classes->where('slug', $query)->first()->id;
             }
-            $results = $exams->with('student', 'schclass', 'subject')->latest()->where('year', date('Y'))->where('schclass_id', $item_id)->get();
+            // $results = $exams->with('student', 'schclass', 'subject')->latest()->where('year', date('Y'))->where('schclass_id', $item_id)->get();
+            $results = $exams->with('student','schclass','subject')->orderBy('created_at','asc')->where('year', date('Y'))->where('schclass_id', $item_id)->get()->groupBy('indexno');
+
         } elseif ($event == 'subject') {
             if ($subjects->where('slug', $query)->exists()) {
                 $item_id = $subjects->where('slug', $query)->first()->id;
             }
-            $results = $exams->with('student', 'schclass', 'subject')->latest()->where('year', date('Y'))->where('subject_id', $item_id)->get();
+            // $results = $exams->with('student', 'schclass', 'subject')->latest()->where('year', date('Y'))->where('subject_id', $item_id)->get();
+            $results = $exams->with('student','schclass','subject')->orderBy('created_at','asc')->where('year', date('Y'))->where('schclass_id', $item_id)->where('subject_id', $item_id)->get()->groupBy('indexno');
         } else {
-            $results = $exams->with('student', 'schclass', 'subject')->latest()->get();
+            // $results = $exams->with('student', 'schclass', 'subject')->latest()->get();
+            $results = $exams->with('student','schclass','subject')->orderBy('created_at','asc')->get()->groupBy('indexno');
         }
 
         // $results = compact('event', 'item_id');

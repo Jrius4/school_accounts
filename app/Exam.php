@@ -10,7 +10,7 @@ class Exam extends Model
         'indexno', 'student_name', 'subject_name',
         'comment', 'set_id', 'term_id', 'point', 'papers', 'grade',
         'total', 'user_id', 'subject_id', 'student_id',
-        'b_o_t', 'm_o_t', 'e_o_t', 'overall', 'year', 'schclass_id'
+        'b_o_t', 'm_o_t', 'e_o_t', 'overall', 'year', 'schclass_id','termBrief'
     ];
 
     public function student()

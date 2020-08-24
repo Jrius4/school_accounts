@@ -57,7 +57,7 @@
                   </template>
 
                   <template v-slot:default="props">
-                    <v-row>
+                    <v-row class="">
                       <v-col
                         v-for="(item, n) in props.items"
                         :key="`${n}-result`"
@@ -66,7 +66,7 @@
                         md="6"
                         lg="6"
                       >
-                        <v-card shaped raised>
+                        <v-card shaped raised class="mt-6">
                           <v-card-title
                             :style="
                                                             `background:${
@@ -245,9 +245,9 @@ export default {
         state.teacherModule.resultPagination.rowsPerPage,
     }),
     items() {
-      let results = this.results,
-        grouped = _.groupBy(results, "indexno");
-      let children = Object.entries(grouped).map((result, index) => ({
+      let results = this.results;
+      //   grouped = _.groupBy(results, "indexno");
+      let children = Object.entries(results).map((result, index) => ({
         id: this.$root.uuid.createUUID(),
         indexno: result[0],
         student: result[1][0].student,

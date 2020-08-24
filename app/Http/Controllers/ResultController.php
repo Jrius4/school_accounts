@@ -120,7 +120,13 @@ class ResultController extends BackendController
                 $exam->m_o_t = $motpapers !== null ? json_encode(['papers' => $alevelsubpapers, 'grade' => $alevelgrade, 'points' => $alevelpoints, 'computed' => $motpapers], true) : $exam->m_o_t;
                 $exam->e_o_t = $eotpapers !== null ? json_encode(['papers' => $alevelsubpapers, 'grade' => $alevelgrade, 'points' => $alevelpoints, 'computed' => $eotpapers], true) : $exam->e_o_t;
 
-                $exam->save();
+                if($exam->save())
+                {
+                    $cal->set_student($student_id,$termID,$level);
+                    $cal->get_overallTerm();
+                }
+
+
 
                 return response()->json(['message' => 'edited successfully']);
             } elseif ($exams->where('year', $year)->where('term_id', $termID)->where('subject_id', $subject_id)->where('student_id', $student_id)->count() == 0) {
@@ -138,7 +144,11 @@ class ResultController extends BackendController
                 $exams->m_o_t = $motpapers !== null ? json_encode(['papers' => $alevelsubpapers, 'grade' => $alevelgrade, 'points' => $alevelpoints, 'computed' => $motpapers], true) : null;
                 $exams->e_o_t = $eotpapers !== null ? json_encode(['papers' => $alevelsubpapers, 'grade' => $alevelgrade, 'points' => $alevelpoints, 'computed' => $eotpapers], true) : null;
 
-                $exams->save();
+                if($exams->save())
+                {
+                    $cal->set_student($student_id,$termID,$level);
+                    $cal->get_overallTerm();
+                }
 
                 return response()->json(['message' => 'saved successfully']);
             }
@@ -167,7 +177,11 @@ class ResultController extends BackendController
                 $exam->m_o_t = $motpapers !== null ? json_encode(['papers' => $olevelsubpapers, 'grade' => $olevelgrade, 'points' => $olevelpoints, 'computed' => $motpapers], true) : $exam->m_o_t;
                 $exam->e_o_t = $eotpapers !== null ? json_encode(['papers' => $olevelsubpapers, 'grade' => $olevelgrade, 'points' => $olevelpoints, 'computed' => $eotpapers], true) : $exam->e_o_t;
 
-                $exam->save();
+                if($exam->save())
+                {
+                    $cal->set_student($student_id,$termID,$level);
+                    $cal->get_overallTerm();
+                }
 
                 return response()->json(['message' => 'edited successfully']);
             } elseif ($exams->where('year', $year)->where('term_id', $termID)->where('subject_id', $subject_id)->where('student_id', $student_id)->count() == 0) {
@@ -185,7 +199,11 @@ class ResultController extends BackendController
                 $exams->m_o_t = $motpapers !== null ? json_encode(['papers' => $olevelsubpapers, 'grade' => $olevelgrade, 'points' => $olevelpoints, 'computed' => $motpapers], true) : null;
                 $exams->e_o_t = $eotpapers !== null ? json_encode(['papers' => $olevelsubpapers, 'grade' => $olevelgrade, 'points' => $olevelpoints, 'computed' => $eotpapers], true) : null;
 
-                $exams->save();
+                if($exams->save())
+                {
+                    $cal->set_student($student_id,$termID,$level);
+                    $cal->get_overallTerm();
+                }
 
                 return response()->json(['message' => 'saved successfully']);
             }
@@ -207,6 +225,7 @@ class ResultController extends BackendController
         $exams = new Exam();
 
         $exams = $exams->with('student')->latest()->get();
+        
 
         return response()->json(compact('exams'));
     }

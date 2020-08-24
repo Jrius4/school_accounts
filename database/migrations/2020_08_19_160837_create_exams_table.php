@@ -30,6 +30,7 @@ class CreateExamsTable extends Migration
             $table->string('grade')->nullable();
             $table->string('point')->nullable();
             $table->longText('overall')->nullable();
+            $table->enum('termBrief', ['true', 'false'])->default('false');
             $table->longText('comment')->nullable();
             $table->unsignedBigInteger('set_id')->nullable();
             $table->unsignedBigInteger('term_id')->nullable();
