@@ -57,7 +57,7 @@
                   </template>
 
                   <template v-slot:default="props">
-                    <v-row class="">
+                    <v-row class>
                       <v-col
                         v-for="(item, n) in props.items"
                         :key="`${n}-result`"
@@ -69,17 +69,17 @@
                         <v-card shaped raised class="mt-6">
                           <v-card-title
                             :style="
-                                                            `background:${
-                                                                [
-                                                                    '#0097A7',
-                                                                    '#00796B',
-                                                                    '#43A047',
-                                                                    '#FF6F00',
-                                                                    '#D84315',
-                                                                    '#546E7A'
-                                                                ][n % 6]
-                                                            };color:#FAFAFA`
-                                                        "
+                                    `background:${
+                                        [
+                                            '#0097A7',
+                                            '#00796B',
+                                            '#43A047',
+                                            '#FF6F00',
+                                            '#D84315',
+                                            '#546E7A'
+                                        ][n % 6]
+                                    };color:#FAFAFA`
+                                "
                             class="subheading font-weight-bold"
                           >
                             <v-avatar
@@ -100,56 +100,126 @@
                             </v-row>
                           </v-card-title>
                           <v-card-text>
-                            <!-- <v-list dense>
-                              <v-list-item v-for="(key, index) in filteredKeys" :key="index">
-                                <v-list-item-content
-                                  :class="{ 'blue--text': sortBy === key.value }"
-                                >{{ key.name }}:</v-list-item-content>
-                                <v-list-item-content
-                                  class="align-end"
-                                  :class="{ 'blue--text': sortBy === key.value }"
-                                >{{ item[key.value.toLowerCase()] }}</v-list-item-content>
-                              </v-list-item>
-                            </v-list>-->
                             <h4>{{ item.indexno }}</h4>
-                            <v-simple-table dense>
-                              <template v-slot:default>
+                            <div>
+                              <table class="student--results">
+                                <caption>
+                                  Grade:
+                                  <b>{{resultsCaption(item.subjects).letters}}</b>,
+                                  Points:
+                                  <b>
+                                    {{resultsCaption(item.subjects).points}}
+                                    <sub>pts</sub>,
+                                  </b>
+                                </caption>
                                 <thead>
                                   <tr>
-                                    <th class="text-left">Subject</th>
-                                    <th class="text-left">Papers</th>
+                                    <th rowspan="2">Subject</th>
+                                    <th rowspan="2">Paper</th>
+                                    <th colspan="3">Sets</th>
+                                    <th rowspan="2">Total&nbsp;in Term</th>
+                                    <th rowspan="2">Paper Grades&nbsp;in Term</th>
+                                    <th rowspan="2">Grade</th>
+                                  </tr>
+                                  <tr>
+                                    <th>
+                                      BoT
+                                      <sup>15%</sup>
+                                    </th>
+                                    <th>
+                                      MoT
+                                      <sup>20%</sup>
+                                    </th>
+                                    <th>
+                                      EoT
+                                      <sup>75%</sup>
+                                    </th>
                                   </tr>
                                 </thead>
-                                <tbody>
-                                  <tr
-                                    v-for="(exam,
-                                                                        ind) in item.subjects"
-                                    :key="
-                                                                            `${ind}-index`
-                                                                        "
+                                <template
+                                  v-for="(subject,subj) in item.subjects"
+                                  v-show="item.indexno[0] === 'A'"
+                                >
+                                  <tbody
+                                    :key="`${subj}-subject--3`"
+                                    v-show="paperExtract(subject).count == 3"
                                   >
-                                    <td
-                                      :rowspan="
-                                                                                paperExtract(
-                                                                                    exam
-                                                                                )
-                                                                            "
-                                    >
-                                      {{
-                                      exam
-                                      .subject
-                                      .subject_code
-                                      }}
-                                    </td>
-                                    <td>
-                                      {{
-                                      exam.student_name
-                                      }}
-                                    </td>
-                                  </tr>
-                                </tbody>
-                              </template>
-                            </v-simple-table>
+                                    <tr>
+                                      <td
+                                        rowspan="3"
+                                        :style="`background-color:${['#2196F3','#42A5F5','#03A9F4'][0]};color:${['#FAFAFA'][0]};font-weight:bolder`"
+                                      >{{subject.subject.subject_code}}</td>
+                                      <td>1</td>
+                                      <td>{{paperExtract(subject).b_o_t !== null?(paperExtract(subject).b_o_t.computed[0] ? paperExtract(subject).b_o_t.computed[0].score:""):""}}</td>
+                                      <td>{{paperExtract(subject).m_o_t !== null?(paperExtract(subject).m_o_t.computed[0] ? paperExtract(subject).m_o_t.computed[0].score:""):""}}</td>
+                                      <td>{{paperExtract(subject).e_o_t !== null?(paperExtract(subject).e_o_t.computed[0] ? paperExtract(subject).e_o_t.computed[0].score:""):""}}</td>
+                                      <td>{{paperExtract(subject).total !== null ?(paperExtract(subject).total[0]?paperExtract(subject).total[0].toFixed(2):""):""}}</td>
+                                      <td>{{paperExtract(subject).papers !== null ?(paperExtract(subject).papers[0]?paperExtract(subject).papers[0]:""):""}}</td>
+                                      <td rowspan="3">{{paperExtract(subject).grade}}</td>
+                                    </tr>
+                                    <tr>
+                                      <td>2</td>
+                                      <td>{{paperExtract(subject).b_o_t !== null?(paperExtract(subject).b_o_t.computed[1] ? paperExtract(subject).b_o_t.computed[1].score:""):""}}</td>
+                                      <td>{{paperExtract(subject).m_o_t !== null?(paperExtract(subject).m_o_t.computed[1] ? paperExtract(subject).m_o_t.computed[1].score:""):""}}</td>
+                                      <td>{{paperExtract(subject).e_o_t !== null?(paperExtract(subject).e_o_t.computed[1] ? paperExtract(subject).e_o_t.computed[1].score:""):""}}</td>
+                                      <td>{{paperExtract(subject).total !== null ?(paperExtract(subject).total[1]?paperExtract(subject).total[1].toFixed(2):""):""}}</td>
+                                      <td>{{paperExtract(subject).papers !== null ?(paperExtract(subject).papers[1]?paperExtract(subject).papers[1]:""):""}}</td>
+                                    </tr>
+                                    <tr>
+                                      <td>3</td>
+                                      <td>{{paperExtract(subject).b_o_t !== null?(paperExtract(subject).b_o_t.computed[2] ? paperExtract(subject).b_o_t.computed[2].score:""):""}}</td>
+                                      <td>{{paperExtract(subject).m_o_t !== null?(paperExtract(subject).m_o_t.computed[2] ? paperExtract(subject).m_o_t.computed[2].score:""):""}}</td>
+                                      <td>{{paperExtract(subject).e_o_t !== null?(paperExtract(subject).e_o_t.computed[2] ? paperExtract(subject).e_o_t.computed[2].score:""):""}}</td>
+                                      <td>{{paperExtract(subject).total !== null ?(paperExtract(subject).total[2]?paperExtract(subject).total[2].toFixed(2):""):""}}</td>
+                                      <td>{{paperExtract(subject).papers !== null ?(paperExtract(subject).papers[2]?paperExtract(subject).papers[2]:""):""}}</td>
+                                    </tr>
+                                  </tbody>
+                                  <tbody
+                                    :key="`${subj}-subject--2`"
+                                    v-show="paperExtract(subject).count == 2"
+                                  >
+                                    <tr>
+                                      <td
+                                        rowspan="2"
+                                        :style="`background-color:${['#2196F3','#42A5F5','#03A9F4'][1]};color:${['#FAFAFA'][0]};font-weight:bolder`"
+                                      >{{subject.subject.subject_code}}</td>
+                                      <td>1</td>
+                                      <td>{{paperExtract(subject).b_o_t !== null?(paperExtract(subject).b_o_t.computed[0] ? paperExtract(subject).b_o_t.computed[0].score:""):""}}</td>
+                                      <td>{{paperExtract(subject).m_o_t !== null?(paperExtract(subject).m_o_t.computed[0] ? paperExtract(subject).m_o_t.computed[0].score:""):""}}</td>
+                                      <td>{{paperExtract(subject).e_o_t !== null?(paperExtract(subject).e_o_t.computed[0] ? paperExtract(subject).e_o_t.computed[0].score:""):""}}</td>
+                                      <td>{{paperExtract(subject).total !== null ?(paperExtract(subject).total[0]?paperExtract(subject).total[0].toFixed(2):""):""}}</td>
+                                      <td>{{paperExtract(subject).papers !== null ?(paperExtract(subject).papers[0]?paperExtract(subject).papers[0]:""):""}}</td>
+                                      <td rowspan="2">{{paperExtract(subject).grade}}</td>
+                                    </tr>
+                                    <tr>
+                                      <td>2</td>
+                                      <td>{{paperExtract(subject).b_o_t !== null?(paperExtract(subject).b_o_t.computed[1] ? paperExtract(subject).b_o_t.computed[1].score:""):""}}</td>
+                                      <td>{{paperExtract(subject).m_o_t !== null?(paperExtract(subject).m_o_t.computed[1] ? paperExtract(subject).m_o_t.computed[1].score:""):""}}</td>
+                                      <td>{{paperExtract(subject).e_o_t !== null?(paperExtract(subject).e_o_t.computed[1] ? paperExtract(subject).e_o_t.computed[1].score:""):""}}</td>
+                                      <td>{{paperExtract(subject).total !== null ?(paperExtract(subject).total[1]?paperExtract(subject).total[1].toFixed(2):""):""}}</td>
+                                      <td>{{paperExtract(subject).papers !== null ?(paperExtract(subject).papers[1]?paperExtract(subject).papers[1]:""):""}}</td>
+                                    </tr>
+                                  </tbody>
+                                  <tbody
+                                    :key="`${subj}-subject--1`"
+                                    v-show="paperExtract(subject).count == 1"
+                                  >
+                                    <tr>
+                                      <td
+                                        colspan="2"
+                                        :style="`background-color:${['#2196F3','#42A5F5','#03A9F4'][2]};color:${['#FAFAFA'][0]};font-weight:bolder`"
+                                      >{{subject.subject.subject_code}}</td>
+
+                                      <td>{{paperExtract(subject).b_o_t !== null?(paperExtract(subject).b_o_t.computed[0] ? paperExtract(subject).b_o_t.computed[0].score:""):""}}</td>
+                                      <td>{{paperExtract(subject).m_o_t !== null?(paperExtract(subject).m_o_t.computed[0] ? paperExtract(subject).m_o_t.computed[0].score:""):""}}</td>
+                                      <td>{{paperExtract(subject).e_o_t !== null?(paperExtract(subject).e_o_t.computed[0] ? paperExtract(subject).e_o_t.computed[0].score:""):""}}</td>
+                                      <td>{{paperExtract(subject).total !== null ?(paperExtract(subject).total[0]?paperExtract(subject).total[0].toFixed(2):""):""}}</td>
+                                      <td colspan="2">{{paperExtract(subject).grade}}</td>
+                                    </tr>
+                                  </tbody>
+                                </template>
+                              </table>
+                            </div>
                           </v-card-text>
                         </v-card>
                       </v-col>
@@ -267,16 +337,41 @@ export default {
   },
   methods: {
     paperExtract(exam) {
+      let grade = JSON.parse(exam.grade) || null;
+      let papers = JSON.parse(exam.papers) || null;
+      let points = JSON.parse(exam.point) || 0;
+      let total = JSON.parse(exam.total) || null;
       let b_o_t = JSON.parse(exam.b_o_t) || null;
       let m_o_t = JSON.parse(exam.m_o_t) || null;
       let e_o_t = JSON.parse(exam.e_o_t) || null;
-      let papers = {
+      let count = Math.max(...[total.length, papers.length]);
+      let results = {
+        count,
         b_o_t,
         m_o_t,
         e_o_t,
+        total,
+        grade,
+        papers,
+        points,
       };
-      console.log({ papers });
-      return papers;
+
+      return results;
+    },
+    resultsCaption(subjects) {
+      let letters = "";
+      let points = 0;
+      for (let index = 0; index < subjects.length; index++) {
+        //   const element = array[index];
+        const grade = JSON.parse(subjects[index].grade) || "_";
+        const point = JSON.parse(subjects[index].point) || 0;
+        points += point;
+        if (subjects[index].subject_name.includes("General Paper"))
+          grade = grade.substring(1);
+        letters += grade;
+      }
+
+      return { letters, points };
     },
     textName(val) {
       return val.name;
@@ -362,3 +457,38 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+.student--results {
+  border: solid thin;
+  border-collapse: collapse;
+}
+.student--results caption {
+  padding-bottom: 0.28rem;
+}
+.student--results th,
+.student--results td {
+  border: solid thin;
+  padding: 0.28rem 0.48rem;
+}
+.student--results td {
+  white-space: nowrap;
+}
+.student--results th {
+  font-weight: normal;
+  background-color: #303f9f;
+  color: #e8eaf6;
+}
+.student--results td {
+  border-style: thin solid;
+  vertical-align: top;
+}
+.student--results th {
+  padding: 0.5em;
+  vertical-align: middle;
+  text-align: center;
+}
+
+.student--results tbody td:first-child::after {
+  content: leader(". ");
+}
+</style>
