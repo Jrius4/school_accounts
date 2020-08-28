@@ -19,6 +19,7 @@ use App\User;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Route;
 
 // Route::get('/home', function () {
 //     return redirect('/dashboard');
@@ -321,6 +322,12 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('graph-expenses', 'ExpenseReportController@graphExpenses')->name('graph-expenses');
     Route::get('graph-payments-and-expenses', 'PaymentReportController@graphIncomeStatement')->name('graph-payments-and-expenses');
     Route::get('app-tests', 'TrailController@indexTests')->name('app-tests');
+
+
+    //academics
+
+    //school_accounts
+    Route::get('class-index', 'AcademicsController@classesView')->name('class-index');
 });
 
 Route::get('/test-dashboard', function () {

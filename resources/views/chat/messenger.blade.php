@@ -33,7 +33,7 @@
 
                                 </div>
                                 <div class="media-body">
-                                    <p class="name">{{$user->name}}</p>
+                                    <p class="name">{{($user->first_name)." ".$user->last_name}}</p>
                                     <p class="email">{{$user->email}}</p>
                                 </div>
                             </div>

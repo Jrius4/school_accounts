@@ -102,7 +102,7 @@
                           <v-card-text>
                             <h4>{{ item.indexno }}</h4>
                             <div>
-                              <table class="student--results">
+                              <table class="student--results" v-if="item.indexno[0] === 'A'">
                                 <caption>
                                   Grade:
                                   <b>{{resultsCaption(item.subjects).letters}}</b>,
@@ -136,10 +136,7 @@
                                     </th>
                                   </tr>
                                 </thead>
-                                <template
-                                  v-for="(subject,subj) in item.subjects"
-                                  v-show="item.indexno[0] === 'A'"
-                                >
+                                <template v-for="(subject,subj) in item.subjects">
                                   <tbody
                                     :key="`${subj}-subject--3`"
                                     v-show="paperExtract(subject).count == 3"
@@ -215,6 +212,50 @@
                                       <td>{{paperExtract(subject).e_o_t !== null?(paperExtract(subject).e_o_t.computed[0] ? paperExtract(subject).e_o_t.computed[0].score:""):""}}</td>
                                       <td>{{paperExtract(subject).total !== null ?(paperExtract(subject).total[0]?paperExtract(subject).total[0].toFixed(2):""):""}}</td>
                                       <td colspan="2">{{paperExtract(subject).grade}}</td>
+                                    </tr>
+                                  </tbody>
+                                </template>
+                              </table>
+                              <table class="student--results" v-if="item.indexno[0] === 'O'">
+                                <caption>
+                                  Total:
+                                  <b>11</b>,
+                                  Agg:
+                                  <b>11</b>
+                                </caption>
+                                <thead>
+                                  <tr>
+                                    <th rowspan="2">Subject</th>
+                                    <th colspan="3">Sets</th>
+                                    <th rowspan="2">Total&nbsp;in Term</th>
+                                    <th rowspan="2">Grade</th>
+                                  </tr>
+                                  <tr>
+                                    <th>
+                                      BoT
+                                      <sup>15%</sup>
+                                    </th>
+                                    <th>
+                                      MoT
+                                      <sup>20%</sup>
+                                    </th>
+                                    <th>
+                                      EoT
+                                      <sup>75%</sup>
+                                    </th>
+                                  </tr>
+                                </thead>
+                                <template v-for="(subject,subj) in item.subjects">
+                                  <tbody :key="`${subj}-subject--0`">
+                                    <tr>
+                                      <td
+                                        :style="`background-color:${['#2196F3','#42A5F5','#03A9F4'][subj %3]};color:${['#FAFAFA'][0]};font-weight:bolder`"
+                                      >{{subject.subject.subject_code}}</td>
+                                      <td>{{extractItems(subject).b_o_t !== null?(extractItems(subject).b_o_t.computed[0] ? extractItems(subject).b_o_t.computed[0].score:""):""}}</td>
+                                      <td>{{extractItems(subject).m_o_t !== null?(extractItems(subject).m_o_t.computed[0] ? extractItems(subject).m_o_t.computed[0].score:""):""}}</td>
+                                      <td>{{extractItems(subject).e_o_t !== null?(extractItems(subject).e_o_t.computed[0] ? extractItems(subject).e_o_t.computed[0].score:""):""}}</td>
+                                      <td>{{extractItems(subject).total || ""}}</td>
+                                      <td>{{extractItems(subject).grade || ""}}</td>
                                     </tr>
                                   </tbody>
                                 </template>
@@ -354,6 +395,25 @@ export default {
         grade,
         papers,
         points,
+      };
+
+      return results;
+    },
+    extractItems(exam) {
+      let b_o_t = JSON.parse(exam.b_o_t) || null;
+      let m_o_t = JSON.parse(exam.m_o_t) || null;
+      let e_o_t = JSON.parse(exam.e_o_t) || null;
+      let total = JSON.parse(exam.total) || null;
+      let point = JSON.parse(exam.point) || null;
+      let grade = exam.grade || null;
+
+      let results = {
+        b_o_t,
+        m_o_t,
+        e_o_t,
+        total,
+        point,
+        grade,
       };
 
       return results;

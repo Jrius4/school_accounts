@@ -7,7 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Schstream extends Model
 {
-    protected $fillable = ['name','slug'];
+    protected $fillable = ['name', 'slug'];
+
+    public function setSlugAttribute($value)
+    {
+        if (!empty($value)) $this->attributes['slug'] = str_slug($this->name);
+    }
 
 
     public function schoolClasses()
@@ -18,16 +23,13 @@ class Schstream extends Model
     {
         return $this->belongsToMany(User::class);
     }
+    public function students()
+    {
+        return $this->hasMany('App\Models\Student', 'schstream_id');
+    }
 
     public function schoolClass()
     {
         return $this->belongsTo(Schclass::class);
     }
-
-    public function students()
-    {
-        return $this->hasMany(Student::class);
-    }
-
-
 }

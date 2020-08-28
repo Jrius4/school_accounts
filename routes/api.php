@@ -8,6 +8,7 @@ use App\Schclass;
 use App\Subject;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Auth;
@@ -54,6 +55,7 @@ Route::get('/get-roles', function () {
 Route::group(['middleware' => ['auth:api']], function () {
     Route::get('teachers-work/{user}', 'ClassResultController@allClasses');
     Route::middleware('auth:api')->get('/class-results', 'ClassResultController@results');
+    Route::get('streams', 'AcademicsController@getStreams');
 });
 Route::middleware('auth:api')->get('/teacher-classes', 'ResultController@teacherClasses');
 Route::middleware('auth:api')->get('/teacher-subjects', 'ResultController@teacherSubjects');

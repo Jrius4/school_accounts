@@ -18,22 +18,22 @@ use Laravel\Passport\HasApiTokens;
 
 class Student extends Authenticatable
 {
-    use Notifiable,HasApiTokens;
+    use Notifiable, HasApiTokens;
     protected $guard = 'student';
-    protected $fillable = ['name','roll_number','password','schclass_id','schstream_id','combination_id','gender','amount_paid','image','last_seen_at','medical_form','admission_form'];
+    protected $fillable = ['name', 'roll_number', 'password', 'schclass_id', 'schstream_id', 'combination_id', 'gender', 'amount_paid', 'image', 'last_seen_at', 'medical_form', 'admission_form'];
 
-    protected $hidden = ['password','remember_token'];
+    protected $hidden = ['password', 'remember_token'];
 
     public function followers()
     {
         return $this->belongsToMany(self::class, 'followers', 'follows_id', 'user_id')
-                    ->withTimestamps();
+            ->withTimestamps();
     }
 
     public function follows()
     {
         return $this->belongsToMany(self::class, 'followers', 'user_id', 'follows_id')
-                    ->withTimestamps();
+            ->withTimestamps();
     }
 
     public function follow($userId)
@@ -41,9 +41,9 @@ class Student extends Authenticatable
         $this->follows()->attach($userId);
         return $this;
     }
-     public function exams()
+    public function exams()
     {
-        return $this->hasMany('App\Exam','student_id');
+        return $this->hasMany('App\Exam', 'student_id');
     }
 
     public function unfollow($userId)
@@ -54,7 +54,7 @@ class Student extends Authenticatable
 
     public function isFollowing($userId)
     {
-        return (boolean) $this->follows()->where('follows_id', $userId)->first(['follows_id']);
+        return (bool) $this->follows()->where('follows_id', $userId)->first(['follows_id']);
     }
 
     public function payments()
@@ -80,9 +80,13 @@ class Student extends Authenticatable
         return $this->belongsTo(Schclass::class);
     }
 
-    public function schstream()
+    // public function schstream()
+    // {
+    //     return $this->belongsTo(Schstream::class);
+    // }
+    public function students()
     {
-        return $this->belongsTo(Schstream::class);
+        return $this->belongsTo('App\Schstream', 'schstream_id');
     }
 
     public function subjects()
@@ -104,6 +108,4 @@ class Student extends Authenticatable
     {
         return $this->hasMany(DeclareResults::class);
     }
-
-
 }

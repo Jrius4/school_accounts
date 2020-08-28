@@ -8,11 +8,11 @@ use App\Model\SchoolClass;
 class ClassStream extends Model
 {
     protected $table = 'streams';
-    protected $fillable = ['name','slug'];
+    protected $fillable = ['name', 'slug'];
 
     public function setSlugAttribute($value)
     {
-        if (! empty($value)) $this->attributes['slug'] = str_slug($this->name);
+        if (!empty($value)) $this->attributes['slug'] = str_slug($this->name);
     }
 
     public function schoolClass()

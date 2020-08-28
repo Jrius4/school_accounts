@@ -15,6 +15,7 @@ import rolesModule from "./roles";
 import usersModule from "./users";
 import enterResultsModule from "./enterResults";
 import teacherModule from "./teacher";
+import classesModule from "./classes";
 
 const citiesUrl = "/api/vue-cities";
 
@@ -59,7 +60,8 @@ export default new Vuex.Store({
         paymentsModule,
         usersModule,
         enterResultsModule,
-        teacherModule
+        teacherModule,
+        classesModule
     },
     state: {
         cities: [],
