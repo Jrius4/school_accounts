@@ -65,6 +65,6 @@
         "vue-select": "^3.10.3",
         "vue-textarea-autosize": "^1.1.1",
         "vuelidate": "^0.7.5",
-        "vuetify": "^2.2.31"
+        "vuetify": "^2.6.10"
     }
 }
